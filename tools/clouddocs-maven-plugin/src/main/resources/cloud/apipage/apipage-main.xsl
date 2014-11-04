@@ -74,7 +74,7 @@
             />
           </head>
         </xsl:when>
-        <xsl:otherwise>
+        <xsl:when test="$branding = 'midonet'">
           <head>
             <meta http-equiv="content-type"
               content="text/html; charset=UTF-8"/>
@@ -84,6 +84,27 @@
             <meta name="viewport"
               content="width=device-width, initial-scale=1.0"/>
             <title>OpenStack API Documentation</title>
+            <link rel="stylesheet" href="apiref/css/bootstrap.min.css"/>
+            <!-- OpenStack Specific CSS -->
+            <link rel="stylesheet" href="apiref/css/main.css"
+              type="text/css"/>
+            <link rel="stylesheet" href="apiref/css/style.css"/>
+            <link href="apiref/css/main-midonet.css" rel="stylesheet"
+              type="text/css"/>
+            <link href="apiref/css/bootstrap.min.css" rel="stylesheet"
+            />
+          </head>
+        </xsl:when>
+        <xsl:otherwise>
+          <head>
+            <meta http-equiv="content-type"
+              content="text/html; charset=UTF-8"/>
+            <meta charset="UTF-8"/>
+            <meta http-equiv="X-UA-Compatible"
+              content="IE=edge,chrome=1"/>
+            <meta name="viewport"
+              content="width=device-width, initial-scale=1.0"/>
+            <title>MidoNet API Documentation</title>
             <link rel="stylesheet" href="apiref/css/bootstrap.min.css"/>
             <!-- OpenStack Specific CSS -->
             <link rel="stylesheet" href="apiref/css/main.css"
@@ -166,6 +187,56 @@
                   </ul>
                 </div>
               </div>
+            </div>
+          </xsl:when>
+          <xsl:when test="$branding = 'midonet'">
+            <div class="navbar navbar-default" role="navigation">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle"
+                    data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"/>
+                    <span class="icon-bar"/>
+                    <span class="icon-bar"/>
+                  </button>
+                  <a class="navbar-brand" href="/">Open Stack</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse"
+                  id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav">
+                    <li>
+                      <a href="http://www.midonet.org"
+                        title="Go to the Home page">Home</a>
+                    </li>
+                    <li>
+                      <a href="http://wiki.midonet.org/"
+                        title="Go to the MidoNet Wiki">Wiki</a>
+                    </li>
+                    <li class="active">
+                      <a href="http://docs.midonet.org/"
+                        title="Go to MidoNet Documentation"
+                        >Documentation</a>
+                    </li>
+                    <li>
+                      <a title="Open the PDF for this page"
+                        onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);"
+                        alt="Download a pdf of this document"
+                        class="pdficon"
+                        href="{concat(normalize-space(substring($autoPdfUrl,1,string-length($autoPdfUrl) - 3)), $pdfFilename,'.pdf')}">
+                        <xsl:value-of
+                          select="translate(d:title,' ','&#160;')"
+                          />&#160;&#160;&#160;<img
+                          src="apiref/images/pdf.png"/>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- /.navbar-collapse -->
             </div>
           </xsl:when>
           <xsl:otherwise>

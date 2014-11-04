@@ -48,6 +48,7 @@
 	    <xsl:param name="includeDateInPdfFilename">
 	      <xsl:choose>
 	        <xsl:when test="$branding = 'openstack'">0</xsl:when>
+	        <xsl:when test="$branding = 'midonet'">0</xsl:when>
 	        <xsl:otherwise>1</xsl:otherwise>
 	      </xsl:choose>
 	    </xsl:param>

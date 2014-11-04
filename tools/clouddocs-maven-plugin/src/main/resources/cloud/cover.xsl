@@ -116,9 +116,16 @@
     <xsl:variable name="pubdate">
         <xsl:choose>
             <xsl:when test="$docbook//d:info[1]/d:pubdate">
-                <xsl:call-template name="longDate">
-                    <xsl:with-param name="in" select="$docbook//d:info[1]/d:pubdate"/>
-                </xsl:call-template>
+                <xsl:choose>
+                    <xsl:when test="$branding = 'midonet'">
+                        <xsl:value-of select="$docbook//d:info[1]/d:pubdate"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:call-template name="longDate">
+                            <xsl:with-param name="in" select="$docbook//d:info[1]/d:pubdate"/>
+                        </xsl:call-template>
+                    </xsl:otherwise>
+                </xsl:choose>
             </xsl:when>
         </xsl:choose>
     </xsl:variable>
@@ -386,6 +393,7 @@
 	    <xsl:when test="$coverColor != ''">fill:#<xsl:value-of select="$coverColor"/>;fill-opacity:1</xsl:when>
 	    <xsl:when test="$branding = 'rackspace-private-cloud'">fill:#c42126;fill-opacity:1</xsl:when>
 	    <xsl:when test="$branding = 'openstack'">fill:#ce3327;fill-opacity:1</xsl:when>
+	    <xsl:when test="$branding = 'midonet'">fill:#18bce2;fill-opacity:1</xsl:when>
 	    <xsl:when test="$branding = 'repose'">fill:#A1CAFF;fill-opacity:1</xsl:when>
 	    <xsl:otherwise>fill:#c42126;fill-opacity:1</xsl:otherwise>
 	  </xsl:choose>

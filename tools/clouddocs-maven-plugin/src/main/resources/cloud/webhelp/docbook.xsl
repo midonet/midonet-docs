@@ -41,6 +41,7 @@
     <xsl:param name="includeDateInPdfFilename">
         <xsl:choose>
             <xsl:when test="$branding = 'openstack'">0</xsl:when>
+            <xsl:when test="$branding = 'midonet'">0</xsl:when>
             <xsl:otherwise>1</xsl:otherwise>
         </xsl:choose>
     </xsl:param>
@@ -123,6 +124,7 @@
       <xsl:when test="$branding = 'rackspace'">.rackspace.com</xsl:when>
       <xsl:when test="$branding = 'rackspace-private-cloud'">.rackspace.com</xsl:when>
       <xsl:when test="$branding = 'openstack'">.openstack.org</xsl:when>
+      <xsl:when test="$branding = 'midonet'">.midonet.org</xsl:when>
       <xsl:when test="$branding = 'repose'">.openrepose.org</xsl:when>
       <xsl:otherwise/>
     </xsl:choose>
@@ -180,6 +182,7 @@ set       toc,title
       <xsl:when test="$branding = 'rackspace'">rc-api-docs</xsl:when>
       <xsl:when test="$branding = 'rackspace-private-cloud'">rackspaceprivateclouddocs</xsl:when>
       <xsl:when test="$branding = 'openstack'">openstackdocs</xsl:when>
+      <xsl:when test="$branding = 'midonet'">midonet</xsl:when>
     </xsl:choose>
       
   </xsl:param>
@@ -187,6 +190,7 @@ set       toc,title
   <xsl:param name="brandname">
     <xsl:choose>
       <xsl:when test="$branding = 'openstack'">OpenStack</xsl:when>
+      <xsl:when test="$branding = 'midonet'">MidoNet</xsl:when>
       <xsl:when test="$branding = 'repose'">Repose</xsl:when>
       <xsl:otherwise>Rackspace</xsl:otherwise>
     </xsl:choose>
@@ -194,6 +198,7 @@ set       toc,title
   <xsl:param name="main.docs.url">
     <xsl:choose>
       <xsl:when test="$branding = 'openstack'">http://docs.openstack.org/</xsl:when>
+      <xsl:when test="$branding = 'midonet'">http://docs.midonet.org/</xsl:when>
       <xsl:when test="$branding = 'repose'">http://openrepose.org/documentation.html</xsl:when>
       <xsl:otherwise>
 	<xsl:choose>
@@ -474,6 +479,7 @@ ERROR: Feedback email not set but internal comments are enabled.
 	    <xsl:attribute name="href">
 	    <xsl:choose>
 		<xsl:when test="$branding = 'openstack'">http://www.openstack.org</xsl:when>
+		<xsl:when test="$branding = 'midonet'">http://www.midonet.org</xsl:when>
 		<xsl:when test="$branding = 'repose'">http://www.openrepose.org</xsl:when>
 		<xsl:otherwise>http://www.rackspace.com</xsl:otherwise>
 	      </xsl:choose>

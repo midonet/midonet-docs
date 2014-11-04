@@ -1126,7 +1126,7 @@
 	     start-indent="0pt"
 	     font-size="&hsize4;"
 	     font-weight="bold"
-         color="rgb(196,0,34)"
+	     color="rgb(16,146,177)"
 	     font-family="{$title.fontset}"/>
     </t:titlepage-content>
 

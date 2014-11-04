@@ -86,6 +86,7 @@
     <xsl:choose>
       <xsl:when test="$branding = 'rackspace'">.rackspace.com</xsl:when>
       <xsl:when test="$branding = 'openstack'">.openstack.org</xsl:when>
+      <xsl:when test="$branding = 'midonet'">.midonet.org</xsl:when>
       <xsl:otherwise/>
     </xsl:choose>
   </xsl:param> 	
@@ -97,6 +98,7 @@
 			<xsl:when test="$branding = 'rackspace'">rc-api-docs</xsl:when>
 			<xsl:when test="$branding = 'openstack'">openstackdocs</xsl:when>
 			<xsl:when test="$branding = 'openstackextension'">openstackdocs</xsl:when>
+			<xsl:when test="$branding = 'midonet'">midonet</xsl:when>
 		</xsl:choose>
 	</xsl:param>
 	<xsl:param name="use.version.for.disqus">0</xsl:param>

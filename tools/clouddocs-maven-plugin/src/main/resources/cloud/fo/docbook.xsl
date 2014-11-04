@@ -220,11 +220,11 @@ set       toc,title
   <!-- Title Properties (Sections/Components) -->
   <xsl:attribute-set name="component.title.properties">
     <xsl:attribute name="font-family"><xsl:value-of select="$bodyFont"/></xsl:attribute>
-    <xsl:attribute name="color">rgb(196,0,34)</xsl:attribute>
+    <xsl:attribute name="color">rgb(16,146,177)</xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:attribute-set name="section.title.properties">
-    <xsl:attribute name="color">rgb(196,0,34)</xsl:attribute>
+    <xsl:attribute name="color">rgb(16,146,177)</xsl:attribute>
     <xsl:attribute name="font-family"><xsl:value-of select="$bodyFont"/></xsl:attribute>
   </xsl:attribute-set>
 
@@ -237,12 +237,12 @@ set       toc,title
   </xsl:attribute-set>
 
   <xsl:attribute-set name="formal.title.properties">
-      <xsl:attribute name="color">rgb(176,0,14)</xsl:attribute>
+      <xsl:attribute name="color">rgb(16,146,177)</xsl:attribute>
       <xsl:attribute name="font-family"><xsl:value-of select="$bodyFont"/></xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:attribute-set name="admonition.title.properties">
-      <xsl:attribute name="color">rgb(196,0,34)</xsl:attribute>
+      <xsl:attribute name="color">rgb(16,146,177)</xsl:attribute>
       <xsl:attribute name="font-family"><xsl:value-of select="$bodyFont"/></xsl:attribute>
   </xsl:attribute-set>
 
@@ -303,9 +303,16 @@ set       toc,title
                 </xsl:when>
                 <xsl:when test="$position = 'center'">
                     <xsl:if test="/*/d:info/d:releaseinfo">
-                        <xsl:call-template name="longDate">
-                            <xsl:with-param name="in" select="/*/d:info/d:pubdate"/>
-                        </xsl:call-template>
+                        <xsl:choose>
+                            <xsl:when test="$branding = 'midonet'">
+                                <xsl:value-of select="/*/d:info[1]/d:pubdate"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:call-template name="longDate">
+                                    <xsl:with-param name="in" select="/*/d:info/d:pubdate"/>
+                                </xsl:call-template>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </xsl:if>
                 </xsl:when>
             </xsl:choose>
@@ -1111,6 +1118,7 @@ set       toc,title
 	    <xsl:when test="$branding = 'rackspace'">docs.rackspace.com/api</xsl:when>
 	    <xsl:when test="$branding = 'rackspace-private-cloud'">rackspace.com/cloud/private</xsl:when>
 	    <xsl:when test="$branding = 'openstack'">docs.openstack.org</xsl:when>
+	    <xsl:when test="$branding = 'midonet'">docs.midonet.org</xsl:when>
 	    <xsl:when test="$branding = 'repose'">www.openrepose.org</xsl:when>
 	  </xsl:choose>
       </xsl:variable>
@@ -1140,6 +1148,7 @@ set       toc,title
 	    <xsl:when test="$branding = 'rackspace'">5.6in</xsl:when>
 	    <xsl:when test="$branding = 'rackspace-private-cloud'">3in</xsl:when>
 	    <xsl:when test="$branding = 'openstack'">5.2in</xsl:when>
+	    <xsl:when test="$branding = 'midonet'">5.2in</xsl:when>
 	    <xsl:when test="$branding = 'repose'">3.9in</xsl:when>
 	    <xsl:otherwise>5.6in</xsl:otherwise>
 	  </xsl:choose>
@@ -1150,6 +1159,7 @@ set       toc,title
 	    <xsl:when test="$branding = 'rackspace'">9.28in</xsl:when>
 	    <xsl:when test="$branding = 'rackspace-private-cloud'">9.25in</xsl:when>
 	    <xsl:when test="$branding = 'openstack'">9.0in</xsl:when>
+	    <xsl:when test="$branding = 'midonet'">9.0in</xsl:when>
 	    <xsl:when test="$branding = 'repose'">4.9in</xsl:when>
 	    <xsl:otherwise>9.0in</xsl:otherwise>
 	  </xsl:choose>
@@ -1373,6 +1383,9 @@ set       toc,title
     <xsl:if test="$branding = 'openstack'">
       <xsl:attribute name="font-weight">bold</xsl:attribute>
     </xsl:if>
+    <xsl:if test="$branding = 'midonet'">
+      <xsl:attribute name="font-weight">bold</xsl:attribute>
+    </xsl:if>
     <xsl:call-template name="simple.xlink">
       <xsl:with-param name="content">
         <xsl:apply-templates/>
@@ -1392,5 +1405,7 @@ set       toc,title
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
+
+<xsl:include href="midonet.xsl" use-when="$branding = 'midonet'"/>
 
 </xsl:stylesheet>
