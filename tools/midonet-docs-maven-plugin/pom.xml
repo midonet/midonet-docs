@@ -6,7 +6,7 @@
     <groupId>org.midonet</groupId>
     <artifactId>midonet-docs-maven-plugin</artifactId>
 
-    <name>MidoNet Docs Plugin</name>
+    <name>${project.artifactId} v${project.version}</name>
 
     <version>2.1.4-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
