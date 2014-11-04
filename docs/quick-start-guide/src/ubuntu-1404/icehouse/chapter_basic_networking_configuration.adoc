@@ -1,0 +1,6 @@
+# Networking
+
+ifdef::ubuntu-1404[]
+// Networking
+include::../ubuntu-1404/icehouse/chapter_basic_networking_configuration.adoc[leveloffset=+1]
+endif::ubuntu-1404[]

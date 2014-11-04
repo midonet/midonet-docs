@@ -1,0 +1,16 @@
+. *Configure Ubuntu repositories*
++
+====
+Edit the `/etc/apt/sources.list` file to contain the following:
+
+[source]
+----
+# Ubuntu Main Archive
+deb http://archive.ubuntu.com/ubuntu/ trusty main
+deb http://security.ubuntu.com/ubuntu trusty-security main
+
+# Ubuntu Universe Archive
+deb http://archive.ubuntu.com/ubuntu/ trusty universe
+deb http://security.ubuntu.com/ubuntu trusty-security universe
+----
+====

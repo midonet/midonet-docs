@@ -1,0 +1,15 @@
+. *Enable DataStax repository*
++
+====
+Edit the `/etc/yum.repos.d/datastax.repo` file to contain the following:
+
+[source]
+----
+# DataStax (Apache Cassandra)
+[datastax] 
+name = DataStax Repo for Apache Cassandra
+baseurl = http://rpm.datastax.com/community
+enabled = 1
+gpgcheck = 0
+----
+====

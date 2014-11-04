@@ -1,0 +1,83 @@
+= ZooKeeper Installation
+
+. *Install ZooKeeper packages*
++
+====
+[source]
+----
+# yum install zookeeper zkdump
+----
+====
+
+. *Configure ZooKeeper*
++
+====
+.. *Common Configuration*
++
+Edit the `/etc/zookeeper/zoo.cfg` file to contain the following:
++
+[literal,subs="quotes"]
+----
+server.*1*=*_controller_*:2888:3888
+server.*2*=*_network_*:2888:3888
+server.*3*=*_compute1_*:2888:3888
+----
++
+Create data directory:
++
+[source]
+----
+# mkdir /var/lib/zookeeper/data
+# chown zookeeper:zookeeper /var/lib/zookeeper/data
+----
++
+
+.. *Node-specific Configuration*
+
+... *Controller Node*
++
+Edit the `/var/lib/zookeeper/myid` file to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *1* > /var/lib/zookeeper/data/myid
+----
+
+... *Network Node*
++
+Edit the `/var/lib/zookeeper/myid` file to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *2* > /var/lib/zookeeper/data/myid
+----
+
+... *Compute Node*
++
+Edit the `/var/lib/zookeeper/myid` file to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *3* > /var/lib/zookeeper/data/myid
+----
+====
+
+. *Create Java Symlink*
++
+====
+[source]
+----
+# mkdir -p /usr/java/default/bin/
+# ln -s /usr/lib/jvm/jre-1.7.0-openjdk/bin/java /usr/java/default/bin/java
+----
+====
+
+. *Enable and start ZooKeeper*
++
+====
+[source]
+----
+# systemctl enable zookeeper.service
+# systemctl start zookeeper.service
+----
+====

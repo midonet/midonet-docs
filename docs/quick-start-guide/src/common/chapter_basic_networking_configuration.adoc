@@ -1,0 +1,12 @@
+= Networking Configuration
+
+[IMPORTANT]
+All hostnames must be resolvable, either via DNS or locally.
+
+ifdef::icehouse[]
+ifdef::ubuntu-1404[]
+This guide assumes that you follow the instructions in
+http://docs.openstack.org/icehouse/install-guide/install/apt/content/basics-networking-neutron.html[OpenStack Networking (neutron)]
+of the OpenStack Documentation.
+endif::ubuntu-1404[]
+endif::icehouse[]

@@ -1,0 +1,64 @@
+= ZooKeeper Installation
+
+. *Install ZooKeeper packages*
++
+====
+[source]
+----
+# apt-get install zookeeper zookeeperd zkdump
+----
+====
+
+. *Configure ZooKeeper*
++
+====
+.. *Common Configuration*
++
+Edit the `/etc/zookeeper/conf/zoo.cfg` file to contain the following:
++
+[literal,subs="quotes"]
+----
+server.*1*=*_controller_*:2888:3888
+server.*2*=*_network_*:2888:3888
+server.*3*=*_compute1_*:2888:3888
+----
++
+
+.. *Node-specific Configuration*
+
+... *Controller Node*
++
+Edit the `/var/lib/zookeeper/myid` file to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *1* > /var/lib/zookeeper/myid
+----
+
+... *Network Node*
++
+Edit the `/var/lib/zookeeper/myid` file to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *2* > /var/lib/zookeeper/myid
+----
+
+... *Compute Node*
++
+Edit the `/var/lib/zookeeper/myid` file to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *3* > /var/lib/zookeeper/myid
+----
+====
+
+. *Restart ZooKeeper*
++
+====
+[source]
+----
+# service zookeeper restart
+----
+====

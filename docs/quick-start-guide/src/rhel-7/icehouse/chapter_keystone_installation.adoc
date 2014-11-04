@@ -1,0 +1,29 @@
+= Identity Service (Keystone)
+
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Installation_and_Configuration_Guide/chap-OpenStack_Identity_Service_Installation.html[Chapter 3. OpenStack Identity Service Installation]
+instructions, but *note the following additions*.
+
+. *Create MidoNet API Service*
++
+====
+As Keystone +admin+, execute the following command:
+
+[source]
+----
+$ keystone service-create --name midonet --type midonet --description "MidoNet API Service"
+----
+====
+
+. *Create MidoNet Administrative User*
++
+====
+As Keystone +admin+, execute the following commands:
+
+[literal,subs="quotes"]
+----
+$ keystone user-create --name *_midonet_* --pass *_MIDONET_PASS_* --tenant admin
+$ keystone user-role-add --user *_midonet_* --role admin --tenant admin
+----
+====

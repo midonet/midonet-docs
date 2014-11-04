@@ -1,0 +1,40 @@
+= Midolman Installation
+
+The Midolman agent shall be installed on all network and compute nodes.
+
+. *Install Midolman package*
++
+====
+[source]
+----
+# yum install midolman
+----
+====
+
+. *Configure NSDB*
++
+====
+Edit the `/etc/midolman/midolman.conf` file to contain the following:
+
+[literal,subs="quotes"]
+----
+[zookeeper]
+zookeeper_hosts = *_controller_*:2181,*_network_*:2181,*_compute1_*:2181
+
+...
+
+[cassandra]
+servers = *_controller_*,*_network_*,*_compute1_*
+replication_factor = 3
+cluster = midonet
+----
+====
+
+. *Start Midolman*
++
+====
+[source]
+----
+# systemctl start midolman.service
+----
+====

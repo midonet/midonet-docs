@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.midonet</groupId>
+    <artifactId>midonet-docs-parent-pom</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>${project.artifactId} v${project.version}</name>
+
+    <modules>
+        <module>build/quick-start-guide_rhel-7_icehouse</module>
+        <module>build/quick-start-guide_ubuntu-1404_icehouse</module>
+        <module>tools/midonet-docs-maven-plugin</module>
+    </modules>
+
+    <properties>
+        <!-- Directories -->
+        <dir.tmp.asciidoc2docbook>${project.build.directory}/tmp/adoc2docbk</dir.tmp.asciidoc2docbook>
+        <!-- Directories -->
+
+        <!-- Miscellaneous properties -->
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Miscellaneous properties -->
+        
+        <!-- Maven version -->
+        <version.maven>3.2.2</version.maven>
+        <!-- Maven version -->
+
+        <!-- Maven plugin versions -->
+        <version.asciidoctor-maven-plugin>1.5.0</version.asciidoctor-maven-plugin>
+        <version.midonet-docs-maven-plugin>2.1.4-SNAPSHOT</version.midonet-docs-maven-plugin>
+        <!-- Maven plugin versions -->
+
+        <!-- External tools and libraries versions -->
+        <version.asciidoctorj>1.5.1</version.asciidoctorj>
+        <version.docbook-xml>5.0-all</version.docbook-xml>
+        <!-- External tools and libraries versions -->
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- asciidoctor-maven-plugin -->
+                <plugin>
+                    <groupId>org.asciidoctor</groupId>
+                    <artifactId>asciidoctor-maven-plugin</artifactId>
+                    <version>${version.asciidoctor-maven-plugin}</version> 
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.asciidoctor</groupId>
+                            <artifactId>asciidoctorj</artifactId>
+                            <version>${version.asciidoctorj}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <sourceDocumentName>${file.book.basename}.adoc</sourceDocumentName>
+                        <outputDirectory>${dir.tmp.asciidoc2docbook}</outputDirectory>
+                        <backend>docbook5</backend>
+                        <doctype>book</doctype>
+                        <attributes>
+                            <book/>
+                            <docinfo/>
+                            <nolang/>
+                            <buildVersion>${project.version}</buildVersion>
+                            <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
+                        </attributes>
+                    </configuration>
+                </plugin>
+                <!-- asciidoctor-maven-plugin -->
+
+                <!-- clouddocs-maven-plugin -->
+                <plugin>
+                    <groupId>org.midonet</groupId>
+                    <artifactId>midonet-docs-maven-plugin</artifactId>
+                    <version>${version.midonet-docs-maven-plugin}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>net.sf.docbook</groupId>
+                            <artifactId>docbook-xml</artifactId>
+                            <version>${version.docbook-xml}</version>
+                            <classifier>resources</classifier>
+                            <type>zip</type>
+                            <scope>runtime</scope>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <sourceDirectory>${dir.tmp.asciidoc2docbook}</sourceDirectory>
+                        <includes>${file.book.basename}.xml</includes>
+
+                        <makePdf>true</makePdf>
+
+                        <branding>midonet</branding>
+                        <brandname>MidoNet</brandname>
+
+                        <enableDisqus>1</enableDisqus>
+                        <disqusShortname>midonet</disqusShortname>
+
+                        <generateToc>
+                            appendix  toc,title
+                            article/appendix  nop
+                            article   toc,title
+                            book      toc,title,figure,table,example,equation
+                            chapter   toc,title
+                            section   toc
+                            part      toc,title
+                            qandadiv  toc
+                            qandaset  toc
+                            reference toc,title
+                            set       toc,title
+                        </generateToc>
+
+                        <chapterAutolabel>1</chapterAutolabel>
+                        <sectionAutolabel>0</sectionAutolabel>
+                        <tocSectionDepth>1</tocSectionDepth>
+                        <formalProcedures>0</formalProcedures>
+
+                        <showXslMessages>true</showXslMessages>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

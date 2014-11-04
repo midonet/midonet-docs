@@ -1,0 +1,25 @@
+= MidoNet CLI Installation
+
+. *Install MidoNet CLI package*
++
+====
+[source]
+----
+# yum install python-midonetclient
+----
+====
+
+. *Configure MidoNet CLI*
++
+====
+Edit the `~/.midonetrc` file to contain the following:
+
+[literal,subs="quotes"]
+----
+[cli]
+api_url = http://*_controller_*:8080/midonet-api
+username = admin
+password = *_ADMIN_PASS_*
+project_id = admin
+----
+====

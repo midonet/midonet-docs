@@ -1,0 +1,10 @@
+= Controller Node
+
+ifdef::rhel-7[]
+include::../rhel-7/chapter_midonet-api_installation.adoc[leveloffset=+1]
+include::../rhel-7/chapter_midonet-cli_installation.adoc[leveloffset=+1]
+endif::rhel-7[]
+ifdef::ubuntu-1404[]
+include::../ubuntu-1404/chapter_midonet-api_installation.adoc[leveloffset=+1]
+include::../ubuntu-1404/chapter_midonet-cli_installation.adoc[leveloffset=+1]
+endif::ubuntu-1404[]

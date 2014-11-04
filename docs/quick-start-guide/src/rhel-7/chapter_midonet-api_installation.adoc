@@ -1,0 +1,91 @@
+= MidoNet API Installation
+
+. *Install MidoNet API package*
++
+====
+[source]
+----
+# yum install midonet-api
+----
+====
+
+. *Configure MidoNet API*
++
+====
+Edit the `/usr/share/midonet-api/WEB-INF/web.xml` file to contain the following:
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>rest_api-base_uri</param-name>
+    <param-value>http://*_controller_*:8080/midonet-api</param-value>
+</context-param>
+----
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>keystone-service_host</param-name>
+    <param-value>**_controller_**</param-value>
+</context-param>
+----
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>keystone-admin_token</param-name>
+    <param-value>**_ADMIN_TOKEN_**</param-value>
+</context-param>
+----
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>zookeeper-zookeeper_hosts</param-name>
+    <param-value>**_controller_**:2181,*_network_*:2181,*_compute1_*:2181</param-value>
+</context-param>
+----
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>midobrain-properties_file</param-name>
+    <param-value>/var/lib/tomcat/webapps/host_uuid.properties</param-value>
+</context-param>
+----
+====
+
+. *Install Tomcat package*
++
+====
+[source]
+----
+# yum install tomcat
+----
+====
+
+. *Configure MidoNet API context*
++
+====
+Edit the `/etc/tomcat/Catalina/localhost/midonet-api.xml` file to contain the following:
+
+[source]
+----
+<Context
+    path="/midonet-api"
+    docBase="/usr/share/midonet-api"
+    antiResourceLocking="false"
+    privileged="true"
+/>
+----
+====
+
+. *Start Tomcat*
++
+====
+[source]
+----
+# systemctl enable tomcat.service
+# systemctl start tomcat.service
+----
+====

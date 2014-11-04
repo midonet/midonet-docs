@@ -1,0 +1,38 @@
+= MidoNet Host Registration
+
+. *Launch MidoNet CLI*
++
+====
+[source]
+----
+$ midonet-cli
+midonet>
+----
+====
+
+. *Create tunnel zone*
++
+====
+[source]
+----
+midonet> tunnel-zone create name gre type gre
+tzone0
+----
+====
+
+. *Add hosts to tunnel zone*
++
+====
+[literal,subs="quotes"]
+----
+midonet> list host
+host host0 name *_network_* alive true
+host host1 name *_compute1_* alive true
+
+midonet> tunnel-zone tzone0 add member host host0 address *_ip_address_host0_*
+zone tzone0 host host0 address *_ip_address_host0_*
+
+midonet> tunnel-zone tzone0 add member host host1 address *_ip_address_host1_*
+zone tzone0 host host1 address *_ip_address_host1_*
+----
+====

@@ -1,0 +1,31 @@
+. *Configure MidoNet repositories*
++
+====
+[WARNING]
+Currently only nightly builds of the MidoNet packages are available.
+Use them at your own risk, they are not QA'ed!
+
+Edit the `/etc/apt/sources.list.d/midonet.list` file to contain the following:
+
+[source]
+----
+# MidoNet
+deb http://repo.midonet.org/midonet/v1.8 unstable main
+
+# MidoNet OpenStack Integration
+deb http://repo.midonet.org/openstack-icehouse unstable main
+
+# MidoNet 3rd Party Tools and Libraries
+deb http://repo.midonet.org/misc stable main
+----
+====
+
++
+====
+Download and install the repositories' key:
+
+[source]
+----
+# curl -k http://repo.midonet.org/packages.midokura.key | apt-key add -
+----
+====

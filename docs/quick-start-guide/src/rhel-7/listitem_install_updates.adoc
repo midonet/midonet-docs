@@ -1,0 +1,9 @@
+. *Install available updates*
++
+====
+[source]
+----
+# yum clean all
+# yum upgrade
+----
+====

@@ -1,0 +1,8 @@
+. *If necessary, reboot the system*
++
+====
+[source]
+----
+# reboot
+----
+====

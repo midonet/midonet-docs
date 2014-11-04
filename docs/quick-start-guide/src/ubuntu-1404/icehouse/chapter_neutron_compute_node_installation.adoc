@@ -1,0 +1,76 @@
+= Compute Node
+
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/icehouse/install-guide/install/apt/content/neutron-ml2-compute-node.html[Configure compute node]
+instructions, but *note the following differences*.
+
+. *Prerequisites*
++
+====
+Apply as is.
+====
+
+. *To install the Networking components*
++
+====
+Do *not* apply.
+
+.. Instead, install the following packages:
++
+[source]
+----
+# apt-get install neutron-common python-neutron-plugin-midonet
+----
++
+====
+
+. *To configure the Networking common components*
++
+====
+Do *not* apply step '3. Configure Networking to use the Modular Layer 2 (ML2)
+plug-in and associated services'.
+
+.. Instead, Edit the `/etc/neutron/neutron.conf` file and add the following key
+to the '[DEFAULT]' section:
++
+[source]
+----
+[DEFAULT]
+...
+core_plugin = midonet.neutron.plugin.MidonetPluginV2
+----
++
+====
+
+. *To configure the Modular Layer 2 (ML2) plug-in*
++
+====
+Do *not* apply.
+====
+
+. *To configure the Open vSwitch (OVS) service*
++
+====
+Do *not* apply.
+====
+
+. *To configure Compute to use Networking*
++
+====
+Apply as is.
+====
+
+. *To finalize the installation*
++
+====
+Do *not* apply.
+
+.. Instead, restart the following service:
++
+[source]
+----
+# service nova-compute restart
+----
++
+====

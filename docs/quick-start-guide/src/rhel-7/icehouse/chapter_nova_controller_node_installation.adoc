@@ -1,0 +1,15 @@
+= Controller Node
+
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Installation_and_Configuration_Guide/sect-Install_a_Compute_Node.html[8.4. INSTALL A COMPUTE NODE]
+instructions, but *note the following differences*.
+
+. *8.4.1. Create the Compute Service Database*
++
+====
+Apply as is.
+====
+
+[WARNING]
+TODO: Further content to be added here.
