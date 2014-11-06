@@ -108,22 +108,28 @@
                         </types>
                     </product>                    
                 </xsl:for-each-group>
-		<emails>
-		  <email>
-		    <name>CDT Publication Events</name>
-		    <to>cdt-publication-events@lists.rackspace.com</to>
-		    <from>clouddoctoolsteam@lists.rackspace.com</from>		    
-		  </email>
-		  <xsl:if test="not($publicationNotificationEmails = '')">
-		    <xsl:for-each select="tokenize($publicationNotificationEmails,',')">
-		      <email>
-			<name>publication event subscriber</name>
-			<to><xsl:value-of select="."/></to>
-			<from>clouddoctoolsteam@lists.rackspace.com</from>		    
-		      </email>
-		    </xsl:for-each>
-		  </xsl:if>
-		</emails>
+                <xsl:choose>
+                    <xsl:when test="$branding = 'midonet'">
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <emails>
+                          <email>
+                            <name>CDT Publication Events</name>
+                            <to>cdt-publication-events@lists.rackspace.com</to>
+                            <from>clouddoctoolsteam@lists.rackspace.com</from>
+                          </email>
+                          <xsl:if test="not($publicationNotificationEmails = '')">
+                            <xsl:for-each select="tokenize($publicationNotificationEmails,',')">
+                              <email>
+                                <name>publication event subscriber</name>
+                                <to><xsl:value-of select="."/></to>
+                                <from>clouddoctoolsteam@lists.rackspace.com</from>
+                              </email>
+                            </xsl:for-each>
+                          </xsl:if>
+                        </emails>
+                    </xsl:otherwise>
+                </xsl:choose>
             </products>
         </xsl:result-document>     
         <xsl:result-document 

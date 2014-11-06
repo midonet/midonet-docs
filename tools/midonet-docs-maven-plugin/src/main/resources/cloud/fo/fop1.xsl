@@ -130,7 +130,7 @@
           <!-- XMP properties go here -->
 
           <!-- Creator Tool -->
-          <xmp:CreatorTool>Cloud API Docs Plugin</xmp:CreatorTool>
+          <xmp:CreatorTool>MidoNet Docs Plugin</xmp:CreatorTool>
         </rdf:Description>
         <xsl:if test="starts-with(string(/*/d:info/d:legalnotice/@role),'cc-')">
             <rdf:Description rdf:about=''
