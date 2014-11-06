@@ -1,4 +1,145 @@
 = Compute Node
 
-[WARNING]
-TODO: Further content to be added here.
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Installation_and_Configuration_Guide/sect-Install_a_Compute_Node.html[8.4. Install a Compute Node]
+instructions, but *note the following differences and additions*.
+
+. *8.4.1. Create the Compute Service Database*
++
+====
+Do *not* apply. Has been done on the Controller Node.
+====
+
+. *8.4.2. Configure Compute Service Authentication*
++
+====
+Do *not* apply. Has been done on the Controller Node.
+====
+
+. *8.4.3. Install the Compute Service Packages*
++
+====
+Do *not* apply as is.
+
+Instead, install only the following package:
+
+[source]
+----
+# yum install openstack-nova-compute
+----
+====
+
+. *8.4.4. Configure the Compute Service to Use SSL*
++
+====
+Apply as is.
+====
+
+. *8.4.5. Configure the Compute Service*
++
+====
+Apply as is, except the following topics:
+
+.. *8.4.5.6.3. Configure the L2 Agent*
++
+Do *not* apply.
++
+.. *8.4.5.6.4. Configure Virtual Interface Plugging*
++
+Do *not* apply.
+
+Additionally, edit the `/etc/nova/nova.conf` file and add the following key to
+the `[DEFAULT]` section:
+
+[literal,subs="quotes"]
+----
+[DEFAULT]
+...
+glance_host = *_controller_*
+----
+====
+
+. *8.4.6. Populate the Compute Service Database*
++
+====
+Do *not* apply. Has been done on the Controller Node.
+====
+
+. *8.4.7. Launch the Compute Services*
++
+====
+.. *1. Starting the Message Bus Service*
++
+Apply as is.
+
+.. *2. Starting the Libvirtd Service*
++
+Apply as is.
+
+.. *3. Starting the API Service*
++
+Do *not* apply. Only required on the Controller Node.
+
+.. *4. Starting the Scheduler*
++
+Do *not* apply. Only required on the Controller Node.
+
+.. *5. Starting the Conductor*
++
+Do *not* apply. Only required on the Controller Node.
+
+.. *6. Starting the Compute Service*
++
+Apply as is.
+====
+
+. *Additional to the Red Hat documentation, perform the following steps*
+
+.. *Configure libvirt*
++
+====
+Edit the `/etc/libvirt/qemu.conf` file to contain the following:
+
+[literal,subs="quotes"]
+----
+user = "root"
+group = "root"
+
+cgroup_device_acl = [
+    "/dev/null", "/dev/full", "/dev/zero",
+    "/dev/random", "/dev/urandom",
+    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+    *_"/dev/net/tun"_*
+]
+----
+====
+
+.. *Restart the libvirt service*
++
+====
+[source]
+----
+# systemctl restart libvirtd.service
+----
+====
+
+.. *Install nova-rootwrap network filters*
++
+====
+[source]
+----
+# yum install openstack-nova-network
+# systemctl disable openstack-nova-network.service  
+----
+====
+
+.. *Restart the Compute service*
++
+====
+[source]
+----
+# systemctl restart openstack-nova-compute.service
+----
+====

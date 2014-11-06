@@ -2,7 +2,7 @@
 
 [IMPORTANT]
 Follow the Red Hat documentation's
-https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Installation_and_Configuration_Guide/sect-Install_a_Compute_Node.html[8.4. INSTALL A COMPUTE NODE]
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Installation_and_Configuration_Guide/sect-Install_a_Compute_Node.html[8.4. Install a Compute Node]
 instructions, but *note the following differences*.
 
 . *8.4.1. Create the Compute Service Database*
@@ -11,5 +11,81 @@ instructions, but *note the following differences*.
 Apply as is.
 ====
 
-[WARNING]
-TODO: Further content to be added here.
+. *8.4.2. Configure Compute Service Authentication*
++
+====
+Apply as is.
+====
+
+. *8.4.3. Install the Compute Service Packages*
++
+====
+Do *not* apply as is.
+
+Instead, install only the following packages:
+
+[source]
+----
+# yum install openstack-nova-api openstack-nova-conductor openstack-nova-scheduler python-cinderclient
+----
+
+[NOTE]
+The `openstack-nova-compute` package is going to be installed on the Compute
+Node instead.
+====
+
+. *8.4.4. Configure the Compute Service to Use SSL*
++
+====
+Apply as is.
+====
+
+. *8.4.5. Configure the Compute Service*
++
+====
+Apply as is.
+
+Additionally, edit the `/etc/nova/nova.conf` file and add the following key to
+the `[DEFAULT]` section:
+
+[source]
+----
+[DEFAULT]
+...
+network_api_class = nova.network.neutronv2.api.API
+----
+====
+
+. *8.4.6. Populate the Compute Service Database*
++
+====
+Apply as is.
+====
+
+. *8.4.7. Launch the Compute Services*
++
+====
+.. *1. Starting the Message Bus Service*
++
+Do *not* apply. Only required on the Compute Node.
+
+.. *2. Starting the Libvirtd Service*
++
+Do *not* apply. Only required on the Compute Node.
+
+.. *3. Starting the API Service*
++
+Apply as is.
+
+.. *4. Starting the Scheduler*
++
+Apply as is.
+
+.. *5. Starting the Conductor*
++
+Apply as is.
+
+.. *6. Starting the Compute Service*
++
+Do *not* apply. Only required on the Compute Node.
+====
