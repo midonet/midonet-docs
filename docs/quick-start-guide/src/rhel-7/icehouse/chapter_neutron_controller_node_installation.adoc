@@ -23,7 +23,7 @@ Apply as is.
 Do *not* apply. Instead, perform the following steps:
 
 .. Edit the `/etc/neutron/neutron.conf` file and add the following keys
-to the '[DEFAULT]' section:
+to the `[DEFAULT]` section:
 +
 [source]
 ----

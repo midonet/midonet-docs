@@ -32,7 +32,7 @@ Do *not* apply step '3. Configure Networking to use the Modular Layer 2 (ML2)
 plug-in and associated services'.
 
 .. Instead, Edit the `/etc/neutron/neutron.conf` file and add the following key
-to the '[DEFAULT]' section:
+to the `[DEFAULT]` section:
 +
 [source]
 ----
