@@ -2,7 +2,7 @@
 
 [IMPORTANT]
 Follow the Red Hat documentation's
-https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Installation_and_Configuration_Guide/chap-OpenStack_Identity_Service_Installation.html[7.5. Configure the Networking Service]
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Installation_and_Configuration_Guide/sect-Configure_the_Networking_Service.html[7.5. Configure the Networking Service]
 instructions, but *note the following differences*.
 
 . *7.5.1. Configure OpenStack Networking Service Authentication*
