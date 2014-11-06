@@ -1,0 +1,21 @@
+= SELinux Configuration
+
+[IMPORTANT]
+This guide assumes that SELinux (if installed) is either in `permissive` state
+or `disabled`.
+
+To change the mode, execute the following command:
+
+[source]
+----
+# setenforce Permissive
+----
+
+To permanently change the SELinux configuration, edit the `/etc/selinux/config`
+file accordingly:
+
+[source]
+----
+SELINUX=permissive
+----
+

@@ -3,5 +3,10 @@
 // Networking
 include::chapter_basic_networking_configuration.adoc[leveloffset=+1]
 
+ifdef::rhel-7[]
+// SELinux
+include::../rhel-7/chapter_basic_selinux_configuration.adoc[leveloffset=+1]
+endif::rhel-7[]
+
 // Chapter: Repository Configuration
 include::chapter_repository_configuration.adoc[leveloffset=+1]
