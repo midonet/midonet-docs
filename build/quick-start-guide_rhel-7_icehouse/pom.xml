@@ -14,7 +14,7 @@
     </parent>
 
     <groupId>org.midonet</groupId>
-    <artifactId>midonet-quick-start-guide-rhel-7-icehouse</artifactId>
+    <artifactId>midonet-docs-quick-start-guide-rhel-7-icehouse</artifactId>
     <version>1.8-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -49,7 +49,7 @@
             </plugin>
             <!-- asciidoctor-maven-plugin -->
 
-            <!-- clouddocs-maven-plugin -->
+            <!-- midonet-docs-maven-plugin -->
             <plugin>
                 <groupId>org.midonet</groupId>
                 <artifactId>midonet-docs-maven-plugin</artifactId>
@@ -85,7 +85,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- clouddocs-maven-plugin -->
+            <!-- midonet-docs-maven-plugin -->
         </plugins>
     </build>
 
