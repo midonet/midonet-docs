@@ -241,6 +241,13 @@ set       toc,title
       <script type="text/javascript" src="{$webhelp.common.dir}main.js">
         <xsl:comment></xsl:comment>
       </script>
+      <xsl:if test="$branding = 'midonet'">
+	<div class="logabug" style="text-align: center">
+	  <a id="AskOOLink2" href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC" target="_blank"><i class="icon-question"><xsl:comment/></i>Questions? Discuss on mailing lists or IRC.</a>
+          <br/>
+	  <a id="logABugLink2" href="https://midonet.atlassian.net/browse/MND/" target="_blank"><i class="icon-bug"><xsl:comment/></i>Found an error? Report a bug.</a>
+	</div>
+      </xsl:if>
       <xsl:if test="$branding = 'openstack'">
 	<div class="logabug" style="text-align: center">
 	  <a id="AskOOLink2" href="http://ask.openstack.org" target="_blank"><i class="icon-question"><xsl:comment/></i>Questions? Discuss on ask.openstack.org</a>
@@ -385,6 +392,12 @@ ERROR: Feedback email not set but internal comments are enabled.
     <xsl:if test="//d:revhistory/d:revision and $canonical.url.base != ''">
       &#160;
       <a href="../atom.xml"><img alt="Atom feed of this document" src="{$webhelp.common.dir}images/feed-icon.png"/></a>
+    </xsl:if>
+    <xsl:if test="$branding = 'midonet' and $social.icons = '0'">
+      <div id="gplusone">
+        <a id="AskOOLink1" href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC" target="_blank" title="Questions? Discuss on mailing lists or IRC."><i class="icon-question"><xsl:comment/></i></a>&#160;&#160;
+        <a id="logABugLink1" href="https://midonet.atlassian.net/browse/MND/" target="_blank" title="Found an error? Report a bug."><i class="icon-bug"><xsl:comment/></i></a>
+      </div>
     </xsl:if>
     <xsl:if test="$branding = 'openstack' and $social.icons = '0'">
       <div id="gplusone">
