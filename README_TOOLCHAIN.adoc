@@ -1,0 +1,127 @@
+= MidoNet Docs Toolchain
+
+Although the main document sources are written in
+https://en.wikipedia.org/wiki/AsciiDoc[AsciiDoc],
+the toolchain to process these sources relies on
+https://en.wikipedia.org/wiki/DocBook[DocBook].
+
+In short, the process can be summarized as follows:
+
+* Conversion from AsciiDoc to DocBook XML
+* Generation of HTML and PDF from DocBook XML
+
+Conversion from AsciiDoc to DocBook XML is done by the
+http://asciidoctor.org/docs/asciidoctor-maven-plugin/[asciidoctor-maven-plugin].
+The resulting DocBook XML is then transformed to HTML and PDF by using the
+https://github.com/midonet/midonet-docs/tree/master/tools/midonet-docs-maven-plugin[midonet-docs-maven-plugin]
+(a modified version of the
+https://github.com/rackerlabs/clouddocs-maven-plugin[clouddocs-maven-plugin]
+which has been enhanced to include a MidoNet-specific branding).
+
+== Requirements
+
+The toolchain requires https://maven.apache.org/[Apache Maven]. You may get the
+latest version from the
+https://maven.apache.org/download.cgi[download section] and follow the
+https://maven.apache.org/download.cgi#Installation_Instructions[installation
+instructions].
+
+== Build Instructions
+
+To build all documents and necessary dependencies, run `mvn clean install` from
+the base directory.
+
+To build a single document, run `mvn clean install` from within the document's
+build directory. Ensure that you have built the midonet-docs-maven-plugin once
+before.
+
+[CAUTION]
+Before submitting a review, always run `build.sh` from the base directory and
+ensure that there are no warnings (see +Known Issues+ below for details).
+
+== Document Metadata
+
+To be able to produce valid DocBook XML that can be transformed to HTML and PDF,
+it is necessary to define a
+https://www.oasis-open.org/docbook/documentation/reference/html/docinfo.html[Docbook DocInfo]
+element which contains the document's metadata.
+
+The metadata contains the following information:
+
+* Product Name
+* Author
+* Copyright
+* Version
+* Build timestamp
+* License
+* Abstract
+
+The metadata is provided as a single XML file for each document, following a
+defined naming scheme. The file is contained in the document sources' root
+directory and is named similar to the main AsciiDoc file, but ending in
+`-docinfo.xml`.
+
+Example:
+[width="100%",cols=",",options="header"]
+|============================================================
+| Filename                             | Purpose
+| `book_quick_start_guide.adoc`        | AsciiDoc root file
+| `book_quick_start_guide-docinfo.xml` | DocBook DocInfo file
+|============================================================
+
+Within this file, there are variables for build version and timestamp, which
+will be replaced with their actual values at build time.
+
+[source]
+<releaseinfo>{buildVersion}</releaseinfo>
+<pubdate>{buildTimestamp}</pubdate>
+
+These are passed as document attributes to the AsciiDoc processer and are being
+defined globally for all documents in the Maven parent POM.
+
+[source]
+<attributes>
+    <buildVersion>${project.version}</buildVersion>
+    <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
+</attributes>
+
+=== Conditional Inclusion
+
+Some documents make use of conditional inclusion. This allows to have a common
+base for a document, but also to reference specific parts based on build time
+conditions in order to produce multiple versions of the document (e.g. with
+different command line examples depending on the operating system or OpenStack
+version).
+
+An example for this mechanism is the Quick Start Guide which has different
+versions for Ubuntu and RHEL.
+
+The attributes to be passed to the AsciiDoc processor are defined in the
+document's Maven POM:
+
+[source]
+<attributes>
+    <ubuntu-1404/>
+</attributes>
+
+Depending on the existence of these attributes, different source fragments can
+be included or excluded from processing:
+
+[source]
+\ifdef::ubuntu-1404[]
+\include::some_file_specific_to_ubuntu-1404.adoc[]
+\endif::ubuntu-1404[]
+
+= Known Issues
+
+The current implementation of the asciidoctor-maven-plugin does not fail the
+build on warnings.
+
+For example, when referencing an inexistent include file, asciidoctor will print
+the following warning, but nevertheless the build will succeed.
+
+[source]
+asciidoctor: WARNING: file.adoc: line x: include file not found
+
+Currently there is no easy way to programmatically catch this warning (which is
+just printed to stderr) and make the build fail.
