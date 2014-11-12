@@ -1,0 +1,77 @@
+= MidoNet Documentation
+
+This repository includes the following http://www.midonet.org/[MidoNet]
+documentation:
+
+* MidoNet Quick Start Guide for RHEL 7 / Icehouse
+* MidoNet Quick Start Guide for Ubuntu 14.04 / Icehouse
+* MidoNet REST API
+
+The documentation is written in
+https://en.wikipedia.org/wiki/AsciiDoc[AsciiDoc]. Consult the
+http://wiki.midonet.org/[MidoNet Wiki] for instructions on how to contribute.
+
+== Build Instructions
+
+To build the whole project, run `mvn clean install` from the base directory.
+
+See the link:README_TOOLCHAIN.adoc[Toolchain README] for technical details and
+how to build the docs.
+
+== File System Structure
+
+=== Top-level directories
+
+[width="100%",cols=",",options="header"]
+|===============================
+|Directory | Purpose
+|`build`   | Maven project files
+|`docs`    | Document sources
+|`tools`   | Build tools
+|===============================
+
+The `build` directory contains the documents' Maven project files, each located
+in a sub directory specific to a certain document.
+
+The `docs` directory contains the document sources, each located in the `src`
+directory of the specific document's sub directory.
+
+The `tools` directory contains the source code of the midonet-docs-maven-plugin.
+
+=== Output Files
+
+After a successful build, the outputs for a document can be found in the
+`target/docbkx/webhelp` directory underneath the document's `build`
+directory.
+
+==== Examples
+
+Quick Start Guide for Ubuntu 14.04 / Icehouse:
+
+[width="100%",cols="1,3",options="header"]
+|===========================================================================================
+| Purpose             | Directory
+| Document sources    | `docs/quick-start-guide/src`
+| Maven project file  | `build/quick-start-guide_ubuntu-1404_icehouse/pom.xml`
+| Outputs (HTML, PDF) | `build/quick-start-guide_ubuntu-1404_icehouse/target/docbkx/webhelp`
+|===========================================================================================
+
+Quick Start Guide for RHEL 7 / Icehouse:
+
+[width="100%",cols="1,3",options="header"]
+|===========================================================================================
+| Purpose             | Directory
+| Document sources    | `docs/quick-start-guide/src`
+| Maven project file  | `build/quick-start-guide_rhel-7_icehouse/pom.xml`
+| Outputs (HTML, PDF) | `build/quick-start-guide_rhel-7_icehouse/target/docbkx/webhelp`
+|===========================================================================================
+
+REST API:
+
+[width="100%",cols="1,3",options="header"]
+|===========================================================================================
+| Purpose             | Directory
+| Document sources    | `docs/rest-api/src`
+| Maven project file  | `build/rest-api/pom.xml`
+| Outputs (HTML, PDF) | `build/rest-api/target/docbkx/webhelp`
+|===========================================================================================
