@@ -38,9 +38,9 @@
                 or contain UNTESTED information.
             </para>
             <para>
-                Use it at your own risk. If you need assistance, head to
-                #midonet on
-                <link xlink:href="https://freenode.net/">freenode</link>.
+                Use it at your own risk. Please consult the
+                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or IRC</link>
+                if you need assistance.
             </para>
         </caution>
     </para>
