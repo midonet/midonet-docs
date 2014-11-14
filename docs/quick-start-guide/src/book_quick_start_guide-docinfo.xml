@@ -16,18 +16,18 @@
 <pubdate>{buildTimestamp}</pubdate>
 <legalnotice role="apache2">
     <annotation>
-        <remark>Copyright details are filled in by the clouddocs-maven-plugin template.</remark>
+        <remark>Copyright details are filled in by the midonet-docs-maven-plugin template.</remark>
     </annotation>
 </legalnotice>
 <abstract>
     <para>
         MidoNet is a network virtualization software for
         Infrastructure-as-a-Service (IaaS) clouds.
-        
+
         It decouples your IaaS cloud from your network hardware, creating an
         intelligent software abstraction layer between your end hosts and your
         physical network.
-        
+
         This guide walks through the minimum installation and configuration
         steps neccessary to use MidoNet with OpenStack.
     </para>
@@ -38,9 +38,9 @@
                 or contain UNTESTED information.
             </para>
             <para>
-                Use it at your own risk. If you need assistance, head to
-                #midonet on
-                <link xlink:href="https://freenode.net/">freenode</link>.
+                Use it at your own risk. Please consult the
+                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or IRC</link>
+                if you need assistance.
             </para>
         </caution>
     </para>
