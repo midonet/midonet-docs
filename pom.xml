@@ -96,6 +96,7 @@
                         <includes>${file.book.basename}.xml</includes>
 
                         <makePdf>true</makePdf>
+                        <webhelpDefaultTopic>index.html</webhelpDefaultTopic>
 
                         <branding>midonet</branding>
                         <brandname>MidoNet</brandname>
