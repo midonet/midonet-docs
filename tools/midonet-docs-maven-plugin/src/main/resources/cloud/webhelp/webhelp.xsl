@@ -174,7 +174,7 @@
   <xsl:param name="node" select="."/>
 <xsl:text>
 </xsl:text>
-	<xsl:if test="$branding = 'openstack'">
+	<xsl:if test="$branding = 'openstack' or $branding = 'midonet'">
 	  <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
 	</xsl:if>
       	<xsl:if test=".//d:programlisting[@language] or .//d:screen[@language] or .//d:literallayout[@language]">
