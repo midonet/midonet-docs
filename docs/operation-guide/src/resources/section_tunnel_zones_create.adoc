@@ -1,0 +1,22 @@
+= Creating tunnel zones
+
+This section describes how to create tunnel zones.
+
+. Enter the `create tunnel-zone name tz-name type tz-type` command to create
+a new tunnel zone, where _tz-type_ is tunnel zone type, gre, vxlan, or vtep. For
+example:
++
+[source]
+midonet> create tunnel-zone name new-tz type gre
+tzone0
++
+Where: new-tz = the name you want to assign to the tunnel zone; the output shows
+the alias ("tzone0") assigned to the tunnel zone
+
+. Enter the `list tunnel-zone` command to list and confirm the tunnel zone. For
+example:
++
+[source]
+midonet> list tunnel-zone
+tzone tzone0 name new-tz type gre
+tzone tzone1 name gre type gre

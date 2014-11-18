@@ -1,0 +1,149 @@
+[[establish_bgp_session]]
+= Establishing a BGP session
+
+This section walks you through the process of setting up a BGP session.
+
+Make sure you have the following information before setting up the BGP:
+
+* The tenant ID that owns the virtual router that will establish the BGP
+session. Typically this router is the "MidoNet Provider Router" and the tenant
+ID to use is "admin".
+
+* Local and peer Autonomous System (AS) Numbers for the BGP session. In our
+example, we will use 64512 and 64513.
+
+* The IP address of the BGP peer.
+
+* A list of routes to advertise to the BGP peer.
+
+* The UUID of the "MidoNet Provider Router".
+
+Our sample virtual topology contains one router with one port.
+
+. Start the midonet-cli and find the provider router.
++
+To start the midonet-cli, at the system prompt, enter:
++
+[source]
+$ midonet-cli
++
+At the midonet> prompt that appears, type the following commands:
++
+[source]
+midonet> cleart
+midonet> router list
+router router0 name MidoNet Provider Router
++
+The cleart command removes the tenant that is loaded in CLI. Because the
+provider router does not have tenant ID set, you need to remove the tenant
+first.
+
+. Issue the following command to load the admin tenant:
++
+[literal,subs="quotes"]
+midonet> sett _admin_
++
+where _admin_ is your admin tenant UUID in OpenStack, for example:
+12345678-90123456-123456789012. You can obtain this identifier by calling
+OpenStack identity service (keystone):
++
+[source]
+$ keystone tenant-list
+
+. Create a virtual port for the BGP session.
++
+You need to create the virtual port to be used for BGP communication with the
+remote router. To create a new virtual port, enter:
++
+[source]
+midonet> router router0 add port address 10.12.12.1 net 10.12.12.0/24
+router0:port0
++
+To verify the created port, enter:
++
+[source]
+midonet> router router0 list port
+port port0 device router0 state up mac 02:47:98:a1:e5:f8 address 10.12.12.1 net 10.12.12.0/24
+
+. To create a BGP session, start by listing the BGP links on the port:
++
+[source]
+midonet> router router0 port port0 list bgp
++
+The output of this command should not return any BGP links. MidoNet only
+supports one BGP session per port.
++
+Next, add a BGP session to the port:
++
+[source]
+midonet> router router0 port port0 add bgp local-AS 64512 peer-AS 64513 peer 10.12.12.2
+router0:port0:bgp0
+midonet> router router0 port port0 list bgp
+bgp bgp0 local-AS 64512 peer-AS 64513 peer 10.12.12.2
+
+. Advertise a route.
++
+At this point, you can advertise routes over the BGP session. In an OpenStack
+environment, you must advertise public floating IP ranges over BGP in order to
+provide external connectivity for hosted virtual machines.
++
+[source]
+midonet> router router0 port port0 bgp bgp0 add route net 192.168.12.0/24
+router0:port0:bgp0:ad-route0
+midonet> router router0 port port0 bgp bgp0 list route
+ad-route ad-route0 net 192.168.12.0/24
+
+. *Optional:* On Ubuntu only, you must set this property in the midolman.conf
+file:
++
+[source]
+bgpd_binary = /usr/lib/quagga/
++
+Without this configuration setting the bgpd process will not be able to start.
+
+. Bind the router's port to a physical network interface.
++
+If you just created the router port to connect to the BGP peer, the port might
+not be bound to any network interface. You need to bind the port to an active
+physical network interface to enable the port (and its BGP sessions).
++
+To create that binding, you need to know the host and network interface. With
+that information, you can use the following commands to bind the port to the
+physical network interface and activate the BGP session.
++
+[NOTE]
+Make sure that no IP address is present on the interface you want to bind to a
+virtual port, and that the interface is UP.
++
+First, list the hosts:
++
+[source]
+midonet> host list
+host host0 name ip-10-152-161-111 alive true
+host host1 name ip-10-164-23-206 alive true
++
+After finding the host, you can list its network interfaces:
++
+[source]
+midonet> host host0 list interface
+iface midonet host_id host0 mac 6a:07:42:e2:6c:88 mtu 1500 type Virtual endpoint DATAPATH
+iface lo host_id host0 addresses [u'127.0.0.1', u'0:0:0:0:0:0:0:1'] mac 00:00:00:00:00:00 mtu 16436 type Physical endpoint LOCALHOST
+iface virbr0 host_id host0 addresses [u'192.168.122.1'] mac 46:0b:df:a4:91:65 mtu 1500 type Virtual endpoint UNKNOWN
+iface osvm-ef97-16fc host_id host0 addresses [u'fe80:0:0:0:7cf9:8ff:fe60:54ff'] mac 7e:f9:08:60:54:ff mtu 1500 type Virtual endpoint DATAPATH
+iface osvm-38d0-266a host_id host0 addresses [u'fe80:0:0:0:2034:f5ff:fe89:1b89'] mac 22:34:f5:89:1b:89 mtu 1500 type Virtual endpoint DATAPATH
+iface eth0 host_id host0 addresses [u'10.152.161.111', u'fe80:0:0:0:2000:aff:fe98:a16f'] mac 22:00:0a:98:a1:6f mtu 1500 type Physical endpoint PHYSICAL
+iface eth1 host_id host0 mac 22:00:0a:7a:b3:4e mtu 1500 type Physical endpoint PHYSICAL
++
+In this case, we will bind router0:port0 to interface eth1 on host0:
++
+[source]
+midonet> host host0 add binding port router0:port0 interface eth1
+host host0 interface eth1 port router0:port0
++
+At this point, the router port is activated in host0 and bgpd starts running.
++
+[NOTE]
+The router0 and port0 aliases are auto-generated on demand in each midonet-cli
+session. Therefore, if you want to create the binding using those aliases
+(instead of UUIDs), midonet-cli must have "seen" those objects in the current
+session. To accomplish this, you can list them.

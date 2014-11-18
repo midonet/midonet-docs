@@ -1,0 +1,25 @@
+[[vxlan_configuration]]
+= VXLAN configuration
+
+MidoNet supports the Virtual Extensible LAN (VXLAN) technology.
+
+*What is VXLAN?*
+
+VXLAN is a network virtualization technology that uses a VLAN-like encapsulation
+technique to encapsulate MAC-based OSI layer 2 Ethernet frames within layer 3
+UDP packets.
+
+This type of encapsulation (Ethernet-in-IP) is much better suited to Software
+Defined Networks than either VLANs (802.1q) or even stacked VLANs (Q-in-Q).
+
+Another important advantage of VXLAN over traditional VLAN is its 24-bit VXLAN
+ID thanks to which VXLAN can scale up to over 16 million logical networks. By
+comparison - the maximum number of VLANs is 4096.
+
+*How is VXLAN supported in MidoNet?*
+
+MidoNet provides VXLAN implementation through:
+
+* VXLAN Gateway, to bridge the overlay with physical L3 hosts in the underlay.
+
+* VXLAN tunneling between MidoNet hosts.

@@ -1,0 +1,23 @@
+[[creating_a_router]]
+= Creating a router
+
+You can create routers to provide L3 connectivity on a virtual network.
+
+To create a router:
+
+. Enter the following command to list the routers on the current tenant:
++
+[source]
+midonet> list router
+midonet>
++
+The above example shows no routers on the current tenant.
+
+. Enter the command to create a new router and assign it a name:
++
+[source]
+midonet> router create name test-router
+router1
++
+The above command example shows how to create a new router named "test-router".
+The output shows the alias "router1" assigned to the new router.

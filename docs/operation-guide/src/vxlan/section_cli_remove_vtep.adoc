@@ -1,0 +1,21 @@
+[[clie_remove_vtep]]
+= Removing a VTEP
+
+Use this command to remove a VTEP.
+
+*Syntax*
+
+[source]
+vtep management-ip vtep-ip-address remove
+
+*Result*
+
+Issuing this command completely removes a VTEP from the MidoNet's list of known
+VTEPs.
+
+The command will fail if any of the VTEP's port-VLAN pairs are bound to any
+Neutron networks.
+
+[NOTE]
+Alternatively, you can delete a vxlan port to disassociate all VTEP's port-VLAN
+pairs from a Neutron network.

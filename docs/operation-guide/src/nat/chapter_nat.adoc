@@ -1,0 +1,6 @@
+[[network_address_translation]]
+= Network Address Translation
+
+To demonstrate how MidoNet uses static NAT, this chapter shows how MidoNet
+implements floating IP addresses by examining a floating IP address
+configuration.

@@ -1,0 +1,12 @@
+[[message_categories]]
+= List of event messages
+
+This section lists the event messages.
+
+The event messages are organized in the following major categories:
+
+* Virtual topology events
+
+* API server events
+
+* MidoNet Agent events

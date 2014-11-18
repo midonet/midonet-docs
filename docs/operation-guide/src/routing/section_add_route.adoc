@@ -1,0 +1,52 @@
+[[adding_routes]]
+= Adding routes
+
+Below are some examples of when you might want to add a route:
+
+* You notice that a specific IP address or range is attacking your network. To
+prevent such attacks, you add a route to the MidoNet Provider Router; this
+route's source IP matches the attacking IP address or range. You specify the
+type as a Blackhole to configure the MidoNet Provider Router to drop packets
+from this source.
+
+* If BGP dynamic routing is not available, you may configure static routes to
+forward traffic to the upstream router(s).
+
+The attributes you specify are:
+
+* dst = destination IP address or network to match
+* src = source IP address or network to match
+* type = for example, "normal"
+* port = port to emit traffic over
+
+To add a route using the MidoNet CLI:
+
+. Enter the command to add a route:
++
+[source]
+midonet> router router2 add route dst 169.254.255.0/30 src 0.0.0.0/0 type normal port router2:port2
+router2:route2
++
+The above command contains the following instructions:
++
+* For traffic with the source any network (0.0.0.0/0) with the destination
+network 169.254.255.0/30, forward this traffic over port2 on router2.
++
+[NOTE]
+====
+Prior to adding the above route, a port was added to router2 using the following
+command:
+
+[source]
+midonet> router router2 add port address 169.254.255.3 net 169.254.255.0/30
+router2:port2
+====
+
+. Enter the command to list the routes on router2 to confirm the added route(s):
++
+[source]
+midonet> router router2 list route
+route route0 type normal src 0.0.0.0/0 dst 10.100.1.1 port router2:port0 weight 0
+route route1 type normal src 0.0.0.0/0 dst 10.100.1.2 port router2:port1 weight 0
+route route2 type normal src 0.0.0.0/0 dst 169.254.255.3 port router2:port2 weight 0
+route route3 type normal src 0.0.0.0/0 dst 169.254.255.0/30 port router2:port2 weight 0

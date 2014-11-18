@@ -1,0 +1,18 @@
+[[adding_a_port_to_a_bridge]]
+= Adding a port to a bridge
+
+Use this procedure to add a port to a bridge.
+
+. Enter the command to list the bridges on the current tenant:
++
+[source]
+midonet> bridge list
+bridge bridge1 name test-bridge state up
+
+. Enter the command to add a port to the desired bridge:
++
+[source]
+midonet> bridge bridge1 add port
+bridge1:port0
++
+The above output shows the alias ("port0") assigned to the new port.

@@ -1,0 +1,29 @@
+[[authentication_and_authorization]]
+
+= Authentication and authorization
+
+The MidoNet Application Programming Interface (API) provides its authentication
+and authorization services by integrating with external identity services.
+
+It does not provide an API to create or delete tenants, but it does have an API
+to tag resources and filter queries with tenant IDs. Tenants are managed
+completely by the external identity service, and where appropriate, the string
+representations of tenant IDs are sent in the requests to the MidoNet API. This
+design makes possible a federated identity service model where one identity
+service provides authentication and authorization to all the services in the
+cloud environment, including the MidoNet API.
+
+Although the MidoNet API does not provide its own identity service, it does
+provide simple authentication (for validating the user) and authorization (for
+checking the access level of the user) functionality. For authentication, it
+simply takes the token included in the HTTP header and forwards it to the
+external identity service. To generate a new token, it also provides an API to
+log in to the external identity service with username/password credentials. (See
+the MidoNet REST API document for more information on the token.) For
+authorization, the MidoNet API provides a very simple Role-Based Access Control
+(RBAC) mechanism explained in the next section.
+
+See the MidoNet REST API document for information on implementing authentication
+and authorization using MidoNet's API. Go to http://docs.openstack.org/ and
+follow the links to Documentation and API for information about the OpenStack
+API.

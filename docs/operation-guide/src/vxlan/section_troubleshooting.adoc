@@ -1,0 +1,15 @@
+[[vxgw_troubleshooting]]
+= Troubleshooting VTEP/VXGW configuration
+
+You can use this information for troubleshooting the VXGW/VTEP:
+
+* Try to establish a Telnet connection to the VTEP management interface IP and
+port. You should be able to connect successfully if the VTEP has been properly
+configured.
+
+* You can examine the MAC-table of the Neutron network. MAC entries pointing to
+vxlan ports indicate MAC addresses that are "local" to the vxlan port's VTEP.
+
+* You can examine the ARP-suppression-table of the Neutron network. IP-mac
+entries in that table (if they point to MACs that are local to MidoNet) are used
+to populate MAC suppression tables in the VTEP.

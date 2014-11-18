@@ -1,0 +1,148 @@
+[[rule_conditions]]
+= Rule conditions
+
+Every rule has a single Condition object that a packet must match in order for
+the rule to be applied.
+
+Taking a jump rule as an example, if a packet matches the jump's Condition
+object, then rule processing for that packet will continue in the jump's target
+chain; if the packet doesn't match, then processing continues with the rule
+following the jump in the jump's own rule-chain.
+
+Condition objects specify a set or combination of attributes. Attributes are
+simple statements about the contents of a packet's headers. Examples of
+attributes are:
+
+* 'the packet's TCP/UDP port number is between 500 and 1000'
+* 'the packet's source IP address is in 10.0.0.0/16'
+
+[NOTE]
+Conditions are checked against the packet in the state the packet is in when it
+reaches a rule. In other words, for example, if a previous rule modified the
+packet's port number, then the current rule's condition will be checked against
+the modified, not the original, port number.
+
+In order to form a Condition, you specify a number of attributes (optionally,
+you can invert most attributes using the CLI). Enter an exclamation point (!) or
+"bang" symbol to invert it, as shown in the "CLI Rule Chain Attributes That
+Match Packets" table. For example, if you invert the src attribute, this matches
+packets whose source does not match the specified IP address or network.
+
+Below is the list of Condition attributes (attributes, invert-flags, and
+arguments) and their descriptions.
+
+[NOTE]
+The ports identified in rules are virtual ports on virtual routers or bridges. A
+virtual port may be bound to a specific Ethernet interface (like a tap) on a
+physical host OR it may be peered with another virtual port (in which case it
+connects two virtual devices). In either case, think of the virtual port as
+virtual because the rules only exist in the virtual topology AND nothing is
+known during rule evaluation about possible bindings of the virtual port to
+physical Ethernet interfaces.
+
+.CLI Rule Chain Attributes
+[options="header"]
+|===============
+|Attributes|Description
+|pos <INTEGER>:|The rule's position in the chain
+|type <TYPE>:|The rule <TYPE>; this is mostly used to distinguish between
+    regular filtering rules and different types of NAT rules. The recognized
+    <TYPE> values are: accept, continue, drop, jump, reject, return, dnat, snat,
+    rev_dnat, rev_snat.
+|action accept|continue
+|return:|The rule action, meaningful for NAT rules only.
+|jump-to <CHAIN>:|The chain to jump to (if this is a jump rule).
+|target <IP_ADDRESS[-IP_ADDRESS][:INTEGER[-INTEGER]]>:|The NAT target, if this
+    is a dnat or snat rule. At least one IP address must be given, optionally
+    the NAT target may also contain a second address to form an address range
+    and L4 port number or range of ports.
+|===============
+
+.CLI Rule Chain Attributes That Match Packets
+[options="header"]
+|===============
+|Attributes That Match Packets|Description
+|hw-src [!]<MAC_ADDRESS>:|The source hardware address
+|hw-dst [!]<MAC_ADDRESS>:|The destination hardware address
+|ethertype [!]<STRING>:|Sets the data link layer (EtherType) of packets matched
+    by this rule.
+|in-ports [!]<PORT[,PORT...]>:|Matches the virtual port through which the packet
+    ingressed the virtual device that is currently processing the packet.
+|out-ports [!]<PORT[,PORT...]>:|Matches the port through which the packet
+    egresses the virtual device that is currently processing the packet.
+|tos [!]<INTEGER>:|The value of the packet's Type of Service (TOS) field to
+    match Use this field to match the differentiated services value. See
+    https://www.ietf.org/rfc/rfc2474.txt[TOS] for information.
+|proto [!]<INTEGER>:|
+    The IP protocol number to match. See
+    http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml[Protocol Numbers]
+    for information. Examples: ICMP = 1, IGMP = 2, TCP = 6, UDP = 17
+|src [!]<CIDR>:|The source IP address or CIDR block
+|dst [!]<CIDR>:|The destination IP address or CIDR block
+|src-port [!]<INTEGER[:INTEGER]>:|The TCP or UDP source port or port range
+|dst-port [!]<INTEGER[:INTEGER]>:|The TCP or UDP destination port or port range
+|flow <fwd-flow\|return-flow>:|
+    Matches the connection-tracking status of the packet. If the packet is
+    starting a new connection, fwd-flow will match. Alternatively, if the packet
+    belongs to a connection already known to MidoNet, return-flow will match.
+|port-group [!]<PORT_GROUP>:|
+    Matches a port group. Port groups allow the grouping of virtual ports to
+    ease the creation of chain rules. See the CLI commands help for information.
+|ip-address-group-src [!]<IP_ADDRESS_GROUP>:|
+    Matches a source IP address group. IP address groups allow the grouping of
+    IP addresses to ease the creation of chain rules. See the CLI commands help
+    for information.
+|ip-address-group-dst [!]<IP_ADDRESS_GROUP>:|
+    Matches a destination IP address group. IP address groups allow the grouping
+    of IP addresses to ease the creation of chain rules. See the CLI commands
+    help for information.
+|hw-src-mask|
+    *Source MAC address mask* - A 48-bit bitmask in the form xxxx.xxxx.xxxx,
+    where x is any hexadecimal digit. Specifies which bits are to be considered
+    when applying the rule's hw-src test.
+
+    Default value = ffff.ffff.ffff: All bits are considered when applying the
+    hw-src test, so a packet's source MAC address must match hw-src exactly.
+
+    ffff.0000.0000: Only the first sixteen bits are considered when applying the
+    hw-src test, the first sixteen bits of a packet's source MAC address must
+    match the first sixteen bits of hw-src.
+
+    0000.0000.0000: No bits are considered when applying the hw-src test, so any
+    packet will match.
+|hw-dst-mask|
+    *Destination MAC address mask* - A 48-bit bitmask in the form
+    xxxx.xxxx.xxxx, where x is any hexadecimal digit. Specifies which bits are
+    to be considered when applying the rule's hw-dst test.
+
+    Default value = ffff.ffff.ffff: All bits are considered when applying the
+    hw-dst test, so a packet's destination MAC address must match hw-dst
+    exactly.
+
+    ffff.0000.0000: Only the first sixteen bits are considered when applying the
+    hw-dst test, the first sixteen bits of a packet's destination MAC address
+    must match the first sixteen bits of hw-dst.
+
+    0000.0000.0000: No bits are considered when applying the hw-dst test, so any
+    packet will match.
+|fragment-policy header \| nonheader \| any \| unfragmented|
+    *fragment-policy* - Specifies the fragment type to match.
+
+    ANY: Matches any packet.
+
+    HEADER: Matches any packet that has a full header,that is, a header fragment
+    or unfragmented packet.
+
+    NONHEADER: Matches only nonheader fragments.
+
+    UNFRAGMENTED: Matches only unfragmented packets.
+
+    In general, ANY is the default policy. However, if a rule has a value for
+    the src or dst field, the NONHEADER and ANY policies are disallowed and the
+    default is HEADER. Furthermore, if the rule's type is dnat or snat and its
+    target is not a single IP address with no ports specified, then the policy
+    will default to UNFRAGMENTED, which is the only policy permitted for such
+    rules.
+
+    Unlike other rule properties, fragment-policy may not be inverted.
+|===============

@@ -1,0 +1,38 @@
+[[removing_a_host_from_a_tunnel_zone]]
+= Removing a host from a tunnel zone
+
+Use this procedure to remove a host from a tunnel zone.
+
+. Enter the `list tunnel-zone` command to list the tunnel zone. For example:
++
+[source]
+midonet> list tunnel-zone
+tzone tzone0 name default_tz type gre
+
+. Enter the `tunnel-zone tunnel-zone list member` command to list the tunnel
+zone members (hosts). For example:
++
+[source]
+midonet> tunnel-zone tzone0 list member
+zone tzone0 host host0 address 172.19.0.2
+
+. Enter the `tunnel-zone tunnel-zone member host host show` command to show
+information about a specific host. For example:
++
+[source]
+midonet> tunnel-zone tzone0 member host host0 show
+tunnel-zone-host zone tzone0 host host0 address 172.19.0.2
+
+. Enter the `tunnel-zone tunnel-zone member host host delete` command to delete
+the desired host (identified by the host's alias). For example:
++
+[source]
+midonet> tunnel-zone tzone0 member host host0 delete
+
+. (Optional) You can add the host back to the tunnel zone, using the
+`tunnel-zone tunnel-zone member add host host address ip-address` command as
+shown below:
++
+[source]
+midonet> tunnel-zone tzone0 member add host host0 address 172.19.0.2
+zone tzone0 host host0 address 172.19.0.2

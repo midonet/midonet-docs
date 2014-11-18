@@ -1,0 +1,89 @@
+[[enabling_keystone_authentication]]
+= Enabling Keystone authentication
+
+In order to use the OpenStack Keystone authentication service with MidoNet, you
+must configure a number of settings in your web.xml file.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== auth-auth_provider
+
+Lists the fully qualified path of the Java class that provides the
+authentication service.
+
+[source]
+<context-param>
+  <param-name>auth-auth_provider</param-name>
+  <param-value>
+    org.midonet.api.auth.keystone.v2_0.KeystoneService
+  </param-value>
+</context-param>
+
+== keystone-service_protocol
+
+Identifies the protocol used for the Keystone service.
+
+[source]
+<context-param>
+  <param-name>keystone-service_protocol</param-name>
+  <param-value>http</param-value>
+</context-param>
+
+== keystone-service_host
+
+Identifies the host of the Keystone service.
+
+[source]
+<context-param>
+  <param-name>keystone-service_host</param-name>
+  <param-value>192.168.100.104</param-value>
+</context-param>
+
+== keystone-service_port
+
+Identifies the port number of the Keystone service.
+
+[source]
+<context-param>
+  <param-name>keystone-service_port</param-name>
+  <param-value>35357</param-value>
+</context-param>
+
+== keystone-admin_token
+
+Identifies the token of the admin user in Keystone that the API uses to make
+requests to Keystone.
+
+[source]
+<context-param>
+  <param-name>keystone-admin_token</param-name>
+  <param-value>secret_token_XYZ</param-value>
+</context-param>
+
+== auth-admin_role
+
+Identifies the name of the admin role in MidoNet. The admin has read and write
+access to all the resources. We recommend re-using the OpenStack "admin" role.
+Optionally you can create a separate admin role for MidoNet.
+
+[source]
+<context-param>
+  <param-name>auth-admin_role</param-name>
+  <param-value>admin</param-value>
+</context-param>
+
+== keystone-tenant_name
+
+Specifies the name of the tenant that is used when logging into Keystone.
+The log-in authentication to Keystone requires the username, password, and
+tenant name of the user. By specifying the tenant name here, you can avoid the
+need for applications to supply the tenant name when logging into Keystone
+through the MidoNet API.
+
+[source]
+<context-param>
+  <param-name>keystone-tenant_name</param-name>
+  <param-value>admin</param-value>
+</context-param>

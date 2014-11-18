@@ -1,0 +1,138 @@
+[[cassandra]]
+= Cassandra
+
+By default, Cassandra uses port 7199 for JMX service from all its nodes and you
+can connect using jconsole for a comprehensive view.
+
+Additionally, Cassandra's own nodetool utility offers commands like cfstats and
+tpstats that allow access to valuable stats into keyspaces, tables, column
+families, and so on on a given node.
+
+For a rich reference into Cassandra monitoring, visit the official documentation
+(go to http://www.datastax.com/, and search for "monitoring a Cassandra
+cluster").
+
+Below are descriptions of the graphs resulting from the example Munin
+configurations provided in the MidoNet deployment repository. The graphs are
+built from a subset of the Cassandra JMX service. The available graphs are:
+
+*Cache Reqs vs. Hits*
+
+This is self-descriptive, ideally you want the cache hits to be as close to the
+requests as possible. Note that by default MidoNet Cassandra nodes only enable
+the Partition Key Cache, but not Row Cache, so it's normal that these stay at 0.
+For MidoNet the Partition Key Cache should effectively be very similar to the
+Row Key Cache because our column families (CF) have only one column and
+therefore rows are not spread across several SSTables.
+
+*Compactions*
+
+This indicates the number of bytes being compacted. Typical workloads will
+present regular small spikes when the minor compaction jobs are run, and
+infrequent large spikes when major compactions are run. A large number of
+compactions indicates the need to add capacity to the cluster.
+
+*Internal Tasks*
+
+These are internal Cassandra tasks. The most important are:
+
+* Gossip: MidoNet's Cassandra nodes are expected to spend a fair amount of their
+time busy in Gossip (wherein state information transfers among peers).
+
+* MemTable Post Flusher: memtable flushes that are waiting to be written to the
+commit log. These should be as low as possible, and definitely not sustained.
+
+* Hinted Handoff tasks: the appearance of these tasks indicates cases where
+replicas are detected as unavailable, so non-replica nodes need to temporarily
+store data until the replicas become available. Frequent Hinted Handoff spikes
+may hint at nodes being partitioned from the cluster.
+
+* Anti-Entropy spikes: indicate data inconsistencies detected and being
+resolved.
+
+* Stream activity: involves transferring or requesting data from other nodes.
+Ideally these should be infrequent and short-spaced.
+
+*Messaging Service Tasks*
+
+These are tasks received and responded to each of the peer nodes. Expect an even
+distribution with all peers.
+
+*NAT Column Family Latency*
+
+This is a key metric that informs about the read and write latency to the NAT
+mapping cache. High latency, especially in reads, is problematic because it
+causes high latency in traffic traversing those virtual routers that apply the
+NAT rules. Due to Cassandra's own guarantees, write latency can be expected to
+be lower. Note that higher replication levels have a significant impact in
+latency (nodes have to retrieve/receive ACK from n replicas). Spikes in latency
+can be correlated to events like compactions, especially in cache misses,
+because Cassandra needs to go to disk to fetch data during high I/O load due to
+compactions.
+
+*NAT Column Family Memtable*
+
+Shows data size and column count. This is in-memory data. Expect a see-saw
+pattern because most of the data expires after the mapping time to lives (TTLs)
+expire.
+
+*NAT Column Family Disk Usage*
+
+Shows overall disk usage, including that used for the bloom filters used to save
+trips to cache when keys are not present.
+
+*NAT Column Family Ops*
+
+Shows read and writes on each node. The aggregated views are probably more
+valuable to help you spot bad distribution of load across the cluster.
+
+*Node Load*
+
+Shows the disk space used in the node.
+
+*Number of Nodes in Cluster*
+
+This is the view each node has of the rest of the cluster, and can help you spot
+partitions.
+
+*Request Task Completed by Stage*
+
+Shows tasks completed by the node. Mutations are changes in data, request
+responses are data sent to requesting peers. The Read-repair task appears as a
+result of nodes detecting inconsistent data and asking to perform a read to
+update the data; obviously, this task should be as infrequent as possible.
+
+*StorageProxy Operation Count*
+
+Shows overall read/write operations in the node.
+
+*StorageProxy Recent and Total Latency*
+
+Shows overall read/write latency in the cluster. Watch for big discrepancies
+between NAT Column Family (CF) Latency and this metric, because that would help
+determine whether problems are related to a single CF or the entire storage.
+More importantly: it indicates what features may be impacted in Midolman agents.
+
+In the aggregated view, an additional "clock" category configured in Munin shows
+the result of the time command in each of the nodes. Expect to see a straight
+line, as close as possible with the lines of all Cassandra nodes overlapping.
+Otherwise, this indicates divergences in the host's clocks that will almost
+certainly end up causing problems on conflict resolution. You should attend to
+this urgently and ensure that all hosts are using the Network Time Protocol
+(NTP).
+
+The installation script also provides graphs to monitor the state of Cassandra's
+Java virtual machine (JVM):
+
+* JVM garbage-collection (GC) times
+
+* JVM Heap Summary
+
+* JVM Non-Heap Summary
+
+Descriptions of these graphs are beyond the scope of this guide, but high JVM GC
+times are the best indication that Cassandra may be consuming too much time on
+garbage collection. This will correlate with high latency accessing Midolman's
+column families, which will propagate to Midolman. The Midolman agent will
+increase simulation latency and also degrade the utilization of CPU resources
+(experiencing more idle time while waiting for responses from Cassandra).

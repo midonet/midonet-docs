@@ -1,0 +1,18 @@
+[[l2_address_masking]]
+= L2 address masking
+
+You can use L2 address masking to filter out specific L2 frames, such as
+multicast frames. This allows you to add a single rule with a specific mask,
+which reduces the number of rules needed.
+
+Below a couple of important facts about L2 address masking in MidoNet:
+
+* OpenStack security group rules don't match L2 fields, so this feature is
+provided for customers who directly access/use MidoNet's API and CLI.
+
+* Old rules that do not include values for the hw-dst-mask attribute in the CLI
+should be interpreted as having the values for this field/attribute set to the
+default: ffff.ffff.ffff
+
+See xref:rule_chains[] for information about rule chains, including information
+about the hw-src-mask and hw-dst-mask attributes used to implement this feature.

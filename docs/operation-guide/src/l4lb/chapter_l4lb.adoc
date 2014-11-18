@@ -1,0 +1,74 @@
+[[l4lb]]
+= Layer 4 Load Balancing
+
+The load balancer service in MidoNet provides Layer 4 (L4) load balancing. A
+typical use case involves a tenant wishing to balance traffic (load) from
+floating IP addresses to private IP addresses.
+
+Generally, the traffic comes in from external/publicly routable addresses (for
+example, from users of the service all over the world) to a virtual IP address
+(VIP) (often a public, floating IP address, but assigned to the load balancer
+instead of a VM), and is then load-balanced to numerous private IP addresses
+within the cloud. The load balancer sends the traffic to the private IP
+addresses of the back-end servers – in MidoNet's case, these back-end servers
+are VMs. The load balancer does not terminate the connection, nor is it really
+transparent because it's translating the destination IP.
+
+*Configuration overview*
+
+As part of the configuration, you define a pool of back-end servers (VMs) to
+which traffic is load-balanced. The pool members typically have private IP
+addresses. The placement of the VMs is flexible but must take into account where
+the load balancer is configured. A general rule is that the VM private addresses
+*must be* reachable from the router to which the load balancer is attached.
+Therefore, pool members may
+
+* all belong to a single subnet of the router, or
+
+* they may be placed in two or more subnets of the router
+
+Finally, note that because the load balancer leaves the request source address
+unmodified, the load balancer must be placed in the path of the return traffic –
+otherwise return traffic will go directly to the request source without giving
+the load balancer a chance to reverse the VIP->back-end-IP translation that
+was applied on the forward packets.
+
+*Health monitoring*
+
+In addition, you can configure a health monitor to perform checks on the
+back-end servers. The health monitor automatically removes unhealthy nodes from
+the pool and adds them back when they return to health.
+
+*MidoNet load balancer limitations*
+
+MidoNet uses the Neutron API to set up load balancers (as documented in
+https://wiki.openstack.org/wiki/Neutron/LBaaS/API_1.0) but not all the Neutron
+LBaaS features are supported in MidoNet:
+
+* L7 load balancing is not supported.
+
+* There are no pool statistics.
+
+* Only round robin is supported in as the load balancer method.
+
+* The Neutron provider model is not supported (for example, assigning a specific
+provider for each pool is not supported).
+
+* Only one health monitor per pool (the first one in the list).
+
+* Only TCP health check (no UDP, HTTP).
+
+* Only Source IP session persistence (or cookie or URL).
+
+* You cannot associate a floating IP to a virtual IP address (VIP).
+
+* A VIP must not be on the same subnet as the pool member IF health monitoring
+is enabled.
+
+* No ICMP for health checks.
+
+* There is no connection limit.
+
+* Only one health monitor per pool.
+
+* Only TCP load balancing is supported.

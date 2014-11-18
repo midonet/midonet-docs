@@ -1,0 +1,96 @@
+[[resource_protection]]
+= MidoNet resource protection
+
+This section describes how to protect the MidoNet Agent against DOS attacks
+carried out by potentially rogue VMs.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Introduction
+
+MidoNet provides resource protection/isolation among tenants running VMs on the
+same hypervisor. Specifically, MidoNet provides protection against a VM
+initiating a Denial of Service (DoS) attack against the MidoNet Agent by
+emitting packets that miss the kernel flow table as fast as possible. Without
+resource protection, new flows to/from other VMs are prevented from being
+handled in a timely manner or at all because the rogue VM would capture most of
+the Agent's capacity to process packets. In a public cloud setting, where
+tenants are not necessarily trusted, this may be considered a serious problem.
+
+== Expected Behavior
+
+There are two major requirements that this solution addresses:
+
+* VMs are guaranteed to have their fair share of the MidoNet Agent's processing
+capacity. Even if another VM sends packets at a rate that exceeds the total
+capacity of the Agent, other VMs will still be able to set up new flows at the
+expected rate and latency.
+
+* The Agent fairly redistributes the processing capacity allocated to VMs that
+are not fully using it.
+
+The MidoNet Agent applies a hierarchical token bucket (HTB) to all packets that
+miss the kernel flow table and go up to userspace, so as to fairly share
+processing capacity among all ports.
+
+The HTB is set up in such a way that tunnel traffic between MidoNet hosts and
+through a VTEP is guaranteed 50% of the resources while the remaining 50% is
+distributed among VM ports.
+
+At the top of the hierarchy is a bucket whose size defines the total burst
+capacity of the system. Below this bucket lie three other buckets, one for
+tunnel traffic, another for VTEP traffic and another for VM traffic. They evenly
+share processing capacity, with the tunnel traffic and VTEP buckets having a
+non-zero size. Below the VM-shared bucket there is a bucket for every VM. The
+VM-shared bucket has zero capacity, meaning that it accumulates no tokens: if
+all the VM leaf buckets are full, excess capacity goes to either the tunnel
+traffic or VTEP buckets, or to the top-level bucket.
+
+== Configuration
+
+You can specify resource protection configuration parameters in the
+/etc/midolman/midolman.conf file, under the [datapath] stanza. The available
+parameters are:
+
+* global_incoming_burst_capacity - this sets the size of the top-level bucket
+and also defines the total number of tokens in the system (corresponding to
+in-flight packets) that will be divided among the different levels in the HTB;
+the rate at which tokens are placed back in the bucket is a function of the rate
+at which they are processed.
+
+* tunnel_incoming_burst_capacity - this sets the capacity of the bucket
+associated with tunnel traffic, enforcing the rate at which a MidoNet Agent can
+communicate with the other Agents.
+
+* vm_incoming_burst_capacity - this sets the capacity of each VM leaf bucket,
+which is below the shared VM bucket. This parameter enforces the rate at which
+individual VMs can sendtraffic.
+
+* vtep_incoming_burst_capacity - this sets the capacity of the bucket associated
+with the VxLAN VTEP functionality, which enforces the rate at which the MidoNet
+Agent can communicate with the VxLAN domain.
+
+See "midolman.conf" section for more information about the above parameters.
+
+Recommended values for these properties depend on the role of the MidoNet host
+(Gateway vs. Compute Node) and interaction with other resource-related
+properties, like JVM-memory and flow-table size. Midolman RPM and Debian
+packages include versions of each configuration tuned for Compute/Gateway hosts
+respectively. You can find these configurations in /etc/midolman, alongside the
+default configuration files. See "Recommended Values" for a table of recommended
+values.
+
+== Disabling Resource Protection
+
+You can disable the resource protection feature.
+
+To disable resource protection:
+
+. Specify a size value of "0" for all the parameters described in the
+"midolman.conf" section, except for the global_incoming_burst_capacity
+parameter.
+
+This will cause all tokens to accumulate in the global bucket and all the
+traffic will be distributed from this single bucket.

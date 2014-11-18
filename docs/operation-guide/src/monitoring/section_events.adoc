@@ -1,0 +1,29 @@
+[[events]]
+= Monitoring events
+
+This section describes how MidoNet's event system works so you can monitor the
+system's day-to-day operations.
+
+*Overview*
+
+This section provides a high-level overview of the information covered regarding
+event monitoring.
+
+*Categories of Event Messages*
+
+Below are the following types of events defined in the MidoNet system:
+
+* Changes in the virtual topology
+
+* Events concerning the MidoNet API server, including:
+
+** Changes to the connection status to the Network State Database
+
+* Events concerning MidoNet Agents, including:
+
+** Changes to the connection status to the Network State Database
+
+** Changes affecting the status of network interfaces (for example, physical
+network interfaces and taps)
+
+** Daemons starting and exiting

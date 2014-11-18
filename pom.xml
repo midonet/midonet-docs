@@ -16,6 +16,7 @@
     <modules>
         <module>build/quick-start-guide_rhel-7_icehouse</module>
         <module>build/quick-start-guide_ubuntu-1404_icehouse</module>
+        <module>build/operation-guide</module>
         <module>build/rest-api</module>
         <module>tools/midonet-docs-maven-plugin</module>
     </modules>

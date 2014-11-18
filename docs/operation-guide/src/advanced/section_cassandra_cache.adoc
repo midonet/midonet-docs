@@ -1,0 +1,19 @@
+[[cassandra_cache]]
+= Cassandra cache
+
+This section describes details relative to the Cassandra-based implementation of
+the Cassandra cache used for connection tracking and NAT mappings.
+
+*Client library and normal operation*
+
+Cassandra operations are now asynchronous, so losing connectivity to Cassandra
+should not impact simulations.
+
+The loss of connectivity to a majority of nodes creates a risk that connections
+will break on vport migration or MidoNet restart. But this is a low risk if the
+operator can avoid vport migrations and MidoNet Agent restarts until Cassandra
+is returned to normal operation.
+
+To summarize, MidoNet can function with Cassandra down (but vport migrations and
+agent restarts may break connections) so it should only be tolerated for very
+brief periods.

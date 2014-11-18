@@ -1,0 +1,98 @@
+[[midolman]]
+= Monitoring Midolman Agents
+
+MidoNet Agents expose a set of internal metrics that you can use to monitor the
+performance and health of agent nodes.
+
+The install_plugins.sh script can configure all the relevant Munin plugins.
+
+Below are descriptions of the graphs resulting from the example Munin
+configurations provided in the MidoNet deployment repository. The graphs are
+built from a subset of the Midolman JMX service. The available graphs are:
+
+*Current Pended Packets*
+
+Midolman simulates a single packet for each wildcard-flow match. When a packet A
+is being simulated, if another packet B with the same flow match appears, it
+will be pended until A finishes its simulation. At this point, B will be sent
+straight to the datapath with the same actions as A applied. This metric
+displays the total count of pended packets at a given point in time. Ideally,
+this value should be as low as possible. Large values indicate that Midolman is
+being flooded with packets with identical matches. A steadily growing figure may
+also indicate that pended packets are not being executed, which is likely caused
+by a bug.
+
+*Datapath Flows*
+
+Shows the count of currently active flows in the datapath, and the rate of
+creation. This depends significantly on the nature of the traffic.
+
+*Wildcard Flows*
+
+Shows the count of currently active wildcard flows inside Midolman. This number
+should be similar to the Datapath Flow count, but not necessarily equal.
+
+*Simulation Latency*
+
+Shows the time taken by Midolman to run the simulation of packets through the
+virtual topology. This value is fundamental for network latency.
+
+*Wildcard Flow Table Latency*
+
+Shows the access times to Midolman's internal wildcard-flow table. This value is
+relevant for network latency.
+
+*Throughput*
+
+Shows the packets per second that are being processed and dropped. When Midolman
+becomes saturated, the expected behavior is to stabilize processed packets in a
+relatively flat line, increasing the dropped rate with any additional traffic.
+However, pressure from the Netlink queue may cause performance degradation.
+
+Additionally, some graphs are provided to monitor the state of the JVM running Midolman.
+
+*JVM Non-Heap Summary*
+
+Shows off-heap memory usage, which consists of mainly buffer pools used for
+messages to/from the Netlink layer.
+
+*JVM Heap Summary*
+
+Shows per-generation stats. Midolman has very specific memory-usage constraints
+because it aims for a very low memory and CPU footprint. At the same time,
+simulations generate a significant amount of short-lived garbage.
+
+* Eden is configured as the largest generation trying to hold as much garbage as
+possible. However, it is likely that it fills up frequently under high traffic,
+which may imply that some short-lived objects get promoted to the old generation
+and garbage is collected soon afterward.
+
+* The Old Generation is expected to contain a baseline of long-lived objects
+that get reused during simulations. An amount of short-lived objects may also be
+pushed from the young generation, eventually also filling the old generation and
+triggering a GC event that will collect them. This will show as a see-saw
+pattern in the "Old used". The see-saw should converge to oscillating between
+stable max./min. values on top of the long-lived objects baseline.
+
+** Large spikes indicate higher CPU consumption in GC and are usually associated
+with a certain throughput degradation. You may slightly alleviate this by
+increasing the size of the Eden.
+
+* JVM GC times: shows the duration of the last garbage collection performed by
+the ConcurrentMarkSweep's collector, (which runs only on the old generation). It
+is closely associated with the see-saw pattern described above.
+
+** Note that these times do not stop the application completely, because part of
+the work is done concurrently. The main impact is in CPU "stolen" from Midolman.
+
+Munin offers some generic metrics that are very relevant to understanding the
+performance of Midolman.
+
+*CPU Usage*
+
+Under high traffic, Midolman should tend to saturate all CPUs, reflecting in the
+graph as high "user" utilization and little or no "idle". Note that "user" may
+include other processes, so especially in Gateway Nodes, you should verify that
+only Midolman is consuming most of CPU time dedicated to user processes. High
+"system", "iowait" indicators are clear indication of high load, excessive
+context switching, and contention or other problems on the host.

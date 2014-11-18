@@ -1,0 +1,151 @@
+[[midonet_rule_chain_example]]
+= MidoNet rule chain example
+
+This example shows how you can use the MidoNet CLI to display the rule chains
+used to implement security groups.
+
+MidoNet implements security groups by configuring rule chains on a network
+(bridge) port basis.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Assumptions
+
+For this example, assume the following network conditions:
+
+* A tenant named "demo"
+
+* A network (bridge) named demo-private-net
+
+* A VM with a private network IP address of 172.16.3.3 and a MAC address of
+fa:16:3e:fb:19:07
+
+You configured a security group that allowed:
+
+* Ingress traffic from TCP port 5900 (Virtual Network Computing)
+
+* Ingress traffic from TCP port 22 (SSH)
+
+* Ingress traffic from TCP port 80 (HTTP)
+
+* Ingress ICMP traffic
+
+== Listing the Bridges for the Tenant
+
+Rule chains relating to OpenStack security groups are implemented on the network
+(bridge) ports.
+
+To list the bridge(s) on the tenant and show the demo-private-net network
+(bridge):
+
+. Enter the command:
++
+[source]
+midonet> list bridge
+bridge bridge0 name demo-private-net state up
+
+== Listing the Ports on the Bridge
+
+To list information about the rule chains configured on the bridge ports, enter
+the command:
+
+[source]
+midonet> bridge bridge0 list port
+port port0 device bridge0 state up
+port port1 device bridge0 state up infilter chain2 outfilter chain3
+port port2 device bridge0 state up peer router1:port1
+
+[NOTE]
+ports with infilter (pre-routing) and outfilter (post-routing) chains are
+connected to VMs. port1 is connected to a VM.
+
+== Listing the Rules for the Inbound Chain on a Port
+
+To list the pre-routing rule chain for port 1:
+
+. Enter the command:
++
+[source]
+midonet> chain chain2 list rule
+rule rule0 ethertype 2048 src !172.16.3.3 proto 0 tos 0 pos 1 type drop
+rule rule1 hw-src !fa:16:3e:fb:19:07 proto 0 tos 0 pos 2 type drop
+rule rule2 proto 0 tos 0 flow return-flow pos 3 type accept
+rule rule3 proto 0 tos 0 pos 4 type jump jump-to chain4
+rule rule4 ethertype !2054 proto 0 tos 0 pos 5 type drop
+
+The pre-routing rule chain contains the following instructions:
+
+* rule0 says: for packets that match the ethertype 2048 (IPv4) that do not match
+the source IP address 172.16.3.3 (the private IP address of the VM), drop these
+packets. This prevents the port's VM from sending packets with a forged IP
+address.
+
+* rule1 says: for packets with a hardware source that does not match the listed
+source MAC address (the VM's MAC address), drop these packets. This prevents the
+VM from sending packets with a forged MAC address.
+
+* rule2 says: for packets that match a return flow (that is, a packet that
+belongs to a connection already known to MidoNet), accept these packets.
+
+* rule3 says: for packets that were not dropped or accepted as a result of
+matching previous rules, allow these packets to jump to the indicated chain
+(chain4).
+
+* rule4 says: for packets that do not match the ethertype 2054 (ARP packets),
+drop these packets.
+
+== Listing the OpenStack Security Group Rule Chain
+
+You can list all the rule chains and then look at the rule chain for the
+OpenStack security group.
+
+To list all the rule chains and examine specific rule chains:
+
+. Enter the command:
++
+[source]
+midonet> list chain
+chain chain5 name OS_SG_050593ed-56ad-44ef-8489-4052d02d99ff_INGRESS
+chain chain0 name OS_PRE_ROUTING_5a151b0b-dea7-4918-bd17-876c1f7f5c64
+chain chain1 name OS_POST_ROUTING_5a151b0b-dea7-4918-bd17-876c1f7f5c64
+chain chain6 name OS_SG_01fce1b8-c277-4a37-a8cc-86732eea186d_INGRESS
+chain chain4 name OS_SG_050593ed-56ad-44ef-8489-4052d02d99ff_EGRESS
+chain chain7 name OS_SG_01fce1b8-c277-4a37-a8cc-86732eea186d_EGRESS
+chain chain2 name OS_PORT_6f72342b-4947-432f-8d01-0cf4e4b8d049_INBOUND
+chain chain3 name OS_PORT_6f72342b-4947-432f-8d01-0cf4e4b8d049_OUTBOUND
++
+Note chain5, identified as a chain for an OpenStack security group (OS_SG) for
+INGRESS traffic.
++
+To look at rule chain5:
+
+. Enter the command:
++
+[source]
+midonet> chain chain5 list rule
+rule rule0 ethertype 2048 src 0.0.0.0/0 proto 6 tos 0 dst-port 5900 pos 1 type accept
+rule rule1 ethertype 2048 src 0.0.0.0/0 proto 1 tos 0 pos 2 type accept
+rule rule2 ethertype 2048 src 0.0.0.0/0 proto 6 tos 0 dst-port 22 pos 3 type accept
+rule rule3 ethertype 2048 src 0.0.0.0/0 proto 6 tos 0 dst-port 80 pos 4 type accept
+
+The above output shows the rule chain used to implement the security group you
+configured in OpenStack. These rules contain the following instructions:
+
+* All the rules match ethertype 2048 (IPv4) packets.
+
+* All the rules match traffic from any source network (0.0.0.0/0).
+
+* All the rules, except rule1, match packets of IP protocol 6 (TCP) and accept
+them. rule1 matches packets of the ICMP type and accepts them.
+
+* In addition to the other matches already mentioned, the rules match and accept
+the packets according to the security group rules you defined in OpenStack,
+specifically, packets with the destinations:[[ul_izv_nxc_q4]]
+
+* TCP port 5900 (VNC)
+
+* TCP port 22 (SSH)
+
+* TCP port 80 (HTTP)

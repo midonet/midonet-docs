@@ -1,0 +1,43 @@
+[[nsdb_connectivity]]
+= Network State Database connectivity
+
+In order to modify the MidoNet Network State Database, you must configure the
+following parameters in your web.xml file:
+
+* zookeeper-zookeeper_hosts
+
+* zookeeper-session_timeout
+
+* cassandra-servers
+
+Below are example web.xml snippets.
+
+[NOTE]
+The rest of the configuration is cloud-controller dependent and is covered in
+the relevant sections of the documentation.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== zookeeper-zookeeper_hosts
+
+Lists the ZooKeeper hosts used to store the MidoNet configuration data. The
+entries are comma delimited:
+
+[source]
+<context-param>
+    <param-name>zookeeper-zookeeper_hosts</param-name>
+    <param-value>192.168.1.100:2181,192.168.1.101:2181,192.168.1.102:2181</param-value>
+</context-param>
+
+== zookeeper-session_timeout
+
+Sets the timeout value (in milliseconds) after which ZooKeeper considers clients
+to be disconnected from the ZooKeeper server:
+
+[source]
+<context-param>
+    <param-name>zookeeper-session_timeout</param-name>
+    <param-value>30000</param-value>
+</context-param>

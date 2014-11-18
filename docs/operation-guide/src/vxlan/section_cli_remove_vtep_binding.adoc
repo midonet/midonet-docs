@@ -1,0 +1,31 @@
+[[cli_remove_vtep_binding]]
+= Removing a VTEP binding
+
+Use this command to disassociate a port-VLAN pair from the Neutron network's
+LogicalSwitch.
+
+*Syntax*
+
+[source]
+vtep management-ip vtep-ip-address binding delete network-id neutron-network-id
+
+*Result*
+
+You can delete a single VTEP binding to a Neutron network. If that was the
+VTEP's last remaining port-VLAN pair bound to the network, then the Neutron
+network's vxlan port gets deleted.
+
+*Example*
+
+Examples of successfully run commands:
+
+[source]
+midonet> vtep management-ip 119.15.112.22 delete binding physical-port in1 vlan 143
+
+An example of a unsuccessful command:
+
+[source]
+midonet> vtep management-ip 119.15.112.22 delete binding
+Syntax error at: ...binding
+midonet> vtep management-ip 119.15.112.22 delete binding physical-port in1
+Syntax error at: ...binding physical-port in1

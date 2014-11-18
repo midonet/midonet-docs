@@ -1,0 +1,15 @@
+[[removing_a_host]]
+= Removing a host
+
+Use this procedure to remove inactive hosts.
+
+. Enter the command to list the hosts:
++
+[source]
+midonet> list host
+host host0 name precise64 alive true
+
+. Enter the command to delete the desired host (identified by its alias):
++
+[source]
+midonet> host host0 delete

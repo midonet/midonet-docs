@@ -1,0 +1,57 @@
+[[cli_show_vtep]]
+= Obtaining information about a VTEP
+
+Use this command to obtain information about a selected VTEP.
+
+*Syntax*
+
+[source]
+vtep management-ip vtep-ip-address show property
+
+where _property_ is one of the following VTEP's attributes:
+
+* name
+
+* description
+
+* management-ip
+
+* management-port
+
+*Result*
+
+The command returns the following information about the VTEP:
+
+* name
+
+* description
+
+* management IP address (the same as the IP used with the command)
+
+* mgmt_port (the same as the port values used by the command)
+
+* tunnel IPs
+
+* connection state (one of: connected, disconnected, error. The state is error
+if the endpoint is not a VXLAN End Point)
+
+* ports - a list of (port_name, port_description, port_bindings) triplets, where
+port_bindings is a list of (vlan, neutronNetworkId, logicalSwitchName).
+
+*Example*
+
+Successful command:
+
+[source]
+midonet> vtep management-ip 119.15.112.22 show name
+br0
+
+[source]
+midonet> vtep vtep0 show management-ip
+119.15.112.22
+
+Unsuccessful command:
+
+[source]
+midonet> vtep management-ip 119.15.112.22 show id
+Syntax error at: ...id

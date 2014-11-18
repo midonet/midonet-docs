@@ -1,0 +1,31 @@
+[[viewing_host_information]]
+= Viewing host information
+
+Use this procedure to view information about hosts.
+
+* To list the hosts enter the command:
++
+[source]
+midonet> list host
+host host0 name controller alive true
+host host2 name compute1 alive true
+host host3 name compute3 alive false
+host host1 name compute2 alive false
+
+* To list the interfaces on a certain host enter the command:
++
+[source]
+midonet> host host0 list interface
+iface midonet host_id host0 status 0 addresses [] mac 12:6e:b7:d0:4f:f1 mtu 1500 type Virtual endpoint DATAPATH
+iface lo host_id host0 status 3 addresses [u'127.0.0.1', u'0:0:0:0:0:0:0:1'] mac 00:00:00:00:00:00 mtu 65536 type Virtual endpoint LOCALHOST
+iface tapbf954474-ef host_id host0 status 3 addresses [u'fe80:0:0:0:dc40:9aff:feef:7b5e'] mac de:40:9a:ef:7b:5e mtu 1500 type Virtual endpoint DATAPATH
+iface eth0 host_id host0 status 3 addresses [u'192.168.0.3', u'fe80:0:0:0:f816:3eff:febe:590'] mac fa:16:3e:be:05:90 mtu 8842 type Physical endpoint PHYSICAL
+
+* To show the port binding for a certain host enter the command:
++
+[source]
+midonet> host host0 list binding
+host host0 interface tapbf954474-ef port bridge0:port0
++
+The above output shows that device tap tapbf954474-ef on host0 is currently
+connected to port0 on bridge0.

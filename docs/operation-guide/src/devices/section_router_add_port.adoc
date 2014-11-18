@@ -1,0 +1,32 @@
+[[adding_a_port_to_a_router]]
+= Adding a port to a router
+
+You need to add a port to a router to connect the router to a bridge (network)
+or another router.
+
+[NOTE]
+When using the MidoNet CLI, if necessary, use the sett command or some other
+means to access the desired tenant.
+
+. Enter the command to add a port to the desired router and specify the desired
+IP address and network for the port:
++
+[source]
+midonet> router router1 add port address 10.100.1.1 net 10.0.0.0/24
+router1:port0
++
+The above output shows the alias ("port0") assigned to the new port.
+
+. Enter the command to list port information for the router:
++
+[source]
+midonet> router router1 list port
+port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24
++
+The above output shows the:
+
+* Alias assigned to the port ("port0")
+* Device the port is attached to (router1)
+* Port's state (up)
+* Port's MAC address
+* Port's IP and network addresses

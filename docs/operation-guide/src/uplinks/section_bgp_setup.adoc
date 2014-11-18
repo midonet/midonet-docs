@@ -1,0 +1,29 @@
+[[bgp_setup]]
+= BGP Setup
+
+You set up a BGP link to connect MidoNet with an external Autonomous System
+(AS). This creates an up-link to an external network.
+
+Typically, you connect a MidoNet network to the Internet through two independent
+up-link routers. In the simple case of connecting MidoNet to the Internet via
+two BGP-enabled routers, it's best to create two ports on the virtual router and
+bind them to network interfaces in two different hosts (two Gateway Nodes). This
+will distribute load between both Gateway Nodes hosts, as well as eliminate a
+single point of failure. The two ports must be configured as a stateful port
+pair, for details, refer to xref:stateful_port_groups[].
+
+[NOTE]
+One BGP session is associated with a virtual router port. MidoNet currently only
+supports one BGP session per port.
+
+MidoNet uses quagga‘s bgpd to terminate BGP sessions on behalf of a virtual
+router. The routes that bgpd learns from its peers are added to the virtual
+router in MidoNet's topology. The quagga package is provided in the MidoNet
+release package repositories. Any system running Midolman should already have
+everything that it needs to set up the BGP. You have to keep in mind that bgpd
+processes run in the host where a particular virtual router port is bound.
+
+[IMPORTANT]
+Make sure you have the following information before setting up the BGP:
+Local and peer Autonomous System (AS) Numbers for the BGP session.
+The IP address of the BGP peer.

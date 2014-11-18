@@ -1,0 +1,126 @@
+[[appi_configuration_options]]
+= Advanced MidoNet API configuration options
+
+This section describes the configuration elements advanced users can employ.
+
+You can use the configuration elements below to perform advanced MidoNet
+configuration operations. MidoNet API configuration is stored in the
+/usr/share/midonet-api/WEB-INF/web.xml file.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== rest_api-base_uri
+
+This value overrides the default base URI of each HTTP request. You typically
+set this if you configured a proxy server for the MidoNet API server and the
+base URI that the clients use to access the MidoNet API server is different from
+the actual server's base URI:
+
+[source]
+<context-param>
+    <param-name>rest_api-base_uri</param-name>
+    <param-value>http://example.com:8080/</param-value>
+</context-param>
+
+== cors-access_control_allow_origin
+
+This value specifies the origin domains that the MidoNet API server grants
+access from. This information is required when accessing the MidoNet API server
+from client-side scripting whose origin domain is different from the MidoNet API
+server domain.
+
+'*' means allow everything:
+
+[source]
+<context-param>
+    <param-name>cors-access_control_allow_origin</param-name>
+    <param-value>*</param-value>
+</context-param>
+
+The example below shows how to allow access from 'http://example.com':
+
+[source]
+<context-param>
+    <param-name>cors-access_control_allow_origin</param-name>
+    <param-value>http://example.com</param-value>
+</context-param>
+
+== cors-access_control_allow_headers
+
+Indicates which HTTP headers can be used when making the API request for
+client-side scripting:
+
+[source]
+<context-param>
+    <param-name>cors-access_control_allow_headers</param-name>
+    <param-value>Origin, X-Auth-Token, Content-Type, Accept</param-value>
+</context-param>
+
+== cors-access_control_allow_methods
+
+Indicates which HTTP methods can be used when making the API request for
+client-side scripting:
+
+[source]
+<context-param>
+    <param-name>cors-access_control_allow_methods</param-name>
+    <param-value>GET, POST, PUT, DELETE, OPTIONS</param-value>
+</context-param>
+
+== cors-access_control_expose_headers
+
+Specifies a white list of header fields that the server exposes to the client:
+
+[source]
+<context-param>
+    <param-name>cors-access_control_expose_headers</param-name>
+    <param-value>Location</param-value>
+</context-param>
+
+== auth-tenant_admin_role
+
+Specifies the name of the tenant admin role in MidoNet. The tenant admin has
+read and write access to the resources owned by that tenant. You need to map the
+MidoNet tenant admin to the equivalent role in the external authentication
+service:
+
+[source]
+<context-param>
+    <param-name>auth-tenant_admin_role</param-name>
+    <param-value>mido_tenant_admin</param-value>
+</context-param>
+
+== auth-tenant_user_role
+
+Specifies the name of the tenant user role in MidoNet. The tenant user has
+read-only access to the resources owned by that tenant. You need to map the
+MidoNet tenant user to the equivalent role in the external authentication
+service:
+
+[source]
+<context-param>
+    <param-name>auth-tenant_user_role</param-name>
+    <param-value>mido_tenant_user</param-value>
+</context-param>
+
+== zookeeper-use_mock
+
+Indicates whether to mock ZooKeeper when running the API:
+
+[source]
+<context-param>
+    <param-name>zookeeper-use_mock</param-name>
+    <param-value>false</param-value>
+</context-param>
+
+== zookeeper-midolman_root_key
+
+Identifies the root directory in ZooKeeper:
+
+[source]
+<context-param>
+    <param-name>zookeeper-midolman_root_key</param-name>
+    <param-value>/midonet</param-value>
+</context-param>

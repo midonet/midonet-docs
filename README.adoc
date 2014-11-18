@@ -5,6 +5,7 @@ documentation:
 
 * MidoNet Quick Start Guide for RHEL 7 / Icehouse
 * MidoNet Quick Start Guide for Ubuntu 14.04 / Icehouse
+* MidoNet Operation Guide
 * MidoNet REST API
 
 The documentation is written in
@@ -64,6 +65,16 @@ Quick Start Guide for RHEL 7 / Icehouse:
 | Document sources    | `docs/quick-start-guide/src`
 | Maven project file  | `build/quick-start-guide_rhel-7_icehouse/pom.xml`
 | Outputs (HTML, PDF) | `build/quick-start-guide_rhel-7_icehouse/target/docbkx/webhelp`
+|===========================================================================================
+
+Operation Guide:
+
+[width="100%",cols="1,3",options="header"]
+|===========================================================================================
+| Purpose             | Directory
+| Document sources    | `docs/operation-guide/src`
+| Maven project file  | `build/operation-guide/pom.xml`
+| Outputs (HTML, PDF) | `build/operation-guide/target/docbkx/webhelp`
 |===========================================================================================
 
 REST API:

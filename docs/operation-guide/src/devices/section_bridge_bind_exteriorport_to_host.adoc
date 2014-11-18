@@ -1,0 +1,51 @@
+[[binding_an_exterior_port_to_a_host]]
+= Binding an exterior port to a host
+
+In order to connect a MidoNet-enabled cloud to an external network, you need to
+bind an exterior port to a host, such as a network interface card (NIC) with an
+ID of eth0, for example.
+
+. Enter the command to list the hosts:
++
+[source]
+midonet> list host
+host host0 name compute-1 alive true
+host host1 name compute-2 alive true
+
+. Enter the command to list the bridges on the current tenant:
++
+[source]
+midonet> list bridge
+bridge bridge0 name External state up
+bridge bridge1 name Management state up
+bridge bridge2 name Internal state up
+
+. Enter the command to list the ports on the desired bridge:
++
+[source]
+midonet> bridge bridge0 list port
+port port0 device bridge0 state up
+port port1 device bridge0 state up
+port port2 device bridge0 state up
+
+. Enter the command to list the interfaces on a certain host:
++
+[source]
+midonet> host host0 list interface
+iface lo host_id host0 status 3 addresses [u'127.0.0.1', u'0:0:0:0:0:0:0:1'] mac 00:00:00:00:00:00 mtu 65536 type Virtual endpoint LOCALHOST
+iface midonet host_id host0 status 0 addresses [] mac 8e:4d:60:c1:70:d7 mtu 1500 type Virtual endpoint DATAPATH
+iface eth1 host_id host0 status 3 addresses [u'fe80:0:0:0:250:56ff:fe93:7c35'] mac 00:50:56:93:7c:35 mtu 1500 type Physical endpoint PHYSICAL
+iface eth0 host_id host0 status 3 addresses [u'10.1.2.200', u'fe80:0:0:0:250:56ff:fe93:c9a4'] mac 00:50:56:93:c9:a4 mtu 1500 type Physical endpoint PHYSICAL
+
+. Enter the command to bind a certain host to virtual port:
++
+[source]
+midonet> host host0 add binding
+host interface port
+
+. Enter the command to bind a virtual port on the bridge with a physical
+interface on the host:
++
+[source]
+midonet> host host0 add binding port bridge0:port0 interface eth1
+host host0 interface eth1 port bridge0:port0

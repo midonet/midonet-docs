@@ -1,0 +1,7 @@
+[[routing]]
+= Routing
+
+Routing in a MidoNet-enabled network works the same as on physical routers.
+Virtual routers route packets to locally connected networks and hosts directly
+connected to it and forward packets to gateways for delivery to external
+networks.

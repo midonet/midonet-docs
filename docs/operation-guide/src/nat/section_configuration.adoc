@@ -1,0 +1,42 @@
+[[snat_dnat_revdnat]]
+= Configuring SNAT, DNAT, and REV_DNAT
+
+The sections below describe how to configure SNAT, DNAT, and REV_DNAT using
+rule-chains.
+
+To configure SNAT and DNAT rule chains, you need to specify:
+
+* The rule type, for example, snat or dnat
+
+* The action, for example, accept
+
+* The translation target(s)
+
+Using the MidoNet CLI, you don't have to specify an address or port range if it
+only has one member. However, when configuring Dynamic SNAT you must explicitly
+set ports or port ranges with the CLI command, otherwise, it will be considered
+a static NAT and connection tracking will not work.
+
+Below are examples of valid NAT targets in the CLI syntax:
+
+[source]
+192.168.1.1:80
+192.168.1.1-192.168..1.254
+192.168.1.1:80-88
+192.168.1.1-192.168.1.254:80-88
+
+The in-port you specify in DNAT rules matches the virtual port on a virtual
+router or bridge through which the packet ingressed the virtual device that is
+currently processing the packet. The out-port you specify in SNAT rules matches
+the port through which the packet egresses the virtual device that is currently
+processing the packet.
+
+For REV_SNAT and REV-DNAT rules, as mentioned earlier, when a packet matches one
+of these rules, the rule looks up the reverse translation in a centralized map
+(soft state) and then applies it to the packet. That is why these rules don't
+need to specify the translation target like for DNAT and SNAT.
+
+Below is a CLI example of a DNAT rule:
+
+[source]
+chain chain9 add rule dst 198.51.100.4 in-ports router1:port0 pos 1 type dnat action accept target 10.100.1.150

@@ -1,0 +1,73 @@
+[[authentication_roles]]
+
+= Roles in MidoNet
+
+The MidoNet API implements an RBAC mechanism to perform authorization.
+
+Defined in the AuthRole class, the roles in MidoNet are:
+
+* Admin: The root administrator of the system. Users with this role are allowed
+to do all operations.
+
+* TenantAdmin: Users with this role have write and read access to their own
+resources.
+
+* TenantUser: Users with this role only have read access to their own resources.
+
+[NOTE]
+Keep in mind that the RBAC policies defined in the external identity services
+are not applied to MidoNet RBAC. For example, the type of access you receive in
+Keystone does not directly map to the exact same access in MidoNet. The MidoNet
+API strictly follows the policies for the three roles described above.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Creating admin roles for MidoNet
+
+The authorization service relies on the entries specified in the web.xml file to
+determine the role mapping. web.xml is the configuration file for the MidoNet
+API and is located in:
+
+[source]
+/usr/share/midonet-api/WEB-INF/web.xml
+
+The configuration elements you configure in the web.xml file consist of a name
+and value pair. When you add a name and value pair, you need to encode them in
+XML.
+
+You can use the authorization service to convert the roles in an external
+service (like OpenStack Keystone) to those in MidoNet. The example below shows
+how to create separate admin roles (auth-admin-role, auth-tenant-admin, and
+auth-tenant_user_role) for MidoNet.
+
+.Admin Roles
+[options="header"]
+|===============
+|Name|Value|Description
+|auth-admin_role|[name]|
+    Specifies the name for the admin role in MidoNet.
+|auth-tenant_admin_role|[name]|
+    Specifies the name for the tenant admin role in MidoNet.
+|auth-tenant_user_role|[name]|
+    Specifies the name for the tenant user role in MidoNet.
+|===============
+
+[source]
+...
+<context-param>
+    <param-name>auth-admin_role</param-name>
+    <param-value>mido_admin</param-value> </context-param>
+<context-param>
+    <param-name>auth-tenant_admin_role</param-name>
+    <param-value>mido_tenant_admin</param-value> </context-param>
+<context-param>
+    <param-name>auth-tenant_user_role</param-name>
+    <param-value>mido_tenant_user</param-value>
+</context-param>
+...
+
+In the above example, mido_admin, mido_tenant_admin, and mido_tenant_user roles
+stored in the external service are translated to admin, tenant_admin, and
+tenant_user in Midonet, respectively.

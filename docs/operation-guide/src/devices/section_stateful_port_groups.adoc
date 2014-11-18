@@ -1,0 +1,90 @@
+[[stateful_port_groups]]
+= Stateful port groups
+
+MidoNet features stateful port groups, which are groups of virtual ports
+(typically two) that are logically associated, usually to perform load balancing
+or for link redundancy.
+
+For such ports MidoNet keeps state local to the two endpoints of a connection.
+In most cases, connections that traverse MidoNet do so between a single pair of
+ports. Typical cases include a router with two uplink BGP ports, or an L2GW with
+two ports connected to a physical L2 network. In both cases, the pair of ports
+becomes a set of ports because packets may return through different paths. Those
+port pairs will share state.
+
+You configure stateful port groups in the MidoNet CLI, using the port-group
+command.
+
+== Creating stateful port groups
+
+Follow the steps of this procedure to create a stateful group of ports, using
+the MidoNet CLI.
+
+Before you launch the MidoNet CLI you need to find out the OpenStack UUID of the
+tenant on which you want to create your port group. To this end, you can use
+keystone. Issue the following commands in the terminal on the MidoNet host:
+
+[source]
+[root@rhos5-allinone-jenkins ~]# source keystonerc_admin
+[root@rhos5-allinone-jenkins ~(keystone_admin)]# keystone tenant-list
++----------------------------------+----------+---------+
+|                id                |   name   | enabled |
++----------------------------------+----------+---------+
+| 7a4937fa604a425e867f085427cc351e |  admin   |   True  |
+| 037b382a5706483a822d0f7b3b2a9555 | alt_demo |   True  |
+| 0a1bf57198074c779894776a9d002146 |   demo   |   True  |
+| 28c40ac757e746f08747cdb32a83c40b | services |   True  |
++----------------------------------+----------+---------+
+
+The output of the command shows the full list of tenants. For this procedure we
+will use the 'admin' tenant, 7a4937fa604a425e867f085427cc351e.
+
+. In the MidoNet CLI determine the list of available routers.
++
+[source]
+midonet> list router
+router router0 name MidoNet Provider Router state up
+router router1 name TenantRouter state up
++
+Let's assume that the router whose ports you are going add to the port group is
+MidoNet Provider Router, router0.
+
+. Now list the ports on router0.
++
+[source]
+midonet> router router0 list port
+port port0 device router0 state up mac 02:c2:0f:b0:f2:68 address 100.100.100.1 net 100.100.100.0/30
+port port1 device router0 state up mac 02:cb:3d:85:89:2a address 172.168.0.1 net 172.168.0.0/16
+port port2 device router0 state up mac 02:46:87:89:49:41 address 200.200.200.1 net 200.200.200.0/24 peer bridge0:port0
+port port3 device router0 state up mac 02:6b:9f:0d:c4:a8 address 169.254.255.1 net 169.254.255.0/30
++
+You want to add port0 and port1 on the router to load balance the BGP traffic on the provider router.
+
+. Load your tenant using the 'sett' command.
++
+[source]
+midonet-cli> sett 7a4937fa604a425e867f085427cc351e
+tenant_id: 7a4937fa604a425e867f085427cc351e
+
+. Create a stateful port group using the 'port-group create' command.
++
+[source]
+midonet-cli> port-group create name SPG stateful true
+pgroup0
+
+. Add the two ports on the provider router that you want to participate in load
+balancing, to the port group you just created.
++
+[source]
+midonet> port-group pgroup0 add member port router0:port0
+port-group pgroup0 port router0:port0
+midonet> port-group pgroup0 add member port router0:port1
+port-group pgroup0 port router0:port1
+
+You have successfully added both router ports to the stateful port group, which
+you can verify by issuing the following command:
+
+[source]
+midonet> port-group pgroup0 list member
+port-group pgroup0 port router0:port1
+port-group pgroup0 port router0:port0

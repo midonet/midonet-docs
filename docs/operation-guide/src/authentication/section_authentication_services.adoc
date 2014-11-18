@@ -1,0 +1,53 @@
+[[authentication_services]]
+
+= Available authentication services in MidoNet
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+There are two auth modes in MidoNet API: KeystoneAuthService and
+MockAuthService.
+
+This section describes the Keystone authentication service, mock authentication,
+and how to select the desired service using the web.xml file.
+
+== Keystone-specific configurations
+
+In order to use the OpenStack Keystone authentication service with MidoNet, you
+must configure settings in your web.xml file.
+
+This is how you specify Keystone for the authentication service. The name of the
+configuration element is: keystone-service_protocol and the allowed values are:
+http, https. http allows you to access Keystone using plain text HTTP. However,
+if you specify https, the connection between the MidoNet API server and the
+Keystone authentication server will be encrypted, which is recommended. The
+example below shows the name and value key pair encoded in XML used to configure
+encrypted communication using Keystone.
+
+.Keystone Service Protocols
+[options="header"]
+|===============
+| Parameter Name | Value | Description
+| 2*|keystone-service_protocol | http | Use plain HTTP to communicate with the Keystone server.
+| | https | Use encrypted HTTPS to communicate with the Keystone server.
+|===============
+
+Edit the `/usr/share/midonet-api/WEB-INF/web.xml` file to contain the desired
+service protocol:
+
+[source]
+<context-param>
+    <param-name>keystone-service_protocol</param-name>
+    <param-value>https</param-value>
+</context-param>
+
+== About mock authentication
+
+Mock authentication mocks an authentication system by mapping fake tokens to any
+roles in the `web.xml` configuration file. If a token mapped to the admin role
+is used in the API request, authentication and authorization are effectively
+disabled.
+
+[WARNING]
+This mode is used for testing purposes but should not be used in production.

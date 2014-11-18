@@ -1,0 +1,10 @@
+[[device_abstractions]]
+= Device abstractions
+
+The major resources in MidoNet's virtual network model are routers, bridges,
+ports, load balancers, VTEPs, chains, and rules.
+
+Routers, bridges, and ports are devices that comprise a virtual network topology
+and chains and rules are policies applied to the network elements.
+
+MidoNet lets you create routers and bridges.

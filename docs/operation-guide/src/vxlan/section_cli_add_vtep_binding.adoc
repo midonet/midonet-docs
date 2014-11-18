@@ -1,0 +1,56 @@
+[[cli_add_vtep_binding]]
+= Adding a VTEP binding
+
+Use this command to bridge the port-VLAN pair on a VTEP to a specified Neutron
+network.
+
+*Syntax*
+
+[source]
+vtep management-ip vtep-ip-address add binding physical-port port-id vlan vlan-id network-id neutron-network-id
+
+where _neutron-network-id_ is the VNI (Virtual Network Id, equivalent to the
+vxlan tunnel key) of the Neutron network to which the port-VLAN assignment is to
+be made.
+
+*Result*
+
+If the command is successful, the result is a description of a MidoNet vbridge
+"vxlan" port that represents the Neutron network's wiring to the VTEP
+(VTEP=mngmnt_ip used with the command). The vxlan port may already have existed
+if another port-VLAN pair on that VTEP was already bound to the same Neutron
+network.
+
+A vxlan port's description includes:
+
+* a list of all the port-vlan bindings specific to that Neutron network AND
+hardware VTEP.
+
+* the Name of the logical bridge that represents the Neutron network on the VTEP
+side. It's a combination of the Neutron network name and UUID.
+
+* the VNI (Virtual Network Id, equivalent to the VXLAN tunnel key) that was
+assigned to this Neutron network. The selected VNID is unique within that VTEP.
+
+The command will fail in these conditions:
+
+* if a given port-VLAN pair is already bridged to another Neutron network.
+
+* if the Neutron network is already bridged to a port-VLAN pair on another
+hardware VTEP.
+
+*Example*
+
+Successful command:
+
+[source]
+midonet> vtep management-ip 119.15.112.22 add binding physical-port in1 vlan 143 network-id 9082e813-38f1-4795-8844-8fc35ec0b19b
+management-ip 119.15.112.22 physical-port in1 vlan 143 network-id 9082e813-38f1-4795-8844-8fc35ec0b19b
+
+Unsuccessful command:
+
+[source]
+midonet> vtep management-ip 119.15.112.22 add binding physical-port in1 vlan 143 network-id 9082e813-38f1-4795-8844-8fc35ec0b19b
+Internal error: {"message":"An internal server error has occurred, please try again.","code":500}
+midonet> vtep management-ip 119.15.112.22 add binding physical-port in1 vlan 144 network-id 9082e813-38f1-4795-8844-8fc35ec00000
+Internal error: {"message":"No bridge with ID 9082e813-38f1-4795-8844-8fc35ec00000 exists.","code":400}

@@ -1,0 +1,53 @@
+[[packet_flow_within_rule_chain]]
+= A packet's flow within a rule chain
+
+A rule chain is invoked on a packet one rule at a time.
+
+Every rule has a condition: a condition is a set of attributes to match on the
+packet – this is explained more below – and the packet is checked against this
+condition. If the packet does not meet the condition, control returns to the
+rule chain, which either invokes the next rule (if there is one), or returns to
+its caller. Note that the rule chain's caller is not necessarily the router – it
+may be another rule chain, invoked by a jump rule, described below. If the
+packet does match the rule's condition, then what happens to the packet depends
+on the rule's type. For a simple rule type, such as a DROP rule, the rule
+returns a next_action DROP to its chain, which then returns DROP to its caller,
+and so on, until the router's invocation of the initial (pre- or post-routing)
+rule chain returns and the router acts on the DROP next_action, as described in
+the previous section.
+
+The invocation of a rule looks just like the invocation of a rule chain in the
+previous section:
+
+* If the rule is invoked in pre-routing: process the rule on a packet on an
+ingress port.
+
+* If the rule is invoked in post-routing: process the rule on a packet on an
+ingress, egress port.
+
+These invocations return (next_action, new_packet) just as described for rule
+chains. However, the set of valid next_actions is different and is intended to
+instruct the rule chain on how to continue processing the flow. The valid
+next_actions are:
+
+* ACCEPT: The rule chain should stop processing the packet and return (ACCEPT,
+new_packet) to its own caller.
+
+* CONTINUE: The rule chain should invoke the next rule in the chain with the
+packet emitted by the rule. If there is no next rule, the rule chain should
+return (CONTINUE, new_packet) to its caller.
+
+* DROP: The rule chain should stop processing the packet and return (DROP,
+new_packet) to its own caller.
+
+* RETURN: The rule chain should stop processing the packet and return (CONTINUE,
+new_packet) to its own caller. Note that this is distinct from both the ACCEPT
+and CONTINUE actions because no more rules in this chain will be executed, but
+more rules in calling chains may be executed.
+
+* REJECT: The rule chain should stop processing the packet and return (REJECT,
+new_packet) to its own caller.
+
+The ways packets are handled by specific rules depend on their types. The
+following sections explain how each rule type is constructed and how each rule
+type affects the packets that match its condition.

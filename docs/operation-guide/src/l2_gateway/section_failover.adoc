@@ -1,0 +1,28 @@
+[[l2_gateway_failover]]
+= Fail-over/Fail-back
+
+In combination with the Spanning Tree Protocol (STP) enabled on the physical
+bridges, MidoNet VABs are able to provide fail-over capabilities by forwarding
+Bridge Protocol Data Unit (BPDU) frames across their trunk ports.
+
+Assuming that both physical switches belong to the same bridged network, as a
+result of the STP, both devices detect a loop through MidoNet's VAB and one
+switch chooses to block its trunk. For example, let's assume the left switch
+blocks. The VAB only sees ingress traffic from the right trunk, and thus
+associates all source MAC addresses seen in those frames to the right trunk.
+
+A variety of events, including failures in the network, may result in the
+switches deciding to invert the state of the trunks. An example could be MidoNet
+losing connection to the left switch, and thus stop forwarding BPDUs to/from the
+right bridge and undoing the loop.
+
+In such a fail-over scenario, traffic would start flowing from the other switch.
+With this change, MidoNet now detects ingress traffic on a new port, and thus
+updates its internal MAC-port associations. If the former state of the topology
+is restored (that is, MidoNet recovers connectivity to the left switch), MidoNet
+will again react and update its MAC-port associations.
+
+The fail-over/fail-back times depend on the STP configuration on the switches,
+mainly the "forward delay," and the nature of the traffic. With standard values,
+and continuous traffic ingressing from the trunks, fail-over and fail-back
+cycles should be completed in 50 seconds, plus MAC learning time.

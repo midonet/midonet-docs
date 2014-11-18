@@ -1,0 +1,60 @@
+[[example_condition_2]]
+= Example condition 2
+
+Same as Example Condition 1, except here assume that you're structuring your
+rules differently. You want to have one DROP rule at the end of the chain that
+matches all packets; earlier in the chain you place ACCEPT rules that match
+packets/flows that are specifically allowed through.
+
+The ACCEPT rule for the traffic allowed by Example Condition 1 would have a
+Condition with these attributes:
+
+In the rule language, the chain would have:
+
+ACCEPT when src=(10.0.0.0, 16) OR dst=(10.0.5.0, 24)
+
+Rule at the end:
+
+DROP all other packets
+
+To create a rule chain with the above attributes:
+
+. If necessary, use the sett command or some other means to access the desired
+tenant.
++
+[source]
+midonet> sett 10a83af63f9342118433c3a43a329528
+tenant_id: 10a83af63f9342118433c3a43a329528
+
+. Enter the command to create a new rule chain and assign it a name:
++
+[source]
+midonet> chain create name "accept_src_dst_mynetwork_INBOUND"
+chain11
+
+. Enter the command to accept IPv4 traffic from the source 10.0.0.0/16:
++
+[source]
+midonet> chain chain11 add rule ethertype 2048 src 10.0.0.0/16 type accept
+chain11:rule0
+
+. Enter the command to accept IPv4 traffic with the destination 10.0.5.0/24:
++
+[source]
+midonet> chain chain11 add rule ethertype 2048 dst 10.0.5.0/24 type accept
+chain11:rule1
+
+. Enter the command to drop all IPv4 traffic (that didn't match the attributes
+in the preceding rules):
++
+[source]
+midonet> chain chain11 add rule ethertype 2048 pos 3 type drop
+chain11:rule2
+
+. Enter the command to list the rules added to the new rule chain:
++
+[source]
+midonet> chain chain11 list rule
+rule rule1 ethertype 2048 dst 10.0.5.0/24 proto 0 tos 0 pos 1 type accept
+rule rule0 ethertype 2048 src 10.0.0.0/16 proto 0 tos 0 pos 2 type accept
+rule rule3 ethertype 2048 proto 0 tos 0 pos 3 type drop

@@ -1,0 +1,6 @@
+[[connecting_devices]]
+= Connecting devices
+
+You can create a virtual topology by connecting routers to bridges, to switches,
+and to other routers.
+

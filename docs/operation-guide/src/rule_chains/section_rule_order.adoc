@@ -1,0 +1,19 @@
+[[rule_order]]
+= Rule order
+
+Rules are stored as an ordered list in a rule chain and are evaluated in the
+listed order.
+
+A specific rule is not evaluated in the event any preceding rules (or rules in
+chains that may have been 'jumped to') matched and resulted in an action (e.g.
+REJECT, ACCEPT) that terminates the processing of the packet in the chain.
+
+The position of a rule in a rule chain is not an attribute of the rule. In the
+REST API, the rule-creation method specifies an integer position for the new
+rule in the rule chain. But that position is only meaningful relative to the
+rules already existing in the chain and is only used to modify the current rule
+list.
+
+[NOTE]
+Please read xref:packet_flow_within_rule_chain[] for an overview of rule-chain
+processing.

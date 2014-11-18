@@ -1,0 +1,17 @@
+[[gatewa_node_services]]
+= Services on the Gateway Nodes
+
+This section lists the TCP/UDP ports used by the services on the Gateway Nodes.
+
+[options="header"]
+|===============
+|Category|Service|Prot ocol|Port|Self|Misc.|Comment
+|MidoNet|midolman|TCP|random|x| |
+    midolman LISTEN"s to a TCP high number port. The port number is randomly
+    selected on each MN Agent host.
+|MidoNet|midolman|TCP|7200|x|x|
+    JMX monitoring port If you're using this port to monitor health, enable
+    communication from the monitoring server.
+|MidoNet|quagga bgpd control|TCP|2606|x| |NetworkNameSpace mbgp[Peer Number]_ns
+|MidoNet|quagga bgpd bgp|TCP|179| |BGP neighbor|NetworkNameSpace mbgp[Peer Number]_ns
+|===============

@@ -1,0 +1,58 @@
+[[connect_to_vtep]]
+= Connecting to the VTEP
+
+Use this procedure to connect to a hardware VTEP.
+
+This will allow you to establish a connection between the VTEP and a Neutron
+network.
+
+. Refer to the documentation of your switch to enable VXLAN on it, then
+configure it as a VTEP with all the required parameters.
++
+At a minimum, you need to set up these parameters for your hardware VTEP:
++
+* VLAN-port mapping (for the physical servers that you want to be accessible to
+your virtual hosts).
++
+* the VTEP management interface IP and port.
+
+. After setting up the VTEP you might need to test the connection to it, to make
+sure it's up and running.
++
+For example, if the VTEP management interface has been properly configured and
+it is 'up', you should be able to establish a successful telnet connection
+(providing telnet is allowed on the switch).
+
+. Enable VXLAN service in Midonet, by modifying the midonet-api config file
+/usr/share/midonet-api/WEB-INF/web.xml.
+
+.. Locate this snippet in the midonet-api config file
+/usr/share/midonet-api/WEB-INF/web.xml:
++
+[source]
+<!-- VXLAN gateway configuration -->
+<context-param>
+    <param-name>midobrain-vxgw_enabled</param-name>
+    <param-value>false</param-value>
+</context-param>
++
+and change the value of the <param-value> tag to 'true'.
+
+.. Restart Tomcat to apply the change.
+
+. Having ensured that the VTEP has been properly configured, add the VTEP to the
+MidoNet configuration.
++
+For information, see xref:cli_add_vtep[].
++
+[IMPORTANT]
+Apart from the information on the VLAN-port assignment, and VTEP management
+interface IP and port, you will also need the identifier of the TunnelZone your
+virtual hosts reside in.All hosts that you want the VTEP to communicate with are
+expected to belong to that TunnelZone: the IP in the host's membership to that
+TunnelZone is the IP that will be used for the tunnel.
+
+After you successfully add a VTEP to the MidoNet configuration, the API Server
+connects to its (VTEP's) management interface and collects all the required
+information for creating a Logical Bridge. For more information, see the
+"Logical Bridge" section.

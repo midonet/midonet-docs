@@ -1,0 +1,92 @@
+[[zookeeper]]
+= ZooKeeper
+
+The install_plugins.sh script also installs a set of Munin plugins and
+configuration files to generate graphs from ZooKeeper's exposed JMX metrics.
+
+However, on each node, you need to indicate the ZooKeeper replica number; the
+script provides clear guidance on how to do this.
+
+You can find ZooKeeper stats in the "zookeeper" category of the MidoStorage
+group. ZooKeeper classifies metrics in separate MBeans for leader/follower, so
+each node will report some values twice, one in the "Follower" role, another in
+the "Leader" role. Take into account that a given node may change roles (for
+example, if the leader shuts down, a follower node may be promoted to leader).
+You can easily spot these events. For example, the line in the "Connection Count
+as Follower" will suddenly blank out, and another will appear in the "Connection
+Count as Leader" graph.
+
+Below are descriptions of the graphs resulting from the example Munin
+configurations provided in the MidoNet deployment repository. The graphs are
+built from a subset of the ZooKeeper JMX service. The available graphs are:
+
+*Connection Count (as Follower/Leader)*
+
+These two graphs display the number of live connections to this node in its role
+at a givenpoint in time.
+
+*In Memory Data Tree (as Follower/Leader)*
+
+Exposes the size of the in-memory znode database, both data nodes and watch
+count.
+
+*Latency (as Follower/Leader)*
+
+Exposes the average and maximum latency experienced in connections.
+
+*Packet Count (as Follower/Leader)*
+
+Exposes the count of packets sent/received by the node in its role at a given
+point in time.
+
+*Quorum Size*
+
+Exposes each node's view of the number of nodes agreeing on the leader's
+election.
+
+ZooKeeper also exposes some information about each specific connection, this may
+be useful to watch for troubleshooting. Using jconsole (go to
+http://www.oracle.com/technetwork/java/index.html and search on "jconsole" for
+information), you can:
+
+. Connect to any ZooKeeper node at port 9199.
+
+. Navigate to org.apache.ZooKeeperService, ReplicatedServer_idX.
+
+. Choose the desired replica.
+
+. Go into Leader or Follower, Connections to see a list of IP addresses of the connected
+     clients. Information shown here includes:
+
+* latency
+
+* packet sent/received count
+
+* session ID, etc. for that specific client.
+
+Some of the MBeans whose values are exposed in our graphs also contain
+(computationally intensive) operations that also offer interesting information.
+Using jconsole, expand org.apache.ZooKeeperService, and then the appropriate
+replica, and either Leader or Follower, according to its role:
+
+* InMemoryDataTree.approximateDataSize: tells the size of the in-memory data
+store.
+
+* InMemoryDataTree.countEphemerals: tells the count of ephemeral nodes.
+
+The installation script also provides graphs to monitor the state of ZooKeeper's
+JVM:
+
+* JVM GC times
+
+* JVM Heap Summary
+
+* JVM Non-Heap Summary
+
+Descriptions of these graphs are beyond the scope of this document, but high JVM
+GC times are the best indication that ZooKeeper may be the source of problems in
+Midolman, which will be exhibited in high latency and under-utilization of CPU
+resources. ZooKeeper uses the Parallel collector, and the JVM GC times track the
+time of the last collection in all spaces from the
+java.lang:type=GarbageCollector,name=PS Scavenge MBean, which deals with all
+generations.

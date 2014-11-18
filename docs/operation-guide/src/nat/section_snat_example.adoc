@@ -1,0 +1,42 @@
+[[snat_example]]
+= SNAT example
+
+This example shows how to use MidoNet CLI commands to configure SNAT on a router
+port.
+
+For example, you might want to configure SNAT for a network device (like a VM)
+with a private IP address and a public floating IP address that sends data to a
+destination outside its local network.
+
+Below are the assumptions regarding the rule chain for this example:
+
+* You have two subnets: a public subnet (198.51.100.0/24) and a private subnet
+(10.0.0.0/24).
+
+* You have a virtual machine connected to the tenant router with a public IP
+address of 198.51.100.4 and a private IP address of 10.100.1.150.
+
+* You want to translate traffic with the VM's private IP address to the VM's
+public IP address.
+
+To create the rule chain for the above SNAT configuration:
+
+. Create a new rule chain:
++
+[source]
+midonet> chain create name "snat-test"
+chain7
+
+. Create a rule that accepts traffic on a router port with the source
+10.100.1.150 and translates the destination to 198.51.100.4:
++
+[source]
+midonet> chain chain7 add rule src 10.100.1.150 out-ports router1:port0 pos 1 type snat action accept target 198.51.100.4
+chain7:rule2
+
+. Create a rule that accepts traffic from the private network and performs SNAT
+to translate the source IP address to the IP address of the router's gateway to
+the public network.
++
+[source]
+midonet> chain chain7 add rule out-ports router1:port0 pos 2 type snat action accept target 198.51.100.2

@@ -1,0 +1,130 @@
+[[health_monitor]]
+= Health monitor
+
+Health monitoring is the act of checking a set of pool members for "aliveness".
+This usually means HTTP, TCP, UDP, or ICMP connectivity is possible to the node.
+
+In MidoNet's case, only TCP connectivity is checked. Health monitors work by
+sending packets to the pool members and checking whether or not they receive a
+reply. The node is considered ACTIVE if the pool member responds to the packet
+within a certain amount of time, and after a certain amount of retries.
+Therefore, health monitors act on the following three variables:
+
+* max_retries: How many times the health monitor sends a packet to the pool
+member without receiving a response before the health monitor considers the node
+to be INACTIVE
+
+* delay: Amount of time between each transmission of a packet from the health
+monitor to the pool member
+
+* timeout: Additional timeout after a connection has been established
+
+The health monitor keeps track of the current state of all pool members it is
+assigned to. Load balancing decisions can then be made based on the "aliveness"
+of a pool member.
+
+== HAProxy configuration
+
+When using a Layer 4 load balancer, you can configure a health monitor to
+perform checks on the back-end servers.
+
+Only a single host runs all health monitor instances at a given time. If that
+host goes down for any reason, a new host will come up and spawn the necessary
+HAProxy instances. The HAProxy instances are managed by the MidoNet Agent
+(midolman) and do not require setup. However, you need to choose hosts that can
+potentially hold the HAProxy instances.
+
+To configure this, add an haproxy_health_monitor section to the midolman.conf
+file on the desired hosts, and set health_monitor_enable to true, as shown in
+the example below.
+
+[source]
+----
+[haproxy_health_monitor]
+health_monitor_enable = true
+----
+
+Additionally, the hosts running the HAProxy instances must have a group called
+"nogroup" and a user called "nobody", otherwise HAProxy will not be able to
+start. While this is a default configuration on Ubuntu, on Red Hat you must
+create this user and group.
+
+*How the Health Monitor works in the MidoNet Agent*
+
+* The MidoNet Agent (midolman) does not implement its own health monitor.
+Instead, it leverages the health checker that is a part of the haproxy package
+(the haproxy version used is 1.4). The MidoNet Agent leverages HAProxy by doing
+the following:
+
+** Whenever a user attaches a health monitor to a pool, the MidoNet Agent starts
+up an HAProxy instance associated with that pool.
+
+** The HAProxy process then receives information about all of the pool members
+it must watch.
+
+** The MidoNet Agent periodically polls HAProxy about the status of its nodes.
+If it detects a change in status, the MidoNet Agent will update its own database
+with the status information.
+
+* The following configuration settings (in the midolman.conf file) tell the
+MidoNet Agent how to act with respect to health monitoring:
+
+** health_monitor_enable: true indicates the MidoNet Agent host is eligible to
+set up HAProxy for health monitoring. By default, this is set to false.
+
+** namespace_cleanup: true indicates the MidoNet Agent host needs to clean up
+any left over HAProxy namespaces on the host that are still present after the
+MidoNet Agent has gone down and is no longer the designated HAProxy host. By
+default, this is set to false.
+
+** namespace_suffix: String appended to the end of the namespace names that hold
+the HAProxy instances. This is to allow you to easily identify the namespaces
+being created for HAProxy. _MN is the default value.
+
+** haproxy_file_loc: identifies the location in the file system where the config
+files for HAProxy will be created. The default value is: /etc/midolman/l4lb/.
+
+* At any given time, there is only one host containing all of the HAProxy
+instances. This host will be one of the MidoNet Agent hosts that has
+health_monitor_enable=true defined in its midolman.conf file. If this host goes
+down for any reason, one of the other hosts with the health_monitor_enable=true
+setting will take over and spawn any required HAProxy instances.
+
+== Enabling Health Monitoring in a Pool
+
+To enable health monitoring on a pool you can do perform one of the following:
+
+* Create a health monitor object using the CLI or API server, and set the
+relevant delay, timeout, and max_retries values (see "Health Monitor" for
+information).
+
+* Attach the health monitor object to the pool that you want to be monitored. A
+single health monitor can be attached to any number of pools, but pools may only
+have a single health monitor.
+
+* Set the admin_state_up on the health monitor object to true.
+
+*CLI Example*
+
+The example below shows how to use the MidoNet CLI to configure health monitoring.
+
+[source]
+midonet> health-monitor list
+midonet> health-monitor create delay 100 max-retries 50 timeout 500
+hm0
+midonet> load-balancer lb0 pool pool0 set health-monitor hm0
+midonet> load-balancer lb0 pool pool0 health-monitor show
+hm hm0 delay 100 timeout 500 max-retries 50 state down
+midonet> health-monitor hm0 pool list
+pool pool0 load-balancer lb0 health-monitor hm0 lb-method ROUND_ROBIN state up
+
+== Disabling Health Monitoring
+
+To disable health monitoring on a pool you can do perform one of the following:
+
+* Set the admin_state_up on the health monitor to false. Note that all pools
+that are using this health monitor will have health monitoring disabled.
+
+* Set the health_monitor_id on the pool to null.
+
+* Delete the health monitor object.

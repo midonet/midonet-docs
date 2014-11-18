@@ -1,0 +1,16 @@
+[[tunnel_zones]]
+
+= What are tunnel zones?
+
+A tunnel zone is an isolation zone for hosts.
+
+Physical hosts in the same tunnel zone, communicate directly with one another,
+without a need to use a tunnel. MidoNet supports two types of tunnel zones for
+separating physical hosts in the underlay, GRE (default) and VXLAN.
+
+A third type of a tunnel zone, VTEP, is used for connecting MidoNet hosts to a
+hardware VTEP. Whereas, a MidoNet host may only belong to one tunnel zone, type
+GRE or VXLAN, it may belong to two different tunnel zones if one of them is of
+GRE/VXLAN type and the other one of VTEP type. In fact, this configuration is
+required to successfully connect a MidoNet host to a hardware VTEP. For more
+information, see "VXLAN configuration" section in the "MidoNet Operation Guide".

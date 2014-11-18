@@ -1,0 +1,80 @@
+[[munin]]
+= Monitoring with Munin
+
+Munin is composed of a master node with a cron-based process that regularly
+fetches values from slave nodes.
+
+Slave nodes run munin-node to extract metrics from a variety of sources (Java
+Management Extensions (JMX) included) and expose them for the master. The data
+is fed to RRDTool databases and used to generate graphs.
+
+Adding monitoring for a given service involves configuring munin-node in each
+host where an instance of the service runs, and then configuring Munin on the
+master node to fetch data from this node.
+
+The MidoNet deployment repository contains automated scripts to configure all
+supported monitoring at monitoring/munin/.
+
+This information in this guide and automated configuration scripts are based on
+munin 1.4.6-3ubuntu3.3. For more information, see http://munin-monitoring.org/.
+
+== Configuring Munin
+
+Follow the instructions from the Munin documentation; this information is pretty
+straight forward and contains basic configuration files that work out of the
+box.
+
+*Master node*
+
+Install the *munin* and *munin-plug-ins-extra* packages. Also, install jmx2munin
+from its GitHub repository (https://github.com/tcurdt/jmx2munin).
+
+To add two new slaves to your master's configuration, just append these sample
+configs to /etc/munin/munin.conf:
+
+[source]
+[MidoStorage;node1]address 10.0.0.1 use_node_name yes
+
+[source]
+[MidoStorage;node2]address 10.0.0.2 use_node_name yes
+
+[NOTE]
+The addresses above are only samples, they should be the IP addresses of the node.
+
+This causes the Munin master to start to fetch data files from the given slaves.
+The "MidoStorage" name appears in the Munin interface as a group containing both
+of the nodes. Later sections in this guide explain how to add service-specific
+graphs.
+
+*Slave Nodes*
+
+Install the *munin-node* and *munin-plugin-extra* packages. Also, install
+jmx2munin from its GitHub repository. You can reuse
+/etc/munin/munin-node.conf.sample and simply update the master's IP address.
+
+*Plugins*
+
+Munin provides several default plugins that show metrics for disk, memory, CPU,
+and so on. You may not want to use these now. You can easily remove them by
+deleting the symlinks at /etc/munin/plugins in each of the slaves.
+
+*MidoNet plugins*
+
+Fetching metrics for the MidoNet subsystems simply requires adding new plugins
+on the relevant slaves. There is an automated script that will do most of the
+work. Assuming you cloned the MidoNet deployment repository at the current
+directory, you just need to run the following commands on each of the slaves:
+
+[source]
+sudo ./install_plugins.sh
+sudo service munin-node restart
+
+This installs all available plugins, and updates Munin configurations.
+
+You shouldn't have to take any action on the master. When the Munin fetch
+process runs, it should start fetching the data. If you are impatient, you can
+execute the following command on the master to trigger the Munin cron job that
+pulls data from the slaves:
+
+[source]
+sudo -u munin munin-cron

@@ -1,0 +1,39 @@
+[[rule_chain_example]]
+= L2 address mask rule chain example
+
+This is an example of L2 Address Mask Rule Chain creation.
+
+. Create a chain (this creates chain alias, "chain0" in the example, pointing to
+the chain created):
++
+[source]
+create chain name "l2-mask"
+
+. Add a rule to the chain that drops traffic with a src (source) MAC not
+starting with 12:34:56:
++
+[source]
+chain chain0 create rule hw-src !12:34:56:78:90:ab hw-src-mask ffff.ff00.0000 type drop
+
+*Example*
+
+Here's an example for how you might use hw-dst-mask.
+
+You decide to block (DROP) all multicast traffic on a specific L2 virtual
+network (bridge). The 8th (least significant) bit of the first (most
+significant) octet of a MAC address is 1 if the address is multicast, 0 if it's
+unicast.
+
+However, a MAC broadcast address has all octets set to FF. It's best not to drop
+broadcast packets,for example, ARP requests. Therefore, you add the following
+two rules to the pre-bridging rule-chain of the virtual bridge:
+
+* at position 1: ACCEPT if hw-dst is "ff:ff:ff:ff:ff:ff"
++
+[source]
+midonet> chain chain0 add rule hw-dst ff:ff:ff:ff:ff:ff type accept
+
+* at position 2: DROP if hw-dst has bit 0100.0000.0000 set
++
+[source]
+chain chain0 add rule hw-dst 01:00:00:00:00:00 hw-dst-mask 0100.0000.0000 pos 2 type drop

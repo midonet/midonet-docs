@@ -1,0 +1,13 @@
+[[vxlan_coordinator]]
+= VXLAN Coordinator
+
+The Coordinator is the component of the MidoNet architecture responsible for
+VXLAN support.
+
+The Coordinator has the following responsibilities:
+
+* creating/configuring/deleting logical bridges on the VTEP.
+
+* binding the VTEP's port-VLAN pairs to said logical bridges.
+
+* acting as an L2 control plane for traffic flowing between MN and the VTEP.

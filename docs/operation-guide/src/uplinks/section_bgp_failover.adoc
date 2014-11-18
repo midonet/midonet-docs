@@ -1,0 +1,19 @@
+[[bgp_failover]]
+= BGP failover configuration on a BGP peer
+
+The default BGP failover time is 2-3 minutes. However, you can reduce this time
+by changing some parameters on both ends of the session.
+
+You must make the change in the midolman.conf file on the MidoNet side, and the
+bgpd.conf file on the BGP peer's side. The example below shows how to use the
+CLI to reduce the BGP fail-over time on a peer to one minute:
+
+[source]
+neighbor 10.1.0.1 timers 1 3
+neighbor 10.1.0.1 timers connect 1
+neighbor 10.1.0.2 timers 1 3
+neighbor 10.2.0.1 timers connect 1
+
+This sets the following values: bgp_connect_retry=1, bgp_holdtime=3, and
+bgp_keepalive=1. These settings in the in the peer's bgpd.conf file must match
+those on the other end of the BGP session.

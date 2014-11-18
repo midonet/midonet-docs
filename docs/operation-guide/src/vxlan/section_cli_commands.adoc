@@ -1,0 +1,5 @@
+[[vxlan_cli_commands]]
+= CLI commands used for working with the VXGW
+
+This section describes the CLI commands that you can use to work with the VXGW
+and VTEPs.

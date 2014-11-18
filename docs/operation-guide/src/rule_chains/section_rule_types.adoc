@@ -1,0 +1,97 @@
+[[rule_types]]
+= Rule types
+
+This section describes the rule types.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== ACCEPT, DROP, REJECT, RETURN
+
+These rule types do not modify packets. They simply return the action
+corresponding to their type/name. When constructing one of these rules, you only
+need to specify the type and the condition. When the rule is invoked, it checks
+to see whether the packet matches the rule's condition and if so, it returns the
+action associated with the rule's type/name, e.g. (DROP, packet) if the rule
+type is DROP. If the packet does not match the condition, the rule returns
+(CONTINUE, packet) to its caller.
+
+There isn't a rule type CONTINUE, because such a rule would return (CONTINUE,
+packet) regardless of the packet's contents. Because this rule doesn't modify
+packets, the rule would be a useless operation.
+
+== DNAT, SNAT
+
+These rule types modify packets. They rewrite source/destination network
+addresses and TCP/UDP port numbers. When constructing one of these rules, apart
+from the condition for matching packets, you must specify two things:
+
+* A list of possible translation targets for matching packets'
+source/destination addresses.
+
+* The next_action to return to the call chain that invoked this rule. Legal
+values are: ACCEPT, CONTINUE, and RETURN.
+
+The next_action gives you more flexibility in constructing chains. After
+matching a packet and therefore modifying it (translating some of its addresses)
+the choice of what to do next is complex and is left up to you. The available
+options are: 
+
+* Exit all rule chains (ACCEPT).
+
+* Invoke the next rule in the current chain (CONTINUE).
+
+* Exit the current chain and invoke the calling chain's next rule, if the caller
+is a chain and if it has another (next) rule (RETURN).
+
+Note that DNAT and SNAT rules do not distinguish between forward and return
+flows/packets. Packets going in the same direction as the packet that initiated
+the connection belong to a forward flow and packets in the opposite direction
+belong to a return flow. DNAT and SNAT rules simply check for a condition and if
+it matches, they apply the translation and then record that state so that it can
+be accessed during the processing of the return flow. In other words, the
+translation mapping is stored and used to perform the reverse translation for
+the return traffic flow (see "REV_DNAT, REV_SNAT"). Therefore, it important that
+you correctly do the following:
+
+* Use REV_DNAT and REV_SNAT rules to reverse the address/port translations.
+
+* Correctly order DNAT and REV_SNAT rules in pre-routing, and SNAT and REV_DNAT
+in post-routing.
+
+* Avoid using DNAT rules in post-routing and SNAT rules in pre-routing.
+
+== REV_DNAT, REV_SNAT
+
+These rule types modify packets. They rewrite source (SNAT)/destination (DNAT)
+network addresses and TCP/UDP port numbers. When constructing one of these
+rules, apart from the condition for matching packets, you must specify the
+next_action that should be returned to the rule's caller when  packets match AND
+a reverse translation is found (otherwise, CONTINUE is returned). When a packet
+matches one of these rules, the rule looks up the reverse translation in a
+centralized map (soft state) and then applies it to the packet. That is why
+these rules don't need to specify the translation target like for DNAT and SNAT.
+
+== Jump
+
+This rule type never modifies a packet. When constructing one of these rules,
+apart from the condition for matching packets, you must specify the jump_target:
+that is, the name of the rule chain that should be invoked for packets that
+match. Note that the jump_target should not be the name of the chain that
+contains the jump rule, as this would cause a rule-chain loop; you need to avoid
+looping rule-chains. To help avoid loops, the forwarding logic will detect
+rule-chain loops and drop any packet that visits a chain it has already visited.
+
+When a packet matches a jump rule's condition, the action taken depends on
+whether the rule is invoked pre- or post-routing:
+
+* If the rule is invoked pre-routing: the rule finds the rule chain specified by
+its jump_target and calls the chain to process the packet on the ingress port.
+
+* If it's invoked post-routing, the rule calls the chain that processes the
+packet on the ingress, egress port.
+
+* If the chain cannot be found, the jump rule returns the default, CONTINUE.
+Otherwise, it returns exactly the (next_action, new_packet) returned by invoking
+the rule chain.

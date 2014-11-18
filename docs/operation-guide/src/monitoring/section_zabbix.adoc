@@ -1,0 +1,33 @@
+[[zabbix]]
+= Monitoring with Zabbix
+
+This section describes how to integrate Zabbix with MidoNet for monitoring
+events.
+
+Zabbix is a popular monitoring tool that provides a way for system
+administrators to monitor their networks. See https://www.zabbix.com/ and
+navigate to Documentation for details about Zabbix usage.
+
+*Basic Steps for Using Zabbix*
+
+In Zabbix, you can monitor log files stored on the filesystem. You need to run
+the Zabbix agent for each node, and set up a log monitoring configuration with
+the file location, update interval, etc. 
+
+* Run Zabbix on each Gateway and Compute host.
+
+* Configure log file monitoring; this includes the following tasks:
+
+** Verify agent parameters.
+
+** Configure items (an item is a piece of metric data you want to retrieve from
+a host).
+
+** Specify the path to the log file to monitor, along with the regular
+expressions to match.
+
+** Configure triggers to notify users when specified events occur.
+
+See
+https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/log_items
+for more details.

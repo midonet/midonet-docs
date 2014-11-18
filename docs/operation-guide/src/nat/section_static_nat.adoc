@@ -1,0 +1,35 @@
+[[static_nat]]
+= Static NAT
+
+This section demonstrates how MidoNet uses static NAT to implement floating IP
+addresses.
+
+MidoNet implements floating IP addresses in a two-stage process:
+
+. Bring traffic to a floating IP address (that is, bring traffic from an
+external network to a tenant router).
+
+. Perform network address translation from the external network's public IP
+address to a private IP address and in the reverse direction.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Assumptions
+
+To view this example, this section assumes you have configured:
+
+* A project
+
+* A MidoNet Provider Router
+
+* An external network
+
+* A tenant router
+
+* A private network (bridge)
+
+* At least one VM connected to the bridge
+
+* A floating IP address assigned to at least one VM.

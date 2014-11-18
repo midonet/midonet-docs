@@ -1,0 +1,384 @@
+[[topology_events]]
+= Virtual topology events
+
+This section describes the messages associated with virtual topology events.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Router
+
+|===============
+|Logger|org.midonet.event.topology.Router.CREATE
+|Message|CREATE routerId={0}, data={1}.
+|Level|INFO
+|Explanation|Router with routerId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Router.UPDATE
+|Message|UPDATE routerId={0}, data={1}.
+|Level|INFO
+|Explanation|Router with routerId={0} was updated to {1}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Router.DELETE
+|Message|DELETE routerId={0}.
+|Level|INFO
+|Explanation|Router with routerId={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Router.ROUTE_CREATE
+|Message|ROUTE_CREATE routerId={0}, data={1}.
+|Level|INFO
+|Explanation|Route={1} was created in routerId={0}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Router.ROUTE_DELETE
+|Message|ROUTE_DELETE routerId={0}, routeId={1}.
+|Level|INFO
+|Explanation|routeId={1} was deleted in routerId={0}.
+|Corrective Action|N/A
+|===============
+
+== Bridge
+
+|===============
+|Logger|org.midonet.event.topology.Bridge.CREATE
+|Message|CREATE bridgeId={0}, data={1}.
+|Level|INFO
+|Explanation|Bridge with bridgeId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bridge.UPDATE
+|Message|UPDATE bridgeId={0}, data={1}.
+|Level|INFO
+|Explanation|Bridge with bridgeId={0} was updated to {1}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bridge.DELETE
+|Message|DELETE bridgeId={0}.
+|Level|INFO
+|Explanation|Bridge with bridgeId={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+== Port
+
+|===============
+|Logger|org.midonet.event.topology.Port.CREATE
+|Message|CREATE portId={0}, data={1}.
+|Level|INFO
+|Explanation|Port with portId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.UPDATE
+|Message|UPDATE portId={0}, data={1}.
+|Level|INFO
+|Explanation|Port with portId={0} was updated to {1}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.DELETE
+|Message|DELETE portId={0}.
+|Level|INFO
+|Explanation|Port with portId={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.LINK
+|Message|LINK portId={0}, data={1}.
+|Level|INFO
+|Explanation|Port with portId={0} was linked.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.UNLINK
+|Message|UNLINK portId={0}, data={1}.
+|Level|INFO
+|Explanation|Port with portId={0} was unlinked.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.BIND
+|Message|BIND portId={0}, data={1}.
+|Level|INFO
+|Explanation|Port with portId={0} was bound.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.UNBIND
+|Message|UNBIND portId={0}.
+|Level|INFO
+|Explanation|Port with portId={0} was unbound.
+|Corrective Action|N/A
+|===============
+
+== Chain
+
+|===============
+|Logger|org.midonet.event.topology.Chain.CREATE
+|Message|CREATE chainId={0}, data={1}.
+|Level|INFO
+|Explanation|Chain with chainId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Chain.DELETE
+|Message|DELETE chainId={0}.
+|Level|INFO
+|Explanation|Chain with chainId={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+== Rule
+
+|===============
+|Logger|org.midonet.event.topology.Rule.CREATE
+|Message|CREATE ruleId={0}, data={1}.
+|Level|INFO
+|Explanation|Rule with ruleId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Rule.DELETE
+|Message|DELETE ruleId={0}.
+|Level|INFO
+|Explanation|Rule with ruleId={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+== Tunnel Zone
+
+|===============
+|Logger|org.midonet.event.topology.TunnelZone.CREATE
+|Message|CREATE tunnelZoneId={0}, data={1}.
+|Level|INFO
+|Explanation|TunnelZone with tunnelZoneId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.TunnelZone.UPDATE
+|Message|UPDATE tunnelZoneId={0}, data={1}.
+|Level|INFO
+|Explanation|TunnelZone with tunnelZoneId={0} was updated to {1}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.TunnelZone.DELETE
+|Message|DELETE tunnelZoneId={0}.
+|Level|INFO
+|Explanation|TunnelZone with tunnelZoneId={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.TunnelZone.MEMBER_CREATE
+|Message|MEMBER_CREATE tunnelZoneId={0}, data={1}.
+|Level|INFO
+|Explanation|TunnelZone member={1} was added to tunnelZoneId={0}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.TunnelZone.MEMBER_DELETE
+|Message|MEMBER_DELETE tunnelZoneId={0}, data={1}.
+|Level|INFO
+|Explanation|TunnelZone member={1} was deleted from tunnelZoneId={0}.
+|Corrective Action|N/A
+|===============
+
+== BGP
+
+|===============
+|Logger|org.midonet.event.topology.Bgp.CREATE
+|Message|CREATE bgpId={0}, data={1}.
+|Level|INFO
+|Explanation|Bgp with bgpId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bgp.UPDATE
+|Message|UPDATE bgpId={0}, data={1}.
+|Level|INFO
+|Explanation|Bgp with bgpId={0} was updated to {1}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bgp.DELETE
+|Message|DELETE bgpId={0}.
+|Level|INFO
+|Explanation|Bgp with bgpId={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bgp.ROUTE_CREATE
+|Message|ROUTE_CREATE bgpId={0}, data={1}.
+|Level|INFO
+|Explanation|Route={1} was added to bgpId={0}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bgp.ROUTE_DELETE
+|Message|ROUTE_DELETE bgpId={0}, data={1}.
+|Level|INFO
+|Explanation|Route={1} was deleted from bgpId={0}.
+|Corrective Action|N/A
+|===============
+
+== LoadBalancer
+
+|===============
+|Logger|org.midonet.event.topology.LoadBalancer.CREATE
+|Message|CREATE loadBalancerId={0}, data={1}.
+|Level|INFO
+|Explanation|LoadBalancer with loadBalancerId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.LoadBalancer.UPDATE
+|Message|UPDATE loadBalancerId={0}, data={1}.
+|Level|INFO
+|Explanation|LoadBalancer with loadBalancerId={0} was updated to {1}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.LoadBalancer.DELETE
+|Message|DELETE loadBalancerId={0}.
+|Level|INFO
+|Explanation|LoadBalancer with loadBalancerId={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+== VIP
+
+|===============
+|Logger|org.midonet.event.topology.VIP.CREATE
+|Message|CREATE vipId={0}, data={1}.
+|Level|INFO
+|Explanation|VIP with vipId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.VIP.UPDATE
+|Message|UPDATE vipId={0}, data={1}.
+|Level|INFO
+|Explanation|VIP with vipId={0} was updated to {1}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.VIP.DELETE
+|Message|DELETE vipId={0}.
+|Level|INFO
+|Explanation|VIP with vipId={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+== Pool
+
+|===============
+|Logger|org.midonet.event.topology.Pool.CREATE
+|Message|CREATE poolId={0}, data={1}.
+|Level|INFO
+|Explanation|Pool with poolId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Pool.UPDATE
+|Message|UPDATE poolId={0}, data={1}.
+|Level|INFO
+|Explanation|Pool with poolId={0} was updated to {1}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Pool.DELETE
+|Message|DELETE poolId={0}.
+|Level|INFO
+|Explanation|Pool with poolId={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+== PoolMember
+
+|===============
+|Logger|org.midonet.event.topology.PoolMember.CREATE
+|Message|CREATE poolMemberId={0}, data={1}.
+|Level|INFO
+|Explanation|PoolMember with poolMemberId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.PoolMember.UPDATE
+|Message|UPDATE poolMemberId={0}, data={1}.
+|Level|INFO
+|Explanation|PoolMember with poolMemberId={0} was updated to {1}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.PoolMember.DELETE
+|Message|DELETE poolMemberId={0}.
+|Level|INFO
+|Explanation|PoolMember with poolMemberId={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+== HealthMonitor
+
+|===============
+|Logger|org.midonet.event.topology.HealthMonitor.CREATE
+|Message|CREATE healthMonitorId={0}, data={1}.
+|Level|INFO
+|Explanation|HealthMonitor with healthMonitorId={0} was created.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.HealthMonitor.UPDATE
+|Message|UPDATE healthMonitorId={0}, data={1}.
+|Level|INFO
+|Explanation|HealthMonitor with healthMonitorId={0} was updated to {1}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.HealthMonitor.DELETE
+|Message|DELETE healthMonitorId={0}.
+|Level|INFO
+|Explanation|HealthMonitor with healthMonitorId={0} was deleted.
+|Corrective Action|N/A
+|===============

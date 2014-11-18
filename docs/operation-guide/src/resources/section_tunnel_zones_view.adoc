@@ -1,0 +1,16 @@
+[[viewing_tunnel_zone_information]]
+= Viewing tunnel zone information
+
+Use this procedure to view tunnel zone information.
+
+[source]
+midonet> tunnel-zone tzone0 list member
+zone tzone0 host host0 address 192.168.0.3
+zone tzone0 host host1 address 192.168.0.5
+zone tzone0 host host2 address 192.168.0.4
+zone tzone0 host host3 address 192.168.0.6
+
+The above output shows the:
+
+* Aliases for the hosts in the tunnel zone (host0, host1, and so on)
+* IP addresses assigned to the hosts

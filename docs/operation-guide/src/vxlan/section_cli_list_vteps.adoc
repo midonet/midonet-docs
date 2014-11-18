@@ -1,0 +1,35 @@
+[[cli_list_vteps]]
+= Obtaining a list of VTEPs
+
+Use this command to obtain the list of hardware VTEPs of which MidoNet is aware.
+
+*Syntax*
+
+[source]
+list vtep
+
+*Result*
+
+For each VTEP, the command returns this information:
+
+* name
+
+* description
+
+* management IP address
+
+* management port
+
+* tunnel IPs
+
+* connection state (one of: connected, disconnected, error. The state is error
+if the endpoint is not a VXLAN End Point)
+
+* ports - a list of (port_name, port_description, port_bindings) triplets, where
+port_bindings is a list of (vlan, neutronNetworkId, logicalSwitchName).
+
+*Example*
+
+[source]
+midonet> list vtep
+vtep vtep0 name br0 management-ip 119.15.112.22 management-port 6633 connection-state CONNECTED

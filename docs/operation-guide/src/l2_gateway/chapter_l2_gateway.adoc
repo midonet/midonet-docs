@@ -1,0 +1,53 @@
+[[l2_gateway]]
+= Setting up an L2 gateway
+
+This section describes how to set up an L2 gateway between MidoNet's virtual
+bridges and physical switches.
+
+[IMPORTANT]
+This feature is not currently implemented in OpenStack Neutron. Therefore, you
+cannot use an L2 gateway to extend a MidoNet network (or bridge) to a Neutron
+bridge.
+
+*Topology*
+
+You can configure MidoNet's bridge virtual ports with a single VLAN ID, thereby
+introducing a change in the behavior of the processing of VLAN-tagged frames.
+
+This guide refers to a bridge that owns one or more VLAN-configured ports as a
+"VLAN Aware Bridge" or VAB. A VAB may contain multiple virtual ports configured
+with a VLAN ID, but these tags must be unique in the VAB. A VAB may contain any
+number of trunk ports (that is, ports configured to support VLAN trunk links),
+but only one of the ports is expected to be active, according to the
+high-availability mechanism.
+
+This guide refers to any bridge that has no virtual ports configured with a VLAN
+ID as a "VLAN Unaware Bridge" or VUB. VUBs may only have one virtual port linked
+to a VAB.
+
+The diagram below depicts a typical L2 gateway topology.
+
+[[l2_gateway_topology]]
+.Topology with VLANs and L2 Gateway
+image::l2_gateway_topology.png[]
+
+The VAB in this example has two trunk ports that are bound to physical
+interfaces (either on the same or different physical hosts). Each of these ports
+has L2 connectivity to physical switches and may carry VLAN-tagged traffic.
+
+The VAB also has two other virtual ports, both configured with different
+VLAN-IDs. These virtual ports are linked to peers at two VUBs (VUB-8 and VUB-5),
+which in turn are linked to two VMs through two virtual ports each.
+
+The VAB examines the VLAN tags of all traffic ingressing from the two trunk
+ports. For frames tagged with the same VLAN-ID as any of its other virtual ports
+(in the example, 5 or 8), the VAB removes the VLAN-ID and sends the frames to
+the appropriate port. For frames ingressing the VAB from a virtual port
+configured with a VLAN-ID, the VAB adds the corresponding VLAN-ID to the frames,
+and then sends the frames to the appropriate trunk port according to the
+bridge's MAC-port table.
+
+[NOTE]
+Neutron networks can only be mapped to the VUBs, so the VMs linked to the VABs
+are managed outside of OpenStack. This means that IP address management in
+Neutron cannot be used for the VMs on VABs.

@@ -1,0 +1,20 @@
+[[configuration]]
+= Configuration
+
+Each event message is generated with logback (http://logback.qos.ch/).
+
+The configuration files are located at the following locations, depending on the
+type of the node.
+
+.Configuration Files/Locations
+[options="header"]
+|===============
+|Type of Node          |Location of the Configuration File
+|MidoNet Network Agent |/etc/midolman/logback.xml
+|MidoNet API server    |/usr/share/midonet-api/WEB-INF/classes/logback.xml
+|===============
+
+Below are the behaviors with the default configuration shipped with the MidoNet
+release, but you can configure the behaviors as you like. See
+http://logback.qos.ch/manual/index.html for instructions on how to configure the
+logback.xml file.

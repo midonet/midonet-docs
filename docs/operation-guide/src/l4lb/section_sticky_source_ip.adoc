@@ -1,0 +1,47 @@
+[[sticky_source_ip]]
+= Sticky source IP
+
+On many occasions, you want a load balancer to keep track of the sessions. To
+accomplish this, the MidoNet load balancer provides sticky-source IP address
+persistence.
+
+When configured on a virtual IP (VIP), the source IP address of the packet is
+used to determine the destination server, and all the subsequent traffic from
+the same source IP address gets sent to the same server.
+
+*Session persistence example*
+
+The example below shows how to use the MidoNet CLI to configure a load balancer.
+As shown, the VIP has the persistence set to SOURCE_IP.
+
+[source]
+midonet> load-balancer create
+lb0
+midonet> router router0 set load balancer lb0
+midonet> load-balancer lb0 create pool lb-method ROUND_ROBIN
+b0:pool0
+midonet> load-balancer lb0 pool pool0 create member address 192.168.100.1 protocol-port 80
+b0:pool0:pm0
+midonet> load-balancer lb0 pool pool0 list vip
+midonet> load-balancer lb0 pool pool0 create vip address 192.168.0.1 persistence SOURCE_IP protocol-port 8080
+lb0:pool0:vip0
+midonet> router router1 add route dst 192.168.0.1/32 src 0.0.0.0/0 type normal port router1:port0
+router1:route11
+
+[NOTE]
+Port 8080 is just an example. To use a port for load balancing traffic you need
+to make sure first, it's not taken.
+
+[IMPORTANT]
+====
+* If you toggle on/off sticky source IP address mode on a VIP, existing
+connections using that VIP will be dropped.
+* If you disable a pool member while in sticky source IP address mode, existing
+connections that are balanced to that member will be dropped.
+* If you disable a pool member while NOT in sticky source IP address mode,
+existing connections that are balanced to that member will be allowed to finish,
+but no new connections will be sent to that member.
+* Stickiness remains active for one day. If a session is inactive for more than
+a day, the stickiness goes away and the subsequent traffic will be load balanced
+normally.
+====

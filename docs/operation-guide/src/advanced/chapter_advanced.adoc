@@ -1,0 +1,6 @@
+[[advanced_configuration_and_concepts]]
+= Advanced configuration and concepts
+
+This section describes configuration options that aren't essential when
+deploying MidoNet and provides information for professional services and
+advanced MidoNet users.

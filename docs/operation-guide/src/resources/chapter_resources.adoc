@@ -1,0 +1,14 @@
+[[admitting_resources]]
+
+= Admitting resources to MidoNet
+
+When started, the MidoNet Agent (midolman) automatically connects to the
+ZooKeeper database and registers itself as an available host. You need to admit
+that host into a tunnel zone so the host can communicate within the tunnel zone
+to other hosts.
+
+You can think of this as registering the host. When you admit a host, you select
+the physical interface the host will use for communication with other hosts.
+This interface must be connected to the underlay network. After you select the
+interface, you bind it to the tunnel zone. This allows the host to establish
+tunnels with all the other hosts in the tunnel zone via the selected interface.

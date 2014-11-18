@@ -1,0 +1,5 @@
+[[working_with_hosts]]
+= Working with hosts
+
+This section shows how to view host information and admit new hosts to a tunnel
+zone.

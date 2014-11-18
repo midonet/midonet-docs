@@ -1,0 +1,50 @@
+[[l2_gateway_configuration]]
+= Configuring an L2 gateway
+
+Use this procedure to configure an L2 gateway.
+
+Below is an example of a configuration showing how to use the MidoNet CLI to
+replicate the topology shown in xref:l2_gateway_topology[].
+
+. Create the VAB and two ports configured with the appropriate VLAN IDs:
++
+[source]
+midonet> bridge create name vab
+midonet> bridge bridge0 port add vlan 8
+bridge0:port0
+midonet> bridge bridge0 port add vlan 5
+bridge0:port1
+
+. Create the two VUBs and their virtual ports:
++
+[source]
+midonet> bridge add name vub-8
+bridge1
+midonet> bridge add name vub-5
+bridge2
+midonet> bridge bridge1 port add
+bridge1:port0
+midonet> bridge bridge2 port add
+bridge2:port0
+
+. Link the ports:
+[source]
++
+midonet> bridge bridge0 port port0 set peer bridge1:port0
+midonet> bridge bridge0 port port1 set peer bridge2:port0
+
+. Add the VAB's trunk ports:
++
+[source]
+midonet> bridge bridge0 port add
+bridge0:port2
+midonet> bridge bridge0 port add
+bridge0:port3
+
+. Assuming that there are two interfaces, host0:eth0 and host1:eth1, connected
+to the physical switches' trunks, bind them to the VAB's trunk ports:
++
+[source]
+midonet> host host0 binding add interface eth0 port bridge0:port2
+midonet> host host1 binding add interface eth1 port bridge0:port3
+

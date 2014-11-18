@@ -1,0 +1,5 @@
+[[keystone_authentication]]
+= Using the Keystone authentication service
+
+This section explains how to use the Keystone authentication service with
+MidoNet.

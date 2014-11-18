@@ -1,0 +1,60 @@
+[[cli_list_vtep_bindings]]
+= Obtaining descriptions of VTEP's vxlan ports
+
+Use this command to obtain the descriptions of all vxlan ports on a selected
+Neutron network.
+
+*Syntax*
+
+[source]
+vtep management-ip vtep-ip-address list binding
+
+[source]
+vtep vtep-id list binding
+
+*Result*
+
+The successful command returns the descriptions of all vxlan ports and their
+Neutron network bindings on the selected VTEP:
+
+[source]
+midonet> vtep vtep0 list binding
+binding binding0 management-ip 119.15.112.22 physical-port Te 0/2 vlan 908 network-id bc3afc36-6274-4603-9109-c29f1c12ba33
+binding binding1 management-ip 119.15.112.22 physical-port Te 0/2 vlan 439 network-id bc3afc36-6274-4603-9109-c29f1c12ba33
+binding binding2 management-ip 119.15.112.22 physical-port Te 0/2 vlan 777 network-id bc3afc36-6274-4603-9109-c29f1c12ba33
+binding binding3 management-ip 119.15.112.22 physical-port fakevm1_out vlan 0 network-id 7071b156-5f05-4d8c-8df2-3bb22a9325fc
+binding binding4 management-ip 119.15.112.22 physical-port in1 vlan 119 network-id 1d475afc-d892-4dc7-af72-9bd88e565dde
+
+From the output you can see that:
+
+* a vxlan port's description includes:
+
+** a list of all the port-vlan bindings specific to that Neutron network AND
+hardware VTEP.
+
+** the name of the logical bridge that represents the Neutron network on the
+VTEP side (it's a combination of the Neutron network name and UUID)
+
+** the VNI (Virtual Network Id, equivalent to the vxlan tunnel key) that was
+assigned to this Neutron network. The selected VNID is unique within that VTEP.
+
+* there is one vxlan port for each VTEP that has port-VLANs bound to that
+Neutron network. Each Neutron network is allowed to have only a single vxlan
+port and therefore may only be bridged to ports on one VTEP.
+
+[TIP]
+When issued without any parameters, the command returns descriptions of all
+vxlan ports on all Neutron networks.
+
+*Example*
+
+[source]
+midonet> vtep vtep0 list binding
+
+[source]
+midonet> vtep management-ip 119.15.112.22 list binding
+
+To list bindings with a filter:
+
+[source]
+midonet> vtep management-ip 119.15.112.22 list binding vlan 119

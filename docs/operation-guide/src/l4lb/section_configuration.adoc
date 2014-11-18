@@ -1,0 +1,94 @@
+[[l4lb_configuration]]
+= Load balancer configuration
+
+This procedure provides the steps required to create and configure a load
+balancer in MidoNet, with examples of CLI commands used to achieve that.
+
+Let's start by determining the list of routers we have available in our MidoNet
+deployment:
+
+[source]
+midonet> list router
+router router0 name TenantRouter state up infilter chain0 outfilter chain1
+router router1 name MidoNet Provider Router state up
+
+As you can see, your tenant router where you are going to create a load balancer
+is router0.
+
+[IMPORTANT]
+In MidoNet, routers have inbound and outbound filters. If the load balancer on a
+router balances traffic, these filters will be skipped. When using MidoNet with
+OpenStack, these filters usually only contain NAT rules that are irrelevant to
+load-balanced traffic, but this is worth taking into account if you are adding
+custom rules to the router's filters.
+
+. Create a load balancer and assign it to the tenant router.
++
+[source]
+midonet> load-balancer create
+lb0
+midonet> router router0 set load-balancer lb0
++
+The load balancer assigned to the router will act on traffic flowing through
+that router.
+
+. Create a pool to which target back-end servers will be assigned.
++
+[source]
+midonet> load-balancer lb0 create pool lb-method ROUND_ROBIN
+lb0:pool0
+midonet> load-balancer lb0 pool pool0 show
+pool pool0 load-balancer lb0 lb-method ROUND_ROBIN state up
+
+. Next, add target back-end servers to the pool you just created.
++
+[source]
+midonet> load-balancer lb0 pool pool0 create member address 192.168.100.1 protocol-port 80
+lb0:pool0:pm0
+midonet> load-balancer lb0 pool pool0 member pm0 show
+pm pm0 address 192.168.100.1 protocol-port 80 weight 0 state up
++
+For each back-end server you must add its IP address and port to the pool.
+
+. Create a virtual IP address (VIP) and assign it to the pool against which load
+balancing will be performed (lb0:pool0). Typically, a VIP is an IP address from
+the public IP space.
++
+[source]
+midonet> load-balancer lb0 pool pool0 list vip
+midonet> load-balancer lb0 pool pool0 create vip address 203.0.113.2 persistence SOURCE_IP protocol-port 8080
+lb0:pool0:vip0
+midonet> load-balancer lb0 pool pool0 vip vip0 show
+vip vip0 load-balancer lb0 address 203.0.113.2 protocol-port 8080 persistence SOURCE_IP state up
++
+[NOTE]
+Port 8080 is just an example. To use a port for load balancing traffic you need
+to make sure first, it's not taken.
+
+. Lastly, you must insert an appropriate routing rule on the provider router
+(router1) so that a packet sent from an external network to the VIP is able to
+find its way to the tenant router.
+
+.. First, identify the ports on the provider router, using the router router1
+list port command, like so:
++
+[source]
+midonet> router router1 list port
+port port0 device router1 state up mac 02:c2:0f:b0:f2:68 address 100.100.100.1 net 100.100.100.0/30
+port port1 device router1 state up mac 02:cb:3d:85:89:2a address 172.168.0.1 net 172.168.0.0/16
+port port2 device router1 state up mac 02:46:87:89:49:41 address 200.200.200.1 net 200.200.200.0/24 peer bridge0:port0
+port port3 device router1 state up mac 02:6b:9f:0d:c4:a8 address 203.0.113.2 net 203.0.113.0/30 peer router0:port0
+...
++
+A quick look at the listing reveals the port on the provider router that is used
+to route traffic to the tenant router (router0). It's router port3.
+
+.. Next, add the route to the provider router port3 to the MidoNet configuration.
++
+[source]
+midonet> router router1 add route dst 203.0.113.2/32 src 0.0.0.0/0 type normal port router1:port3
+router1:route11
++
+This rule matches any incoming traffic (src 0.0.0.0/0) to the provider router,
+that is sent to the VIP on the provider router 203.0.113.2 (dst 203.0.113.2/32)
+and sends it out provider router port3 (router1:port3).

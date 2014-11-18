@@ -1,0 +1,52 @@
+[[admitting_a_host]]
+
+= Admitting a host
+
+You need to add new hosts to a tunnel zone. Use this procedure to admit a host
+into a tunnel zone.
+
+. To view a list of all tunnel zones, enter the `list tunnel-zone` command. For
+example:
++
+[source]
+midonet> list tunnel-zone
+tzone tzone0 name gre type gre
+
+. To view the list of all hosts, enter the `list host` command. For example:
++
+[source]
+midonet> list host
+host host0 name compute-1 alive true
+host host1 name compute-2 alive true
+
+. To list all interfaces on a host, enter the `host hostX list interface`
+command (where: X is the dynamically assigned number for the desired host
+alias).
++
+[source]
+midonet> host host0 list interface
+iface lo host_id host0 status 3 addresses [u'127.0.0.1', u'0:0:0:0:0:0:0:1'] mac 00:00:00:00:00:00 mtu 65536 type Virtual endpoint LOCALHOST
+iface midonet host_id host0 status 0 addresses [] mac 8e:4d:60:c1:70:d7 mtu 1500 type Virtual endpoint DATAPATH
+iface eth1 host_id host0 status 3 addresses [u'fe80:0:0:0:250:56ff:fe93:7c35'] mac 00:50:56:93:7c:35 mtu 1500 type Physical endpoint PHYSICAL
+iface eth0 host_id host0 status 3 addresses [u'10.1.2.200', u'fe80:0:0:0:250:56ff:fe93:c9a4'] mac 00:50:56:93:c9:a4 mtu 1500 type Physical endpoint PHYSICAL
++
+Note the IP address of the interface that will be used for tunnel creation.
+
+. Enter the `tunnel-zone tzone add member host host` command to add a new member
+(host) to a tunnel zone. For example:
++
+[source]
+midonet> tunnel-zone tzone0 add member host host0
+address host zone
+
+. Enter the `tunnel-zone tzone add member host host address ip-address` command
+to specify the IP address of the new member. For example:
++
+[source]
+midonet> tunnel-zone tzone0 add member host host0 address 10.1.2.200
++
+In the above command example:
++
+* tzone0 = the tunnel zone you want to add the member (host) to
+* host0 = the alias of the host you want to add
+* 10.1.2.200 = the IP address of the host you want to add

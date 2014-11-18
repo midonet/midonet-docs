@@ -1,0 +1,113 @@
+[[routing_process_overview]]
+= Routing process overview
+
+For traffic that ingresses a router port, the router does the following:
+
+* Attempts to match a given packet's destination with a route in its routing
+table based on the packet's source and destination.
+
+* For packets with more than one matching route, uses random selection based on
+the routes' weight values to route the packets.
+
+* For packets that don't match routes with matching sources and destinations,
+drops these packets.
+
+The router uses information in the following fields in the routing table:
+
+* Source: defines the IP addresses and networks to filter and evaluate for
+delivery to directly connected networks and hosts or forward to gateways to
+other networks.
+
+* Route Type: determines the action to take on the packet.
+
+* Next Hop Port and Next Hop Gateway: determine where to route the packet.
+
+Below are two sample routes on a tenant router (displayed using the MidoNet
+CLI):
+
+[source]
+route route2 type normal src 0.0.0.0/0 dst 172.16.3.0/24 port router0:port1 weight 100
+route route3 type normal src 172.16.3.0/24 dst 169.254.169.254 gw 172.16.3.2 port router0:port1 weight 100
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Source
+
+Shows the route's source prefix for source-based routing. The algorithm to
+decide which route applies to the packet is briefly as follows:
+
+. Disregard all routes whose source prefix does not match the packet's source.
+The source prefix, 0.0.0.0/0, matches everything. Note that /0 denotes a bit
+mask of length zero, so the address 0.0.0.0 is ignored.
+
+. Find the route whose destination prefix matches the packet's destination and
+has the longest mask (a.k.a. longest-prefix matching).
+
+. If there's more than one route candidate (with equal destination prefix mask
+length), use weighted random selection based on the routes' Weight fields.
+
+== Type
+
+There are three types: Normal, Blackhole, and Reject.
+
+* Normal: normal type of route for forwarding packets. Use Next Hop Gateway and
+Next Hop Port information to route packets.
+
+* Blackhole: tells the router that when a packet matches this route, the packet
+should be dropped, without sending any notification. If no floating IP addresses
+exist on an external network, traffic is routed to a Blackhole, where the
+traffic is dropped.
+
+* Reject: similar to Blackhole, except when a packet matches this route, the
+router returns an ICMP error (MidoNet only sends the error upon receiving the
+first packet of the flow, or if/when the flow is recomputed). The error is Type
+3 (indicates the destination port is unreachable), the code is either Code 9 or
+Code 10 (the destination host/network is administratively prohibited), depending
+on whether the route's destination prefix has a mask of 32 bits (that is, a
+specific host = Code 10) or has a mask less than 32-bits (that is, a network =
+Code 9). For more information, see http://en.wikipedia.org/wiki/ICMP_Destination_Unreachable#Destination_unreachable
+
+== Destination
+
+Shows the IP address of the interface connected to a peer device (for example,
+router or bridge). This is the egress port for packets sent to the destination
+peer.
+
+== Next Hop Gateway
+
+The route has three options regarding what to do with a packet:
+
+. Drop the packet. In this case, there's no need for a next hop gateway.
+
+. Forward the packet directly to the destination; this only occurs if the
+destination is on the same L2 network as one of the router's ports. Normally
+this means that the packet's destination address is in the same network prefix
+as the router's port. Again, there's no need for a next hop gateway in this
+case.
+
+. Forward the packet towards the destination, but using an intermediary router.
+Such a route is known as the "next hop gateway."
+
+The next hop gateway is the IP address of the intermediate router's port that's
+facing the router that owns this route. This IP address is only used to do ARP
+resolution (mapping the IP address to a MAC address) and to determine how to
+re-write the packet's destination MAC address before emitting it towards the
+intermediate router.
+
+Note that normal (that is, physical) routers' routes differ from MidoNet's
+virtual routers in that they don't have a target/destination virtual port (the
+'Normal' route in MidoNet has this; see "Type"). Therefore, normal routers use
+the Next Hop Gateway IP address to determine which port should be used to emit
+the packet (the port whose prefix matches the next hop gateway's IP address).
+
+== Next Hop Port
+
+Shows the ID of the port connected to the peer device.
+
+== Weight
+
+Can be used for load balancing for destinations with multiple paths. Higher
+weight values identify preferred (for example, higher bandwidth) paths. The
+default weight value is 100. See also "Source".

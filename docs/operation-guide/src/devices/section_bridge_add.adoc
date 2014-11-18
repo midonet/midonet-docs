@@ -1,0 +1,12 @@
+[[adding_a_bridge]]
+= Adding a bridge
+
+Use this procedure to create a bridge.
+
+Enter the following command to create a bridge and assign it a name:
+
+[source]
+midonet> bridge create name test-bridge
+bridge1
+
+The above output shows the alias ("bridge1") assigned to the new bridge.

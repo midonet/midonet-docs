@@ -1,0 +1,26 @@
+[[deleting_tunnel_zones]]
+= Deleting tunnel zones
+
+Use this procedure to delete a tunnel zone.
+
+. Enter the `list tunnel-zone` command to list the tunnel zones. For example:
++
+[source]
+midonet> list tunnel-zone
+tzone tzone0 name new-tz type gre
+tzone tzone1 name gre type gre
+
+. Enter the `delete tunnel-zone tz-alias` command to delete the desired tunnel
+zone. For example:
++
+[source]
+midonet> delete tunnel-zone tzone0
++
+Specify the dynamically assigned number of the alias for the tunnel zone to
+delete; in the above example, the assigned number is 0 (tzone0).
+
+. (Optional) Enter the command to list the tunnel zones to confirm the deletion:
++
+[source]
+midonet> list tunnel-zone
+tzone tzone1 name gre type gre

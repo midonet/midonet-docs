@@ -1,0 +1,41 @@
+[[deleting_routes]]
+= Deleting routes
+
+If you are using MidoNet as a standalone SDN controller, there are many
+situations where you might want to delete routes; all related to managing your
+physical network devices.
+
+For example, if you want to reverse something you did that required manually
+adding routes, you can delete the routes.
+
+[WARNING]
+It is not recommended to delete routes that were added automatically as a result
+of OpenStack Neutron operations.
+
+To delete a route:
+
+. Enter the command to list the routes on a certain router:
++
+[source]
+midonet> router router2 list route
+route route0 type normal src 0.0.0.0/0 dst 10.100.1.1 port router2:port0 weight 0
+route route1 type normal src 0.0.0.0/0 dst 10.100.1.2 port router2:port1 weight 0
+route route2 type normal src 0.0.0.0/0 dst 169.254.255.3 port router2:port2 weight 0
+route route3 type normal src 0.0.0.0/0 dst 169.254.255.0/30 port router2:port2 weight 0
++
+The above command lists the routes on router2.
+
+. Enter the command(s) to delete the desired route(s) from the desired router:
++
+[source]
+midonet> router router2 delete route route2
+midonet> router router2 delete route route3
++
+The above commands delete route2 and route3 from router2.
+
+. Enter the command to list the routes on the router to confirm the deletions:
++
+[source]
+midonet> router router2 list route
+route route0 type normal src 0.0.0.0/0 dst 10.100.1.1 port router2:port0 weight 0
+route route1 type normal src 0.0.0.0/0 dst 10.100.1.2 port router2:port1 weight 0

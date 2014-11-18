@@ -1,0 +1,60 @@
+[[listing_the_bridges_for_the_tenant]]
+= Listing the bridges for the tenant
+
+Rule chains relating to OpenStack security groups are implemented on the network
+(bridge) ports.
+
+To list the bridge(s) on the tenant and show the demo-private-net network
+(bridge) enter the command:
+
+[source]
+midonet> list bridgebridge bridge0 name demo-private-net state up
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Listing the ports on the bridge
+
+To list information about the rule chains configured on the bridge ports, enter
+the command:
+
+[source]
+midonet> bridge bridge0 list port
+port port0 device bridge0 state up
+port port1 device bridge0 state up infilter chain2 outfilter chain3
+port port2 device bridge0 state up peer router1:port1
+
+[NOTE]
+ports with infilter (pre-routing) and outfilter (post-routing) chains are
+connected to VMs. port1 is connected to a VM.
+
+== Listing the rules for the pre-routing rule chain
+
+To list the pre-routing rule chain for port 1 enter the command:
+
+[source]
+midonet> chain chain2 list rule
+rule rule0 ethertype 2048 src !172.16.3.3 proto 0 tos 0 pos 1 type drop
+rule rule1 hw-src !fa:16:3e:fb:19:07 proto 0 tos 0 pos 2 type drop
+rule rule2 proto 0 tos 0 flow return-flow pos 3 type accept
+rule rule3 proto 0 tos 0 pos 4 type jump jump-to chain4
+rule rule4 ethertype !2054 proto 0 tos 0 pos 5 type drop
+
+The pre-routing rule chain contains the following instructions:
+
+* rule0 says: for packets that match the ethertype 2048 (IPv4) that do not match
+the source IP address 172.16.3.3 (the private IP address of the VM), drop these
+packets.
+
+* rule1 says: for packets with a hardware source that does not match the listed
+source MAC address (the VM's MAC address), drop these packets.
+
+* rule2 says: for packets that match a return flow (that is, a packet that
+belongs to a connection already known to MidoNet), accept these packets.
+
+* rule3 says: for packets that were not dropped as a result of matching previous
+drop rules, allow these packets to jump to the indicated chain (chain4).
+
+* rule4 says: for packets that do not match the ethertype 2054 (ARP packets),
+drop these packets.

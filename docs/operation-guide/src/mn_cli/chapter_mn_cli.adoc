@@ -1,0 +1,32 @@
+[[mn_cli]]
+
+= Working with the MidoNet CLI
+
+You can explore and edit all of MidoNet's virtual topology through the CLI,
+however, you should use write operations with caution, as they are likely to
+create inconsistencies between MidoNet's idea of the virtual network and
+OpenStack's view of it.
+
+[NOTE]
+When using MidoNet with OpenStack, please be careful not to introduce
+inconsistencies between OpenStack and MidoNet virtual topologies.
+
+With that warning in mind, there are certain tasks for which the CLI can be
+particularly useful:
+
+* Creating a MidoNet's provider router
+
+* Setting up the cloud's up-link using the Border Gateway Protocol (BGP)
+
+* Upgrading MidoNet
+
+* Registering MidoNet Agents
+
+* Setting up an L2 gateway
+
+* Troubleshooting problems with the MidoNet API. Because the CLI uses the
+MidoNet API directly, it's the easiest way to make requests to it to verify that
+it works.
+
+* Viewing and exploring MidoNet's virtual topology and the status and network
+addresses of all hosts running the MidoNet agent

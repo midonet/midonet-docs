@@ -1,0 +1,46 @@
+[[packet_flow_within_router]]
+= A packet's flow within a router
+
+In order to understand rule chains, first consider how a router processes a
+packet:
+
+. Check if the packet is an ARP packet, if so handle it.
+
+. Look at the interface's pre-routing chain, and call the chain that processes
+packets on ingress ports.
+
+. The rule chain processes the packet by invoking its rules in turn and
+potentially calling chains specified by jump rules. The chain returns two values
+of interest:
+
+* Next action:
+
+** DROP (the packet is silently dropped)
+
+** REJECT (the packet is dropped and the router sends an ICMP error message)
+
+** ACCEPT/CONTINUE (the router continues to process the packet for forwarding)
+
+* New packet:
+
+** the rule chain may have modified the packet's headers, e.g. for port
+masquerading. Changes to packet headers, like for port masquerading and NAT, are
+applied to all packets in the flow.
+
+. If the router didn't drop the packet, the router now invokes the routing logic
+that either decides to drop the packet or chooses an egress port and the next
+hop IP address for the packet.
+
+. Look at the post-routing rule chain and call the chain that processes packets
+on ingress and egress ports.
+
+. The post-routing rule chain outputs a next_action and a new_packet just like
+for pre-routing.
+
+. If the router didn't drop the packet, the router:
+
+* Performs an ARP lookup of the next-hop IP address.
+
+* Rewrites the destination hardware address and emits the packet from the egress
+port. if the egress port is a logical port, then the peer virtual router's logic
+is invoked and the flow restarts at step 1, but with a different router.

@@ -1,0 +1,40 @@
+[[connect_vtep_to_midonet]]
+= Enabling connection between VTEP and MidoNet hosts
+
+Follow this procedure to modify the default ingress security rule in MidoNet to
+allow connection between hosts on a VTEP and in MidoNet.
+
+. In the MidoNet CLI find out what the ingress default security rule is by
+issuing this command:
++
+[source]
+midonet> list chain
+chain chain0 name OS_SG_64d9f3df-9875-4896-ad0c-ffc5bba84c5e_INGRESS
+chain chain1 name OS_SG_64d9f3df-9875-4896-ad0c-ffc5bba84c5e_EGRESS
+...
++
+In this case, the security rule you have to modify is in the chain0
+(OS_SG_64d9f3df-9875-4896-ad0c-ffc5bba84c5e_INGRESS) rule chain.
+
+. To find out what the name of the security rule in this rule chain is, issue
+this command:
++
+[source]
+midonet> chain chain0 list rule
+rule rule0 ethertype 2048 proto 0 tos 0 ip-address-group-src ip-address-group0 fragment-policy unfragmented pos 1 type accept
+rule rule1 ethertype -31011 proto 0 tos 0 ip-address-group-src ip-address-group0 fragment-policy unfragmented pos 2 type accept
++
+The security group that is responsible for controlling ICMP packets (ethertype
+2048=IP) is ip-address-group0.
+
+. Now, go ahead and add the IP address of the host on the VTEP to the security
+group ip-address-group0.
++
+For example, if the IP address of the host is 172.16.0.3, issue this command:
++
+[source]
+midonet> ip-address-group ip-address-group0 add ip address 172.16.0.3
+address 172.16.0.3
+
+You should now be able to ping a host in MidoNet from host 172.16.0.3 on the
+VTEP (providing they are in the same tunnel zone).

@@ -1,0 +1,18 @@
+[[configuring_uplinks]]
+= Configuring uplinks
+
+This section describes how to configure uplinks from a MidoNet-enabled cloud to
+an external network.
+
+The basic steps for configuring uplinks are:
+
+. Connect a virtual port to an exterior port. 
+
+. Set up a router. This includes configuring the routes for the traffic between
+networks.
+
+. Configure dynamic routing to allow for the exchange of routes between your
+local autonomous system (AS) and other autonomous systems. MidoNet supports BGP,
+which is an exterior routing protocol that allows MidoNet to advertize routes,
+such as the route to the network associated with floating IPs, and receive
+routes and reachability information from BGP peers.

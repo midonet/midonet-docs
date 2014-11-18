@@ -1,0 +1,34 @@
+[[mn_cli_usage]]
+= Using the MidoNet CLI
+
+To use the MidoNet CLI you need to connect to the MidoNet host running it.
+
+. Using SSH to connect to the host running the MidoNet CLI.
++
+You must know the IP address of the machine you are connecting to as well as
+your login credentials, that is your username and password. Example of an SSH
+command:
++
+[source]
+$ ssh root@192.168.17.5
+root@192.168.17.5's password:
++
+You have already provided your username, 'root' as part of the command, and now
+the server is prompting you for a password. Type in your password to get in.
+
+. The CLI is documented in a set of man pages. To view the man pages, from the
+system command line, enter:
++
+[source]
+$ man midonet-cli
++
+. To start the midonet-cli, at the system prompt, enter:
++
+[source]
+$ midonet-cli
+midonet>
++
+The midonet> prompt that gets displayed indicates system readiness to accept
+MidoNet commands. Type in help and hit Enter to get a list of all available
+commands. You can also infer proper usage and syntax from context-aware
+auto-complete and by using the describe command.

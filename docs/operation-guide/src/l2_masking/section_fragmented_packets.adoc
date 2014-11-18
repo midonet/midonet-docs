@@ -1,0 +1,234 @@
+[[handling_fragmented_packets]]
+= Handling fragmented packets
+
+If you observe that MidoNet is encountering fragmented packets, this section
+describes how you can handle this situation.
+
+You can configure IP fragment matching in rules to configure how fragmented
+packets are handled when L4 rules are applied in the virtual topology. This
+feature allows IP fragments to pass through the virtual topology instead of
+being dropped. With this feature implementation, you have the following options:
+
+* If you are writing an L2/L3 firewall, you can be IP fragment agnostic: no
+special handling of IP fragments is required. (L3 NAT handles IP fragments
+correctly.)
+
+* If you are writing an L4 firewall, you can specify special handling for IP
+fragments.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Definitions and allowed values
+
+* header = the Condition matches non-fragmented packets AND header fragments.
+header refers to a non-fragmented packet or to the first fragment (the header
+fragment) of a fragmented packet. The header fragment is the only one whose IPv4
+"fragment offset" field is set to zero. header is the only allowed value if the
+rule's Condition matches L4 fields OR the rule is dynamic (that is, port
+modifying) DNAT or SNAT
+
+* nonheader = the Condition matches only non-header fragments. nonheader refers
+to the second and subsequent fragments.
+
+* any = the Condition matches any fragment AND non-fragmented packets.
+
+* unfragmented = the Condition matches any non-fragmented packet.
+
+[NOTE]
+If the fragment-policy argument is not set, then it is treated like the setting
+is any, unless header is the only allowed value.
+
+[NOTE]
+====
+When you run OpenStack Icehouse against MidoNet with the Condition semantics
+described above, the handling of fragments will change as follows:
+
+Instead of dropping fragments when they pass through L4 rules, these fragments
+will be ignored by L4 rules, and therefore, may potentially allow the packets
+through filters.
+
+A single L4 flow may generate up to two different flows: one to handle
+non-header fragments, another to handle all other packets.
+====
+
+== Fragmented packets rule chain creation example
+
+Create a chain (this creates a rule chain with an alias, "chain0" in the
+example, pointing to the chain created):
+
+[source]
+create chain name chain0
+
+Add a rule to the chain that drops header fragments:
+
+[source]
+chain chain0 add rule fragment-policy header pos 2 header type drop
+
+*Example 1 Firewall, Does Not Account for Fragmented Packets*
+
+The example below only handles non-fragmented packets. These are the firewall
+rules you start with before you decide to handle fragmented packets.
+
+Initially, you design your firewall to:
+
+* Only allow incoming TCP port 80 (HTTP) traffic
+* Drop all other packets
+
+Without addressing fragmented packets, you create a rule chain with the
+following two rules:
+
+* Rule at position 1
++
+** By default, this rule matches only non-fragmented packets and header
+fragments.
++
+** ACCEPTs packets with protocol=TCP and destination=80.
++
+[source]
+midonet> chain chain0 add rule ethertype 2048 src 0.0.0.0/0 proto 6 in-ports router2:port0 dst-port 80 pos 1 type accept
+
+* Rule at position 2
++
+** DROPs all packets.
++
+[source]
+midonet> chain chain0 add rule ethertype 2048 src 0.0.0.0/0 dst 0.0.0.0/0 in-ports router2:port0 pos 2 type drop
+
+[source]
+midonet> chain chain0 list rule
+rule rule0 ethertype 2048 src 0.0.0.0/0 proto 6 tos 0 dst-port 80 in-ports router2:port0 pos 1 type accept
+rule rule1 ethertype 2048 src 0.0.0.0/0 dst 0.0.0.0/0 proto 0 tos 0 in-ports router2:port0 pos 2 type drop
+
+With the above rule chain, MidoNet handles fragmented packet with the
+destination TCP port 80 as follows:
+
+* The first half of the packet, which contains the TCP header, reaches the rule
+at position 1, and is accepted.
+
+* However, the second half of the fragmented, which does not have the
+destination port, reaches the rule at position 1, does not match the rule's
+condition, and is dropped. This means the fragmented packets do not reach the
+Web server.
+
+*Example 2 Firewall, Addresses Fragmented Packets*
+
+To address this problem, MidoNet provides a mechanism to handle the fragmented
+packets. This mechanism allows the fragmented packets to reach their
+destination, as shown in the following example. The drawing below simply depicts
+a whole, non-fragmented packet and a fragmented packet that consists of two
+parts, a header and non-header.
+
+image::packet_fragments.png[]
+
+== Non-Fragmented and Fragmented Packets
+
+For this example, consider the following packets:
+
+* Non-fragmented packet with the destination, TCP port 80
+
+* Fragmented packet with the destination, TCP port 80
+
+* Non-fragmented packet with the destination, TCP port 72
+
+* Fragmented packet with the destination, TCP port 72
+
+image::packet_fragments_multiple_ports.png[]
+
+== Fragmented and Non-Fragmented Packets with Different Destinations
+
+Given the above packets and the rule in example 1, MidoNet processes the packets
+as follows:
+
+* Packet 1 matches the rule in position 1 and is accepted.
+
+* The header part of packet 2 matches the rule in position 1 and is accepted;
+the non-header fragment, which doesn't contain the destination, does not match
+the rule and is dropped.
+
+* Packet 3's destination does not match the rule in position 1 and is dropped,
+same thing for the header part of packet 4. The non-header part of packet 4 does
+not contain destination information and is dropped.
+
+The first objective is to accept the part of the packet fragments that contains
+the headers. To do this, you create the same rule at position 1. The change is
+to add a new rule at position 2, to drop all packets that contain TCP/UDP headers.
+
+* Rule at position 1
++
+** By default, this rule matches only non-fragmented packets and header
+fragments.
++
+** ACCEPTs packets from in-ports=router2:port0 with protocol=TCP and
+destination=80.
++
+[source]
+midonet> chain chain18 add rule ethertype 2048 src 0.0.0.0/0 proto 6 in-ports router2:port0 dst-port 80 pos 1 type accept
+
+* Rule at position 2
++
+** Drop packets that contain TCP/UDP headers
++
+[source]
+midonet> chain chain18 add rule ethertype 2048 src 0.0.0.0/0 in-ports router2:port0 fragment-policy header pos 2 type drop
+
+* Rule at position 3
++
+** Accept all other packets
++
+[source]
+midonet> chain chain18 add rule ethertype 2048 src 0.0.0.0/0 in-ports router2:port0 dst 0.0.0.0/0 pos 3 type accept
+
+Look at the packets in the above figure, starting with the packets destined for
+port 72, and how they the progress through this new rule chain:
+
+* Packet 3's destination is port 72, not port 80, does not match the rule in
+position number 1, and continues to the rule at position number 2.
+
+* Packet 3 contains a TCP header and therefore matches the rule at position
+number 2 and isdropped.
+
+* The header fragment of packet 4 contains a destination of port 72, does not
+match the rule at position 1 and continues to the rule at position number 2.
+
+* This fragment contains a TCP header, matches the rule at position number 2,
+and is dropped.
+
+* The non-header fragment of packet 4 does not contain a header (and therefore,
+has no destination information), does not match the rule at position 1, and
+continues to the rule at position 2.
+
+* This non-header packet fragment does not contain a TCP/UDP header, does not
+match the rule at position 2, and continues to the rule at position 3.
+
+* The rule at position 3 accepts all packets that reach it and accepts this
+packet fragment. Because this packet does not have any associated header
+information it will not be reassembled and sent to an application and will
+eventually be dropped.
+
+Looking at packets 1 and 2:
+
+* Packet 1 is destined for TCP port 80, matches the rule at position 1, and is
+accepted.
+
+* For packet 2, the packet fragment with the header contains a destination of
+TCP port 80, matches the rule at position 1, and is accepted.
+
+* The non-header packet fragment of packet number 2 does not contain a header,
+does not match the rule at position number 1, and continues to the rule at
+position number 2.
+
+* This non-header packet fragment does not contain a TCP/UDP header, therefore
+does not match the rule at position number 2, is not dropped, and continues to
+the rule at position number 3.
+
+* The rule at position number 3 accepts all packets, so this packet fragment is
+accepted.
+
+This change allows non-header fragments to get past both the rules at positions
+1 and 2, and exit the chain with an ACCEPT. With this change, the firewall now
+lets all non-header fragments through, but you decided that the level of risk is
+acceptable and are just trying to fix the broken HTTP flows. This is not a
+problem, as an unwanted nonheader fragment will be discarded if the
+corresponding header fragment is never received.

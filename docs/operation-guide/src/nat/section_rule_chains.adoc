@@ -1,0 +1,77 @@
+[[nat_rule_chains]]
+= Viewing NAT rule chain information
+
+You can use the MidoNet CLI to list the routers for a tenant and list rule
+chains configured on the router.
+
+The example below explains how MidoNet uses rule chains to implement source and
+destination NAT and shows how to use the MidoNet CLI to:
+
+* Display information about the infilter (pre-routing) and outfilter
+(post-routing) chains configured on a tenant router.
+
+* List the rules for the rule chains.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Assumptions
+
+For the example below, assume the following network conditions exist:
+
+* A tenant router named "tenant-router"
+
+* A private network with a 172.16.3.0/24 network address
+
+* A public network with a 198.51.100.0/24 network address
+
+* A VM with a 172.16.3.3 private IP address and a 198.51.100.3 public (floating)
+IP address
+
+== Viewing a Pre-Routing rule
+
+To list routers on the current tenant and the router rule-chain information on
+the router(s), enter the command:
+
+[source]
+midonet> list router
+router router0 name tenant-router state up infilter chain0 outfilter chain1
+
+As shown in the above output, chain0 is the router's pre-routing (infilter) rule
+chain and chain1 is the post-routing (outfilter) rule chain.
+
+To list information about the router's pre-routing rule chain, enter the command:
+
+[source]
+midonet> chain chain0 list rule
+rule rule0 dst 198.51.100.3 proto 0 tos 0 in-ports router0:port0 pos 1 type dnat action accept target 172.16.3.3
+rule rule1 dst 198.51.100.2 proto 0 tos 0 in-ports router0:port0 pos 2 type rev_snat action accept
+
+rule0 of the pre-routing rule chain on the tenant router contains the following
+instructions:
+
+* For packets with the destination of 198.51.100.3 (the floating IP address
+associated with the VM):
+
+** Perform a destination NAT (DNAT) translation to change the destination IP
+address from the VM's floating IP address (198.51.100.3) to the VM's private IP
+address (172.16.3.3).
+
+== Viewing a Post-Routing rule
+
+To list the post-routing rule on the tenant router, enter the command:
+
+[source]
+midonet> chain chain1 list rule
+rule rule0 src 172.16.3.3 proto 0 tos 0 out-ports router1:port0 pos 1 type snat action accept target 198.51.100.3
+rule rule1 proto 0 tos 0 out-ports router1:port0 pos 2 type snat action accept target 198.51.100.2:1--1
+
+rule0 of the post-routing rule on tenant-router contains the following instructions:
+
+* For packets from the source IP address 172.16.3.3 (the private IP address of
+the VM):
+
+** Perform a source NAT (SNAT) translation to change the source IP address from
+the VM's private IP address (172.16.3.3) to the VM's floating IP address
+(198.51.100.3).

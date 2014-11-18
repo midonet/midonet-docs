@@ -1,0 +1,48 @@
+[[dnat_revdnat_example]]
+= DNAT/REV_DNAT example
+
+This example shows how to use MidoNet CLI commands to configure DNAT and
+REV_DNAT on a router.
+
+Below are the assumptions regarding the rule chain for this example:
+
+* You have two subnets: a public subnet (198.51.100.0/24) and a private subnet
+(10.0.0.0/24).
+
+* You have a virtual machine connected to the tenant router with a public IP
+ address of 198.51.100.4 and a private IP address of 10.100.1.150.
+
+* You want to translate traffic with the VM's public IP address to the VM's
+private IP address.
+
+* You want to perform a reverse destination address translation.
+
+To create the rule chain for the above DNAT configuration:
+
+. Create a new rule chain:
++
+[source]
+midonet> chain create name "dnat-test"
+chain10
+
+. Create a rule that accepts traffic on a router port with the destination
+198.51.100.4 and translates the destination to 10.100.1.150:
++
+[source]
+midonet> chain chain10 add rule dst 198.51.100.4 in-ports router1:port0 pos 1 type dnat action accept target 10.100.1.150
+chain10:rule2
+
+. Create a rule that accepts traffic with the destination of the router's
+gateway to the public network and performs a reverse address translation from
+the public network address to the private network address.
++
+[source]
+midonet> chain chain10 add rule dst 198.51.100.2 in-ports router0:port0 pos 2 type rev_snat action accept
+chain10:rule3
+
+. List the rules to check them:
++
+[source]
+midonet> chain chain10 list rule
+rule rule2 dst 198.51.100.4 proto 0 tos 0 in-ports router1:port0 pos 1 type dnat action accept target 10.100.1.150
+rule rule3 dst 198.51.100.2 proto 0 tos 0 in-ports router0:port0 pos 2 type rev_snat action accept

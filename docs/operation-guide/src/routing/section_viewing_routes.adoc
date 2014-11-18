@@ -1,0 +1,62 @@
+[[viewing_routes]]
+= Viewing routes
+
+You can view the routes defined on each virtual router in MidoNet. For example,
+you can view information about routes to virtual bridges and to other routers,
+including tenant routers and the MidoNet Provider Router.
+
+To display route information about the current tenant's routers:
+
+. Enter the command below to list the routers for the current tenant.
++
+[source]
+midonet> list router
+router router0 name tenant-router state up infilter chain0 outfilter chain1
+
+. Enter the command below to list the route list for the router, in this case, a
+tenant router (router0).
++
+[source]
+midonet> router router0 list route
+route route0 type normal src 0.0.0.0/0 dst 169.254.255.2 port router0:port0 weight 0
+route route1 type normal src 0.0.0.0/0 dst 0.0.0.0/0 port router0:port0 weight 100
+route route2 type normal src 0.0.0.0/0 dst 172.16.3.0/24 port router0:port1 weight 100
+route route3 type normal src 172.16.3.0/24 dst 169.254.169.254 gw 172.16.3.2 port router0:port1 weight 100
+route route4 type normal src 0.0.0.0/0 dst 172.16.3.1 port router0:port1 weight 0
+
+The route list shows the following information:
+
+* The source (src) for the traffic to match. route3 shows a specific source
+network to match; 0.0.0.0/0 means match traffic from every network.
+
+* The destination (dst) for this traffic. This can be a network or a specific
+interface.
+
+** route0 shows an example of a route to a specific interface. This is the route
+to the link-local address, which, in this example, is peered with the MidoNet
+Provider Router.
+
+** route2 shows a route to the 172.16.3.0/24 network, which is a private network.
+
+** route1 says: for traffic that matches every network (0.0.0.0/0) with a
+destination of any network (0.0.0.0/0), forward this traffic to port0, which is
+peered with the MidoNet Provider Router. For traffic that matches the source IP
+address, MidoNet finds the route whose destination prefix matches the packet's
+destination and has the longest mask (a.k.a. longest-prefix matching). If the
+router cannot find a destination with a longer prefix than 0.0.0.0, the router
+sends the traffic to this default route.
+
+* For destinations that are not directly connected to the router, the interface
+to the gateway to the destination is shown (next hop gateway).
+
+** route3 shows an example. This route says: traffic with a source that matches
+the 172.16.3.0/24 network (that is, traffic from the private network), with the
+destination, 169.254.169.254, which is the link-local address to the metadata
+service, forward this traffic to the gateway port, 172.16.3.2, which is the
+tenant router's interface to the metadata service.
+
+** route4 says: for traffic from any network (0.0.0.0/0) with the destination of
+the tenant router's interface (172.16.3.1), which is the tenant router's
+interface to the private network, forward this traffic to port1. port 1 on the
+tenant router is peered with port0 on router1, which is the MidoNet Provider
+Router.

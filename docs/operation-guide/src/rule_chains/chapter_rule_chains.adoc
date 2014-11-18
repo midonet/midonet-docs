@@ -1,0 +1,15 @@
+[[rule_chains]]
+= Rule chains
+
+The routing logic for a MidoNet virtual router includes the traversal of rule
+chains that may modify, record state, or reject a packet.
+
+A newly created router has two chains: one named 'pre-routing' and the other
+named 'post-routing'. Below are a few important facts about rule chains:
+
+* You can put chains not only on routers, but also on bridges and ports, too.
+
+* Pre-routing chains have access to the ingress port ID, while post-routing
+chains have access to both the ingress and egress port. During post-routing, the
+router routes the packet and both the ingress port and the egress router port
+are known.

@@ -1,0 +1,90 @@
+[[midolman_events]]
+= MidoNet Agent events
+
+This section describes the messages associated with MidoNet Agent events.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== NSDB
+
+|===============
+|Logger|org.midonet.event.agent.Nsdb.CONNECT
+|Message|CONNECT Connected to the NSDB cluster.
+|Level|INFO
+|Explanation|MidoNet Agent was connected to the NSDB cluster.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.agent.Nsdb.DISCONNECT
+|Message|DISCONNECT Disconnected from the NSDB cluster.
+|Level|WARNING
+|Explanation|MidoNet Agent was disconnected  from the NSDB cluster.
+|Corrective Action|
+    If the connection is restored after this event, no corrective action is
+    required. If this event continues, check the network connection between the
+    MidoNet Agent and the NSDB cluster.
+|===============
+
+|===============
+|Logger|org.midonet.event.agent.Nsdb.CONN_EXPIRE
+|Message|
+    CONN_EXPIRE Connection to the NSDB cluster expired. Shutting down the
+    MidoNet Agent.
+|Level|ERROR
+|Explanation|
+    The connection from the MidoNet Agent to the NSDB cluster expired. Shutting
+    down the MidoNet Agent.
+|Corrective Action|
+    Check the network connection  between the MidoNet Agent node and the NSDB
+    cluster and restart the MidoNet Agent service on the node so it reconnects
+    to the NSDB cluster.
+|===============
+
+== Interface
+
+|===============
+|Logger|org.midonet.event.agent.Interface.DETECT
+|Message|NEW interface={0}
+|Level|INFO
+|Explanation|MidoNet Agent detected a new interface={0}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.agent.Interface.UPDATE
+|Message|UPDATE interface={0} was updated.
+|Level|INFO
+|Explanation|MidoNet Agent detected an update in interface={0}.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.agent.Interface.DELETE
+|Message|DELETE interface={0} was deleted.
+|Level|INFO
+|Explanation|MidoNet Agent detected that interface={0} was deleted.
+|Corrective Action|N/A
+|===============
+
+== Service
+
+|===============
+|Logger|org.midonet.event.agent.Service.START
+|Message|START Service started.
+|Level|INFO
+|Explanation|Service started.
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.agent.Service.EXIT
+|Message|EXIT Service exited.
+|Level|WARNING
+|Explanation|Service exited.
+|Corrective Action|
+    Restart the MidoNet Agent service if this event happened unintentionally. If
+    this event recurs, contact Midokura support.
+|===============

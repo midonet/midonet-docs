@@ -1,0 +1,65 @@
+[[disabling_keystone_authentication]]
+
+= Disabling Keystone authentication
+
+MidoNet lets you disable authentication by using a mock authentication service.
+
+Using this service has the effect that no outside authentication service is
+used. Instead, MidoNet will simply return tokens based on what is set in the
+web.xml file.
+
+To use the mock authentication service, you must configure the following
+settings in your web.xml file.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== auth-auth_provider
+
+Lists the fully qualified path of the Java class that provides the
+authentication service.
+
+[source]
+<context-param>
+  <param-name>auth-auth_provider</param-name>
+  <param-value>
+    org.midonet.api.auth.MockAuthService
+  </param-value>
+</context-param>
+
+== mock_auth-admin_token
+
+Identifies the fake token used to emulate admin role access. This is only
+applicable if you specify mock authentication (MockAuth) as the authentication
+service.
+
+[source]
+<context-param>
+  <param-name>mock_auth-admin_token</param-name>
+  <param-value>secret_token_XYZ</param-value>
+</context-param>
+
+== mock_auth-tenant_admin_token
+
+Identifies the fake token used to emulate tenant admin role access. This is only
+applicable if you specify mock authentication (MockAuth) as the authentication
+service.
+
+[source]
+<context-param>
+  <param-name>mock_auth-tenant_admin_token</param-name>
+  <param-value>secret_token_XYZ</param-value>
+</context-param>
+
+== mock_auth-tenant_user_token
+
+Identifies the fake token used to emulate tenant user role access. This is only
+applicable if you specify mock authentication (MockAuth) as the authentication
+service.
+
+[source]
+<context-param>
+  <param-name>mock_auth-tenant_user_token</param-name>
+  <param-value>secret_token_XYZ</param-value>
+</context-param>
