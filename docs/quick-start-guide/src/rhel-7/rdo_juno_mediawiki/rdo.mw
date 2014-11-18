@@ -1,0 +1,92 @@
+MidoNet is an open-source network virtualization platform for 
+Infrastructure-as-a-Service (IaaS) clouds. MidoNet decouples your IaaS cloud
+from your network hardware, creating an intelligent software abstraction layer
+between your end hosts and your physical network. This network abstraction layer
+allows the cloud operator to move what has traditionally been hardware-based
+network appliances into a software-based multi-tenant virtual domain.
+This page will provide step-by-step detail for neuton integration with MidoNet.
+This page assumes an all-in-one configuration. Further steps to configure a
+multi node environment can be found at http://docs.midonet.org
+
+
+== Start RDO ==                                                                                                                                                                                                    
+Start RDO as suggested in [[Quickstart | RDO Quickstart]]. After OpenStack is up and running, you can [[Adding_a_compute_node | add compute nodes]]. Later on we'll replace the default openvswitch neutron plugin in order to configure MidoNet to configure Neutron ML2 plugin. 
+
+== Basic Environment Configuration ==
+
+=== Repository Configuration ===
+
+Configure necessary software repositories and update installed packages.
+
+1. Enable Red Hat repositories
+ # subscription-manager repos --enable=rhel-7-server-rpms
+2. Enable DataStax repository
+Create the '''/etc/yum/repo''' file and edit it to contain the following
+ <pre>
+ # DataStax (Apache Cassandra)
+ [datastax]
+ name = DataStax Repo for Apache Cassandra
+ baseurl = http://rpm.datastax.com/community
+ enabled = 1
+ gpgcheck = 0
+ </pre>
+
+3. Enable MidoNet repositories
+ <pre>
+ [midonet]
+ name=MidoNet
+ baseurl=http://repo.midonet.org/midonet/v1.8/RHEL/7/unstable/
+ enabled=1
+ gpgcheck=1
+ gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
+
+ [midonet-openstack-integration]
+ name=MidoNet OpenStack Integration
+ baseurl=http://repo.midonet.org/openstack-icehouse/RHEL/7/unstable/
+ enabled=1
+ gpgcheck=1
+ gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
+
+ [midonet-misc]
+ name=MidoNet 3rd Party Tools and Libraries
+ baseurl=http://repo.midonet.org/misc/RHEL/7/misc/
+ enabled=1
+ gpgcheck=1
+ gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
+ </pre>
+
+=== SELinux Configuration ===
+
+This guide assumes that SELinux (if installed) is either in permissive state or
+disabled.
+
+To change the mode, execute the following command:
+
+ # setenforce 0
+
+To permantently change the SELinux configuration, edit the /etc/selinux/config file accordingly:
+
+ SELINUX=permissive
+
+
+== MidoNet installation ==
+=== NSDB Nodes ===
+==== ZooKeeper Installation ====
+1. Install ZooKeeper Packages
+ # yum -y install zookeeper zkdump
+2. Configure ZooKeeper
+
+3. Create Java Symlink
+ # mkdir -p /usr/java/default/bin/
+ # ln -s /usr/lib/jvm/jre-1.7.0-openjdk/bin/java /usr/java/default/bin/java
+
+4. Enable and start ZooKeeper
+ # systemctl enable zookeeper.service
+ # systemctl start zookeeper.service
+==== Cassandra Installation ====
+1. Install Cassandra packages
+ # yum install dsc20
+2. Configure Cassandra
+
+
+=== Controller Node ===
