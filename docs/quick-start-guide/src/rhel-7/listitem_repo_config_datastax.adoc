@@ -1,7 +1,8 @@
 . *Enable DataStax repository*
 +
 ====
-Edit the `/etc/yum.repos.d/datastax.repo` file to contain the following:
+Create the `/etc/yum.repos.d/datastax.repo` file and edit it to contain the
+following:
 
 [source]
 ----

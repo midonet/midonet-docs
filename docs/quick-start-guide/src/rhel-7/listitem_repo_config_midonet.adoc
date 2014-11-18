@@ -5,7 +5,8 @@
 Currently only nightly builds of the MidoNet packages are available.
 Use them at your own risk, they are not QA'ed!
 
-Edit the `/etc/yum.repos.d/midonet.repo` file to contain the following:
+Create the `/etc/yum.repos.d/midonet.repo` file and edit it to contain the
+following:
 
 [source]
 ----

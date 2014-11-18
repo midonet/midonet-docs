@@ -1,7 +1,8 @@
 . *Configure DataStax repository*
 +
 ====
-Edit the `/etc/apt/sources.list.d/datastax.list` file to contain the following:
+Create the `/etc/apt/sources.list.d/datastax.list` file and edit it to contain
+the following:
 
 [source]
 ----

@@ -61,8 +61,8 @@ Instead, perform the following steps.
 mkdir /etc/neutron/plugins/midonet
 ----
 +
-.. Edit the `/etc/neutron/plugins/midonet/midonet.ini` file to contain the
-following:
+.. Create the `/etc/neutron/plugins/midonet/midonet.ini` file and edit it to
+contain the following:
 +
 [literal,subs="quotes"]
 ----

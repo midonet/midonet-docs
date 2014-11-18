@@ -67,7 +67,8 @@ Edit the `/usr/share/midonet-api/WEB-INF/web.xml` file to contain the following:
 . *Configure MidoNet API context*
 +
 ====
-Edit the `/etc/tomcat/Catalina/localhost/midonet-api.xml` file to contain the following:
+Create the `/etc/tomcat/Catalina/localhost/midonet-api.xml` file and edit it to
+contain the following:
 
 [source]
 ----
