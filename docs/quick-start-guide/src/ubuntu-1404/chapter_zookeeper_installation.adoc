@@ -28,7 +28,7 @@ server.*3*=*_compute1_*:2888:3888
 
 ... *Controller Node*
 +
-Edit the `/var/lib/zookeeper/myid` file to contain the host's ID:
+Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 +
 [literal,subs="quotes"]
 ----
@@ -37,7 +37,7 @@ Edit the `/var/lib/zookeeper/myid` file to contain the host's ID:
 
 ... *Network Node*
 +
-Edit the `/var/lib/zookeeper/myid` file to contain the host's ID:
+Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 +
 [literal,subs="quotes"]
 ----
@@ -46,7 +46,7 @@ Edit the `/var/lib/zookeeper/myid` file to contain the host's ID:
 
 ... *Compute Node*
 +
-Edit the `/var/lib/zookeeper/myid` file to contain the host's ID:
+Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 +
 [literal,subs="quotes"]
 ----

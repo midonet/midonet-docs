@@ -70,7 +70,8 @@ JAVA_OPTS="$JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
 . *Configure MidoNet API context*
 +
 ====
-Edit the `/etc/tomcat7/Catalina/localhost/midonet-api.xml` file to contain the following:
+Create the `/etc/tomcat7/Catalina/localhost/midonet-api.xml` file and edit it to
+contain the following:
 
 [source]
 ----

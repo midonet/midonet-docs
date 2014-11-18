@@ -12,7 +12,7 @@
 . *Configure MidoNet CLI*
 +
 ====
-Edit the `~/.midonetrc` file to contain the following:
+Create the `~/.midonetrc` file and edit it to contain the following:
 
 [literal,subs="quotes"]
 ----

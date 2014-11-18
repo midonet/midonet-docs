@@ -5,7 +5,8 @@
 Currently only nightly builds of the MidoNet packages are available.
 Use them at your own risk, they are not QA'ed!
 
-Edit the `/etc/apt/sources.list.d/midonet.list` file to contain the following:
+Create the `/etc/apt/sources.list.d/midonet.list` file and edit it to contain
+the following:
 
 [source]
 ----

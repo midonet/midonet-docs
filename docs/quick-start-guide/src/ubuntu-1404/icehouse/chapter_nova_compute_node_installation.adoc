@@ -41,7 +41,8 @@ cgroup_device_acl = [
 . *Configure nova-rootwrap*
 +
 ====
-Edit the `/etc/nova/rootwrap.d/midonet.filters` file to contain the following:
+Create the `/etc/nova/rootwrap.d/midonet.filters` file and edit it to contain
+the following:
 
 [source]
 ----
