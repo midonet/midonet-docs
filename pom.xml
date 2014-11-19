@@ -126,6 +126,7 @@
                         <sectionAutolabel>0</sectionAutolabel>
                         <tocSectionDepth>1</tocSectionDepth>
                         <formalProcedures>0</formalProcedures>
+                        <ignoreImageScaling>0</ignoreImageScaling>
 
                         <showXslMessages>true</showXslMessages>
                     </configuration>
