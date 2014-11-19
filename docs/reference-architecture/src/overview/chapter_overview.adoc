@@ -1,0 +1,20 @@
+[[midoNet_overview]]
+= MidoNet overview
+
+MidoNet is a distributed, de-centralized, software-defined virtual network
+platform for Infrastructure as a Service (IaaS).
+
+MidoNet fully virtualizes the network functionality for IaaS products, such as
+OpenStack, providing functionally advanced, robust, scalable, and secure
+networks. MidoNet is an overlay network that runs software on standard x86
+servers, and sits on top of any scalable network underlay (for example,
+physical servers and switches), pushing the intelligent network functions to the
+edge of the network, in software.
+
+MidoNet sends virtual network traffic over tunnels created between the edges.
+The tunnels encapsulate the packets coming from virtual machines (VMs) and
+exterior ports, and decouple the virtual network traffic from the physical
+network. With this model, changes in the virtual network, for example, creating
+new virtual machines, don't affect the state of the underlay network. In
+addition, this clear separation between the virtual and physical networks allows
+the administrator to more easily maintain the IaaS platform.

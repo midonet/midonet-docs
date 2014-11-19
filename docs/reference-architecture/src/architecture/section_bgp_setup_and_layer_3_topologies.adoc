@@ -1,0 +1,20 @@
+[[bgp_setup_and_layer_3_topologies]]
+= BGP setup and Layer-3 topologies
+
+This section provides diagrams and information regarding BGP setup and Layer 3
+topologies.
+
+xref:l3_physical_underlay_network[] shows an example underlying network
+infrastructure.
+
+xref:l3_virtual_overlay_network[] shows an example MidoNet virtual network
+overlaid on top of the underlying network architecture, along with BGP
+route-advertisement information.
+
+[[l3_physical_underlay_network]]
+.Layer-3 Topology (Physical Underlay Network)
+image::l3_physical_underlay_network_3299x977.png[scaledwidth="100%"]
+
+[[l3_virtual_overlay_network]]
+.Layer-3 Topology (Virtual Overlay Network)
+image::l3_virtual_overlay_network_3299x1589.png[scaledwidth="100%"]

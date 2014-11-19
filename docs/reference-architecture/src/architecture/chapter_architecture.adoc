@@ -1,0 +1,13 @@
+[[midonet_network_architecture]]
+= MidoNet network architecture
+
+MidoNet operates an overlay network on top of an existing physical network.
+MidoNet Agents run in software on the edge of the network in both the GW
+(gateway) nodes, as well as on the compute hosts.
+
+In addition to the MidoNet Agents, there is also a state-management system,
+which coordinates with each of the distributed agents. For centralized
+management, MidoNet also provides a RESTful API server.
+
+.MidoNet Example Topology
+image::midonet_example_topology_3299x2349.png[scaledwidth="100%"]

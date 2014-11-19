@@ -1,0 +1,38 @@
+[[gateway_nodes]]
+= MidoNet gateway nodes
+
+In addition to the hardware required to run OpenStack and MidoNet, you need one
+or more servers to run at the edge of the network and connect your OpenStack
+deployment to the external network. These servers are referred to as "Gateway
+Nodes".
+
+Gateway Nodes will handle more traffic (to and from external networks) than
+Compute nodes so you must make sure that you allocate more memory to the Gateway
+Nodes hosts.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Gateway node requirements
+
+MidoNet interfaces directly with upstream routers via physical connections.
+
+GW nodes need at least two physical network interfaces, one on the internal
+network, and the other connected to the upstream router. Depending on the use
+case and environment, the GW nodes may be handling much incoming and outgoing
+traffic. Therefore, we highly recommend NICs with multi-queue and MSI-X support,
+such as ones based on the 1Gbps Intel™ 82576 Ethernet controller, or the 10Gbps
+Intel 82599 Ethernet controller. Using such a NIC enables us to process receive
+events on multiple queues, and to handle IRQ events on multiple cores.
+
+== Gateway node connectivity
+
+The MidoNet cloud deployment needs to be assigned a global IP range, which will
+be used by clients to access the VMs from the Internet.
+
+MidoNet can use static routing, but we generally prefer to use BGP dynamic
+routing for fast fail over. All GW nodes advertise the same IP range via BGP so
+the upstream network should balance incoming flows over them. Typically, users
+assign a private Autonomous System (AS) to the MidoNet deployment, and set up
+BGP sessions for each edge.

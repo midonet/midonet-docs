@@ -1,0 +1,28 @@
+[[openstack_integration]]
+= OpenStack integration
+
+MidoNet works very well with OpenStack, Icehouse release, taking over nearly all
+of the networking functions currently found in OpenStack, including Layer 2
+network isolation, Layer 3 routing, security groups, floating IPs, and more.
+
+MidoNet integrates with OpenStack by providing an OpenStack Networking plugin,
+as well as drivers for OpenStack Networking. End users can use the same
+OpenStack API, GUI, and CLI commands; MidoNet hooks into existing API calls and
+handles all the networking calls in a seamless manner.
+
+You may also configure a management network that links all servers hosting
+OpenStack and MidoNet software. This network would provide out-of-band
+management of your cloud software.
+
+You may arrange OpenStack deployment into two types of nodes: *Controller nodes*
+and *Compute nodes*.
+
+* The Controller node typically hosts such services as: nova-api, nova-cert,
+nova-conductor, nova-scheduler, nova-consoleauth, and neutron.
+
+* The Compute nodes typically host the nova-compute and hypervisor services.
+Nova-compute should not be installed on the Controller node.
+
+[NOTE]
+On RHEL distributions, "openstack" may be prepended to the OpenStack package
+name, for example, "*openstack-nova-api*".

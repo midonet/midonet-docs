@@ -1,0 +1,71 @@
+[[underlay_network]]
+= Underlay network
+
+The underlay network is the physical network hosting the MidoNet software.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== GRE and VXLAN tunnels
+
+MidoNet uses tunneling for communication between physical hosts in the underlay.
+MidoNet supports two tunneling protocols:
+
+* General Routing Encapsulation (GRE) protocol (MidoNet's default tunneling
+protocol). GRE has a fixed wrapper size of 46 bytes.
+
+* Virtual Extensible LAN (VXLAN) protocol. VXLAN adds an overhead of 50 bytes.
+
+To avoid fragmentation and reassembly, you must allow for this overhead, by
+setting the appropriate Maximum Transmission Unit (MTU) size.
+
+== MTU size considerations for the underlay network
+
+To allow for the overhead, with the default MTU size (1500) for the network
+up-link and virtual machines, the MTU size for physical network devices
+participating in GRE tunneling should be 1546. For VXLAN traffic to be
+functional, you should set the MTU size for physical network devices to 1550.
+
+[IMPORTANT]
+Make sure the MTU of the virtual machines is not larger than the MTU of the
+up-link interface on the border gateway.
+
+== MTU size considerations for the overlay network
+
+Optimal data-link settings will depend on your individual environment. MidoNet
+supports jumbo Ethernet frames. When configuring jumbo-frame support, please
+note that network interfaces in the MidoNet network should have an MTU size of
+at least 46 bytes or 50 bytes less than the MTU size of the underlay (physical)
+network (to allow for GRE and VXLAN encapsulation, respectively). Watch out for
+any MTU mismatch that may occur in the path of the virtual network traffic. Such
+a mismatch may result in IP fragmentation/defragmentation that may negatively
+impact network performance.
+
+If your underlay network does not support Ethernet frames larger than 1500
+bytes, you may need to run the MidoNet network with MTU settings of 1454 or 1450
+bytes (to allow for GRE and VXLAN encapsulation, respectively). With this
+configuration, ensure that you configure the MTU size correctly for network
+interfaces inside virtual machines.
+
+== Offloading on L3 Gateway uplink NIC
+
+Offloading on NICs is intended for end-hosts, not intermediate hosts. The NIC of
+the Gateway's uplink should be treated like a router NIC.
+
+If LRO is enabled at the L3 Gateway uplink NIC, the NIC may coalesce incoming
+TCP packets, handing MidoNet a packet that is larger than the MTU of the
+destination. The packet is therefore dropped because MidoNet does not provide
+large segment offload (LSO, segmenting large TCP packets before transmitting)
+nor does it support IP fragmentation. For that reason, you must disable offload
+on L3 Gateway uplink NIC. Do the following on the uplink NIC:
+
+[source]
+----
+# ethtool -K p2p1 lro off
+----
+
+Alternatively, you may add this to the network script file:
+
+[source]
+ETHTOOL_OPTS="lro off"

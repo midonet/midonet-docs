@@ -1,0 +1,5 @@
+[[midonet_cli]]
+= MidoNet Command Line Interface
+
+The MidoNet CLI is a command line interface that allows you to inspect and edit
+the MidoNet virtual topology.
