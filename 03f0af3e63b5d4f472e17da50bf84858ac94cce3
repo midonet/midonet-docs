@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fafc7978_201d88be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-11-19T12:53:10Z",
+      "side": 1,
+      "message": "On which operating system?",
+      "revId": "03f0af3e63b5d4f472e17da50bf84858ac94cce3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_8079d4fe",
+        "filename": "docs/quick-start-guide/src/rdo/icehouse/content_openstack_installation.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-11-19T12:53:10Z",
+      "side": 1,
+      "message": "Is it for Icehouse or Juno?",
+      "revId": "03f0af3e63b5d4f472e17da50bf84858ac94cce3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_607e70e6",
+        "filename": "docs/quick-start-guide/src/rdo/icehouse/content_openstack_installation.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-11-19T12:53:10Z",
+      "side": 1,
+      "message": "Pleas insert line breaks at \u003c\u003d80 chars for easier readability (if possible, don\u0027t put a line break inside the URL or e.g. code sections).",
+      "revId": "03f0af3e63b5d4f472e17da50bf84858ac94cce3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_e03b8036",
+        "filename": "docs/quick-start-guide/src/rdo/listitem_repo_config_rdo.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-11-19T12:53:10Z",
+      "side": 1,
+      "message": "I would change the file path. We currently have \"src/ubuntu-1404\" and \"src/rhel7\", distinguished by operating system. RDO is not an operating sytem, but an OpenStack flavour though. What about changing it to \"src/rhel-7/juno-rdo\". It is for Juno, isn\u0027t it?",
+      "revId": "03f0af3e63b5d4f472e17da50bf84858ac94cce3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_c0359c47",
+        "filename": "docs/quick-start-guide/src/rdo/listitem_repo_config_rdo.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-11-19T12:53:10Z",
+      "side": 1,
+      "message": "Depicting a command line with \"#\" means to run the command as \"root\" user, thus the \"sudo\" is not necessary.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 6
+      },
+      "revId": "03f0af3e63b5d4f472e17da50bf84858ac94cce3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_a03a1834",
+        "filename": "docs/quick-start-guide/src/rdo/listitem_repo_config_rdo.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-11-19T12:53:10Z",
+      "side": 1,
+      "message": "There shouldn\u0027t be a line break here.",
+      "revId": "03f0af3e63b5d4f472e17da50bf84858ac94cce3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_601790a4",
+        "filename": "docs/quick-start-guide/src/rdo/listitem_repo_config_rdo.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-11-19T12:53:10Z",
+      "side": 1,
+      "message": "Should be run as root, so instead of doing \"su -c\" just putting a \"#\" here seems clearer.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "03f0af3e63b5d4f472e17da50bf84858ac94cce3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_00268416",
+        "filename": "docs/quick-start-guide/src/rdo/listitem_repo_config_rdo.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-11-19T12:53:10Z",
+      "side": 1,
+      "message": "Above you use \"yum install\", why use \"rpm -Uvh\" here? Let\u0027s use the same pattern everywhere.",
+      "range": {
+        "startLine": 15,
+        "startChar": 7,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "03f0af3e63b5d4f472e17da50bf84858ac94cce3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_003fa426",
+        "filename": "docs/quick-start-guide/src/rdo/listitem_repo_config_rdo.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-11-19T12:53:10Z",
+      "side": 1,
+      "message": "These should be run as \"root\", thus adding a \"#\" prefixed seem reasonable.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 53
+      },
+      "revId": "03f0af3e63b5d4f472e17da50bf84858ac94cce3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
