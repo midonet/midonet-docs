@@ -1,0 +1,36 @@
+[[cassandra]]
+= Cassandra
+
+MidoNet uses Apache Cassandra version 2.0 to store flow state information, for
+example NAT bindings, connection tracking information, and to support VM
+migration.
+
+While, MidoNet leverages Cassandra's durability, fault tolerance, timed
+expirations, and low-latency read/writes, it only uses Cassandra as a backup
+rather than the primary datasource.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Necessary software
+
+Cassandra requires a Java Runtime Environment (JRE).
+
+We recommend OpenJDK 7, which is available as part of most Linux distributions
+or can be installed using the official installation guide (go to
+http://openjdk.java.net/ and navigate to the installing information).
+
+== Fault-tolerant configuration guidelines
+
+The minimum recommended Cassandra setup is a three-node cluster with a
+replication factor (N) of three.
+
+The MidoNet Agent (Midolman) uses QUORUM as a consistency policy of N/2 + 1,
+which translates to two in the suggested setup.
+
+== Accessibility considerations
+
+Cassandra uses two IP addresses: one for intra-cluster communication (the
+listen_address parameter) and another one for client connections via remote
+procedure calls (RPC) (rpc_address).

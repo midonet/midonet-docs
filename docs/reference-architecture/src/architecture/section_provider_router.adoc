@@ -1,0 +1,27 @@
+[[provider_router]]
+= Provider router
+
+Provider router is an internal router in MidoNet that acts as the gateway router
+of the cloud.
+
+It is created when an external network is created in Neutron. There is always
+only one Provider router in the system, even if there are multiple external
+networks.
+
+A provider router gets created automatically when you create an external network
+in OpenStack.
+
+Note that even though the provider router is a single virtual entity, its state
+is distributed in MidoNet, and it doesn’t present a single point of failure as
+long as you have multiple Gateway Nodes providing connectivity to the external
+network.
+
+In a real deployment, most of the ports connected to the MidoNet Provider Router
+are up-link ports, and typically there are multiple unlink ports. (In the
+example network described above, the network is not connected to up-link ports.)
+Like other virtual ports with connections outside of MidoNet, each port is bound
+to a device (Ethernet interface) and a host. The host is a Gateway Node that is
+physically connected to the upstream router that goes out to a service provider.
+
+For more information on creating external networks, refer to
+http://docs.openstack.org/havana/install-guide/install/apt/content/install-neutron.configure-networks.html

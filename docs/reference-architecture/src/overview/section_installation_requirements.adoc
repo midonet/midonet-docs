@@ -1,0 +1,37 @@
+[[installation_requirements]]
+= Requirements for installation
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Operating System Requirements
+
+MidoNet works with the following operating system options:
+
+* Ubuntu 12.04.4 LTS (Precise) server 64-bit, Ubuntu 14.04.4 LTS (Trusty) server
+64-bit
+
+* Red Hat Enterprise Linux 6.5, Red Hat Enterprise Linux 7
+
+== BGP Setup Requirements
+
+You need the hardware and information listed below to configure BGP on the GW
+nodes.
+
+* Two GW nodes connected to border routers. Typically, for load balancing, each
+GW node connects to a different border router.
+
+* Each GW nodes needs at least two physical network interfaces, one on the
+internal network, and the other connected to the upstream border router.
+
+* Autonomous system (AS) number of your local (private) network
+
+* AS number of the remote (public) network (for example, your Internet service
+provider (ISP) or data center)
+
+* The IP address(es) of the interface(s) on one or more border routers
+
+* The IP addresses of the GW nodes' virtual ports
+
+* For each GW node, the IP address of the advertising route

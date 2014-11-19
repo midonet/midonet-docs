@@ -1,0 +1,77 @@
+[[zookeeper]]
+= ZooKeeper
+
+MidoNet uses Apache ZooKeeper to store critical path data about the virtual and
+physical network topology.
+
+Examples of this type of data are: interconnects between virtual machines (VMs)
+and bridges and routers; Address Resolution Protocol (ARP) and ND tables; and
+host Universally Unique Identifier (UUID) and Internet Protocol (IP) address
+registrations. The MidoNet Agents and the MidoNet API Server manage the schema
+for ZooKeeper. Because of the nature of the information stored within ZooKeeper,
+the schema is optimized for integrity and consistency of the data across the
+cluster instead of speed.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Necessary software
+
+MidoNet requires ZooKeeper version 3.4.5; Midokura provides this software in our
+repository.
+
+You can also obtain ZooKeeper software from the Apache Software Foundation.
+
+In addition to the ZooKeeper software itself, you also need a Java® Runtime
+Environment. We recommend OpenJDK™ 7, which is available as part of most Linux
+distributions.
+
+== Fault-tolerant configuration guidelines
+
+We strongly recommend running at least three ZooKeeper instances.
+
+With extremely small test and development environments (no more than three
+MidoNet Agents, including Gateway Nodes) you can run a single instance of
+ZooKeeper. For all production deployments, we strongly encourage using three
+instances.
+
+For larger scale implementations (over a few dozen MidoNet Agents running,
+including Gateway Nodes), we recommend installing Cassandra and ZooKeeper on
+separate nodes optimized for their workloads. We also recommend running five or
+seven instances of ZooKeeper and Cassandra to reduce load and provide more
+resources to the rest of the cluster.
+
+You should deploy ZooKeeper and Cassandra nodes in an odd number of instances,
+for example, 3, 7, or 9. This ensures a quorum in the event of a node failure.
+The number of node failures that the cluster can tolerate is one for a
+three-node cluster, two for a five-node cluster, three for a seven-node cluster,
+and so on.
+
+To help manage ZooKeeper clusters, we recommend using the Exhibitor Supervisor
+System for ZooKeeper.
+
+== Accessibility considerations
+
+The ZooKeeper cluster typically uses three ports: TCP/2181, TCP/2888, and
+TCP/3888.
+
+The Exhibitor Supervisor typically also runs a web interface on TCP/8080.
+
+The ZooKeeper cluster needs to be directly accessible to the following MidoNet
+components without a proxy:
+
+* MidoNet API server
+
+* MidoNet Agents (including the MidoNet Gateway Node(s))
+
+* Other ZooKeeper instances
+
+We recommend using a network separate from the data path for MidoNet control
+messages. For example, you may use a management network for connectivity between
+the MidoNet API, MidoNet Network State Database, and MidoNet Agent nodes. You
+should establish the point-to-point tunnels between MidoNet Agents on the data
+path network.
+
+If you use Exhibitor, make sure its web interface is accessible to system
+operators.

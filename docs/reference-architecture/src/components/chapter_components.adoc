@@ -1,0 +1,15 @@
+[[solution_components]]
+= Solution components
+
+The MidoNet solution consists of these components:
+
+* MidoNet Network State Database nodes
+
+* MidoNet Gateway Nodes
+
+* Servers running the MidoNet API, the MidoNet Agent (Midolman), and the Command
+Line Interface (CLI)
+
+* OpenStack controller nodes hosting Nova and OpenStack Networking services
+
+* OpenStack Compute nodes

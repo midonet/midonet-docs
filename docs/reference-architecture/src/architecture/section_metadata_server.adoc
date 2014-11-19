@@ -1,0 +1,7 @@
+[[metadata_server]]
+= Metadata server
+
+The metadata server is used for storing instance VM configuration information,
+for example, authentication information or a VM customization script.
+
+The metadata server stores a table with VM configuration values.

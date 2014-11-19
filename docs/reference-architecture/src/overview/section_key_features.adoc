@@ -1,0 +1,27 @@
+[[midonet_key_features]]
+= MidoNet key features
+
+These are the key features of MidoNet:
+
+* Fully virtualized Layer 2 through 4 networking
+
+* VLAN-less VLANs – Virtual L2 distributed isolation and switching with
+virtually none of the limitations of conventional VLANs
+
+* Fully distributed architecture with no single points of failure
+
+* Virtual L3 distributed routing
+
+* Distributed load balancing and firewall services
+
+* Stateful and stateless NAT
+
+* Access Control Lists (ACLs)
+
+* Restful API
+
+* Monitoring of networking services
+
+* VXLAN support: VXLAN tunnel zones, VXLAN L2 Gateway
+
+* Zero-delay NAT connection tracking

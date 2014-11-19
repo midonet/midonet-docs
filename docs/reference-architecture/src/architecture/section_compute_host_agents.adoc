@@ -1,0 +1,9 @@
+[[compute_host_agents]]
+= Compute Host Agents
+
+MidoNet requires an agent to be installed on each compute host, which runs the
+VMs.
+
+The MidoNet Agent on the compute host is responsible for most of the east/west
+traffic in the cloud, as well as the outgoing northbound traffic. We currently
+support the KVM hypervisor.
