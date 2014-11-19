@@ -1,0 +1,29 @@
+. *Enable RDO repositories*
++
+====
+[source]
+----
+# yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
+----
+====
+
+.. Enable the EPEL repository:
++
+====
+[source]
+----
+su -c 'rpm -Uvh
+http://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm'
+----
+====
+
+.. Enable 'optional' and 'extras' from RHEL subscription
++
+====
+[source]
+----
+# yum -y install yum-utils
+# yum-config-manager --enable rhel-7-server-optional-rpms
+# yum-config-manager --enable rhel-7-server-extras-rpms
+----
+====
