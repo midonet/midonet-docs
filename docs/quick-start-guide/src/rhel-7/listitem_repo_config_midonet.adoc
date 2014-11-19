@@ -12,7 +12,7 @@ following:
 ----
 [midonet]
 name=MidoNet
-baseurl=http://repo.midonet.org/midonet/v1.8/RHEL/7/unstable/
+baseurl=http://repo.midonet.org/midonet/v2014.11/RHEL/7/unstable/
 enabled=1
 gpgcheck=1
 gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura

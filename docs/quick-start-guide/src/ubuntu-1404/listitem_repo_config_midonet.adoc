@@ -11,7 +11,7 @@ the following:
 [source]
 ----
 # MidoNet
-deb http://repo.midonet.org/midonet/v1.8 unstable main
+deb http://repo.midonet.org/midonet/v2014.11 unstable main
 
 # MidoNet OpenStack Integration
 deb http://repo.midonet.org/openstack-icehouse unstable main
