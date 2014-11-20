@@ -7,17 +7,17 @@ Database nodes.
 [options="header"]
 |===============
 |Category|Service|Prot ocol|Port|Self|Controller|NSDB|Compute|Comment
-|MidoNet|ZooKeeper communication|TCP|3888|x| |x| |
-|MidoNet|ZooKeeper leader|TCP|2888|x| |x| |
-|MidoNet|ZooKeeper/Cassandra|TCP|random|x| | | |
+|MidoNet|ZooKeeper communication|TCP|3888|x| |x| |
+|MidoNet|ZooKeeper leader|TCP|2888|x| |x| |
+|MidoNet|ZooKeeper/Cassandra|TCP|random|x| | | |
     ZooKeeper/Cassandra "LISTEN" to a TCP high number port. The port number is
     randomly selected on each ZooKeeper/Cassandra host.
-|MidoNet|Cassandra Query Language (CQL) native transport port|TCP|9042| | | | |
-|MidoNet|Cassandra cluster communication|TCP|7000|x| |x| |
-|MidoNet|Cassandra cluster communication (Transport Layer Security (TLS ) support)|TCP|7001|x| |x| |
-|MidoNet|Cassandra JMX|TCP|7199|x| | | |
+|MidoNet|Cassandra Query Language (CQL) native transport port|TCP|9042| | | | |
+|MidoNet|Cassandra cluster communication|TCP|7000|x| |x| |
+|MidoNet|Cassandra cluster communication (Transport Layer Security (TLS ) support)|TCP|7001|x| |x| |
+|MidoNet|Cassandra JMX|TCP|7199|x| | | |
     JMX monitoring port If you're using this port to monitor Cassandra health,
     enable communication from the monitoring server.
 |MidoNet|ZooKeeper client|TCP|2181|x|x|x|x|
-|MidoNet|Cassandra clients|TCP|9160|x|x|x|x| 
+|MidoNet|Cassandra clients|TCP|9160|x|x|x|x|
 |===============

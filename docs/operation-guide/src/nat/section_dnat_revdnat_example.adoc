@@ -9,8 +9,8 @@ Below are the assumptions regarding the rule chain for this example:
 * You have two subnets: a public subnet (198.51.100.0/24) and a private subnet
 (10.0.0.0/24).
 
-* You have a virtual machine connected to the tenant router with a public IP
- address of 198.51.100.4 and a private IP address of 10.100.1.150.
+* You have a virtual machine connected to the tenant router with a public
+IP address of 198.51.100.4 and a private IP address of 10.100.1.150.
 
 * You want to translate traffic with the VM's public IP address to the VM's
 private IP address.
