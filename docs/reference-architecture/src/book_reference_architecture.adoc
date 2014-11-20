@@ -1,4 +1,4 @@
-= Reference Architecture
+= MidoNet Reference Architecture
 
 // Preface
 include::preface.adoc[leveloffset=+1]
