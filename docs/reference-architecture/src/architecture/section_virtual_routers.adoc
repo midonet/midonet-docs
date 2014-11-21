@@ -1,0 +1,10 @@
+[[virtual_routers]]
+= Virtual routers
+A virtual router is an abstraction of a physical layer 3 (L3) router and is
+MidoNet's L3 forwarding element.
+
+Like a physical router, on a virtual router, you can configure network
+interfaces (ports), network up-links (also ports, but ports that are bound to
+physical Ethernet interfaces that connect to upstream devices, typically
+physical routers and bridges). You can connect virtual routers to other routers
+and bridges.

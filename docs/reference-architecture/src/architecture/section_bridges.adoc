@@ -1,0 +1,16 @@
+[[bridges]]
+= Bridges
+
+Bridges are MidoNet's L2 forwarding elements.
+
+You can create virtual ports on bridges. In turn, you can attach VMs to virtual
+ports on a bridge. All VMs attached to the same bridge are reachable through L2
+connectivity. You can connect ports on virtual bridges to another virtual device
+or a physical machine.
+
+Bridges store the mappings between MAC addresses of network devices that send
+received frames and the bridge ports they receive them from.
+
+The bridge dynamically builds a table of the source MAC addresses and the bridge
+ports. The bridge uses this table to send frames destined for the network device
+to the correct bridge port. You can clear the MAC table.

@@ -14,14 +14,14 @@
     </parent>
 
     <groupId>org.midonet</groupId>
-    <artifactId>midonet-docs-rest-api</artifactId>
+    <artifactId>midonet-docs-reference-architecture</artifactId>
     <version>2014.11-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId} v${project.version}</name>
 
     <properties>
-        <file.book.basename>rest_api</file.book.basename>
+        <file.book.basename>book_reference_architecture</file.book.basename>
     </properties>
 
     <build>
@@ -38,7 +38,7 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
-                            <sourceDirectory>../../docs/rest-api/src</sourceDirectory>
+                            <sourceDirectory>../../docs/reference-architecture/src</sourceDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -57,13 +57,13 @@
                             <goal>generate-webhelp</goal>
                         </goals>
                         <configuration>
-                            <webhelpDirname>rest-api</webhelpDirname>
-                            <pdfFilenameBase>MidoNet_REST_API_${project.version}</pdfFilenameBase>
+                            <webhelpDirname>reference-architecture</webhelpDirname>
+                            <pdfFilenameBase>MidoNet_Reference_Architecture_${project.version}</pdfFilenameBase>
                             <preProcess>
                                 <echo>Adding xml:id attribute to Docbook's book element.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
                                     <replacetoken><![CDATA[<book]]></replacetoken>
-                                    <replacevalue><![CDATA[<book xml:id="book_rest_api"]]></replacevalue>
+                                    <replacevalue><![CDATA[<book xml:id="book_reference_architecture"]]></replacevalue>
                                 </replace>
                                 <echo>Adding status bar text to Docbook XML.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">

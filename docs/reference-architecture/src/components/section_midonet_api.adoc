@@ -1,0 +1,40 @@
+[[midonet_api]]
+= MidoNet API
+
+The MidoNet API is a RESTful API running over the Hypertext Transfer Protocol
+(HTTP) that provides the integration point between external applications
+(including the cloud controller) and the internal MidoNet configurations.
+
+The REST API is stateless, so you can scale out this service by simply adding
+more REST servers. The REST API requires connectivity to the State Management
+servers (Apache Zookeeper and Cassandra). To use authentication in the REST API,
+you could use the OpenStack Keystone identity service.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Recommended installation nodes
+
+The MidoNet API server can be hosted by any servlet container.
+
+One such servlet is the Apache Tomcat, which is relatively lightweight, so you
+may install the MidoNet API server along side the ZooKeeper instances or along
+side Neutron server instances.
+
+== Fault-tolerant configuration guidelines
+
+In order to provide a fault-tolerant solution, we recommend running several
+instances of the MidoNet API server on different nodes and then exposing a
+common virtual IP (VIP) address using an external load balancer to distribute
+the API calls between the instances.
+
+No special load balancer features are needed, so any load balancer will work.
+
+== Accessibility considerations
+
+The Apache Tomcat server runs on port TCP/8080 by default.
+
+The MidoNet API server itself needs access to all of the nodes in the ZooKeeper
+cluster. The ZooKeeper cluster typically uses three ports: TCP/2181, TCP/2888,
+and TCP/3888.

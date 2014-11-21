@@ -1,0 +1,53 @@
+[[midolman]]
+= Midolman
+
+Midolman (the MidoNet Agent) is the daemon that runs on all hosts where traffic
+enters and leaves MidoNet.
+
+It instructs the Open vSwitch kernel module on how to handle network traffic
+(what modifications to apply to packets and where to tunnel them to).
+
+Midolman requires a Linux kernel that has the Open vSwitch kernel module
+installed and a Java 7 runtime in userspace (we recommend using OpenJDK 7).
+
+Midolman is designed to work with Open vSwitch kernel module version 1.10.2 or
+later. If you need to update the kernel module, you may be able to find a later
+version of the module in the cloud software repositories for your distribution.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Recommended installation nodes
+
+Where Midolman is being used to network virtual machines, you should generally
+install it on the host machines alongside the hypervisor.
+
+If you are using it with the Border Gateway Protocol (BGP), you should install
+it on nodes with very few hops to the BGP peer (ideally one). Where there is
+north-south traffic for MidoNet, you should install Midolman on machines with
+sufficient bandwidth and proximity to the up-links to handle the traffic.
+
+== Configuration guidelines
+
+Midolman requires that you specify the ZooKeeper and Cassandra server IP
+addresses in the Midolman configuration file.
+
+You can configure Midolman to detect node failures faster by reducing the
+ZooKeeper session timeout and session grace time values. However, this will also
+reduce the window of time after a transient outage that the system can recover
+from, instead of being treated as a node failure. Increasing these timeout
+values has the opposite effect. We don't recommend making changes to the default
+timeout values, except possibly the session_gracetime setting value.
+
+== Network accessibility considerations
+
+MidoNet Agent hosts in the same tunnel zone must have IP connectivity to each
+other.
+
+They also require TCP connectivity to the ZooKeeper and Cassandra servers (the
+default TCP port numbers are 2181 for ZooKeeper and 9042 for Cassandra).
+
+MidoNet Agents use the Domain Name System (DNS) to convert between hostnames and
+underlay network addresses. Verify that each server on which you install the
+MidoNet Agent has a resolvable hostname.

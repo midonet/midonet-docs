@@ -17,6 +17,7 @@
         <module>build/quick-start-guide_rhel-7_icehouse</module>
         <module>build/quick-start-guide_ubuntu-1404_icehouse</module>
         <module>build/operation-guide</module>
+        <module>build/reference-architecture</module>
         <module>build/rest-api</module>
         <module>tools/midonet-docs-maven-plugin</module>
     </modules>
@@ -126,6 +127,7 @@
                         <sectionAutolabel>0</sectionAutolabel>
                         <tocSectionDepth>1</tocSectionDepth>
                         <formalProcedures>0</formalProcedures>
+                        <ignoreImageScaling>0</ignoreImageScaling>
 
                         <showXslMessages>true</showXslMessages>
                     </configuration>

@@ -1,0 +1,32 @@
+[[recommended_hardware]]
+= Recommended Hardware
+
+This section provides information about the hardware recommended for a MidoNet
+deployment.
+
+.Recommended Deployment Hardware
+[options="header"]
+|===============
+|Hardware|Requirements
+|Network State Database, API, and Agent Nodes|
+    CPU: 64-bit x86
+
+    Memory ≥ 32GB RAM
+
+    HDD: ≥ 30GB (available free disc space)
+
+    NIC: 2x ≥ 1Gbit
+|2 x GW Nodes|
+    CPU: 64-bit x86
+
+    Memory ≥ 32GB RAM
+
+    HDD: ≥ 30GB
+
+    Network: 3x ≥1Gbit
+|NIC Cards|
+    For a high-performance data network: use NICs that support multiple queues
+    and MSI-X.
+|Top of Rack Switch|
+    Non-blocking multilayer switch (L2/L3) with jumbo frame support
+|===============

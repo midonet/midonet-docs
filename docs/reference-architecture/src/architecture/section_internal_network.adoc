@@ -1,0 +1,11 @@
+[[internal_network]]
+= Internal and underlay network
+
+MidoNet relies on IP reach-ability between all servers.
+
+We therefore recommend an IP network using non-global IP addresses (see
+http://tools.ietf.org/html/rfc1918[RFC 1918]). In a very small deployment of one
+rack or less, a single Ethernet switch could serve as the internal network,
+albeit representing a single point of failure. For larger deployments, a
+hierarchical IP-routed network, possibly with equal cost multi-path (ECMP),
+would be appropriate.
