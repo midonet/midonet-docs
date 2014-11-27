@@ -6,12 +6,12 @@ This section lists the TCP/UDP ports used by the services on the Compute nodes.
 [options="header"]
 |===============
 |Category|Service|Protocol|Port|Self|Controller|Comment
-|OpenStack|qemu-kvm vnc|TCP|From 5900 to 5900 + # of VM| |x|
-|MidoNet|midolman|TCP|random|x| |
-    midolman "LISTEN"s to a TCP high number port . The port number is randomly
+|OpenStack|qemu-kvm vnc|TCP|From 5900 to 5900 + # of VM| |x|
+|MidoNet|midolman|TCP|random|x| |
+    midolman "LISTEN"s to a TCP high number port. The port number is randomly
     selected on each MN Agent host.
 |OpenStack|libvirtd|TCP|16509|x|x|
-|MidoNet|midolman|TCP|7200|x| |
+|MidoNet|midolman|TCP|7200|x| |
     JMX monitoring port If you're using this port to monitor health, enable
     communication from the monitoring server.
 |===============

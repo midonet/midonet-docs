@@ -12,7 +12,7 @@ navigate to Documentation for details about Zabbix usage.
 
 In Zabbix, you can monitor log files stored on the filesystem. You need to run
 the Zabbix agent for each node, and set up a log monitoring configuration with
-the file location, update interval, etc. 
+the file location, update interval, etc.
 
 * Run Zabbix on each Gateway and Compute host.
 
