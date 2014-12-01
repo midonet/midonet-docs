@@ -36,7 +36,7 @@ values are: ACCEPT, CONTINUE, and RETURN.
 The next_action gives you more flexibility in constructing chains. After
 matching a packet and therefore modifying it (translating some of its addresses)
 the choice of what to do next is complex and is left up to you. The available
-options are: 
+options are:
 
 * Exit all rule chains (ACCEPT).
 
@@ -67,7 +67,7 @@ in post-routing.
 These rule types modify packets. They rewrite source (SNAT)/destination (DNAT)
 network addresses and TCP/UDP port numbers. When constructing one of these
 rules, apart from the condition for matching packets, you must specify the
-next_action that should be returned to the rule's caller when  packets match AND
+next_action that should be returned to the rule's caller when packets match AND
 a reverse translation is found (otherwise, CONTINUE is returned). When a packet
 matches one of these rules, the rule looks up the reverse translation in a
 centralized map (soft state) and then applies it to the packet. That is why

@@ -14,7 +14,7 @@ This section describes the messages associated with API server events.
 |Logger|org.midonet.event.api.Nsdb.CONNECT
 |Message|CONNECT Connected to the NSDB cluster.
 |Level|INFO
-|Explanation|API server was connected  to the NSDB cluster.
+|Explanation|API server was connected to the NSDB cluster.
 |Corrective Action|N/A
 |===============
 
@@ -22,7 +22,7 @@ This section describes the messages associated with API server events.
 |Logger|org.midonet.event.api.Nsdb.DISCONNECT
 |Message|DISCONNECT Disconnected from the NSDB cluster.
 |Level|WARNING
-|Explanation|API server was disconnected  from the NSDB cluster.
+|Explanation|API server was disconnected from the NSDB cluster.
 |Corrective Action|
     If the connection is restored after this event, no corrective action is
     required. If this event continues, check the network connection between the
@@ -35,6 +35,6 @@ This section describes the messages associated with API server events.
 |Level|ERROR
 |Explanation|The connection from the API server to the NSDB cluster expired.
 |Corrective Action|
-    Check the network connection  between the API server and the NSDB cluster
+    Check the network connection between the API server and the NSDB cluster
     and restart the MidoNet API server so it reconnects to the NSDB cluster.
 |===============

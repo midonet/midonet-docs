@@ -130,6 +130,13 @@
                         <ignoreImageScaling>0</ignoreImageScaling>
 
                         <showXslMessages>true</showXslMessages>
+
+                        <!--
+                        Set default table width to avoid strange
+                        rendering with certain web browsers.
+                        See: https://midonet.atlassian.net/browse/MND-3
+                        -->
+                        <defaultTableWidth>100%</defaultTableWidth>
                     </configuration>
                 </plugin>
             </plugins>

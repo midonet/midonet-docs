@@ -48,6 +48,6 @@ other.
 They also require TCP connectivity to the ZooKeeper and Cassandra servers (the
 default TCP port numbers are 2181 for ZooKeeper and 9042 for Cassandra).
 
-MidoNet Agents use the Domain Name System (DNS) to convert between hostnames and
+MidoNet Agents use the Domain Name System (DNS) to convert between hostnames and
 underlay network addresses. Verify that each server on which you install the
 MidoNet Agent has a resolvable hostname.
