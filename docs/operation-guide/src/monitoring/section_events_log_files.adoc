@@ -14,3 +14,5 @@ addition to the ordinary log file.
 
 /var/log/tomcat7/midonet-api.event.log (on Ubuntu)
 |===============
+
+TIP: In addition to midolman.event.log, /var/log/midolman/midolman.log contains additional debug information. You do not normally need to use it but Midokura may request it as additional troubleshooting information.
