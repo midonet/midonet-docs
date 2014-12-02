@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fafc7978_235bbc88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-12-02T00:45:48Z",
+      "side": 1,
+      "message": "Please see http://wiki.midonet.org/Developer%27s%20Guide, section \"Git Commit Message\" for how to write meaningful commit messages.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "61449d8dea2c82548076693d028b3ea22cc56ee4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_c3659046",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-12-02T00:45:48Z",
+      "side": 1,
+      "message": "This is a reference to the Midokura internal JIRA and thus unknown in the open source world.",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "61449d8dea2c82548076693d028b3ea22cc56ee4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_e3609437",
+        "filename": "docs/operation-guide/src/monitoring/section_events_log_files.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-12-02T00:45:48Z",
+      "side": 1,
+      "message": "Since Midokura doesn\u0027t commercially support the open source version of MidoNet, I would rephrase this to something like \"but it may contain useful information for troubleshooting exceptional issues\".",
+      "range": {
+        "startLine": 18,
+        "startChar": 149,
+        "endLine": 18,
+        "endChar": 169
+      },
+      "revId": "61449d8dea2c82548076693d028b3ea22cc56ee4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_837428fe",
+        "filename": "docs/operation-guide/src/monitoring/section_events_log_files.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-12-02T00:45:48Z",
+      "side": 1,
+      "message": "Inserting line breaks at \u003c\u003d80 chars would improve the readability.",
+      "range": {
+        "startLine": 18,
+        "startChar": 109,
+        "endLine": 18,
+        "endChar": 110
+      },
+      "revId": "61449d8dea2c82548076693d028b3ea22cc56ee4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
