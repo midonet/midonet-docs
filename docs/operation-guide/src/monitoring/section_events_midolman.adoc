@@ -86,5 +86,6 @@ This section describes the messages associated with MidoNet Agent events.
 |Explanation|Service exited.
 |Corrective Action|
     Restart the MidoNet Agent service if this event happened unintentionally. If
-    this event recurs, contact Midokura support.
+    this event recurs, file a ticket in the bug tracker for further
+    investigation by developers.
 |===============

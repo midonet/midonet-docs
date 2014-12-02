@@ -18,8 +18,8 @@ cluster instead of speed.
 
 == Necessary software
 
-MidoNet requires ZooKeeper version 3.4.5; Midokura provides this software in our
-repository.
+MidoNet requires ZooKeeper version 3.4.5 (which is provided in the MidoNet
+repository).
 
 You can also obtain ZooKeeper software from the Apache Software Foundation.
 

@@ -10,5 +10,5 @@ MidoNet Agents, as well as storing the network configuration and state (Network
 State Database nodes).
 
 You should configure dedicated servers in this cluster to run the MidoNet
-Network State Database and the servers should not host other software. Midokura
-recommends that you dedicate three servers to this role.
+Network State Database and the servers should not host other software. It is
+recommended to dedicate three servers to this role.

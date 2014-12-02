@@ -7,9 +7,9 @@ This section covers all configuration options for the
 We don't recommend making changes to the default values, except possibly the
 session_gracetime and buf_size_kb setting value.
 
-[NOTE]
-Do not modify the root key, cluster name, or keyspace unless instructed to do so
-by Midokura Technical Support Engineers.
+[WARNING]
+Do not modify the root key, cluster name, or keyspace unless you know what you
+are doing.
 
 ++++
 <?dbhtml stop-chunking?>
