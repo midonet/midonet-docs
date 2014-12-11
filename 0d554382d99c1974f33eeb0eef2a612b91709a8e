@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fafc7978_6da3dc9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-12-11T11:33:29Z",
+      "side": 1,
+      "message": "When I got the notification mail for this review, it wasn\u0027t clear to me what the patch is about. Changing this to \"Add GPG check for Cassandra repository\" would make it very clear.",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "0d554382d99c1974f33eeb0eef2a612b91709a8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_0d9fb053",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-12-11T11:33:29Z",
+      "side": 1,
+      "message": "Since there are other RHEL 7 related docs to be coming in the future, I suggest to replace \"rhel7_docs\" with \"RHEL 7 QSG\" (QSG stands for Quick Start Guide) to be explicit.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "0d554382d99c1974f33eeb0eef2a612b91709a8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_2d9a7463",
+        "filename": "docs/quick-start-guide/src/rhel-7/listitem_repo_config_datastax.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2014-12-11T11:33:29Z",
+      "side": 1,
+      "message": "Not related to your actual patch, but there\u0027s an unnecessary trailing space here (which I introduced by the way, but it just got visible).",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 11
+      },
+      "revId": "0d554382d99c1974f33eeb0eef2a612b91709a8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
