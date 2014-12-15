@@ -89,3 +89,29 @@ Apply as is.
 +
 Do *not* apply. Only required on the Compute Node.
 ====
+
+. *Configure metadata proxy*
++
+====
+Replace METADATA_SECRET with the secret you chose for the metadata proxy of /etc/neutron/metadata_agent.ini.
+
++
+[source]
+----
+[DEFAULT]
+...
+service_neutron_metadata_proxy = true
+neutron_metadata_proxy_shared_secret = METADATA_SECRET
+----
++
+
+Restart the Compute API service:
+
++
+[source]
+----
+# service nova-api restart
+----
++
+====
+
