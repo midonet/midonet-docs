@@ -12,14 +12,14 @@ following:
 ----
 [midonet]
 name=MidoNet
-baseurl=http://repo.midonet.org/midonet/v2014.11/RHEL/7/unstable/
+baseurl=http://repo.midonet.org/midonet/v2014.11/RHEL/7/testing/
 enabled=1
 gpgcheck=1
 gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
 
 [midonet-openstack-integration]
 name=MidoNet OpenStack Integration
-baseurl=http://repo.midonet.org/openstack-icehouse/RHEL/7/unstable/
+baseurl=http://repo.midonet.org/openstack-icehouse/RHEL/7/testing/
 enabled=1
 gpgcheck=1
 gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
