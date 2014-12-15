@@ -5,7 +5,8 @@
 ====
 [source]
 ----
-# yum install dsc20
+# yum install dsc20-2.0.10-1
+# echo "exclude=dsc20 cassandra20" >> /etc/yum.conf
 ----
 ====
 
