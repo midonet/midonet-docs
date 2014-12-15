@@ -3,7 +3,7 @@
 [IMPORTANT]
 Follow the Red Hat documentation's
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Installation_and_Configuration_Guide/sect-Install_a_Compute_Node.html[8.4. Install a Compute Node]
-instructions, but *note the following differences*.
+instructions, but *note the following differences and additions*.
 
 . *8.4.1. Create the Compute Service Database*
 +
@@ -88,4 +88,34 @@ Apply as is.
 .. *6. Starting the Compute Service*
 +
 Do *not* apply. Only required on the Compute Node.
+====
+
+{empty} +
+
+[[nova_metadata_proxy]]
+. *Additional Changes*
++
+====
+.. *Configure Metadata Proxy*
++
+Edit the `/etc/nova/nova.conf` file to contain the following:
++
+[literal,subs="quotes"]
+----
+[DEFAULT]
+...
+service_neutron_metadata_proxy = true
+neutron_metadata_proxy_shared_secret = *_METADATA_SECRET_*
+----
++
+[NOTE]
+Replace *_METADATA_SECRET_* with the secret you chose during the
+xref:neutron_metadata_proxy[Metadata Proxy configuration].
++
+Restart the Compute API service:
++
+[source]
+----
+# service nova-api restart
+----
 ====
