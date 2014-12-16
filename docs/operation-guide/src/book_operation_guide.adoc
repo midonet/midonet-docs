@@ -81,8 +81,12 @@ include::l4lb/section_health_monitor.adoc[leveloffset=+2]
 // Chapter: L2 address masking
 include::l2_masking/chapter_l2_masking.adoc[leveloffset=+1]
 include::l2_masking/section_rule_chain_example.adoc[leveloffset=+2]
-include::l2_masking/section_fragmented_packets.adoc[leveloffset=+2]
-include::l2_masking/section_resource_protection.adoc[leveloffset=+2]
+
+// Chapter: Handling fragmented packets
+include::fragmentation/chapter_fragmented_packets.adoc[leveloffset=+1]
+
+// Chapter: MidoNet resource protection
+include::resource_protection/chapter_resource_protection.adoc[leveloffset=+1]
 
 // Chapter: MidoNet monitoring
 include::monitoring/chapter_monitoring.adoc[leveloffset=+1]
