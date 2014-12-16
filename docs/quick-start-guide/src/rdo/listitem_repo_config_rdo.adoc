@@ -12,8 +12,7 @@
 ====
 [source]
 ----
-su -c 'rpm -Uvh
-http://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm'
+# yum install http://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 ----
 ====
 
