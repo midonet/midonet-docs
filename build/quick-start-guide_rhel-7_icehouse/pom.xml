@@ -67,7 +67,7 @@
                                 <echo>Adding xml:id attribute to Docbook's book element.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
                                     <replacetoken><![CDATA[<book]]></replacetoken>
-                                    <replacevalue><![CDATA[<book xml:id="book_quick_install_guide"]]></replacevalue>
+                                    <replacevalue><![CDATA[<book xml:id="book_quick_install_guide_rhel-7_icehouse"]]></replacevalue>
                                 </replace>
                                 <echo>Adding status bar text to Docbook XML.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">

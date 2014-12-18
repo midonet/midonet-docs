@@ -105,6 +105,7 @@
 
                         <enableDisqus>1</enableDisqus>
                         <disqusShortname>midonet</disqusShortname>
+                        <useVersionForDisqus>1</useVersionForDisqus>
 
                         <enableGoogleAnalytics>1</enableGoogleAnalytics>
                         <googleAnalyticsId>UA-56283377-4</googleAnalyticsId>
