@@ -7,12 +7,11 @@
 
 == Operating System Requirements
 
-MidoNet works with the following operating system options:
+MidoNet works with the 64-bit versions of following operating systems:
 
-* Ubuntu 12.04.4 LTS (Precise) server 64-bit, Ubuntu 14.04.4 LTS (Trusty) server
-64-bit
+* Ubuntu 12.04 LTS (Precise Pangolin), Ubuntu 14.04 LTS (Trusty Tahr)
 
-* Red Hat Enterprise Linux 6.5, Red Hat Enterprise Linux 7
+* Red Hat Enterprise Linux 6 (Santiago), Red Hat Enterprise Linux 7 (Maipo)
 
 == BGP Setup Requirements
 
