@@ -1,9 +1,12 @@
 . *Enable MidoNet repositories*
 +
 ====
+////
+// WARNING for non-stable releases
 [WARNING]
 Currently only nightly builds of the MidoNet packages are available.
 Use them at your own risk, they are not QA'ed!
+////
 
 Create the `/etc/yum.repos.d/midonet.repo` file and edit it to contain the
 following:
@@ -12,14 +15,14 @@ following:
 ----
 [midonet]
 name=MidoNet
-baseurl=http://repo.midonet.org/midonet/v2014.11/RHEL/7/testing/
+baseurl=http://repo.midonet.org/midonet/v2014.11/RHEL/7/stable/
 enabled=1
 gpgcheck=1
 gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
 
 [midonet-openstack-integration]
 name=MidoNet OpenStack Integration
-baseurl=http://repo.midonet.org/openstack-icehouse/RHEL/7/testing/
+baseurl=http://repo.midonet.org/openstack-icehouse/RHEL/7/stable/
 enabled=1
 gpgcheck=1
 gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura

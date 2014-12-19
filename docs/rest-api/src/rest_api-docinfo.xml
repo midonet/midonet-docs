@@ -33,16 +33,27 @@
         This document describes the MidoNet REST API.
     </para>
     <para>
+        <!-- CAUTION block for DRAFT versions.
         <caution>
             <para>
                 This document is a DRAFT. It may be MISSING relevant information
-                or contain UNTESTED information.
+                or contain UNTESTED information. Use it at your own risk.
             </para>
             <para>
-                Use it at your own risk. Please consult the
+                Please consult the
                 <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or IRC</link>
                 if you need assistance.
             </para>
         </caution>
+        -->
+
+        <!-- NOTE block for RELEASE versions. -->
+        <note>
+            <para>
+                Please consult the
+                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or IRC</link>
+                if you need assistance.
+            </para>
+        </note>
     </para>
 </abstract>
