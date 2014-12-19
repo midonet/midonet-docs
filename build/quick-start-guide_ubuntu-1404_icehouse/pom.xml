@@ -15,7 +15,7 @@
 
     <groupId>org.midonet</groupId>
     <artifactId>midonet-docs-quick-start-guide-ubuntu-1404-icehouse</artifactId>
-    <version>2014.11-SNAPSHOT</version>
+    <version>2014.11</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId} v${project.version}</name>
@@ -69,6 +69,7 @@
                                     <replacetoken><![CDATA[<book]]></replacetoken>
                                     <replacevalue><![CDATA[<book xml:id="book_quick_install_guide"]]></replacevalue>
                                 </replace>
+                                <!-- Add status bar for DRAFT versions.
                                 <echo>Adding status bar text to Docbook XML.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
                                     <replacetoken><![CDATA[<info>]]></replacetoken>
@@ -80,6 +81,7 @@
                                         ]]>
                                     </replacevalue>
                                 </replace>
+                                -->
                             </preProcess>
                         </configuration>
                     </execution>
