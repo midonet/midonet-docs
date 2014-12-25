@@ -1,5 +1,10 @@
 [IMPORTANT]
 Follow the
+ifdef::icehouse[]
 http://docs.openstack.org/icehouse/install-guide/install/apt/content/[OpenStack Icehouse Installation Guide for Ubuntu 12.04/14.04 (LTS)]
+endif::icehouse[]
+ifdef::juno[]
+http://docs.openstack.org/juno/install-guide/install/apt/content/[OpenStack Juno Installation Guide for Ubuntu 14.04 (LTS)]
+endif::juno[]
 , but *note the following differences*.
 

@@ -2,10 +2,20 @@
 
 [IMPORTANT]
 Follow the OpenStack documentation's
+ifdef::icehouse[]
 http://docs.openstack.org/icehouse/install-guide/install/apt/content/neutron-ml2-controller-node.html[Configure controller node]
+endif::icehouse[]
+ifdef::juno[]
+http://docs.openstack.org/juno/install-guide/install/apt/content/neutron-controller-node.html[Install and configure controller node]
+endif::juno[]
 instructions, but *note the following differences*.
 
+ifdef::icehouse[]
 . *Prerequisites*
+endif::icehouse[]
+ifdef::juno[]
+. *To configure prerequisites*
+endif::juno[]
 +
 ====
 Apply as is.
@@ -28,8 +38,14 @@ Do *not* apply.
 . *To configure the Networking server component*
 +
 ====
+ifdef::icehouse[]
 Do *not* apply step '5. Configure Networking to use the Modular Layer 2 (ML2)
 plug-in and associated services'.
+endif::icehouse[]
+ifdef::juno[]
+Do *not* apply step 'd. Enable the Modular Layer 2 (ML2) plug-in, router
+service, and overlapping IP addresses'.
+endif::juno[]
 
 .. Instead, edit the `/etc/neutron/neutron.conf` file and add the following key
 to the `[DEFAULT]` section:
@@ -99,5 +115,3 @@ Apply as is.
 ====
 Apply as is.
 ====
-
-

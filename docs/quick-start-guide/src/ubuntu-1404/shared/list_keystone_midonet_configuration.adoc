@@ -1,10 +1,3 @@
-= Identity Service (Keystone)
-
-[IMPORTANT]
-Follow the OpenStack documentation's
-http://docs.openstack.org/icehouse/install-guide/install/apt/content/ch_keystone.html[Chapter 3. Configure the Identity Service]
-instructions, but *note the following additions*.
-
 . *Create MidoNet API Service*
 +
 ====

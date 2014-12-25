@@ -3,10 +3,13 @@
 [IMPORTANT]
 All hostnames must be resolvable, either via DNS or locally.
 
-ifdef::icehouse[]
 ifdef::ubuntu-1404[]
 This guide assumes that you follow the instructions in
+ifdef::icehouse[]
 http://docs.openstack.org/icehouse/install-guide/install/apt/content/basics-networking-neutron.html[OpenStack Networking (neutron)]
+endif::icehouse[]
+ifdef::juno[]
+http://docs.openstack.org/juno/install-guide/install/apt/content/ch_basic_environment.html#basics-networking-neutron[OpenStack Networking (neutron)]
+endif::juno[]
 of the OpenStack Documentation.
 endif::ubuntu-1404[]
-endif::icehouse[]

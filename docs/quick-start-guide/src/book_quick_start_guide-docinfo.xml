@@ -5,7 +5,7 @@
         <surname/>
     </personname>
     <affiliation>
-        <orgname></orgname>
+        <orgname/>
     </affiliation>
 </author>
 <copyright>
@@ -34,21 +34,9 @@
         steps neccessary to use MidoNet with OpenStack.
     </para>
     <para>
-        <!-- CAUTION block for DRAFT versions.
-        <caution>
-            <para>
-                This document is a DRAFT. It may be MISSING relevant information
-                or contain UNTESTED information. Use it at your own risk.
-            </para>
-            <para>
-                Please consult the
-                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or IRC</link>
-                if you need assistance.
-            </para>
-        </caution>
-        -->
+        <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
+        {draftWarning}
 
-        <!-- NOTE block for RELEASE versions. -->
         <note>
             <para>
                 Please consult the

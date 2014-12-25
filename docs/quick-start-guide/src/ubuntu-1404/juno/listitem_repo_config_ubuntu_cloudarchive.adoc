@@ -1,0 +1,23 @@
+. *Configure Ubuntu Cloud Archive repository*
++
+====
+Create the `/etc/apt/sources.list.d/cloudarchive-juno.list` file and edit it to
+contain the following:
+
+[source]
+----
+# Ubuntu Cloud Archive
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/juno main
+----
+====
+
++
+====
+Install the repository's key:
+
+[source]
+----
+# apt-get update
+# apt-get install ubuntu-cloud-keyring
+----
+====

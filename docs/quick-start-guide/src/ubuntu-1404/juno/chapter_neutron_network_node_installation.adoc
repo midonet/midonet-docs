@@ -1,0 +1,111 @@
+= Network Node
+
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/juno/install-guide/install/apt/content/neutron-network-node.html[Install and configure network node]
+instructions, but *note the following differences*.
+
+. *To configure prerequisites*
++
+====
+Apply as is.
+====
+
+. *To install the Networking components*
++
+====
+Do *not* apply.
+
+.. Instead, install the following packages:
++
+[source]
+----
+# apt-get install neutron-dhcp-agent neutron-metadata-agent python-neutron-plugin-midonet
+----
++
+====
+
+. *To configure the Networking common components*
++
+====
+Do *not* apply step 'd. Enable the Modular Layer 2 (ML2) plug-in, router
+service, and overlapping IP addresses'.
+
+.. Instead, edit the `/etc/neutron/neutron.conf` file and add the following key
+to the `[DEFAULT]` section:
++
+[source]
+----
+[DEFAULT]
+...
+core_plugin = midonet.neutron.plugin.MidonetPluginV2
+----
++
+====
+
+. *To configure the Modular Layer 2 (ML2) plug-in*
++
+====
+Do *not* apply.
+====
+
+. *To configure the Layer-3 (L3) agent*
++
+====
+Do *not* apply.
+====
+
+. *To configure the DHCP agent*
++
+====
+Do *not* apply.
+
+.. Instead, edit the `/etc/neutron/dhcp_agent.ini` file to contain the
+following:
++
+[literal,subs="quotes"]
+----
+[DEFAULT]
+interface_driver = neutron.agent.linux.interface.MidonetInterfaceDriver
+dhcp_driver = midonet.neutron.agent.midonet_driver.DhcpNoOpDriver
+use_namespaces = True
+enable_isolated_metadata = True
+
+[MIDONET]
+# MidoNet API URL
+midonet_uri = http://*_controller_*:8080/midonet-api
+# MidoNet administrative user in Keystone
+username = *_midonet_*
+password = *_MIDONET_PASS_*
+# MidoNet administrative user's tenant
+project_id = admin
+----
++
+====
+
+. *To configure the metadata agent*
++
+====
+Apply as is.
+====
+
+. *To configure the Open vSwitch (OVS) service*
++
+====
+Do *not* apply.
+====
+
+. *To finalize the installation*
++
+====
+Do *not* apply.
+
+.. Instead, restart the following services:
++
+[source]
+----
+# service neutron-dhcp-agent restart
+# service neutron-metadata-agent restart
+----
++
+====

@@ -1,20 +1,25 @@
-ifdef::icehouse[]
 ifdef::ubuntu-1404[]
+ifdef::icehouse[]
 = MidoNet Quick Start Guide for Ubuntu 14.04 / Icehouse
+endif::icehouse[]
+ifdef::juno[]
+= MidoNet Quick Start Guide for Ubuntu 14.04 / Juno
+endif::juno[]
 endif::ubuntu-1404[]
 ifdef::rhel-7[]
+ifdef::icehouse[]
 = MidoNet Quick Start Guide for RHEL 7 / Icehouse
-endif::rhel-7[]
 endif::icehouse[]
+endif::rhel-7[]
 
 // Preface
 include::common/preface.adoc[leveloffset=+1]
 
 // Chapter: Architecture
-ifdef::icehouse[]
 ifdef::ubuntu-1404[]
-include::ubuntu-1404/icehouse/chapter_architecture.adoc[leveloffset=+1]
+include::ubuntu-1404/shared/chapter_architecture.adoc[leveloffset=+1]
 endif::ubuntu-1404[]
+ifdef::icehouse[]
 ifdef::rhel-7[]
 include::rhel-7/icehouse/chapter_architecture.adoc[leveloffset=+1]
 endif::rhel-7[]

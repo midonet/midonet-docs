@@ -16,6 +16,7 @@
     <modules>
         <module>build/quick-start-guide_rhel-7_icehouse</module>
         <module>build/quick-start-guide_ubuntu-1404_icehouse</module>
+        <module>build/quick-start-guide_ubuntu-1404_juno</module>
         <module>build/operation-guide</module>
         <module>build/reference-architecture</module>
         <module>build/rest-api</module>
@@ -38,6 +39,7 @@
 
         <!-- Maven plugin versions -->
         <version.asciidoctor-maven-plugin>1.5.0</version.asciidoctor-maven-plugin>
+        <version.build-helper-maven-plugin>1.9.1</version.build-helper-maven-plugin>
         <version.midonet-docs-maven-plugin>2.1.4-SNAPSHOT</version.midonet-docs-maven-plugin>
         <!-- Maven plugin versions -->
 
@@ -48,8 +50,60 @@
     </properties>
 
     <build>
+        <plugins>
+            <!-- build-helper-maven-plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>parse-version</id>
+                        <goals>
+                            <goal>parse-version</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>version-helper</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>draftWarning</name>
+                            <value>
+                                <![CDATA[
+                                    <!-- this placeholder prevents failure for non-SNAPSHOT versions -->
+                                ]]>
+                                ${parsedVersion.qualifier}
+                            </value>
+                            <regex>SNAPSHOT</regex>
+                            <replacement>
+                                <![CDATA[
+                                    <caution>
+                                        <para>
+                                            This document is a DRAFT. It may be MISSING relevant information
+                                            or contain UNTESTED information. Use it at your own risk.
+                                        </para>
+                                    </caution>
+                                ]]>
+                            </replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- build-helper-maven-plugin -->
+        </plugins>
+
         <pluginManagement>
             <plugins>
+                <!-- build-helper-maven-plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${version.build-helper-maven-plugin}</version>
+                </plugin>
+                <!-- build-helper-maven-plugin -->
+
                 <!-- asciidoctor-maven-plugin -->
                 <plugin>
                     <groupId>org.asciidoctor</groupId>
@@ -73,6 +127,7 @@
                             <nolang/>
                             <buildVersion>${project.version}</buildVersion>
                             <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
+                            <draftWarning>${draftWarning}</draftWarning>
                         </attributes>
                     </configuration>
                 </plugin>

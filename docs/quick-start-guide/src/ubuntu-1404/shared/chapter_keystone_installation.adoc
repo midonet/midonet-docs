@@ -1,0 +1,34 @@
+= Identity Service (Keystone)
+
+[IMPORTANT]
+Follow the OpenStack documentation's
+ifdef::icehouse[]
+http://docs.openstack.org/icehouse/install-guide/install/apt/content/ch_keystone.html[Chapter 3. Configure the Identity Service]
+endif::icehouse[]
+ifdef::juno[]
+http://docs.openstack.org/juno/install-guide/install/apt/content/ch_keystone.html[Chapter 3. Add the Identity service]
+endif::juno[]
+instructions, but *note the following additions*.
+
+. *Create MidoNet API Service*
++
+====
+As Keystone +admin+, execute the following command:
+
+[source]
+----
+$ keystone service-create --name midonet --type midonet --description "MidoNet API Service"
+----
+====
+
+. *Create MidoNet Administrative User*
++
+====
+As Keystone +admin+, execute the following commands:
+
+[literal,subs="quotes"]
+----
+$ keystone user-create --name *_midonet_* --pass *_MIDONET_PASS_* --tenant admin
+$ keystone user-role-add --user *_midonet_* --role admin --tenant admin
+----
+====
