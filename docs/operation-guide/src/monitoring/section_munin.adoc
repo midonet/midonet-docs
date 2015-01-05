@@ -69,6 +69,11 @@ directory, you just need to run the following commands on each of the slaves:
 sudo ./install_plugins.sh
 sudo service munin-node restart
 
+On RedHat Enterprise Linux 7, you should use:
+
+[source]
+sudo systemctl restart munin-node
+
 This installs all available plugins, and updates Munin configurations.
 
 You shouldn't have to take any action on the master. When the Munin fetch
