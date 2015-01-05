@@ -104,6 +104,7 @@ include::monitoring/section_events_message_categories.adoc[leveloffset=+3]
 include::monitoring/section_events_topology.adoc[leveloffset=+4]
 include::monitoring/section_events_api.adoc[leveloffset=+4]
 include::monitoring/section_events_midolman.adoc[leveloffset=+4]
+include::monitoring/section_packet_tracing.adoc[leveloffset=+2]
 
 // Chapter: VXLAN configuration
 include::vxlan/chapter_vxlan.adoc[leveloffset=+1]
