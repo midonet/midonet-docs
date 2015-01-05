@@ -1,0 +1,85 @@
+[[packet_tracing]]
+= Packet Tracing
+
+To configure packet tracing (via logging) in a MidoNet Agent (Midolman), the
+'mm-trace' command can be used.
+
+A MidoNet Agent can hold a set of filters that, when matching on an incoming
+packet, will cause it to log everything about its simulation to the agent's log
+file, regardless of the configured log level.
+
+All trace messages have a "cookie:" prefix to identify its packet, and that can
+be used as a grep expression to filter out any non-tracing messages.
+
+[IMPORTANT]
+====
+The filters are not persistent, they are lost every time the agent is rebooted.
+
+However, mm-trace prints the filters in exactly the same syntax that it will
+accept to re-add them again, allowing operators to easily replay the commands.
+====
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Usage
+
+All available options can be displayed with the '--help' option:
+
+[source]
+----
+$ mm-trace --help
+  -h, --host  <arg>   Host (default = localhost)
+  -p, --port  <arg>   JMX port (default = 7200)
+      --help          Show help message
+
+Subcommand: add - add a packet tracing match
+  -d, --debug                logs at debug level
+      --dst-port  <arg>      match on TCP/UDP destination port
+      --ethertype  <arg>     match on ethertype
+      --ip-dst  <arg>        match on ip destination address
+      --ip-protocol  <arg>   match on ip protocol field
+      --ip-src  <arg>        match on ip source address
+  -l, --limit  <arg>         number of packets to match before disabling this trace
+      --mac-dst  <arg>       match on destination MAC address
+      --mac-src  <arg>       match on source MAC address
+      --src-port  <arg>      match on TCP/UDP source port
+  -t, --trace                logs at trace level
+      --help                 Show help message
+Subcommand: remove - remove a packet tracing match
+  -d, --debug                logs at debug level
+      --dst-port  <arg>      match on TCP/UDP destination port
+      --ethertype  <arg>     match on ethertype
+      --ip-dst  <arg>        match on ip destination address
+      --ip-protocol  <arg>   match on ip protocol field
+      --ip-src  <arg>        match on ip source address
+  -l, --limit  <arg>         number of packets to match before disabling this trace
+      --mac-dst  <arg>       match on destination MAC address
+      --mac-src  <arg>       match on source MAC address
+      --src-port  <arg>      match on TCP/UDP source port
+  -t, --trace                logs at trace level
+      --help                 Show help message
+Subcommand: flush - clear the list of tracing matches
+  -D, --dead-only   flush expired tracers only
+      --help        Show help message
+Subcommand: list - list all active tracing matches
+  -L, --live-only   list active tracers only
+      --help        Show help message
+----
+
+== Example
+
+[source]
+----
+$ mm-trace list
+$ mm-trace add --debug --ip-dst 192.0.2.1
+$ mm-trace add --trace --ip-src 192.0.2.1 --dst-port 80
+$ mm-trace list
+tracer: --debug --ip-dst 192.0.2.1
+tracer: --trace --ip-src 192.0.2.1 --dst-port 80
+$ mm-trace remove --trace --ip-src 192.0.2.1 --dst-port 80
+Removed 1 tracer(s)
+$ mm-trace flush
+Removed 1 tracer(s)
+----
