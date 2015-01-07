@@ -116,6 +116,6 @@ Restart the Compute API service:
 +
 [source]
 ----
-# service nova-api restart
+# systemctl restart openstack-nova-api
 ----
 ====
