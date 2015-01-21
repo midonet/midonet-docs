@@ -15,7 +15,7 @@
 
     <groupId>org.midonet</groupId>
     <artifactId>midonet-docs-operation-guide</artifactId>
-    <version>2014.11-rev1</version>
+    <version>2014.11-rev2</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId} v${project.version}</name>
