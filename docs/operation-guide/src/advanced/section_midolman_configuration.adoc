@@ -231,5 +231,4 @@ bgp_keepalive=1
 
 The settings in the host's midolman.conf file must match those on the other end
 of the BGP session, in the peer's bgpd.conf file. For more information about how
-to set them, see "BGP failover configuration on a BGP peer" in the MidoNet
-Operation Guide.
+to set them, see xref:bgp_failover[].
