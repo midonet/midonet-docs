@@ -6,7 +6,7 @@ segment that is reachable via an L3 network and a VXLAN-capable physical switch.
 
 A VXLAN-capable physical switch is also referred to as a "hardware VTEP" (VXLAN
 Tunnel End Point). The VXGW allows creating one or many VXLAN-based Logical
-Bridges that span one hardware VTEPs and a single MidoNet-ODP cloud.
+Switches that span any number of hardware VTEPs and a single MidoNet-ODP cloud.
 
 The VXGW has the following advantages:
 
@@ -43,8 +43,8 @@ A VXGW virtual port will have the following properties set:
 
 * a single hardware VTEP tunnel IP address.
 
-* a name of the Logical Bridge used by the VTEP to refer to the Neutron network.
-The name of the Logical Bridge is the UUID of the Neutron network to which the
+* a name of the Logical Switch used by the VTEP to refer to the Neutron network.
+The name of the Logical Switch is the UUID of the Neutron network to which the
 VTEP is bound (and at the same time the name of the MidoNet Bridge).
 
 * a set of port-VLAN pairs indicating which of the VTEP's connected segments are
@@ -52,40 +52,39 @@ intended to be bridged to the Neutron network.
 
 These rules apply to the VXGW virtual port properties:
 
-* the Logical Bridge name must be unique on the corresponding VTEP.
+* the Logical Switch name must be unique on the corresponding VTEP.
 
-* the combination of a tunnel key and a single hardware VTEP tunnel IP address
-must be unique across the entire MidoNet deployment.
+* the combination of a tunnel key and a Logical Switch name is unique accross
+the entire MidoNet deployment.
 
 * the same VNID may be used by different MidoNet deployments that are using the
-same VTEP. MidoNet will choose the VNID for the logical bridge. That VNID is
+same VTEP. MidoNet will choose the VNID for the Logical Switch. That VNID is
 visible to the MN operator so that it can be used in troubleshooting the VXLAN
 packets or the hardware VTEP's configuration (the part that is managed by MN).
 
-*Logical Bridge*
+* each Logical Switch associated to a given Neutron network in each VTEP will
+have the same name, constructed by concatenating "mn-" to the Neutron network
+UUID.  All these Logical Switches will share the same tunnel key.
 
-The Logical Bridge, is an abstract logical representation of the connections
+*Logical Switch*
+
+The Logical Switch, is an abstract logical representation of the connections
 between a MidoNet host or hosts and a hardware VTEP, with its port-VLAN
 assignments.
 
-The Logical Bridge is a set of vlan/port pairs. You can either think of the
-Logical Bridge as spanning that set AND a single virtual bridge in MidoNet (or
-Neutron network in OpenStack). Or you can think of the logical bridge as ONLY
-the set of vlan/port pairs on the VTEP and MidoNet's VXGW feature extends that
-Logical Bridge to the MN virtual bridge.
+Conceptually, the Logical Switch is a set of vlan/port pairs. You can either
+think of the Logical Switch as spanning that set AND a single virtual bridge in
+MidoNet (or Neutron network in OpenStack). Or you can think of the Logical
+Switch as ONLY the set of vlan/port pairs on the VTEP and MidoNet's VXGW feature
+extends that Logical Switch to the MN virtual bridge.
 
-The following rules and restrictions apply to Logical Bridges:
+The following rules and restrictions apply to Logical Switchs:
 
-* a Logical Bridge cannot span two VTEPS.
-
-* if a Logical Bridge is bound to a specific port on a given VLAN then it SHOULD
-be bound to all ports on that VLAN.
-
-* one Logical Bridge always has the same VTEP and the same VLAN assigned, but
+* one Logical Switch always has the same VTEP and the same VLAN assigned, but
 there may be be different ports and there may be more than one port assigned.
 
-* The Logical Bridge Name is used by the VTEP to refer to the Neutron network.
+* The Logical Switch Name is used by the VTEP to refer to the Neutron network.
 
-The creation, configuration and deletion of Logical Bridges is the
+The creation, configuration and deletion of Logical Switchs is the
 responsibility of the Coordinator component. (For more information, see
 xref:vxlan_coordinator[])
