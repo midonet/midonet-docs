@@ -8,6 +8,7 @@ include::uplinks/chapter_configuring_uplinks.adoc[leveloffset=+1]
 include::uplinks/section_bgp_setup.adoc[leveloffset=+2]
 include::uplinks/section_establish_bgp_session.adoc[leveloffset=+3]
 include::uplinks/section_bgp_failover.adoc[leveloffset=+3]
+include::uplinks/section_static_setup.adoc[leveloffset=+2]
 
 // Chapter: Authentication and authorization
 include::authentication/chapter_authentication.adoc[leveloffset=+1]
