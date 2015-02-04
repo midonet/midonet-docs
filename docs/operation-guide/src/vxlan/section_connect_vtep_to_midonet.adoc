@@ -1,8 +1,17 @@
 [[connect_vtep_to_midonet]]
 = Enabling connection between VTEP and MidoNet hosts
 
-Follow this procedure to modify the default ingress security rule in MidoNet to
-allow connection between hosts on a VTEP and in MidoNet.
+By default Neutron includes a security rule on all networks that
+restricts forwarding only to traffic addressed to IP/MAC of VMs on that
+network.
+
+By binding a network to physical ports in a VTEP, we're effectively
+adding hosts to the L2 segment of this Neutron network that Neutron
+itself doesn't know about, and thus traffic addressed to these physical
+hosts will be dropped.
+
+The following procedure describes changes ton the default ingress
+security rule in order to allow traffic to hosts on the VTEP.
 
 . In the MidoNet CLI find out what the ingress default security rule is by
 issuing this command:
@@ -13,11 +22,13 @@ chain chain0 name OS_SG_64d9f3df-9875-4896-ad0c-ffc5bba84c5e_INGRESS
 chain chain1 name OS_SG_64d9f3df-9875-4896-ad0c-ffc5bba84c5e_EGRESS
 ...
 +
-In this case, the security rule you have to modify is in the chain0
-(OS_SG_64d9f3df-9875-4896-ad0c-ffc5bba84c5e_INGRESS) rule chain.
+Locate the ingress security rule that is assigned to the neutron
+network. In this case, we'll use chain0
+(OS_SG_64d9f3df-9875-4896-ad0c-ffc5bba84c5e_INGRESS) rule chain, the
+ingress chain.
 
-. To find out what the name of the security rule in this rule chain is, issue
-this command:
+. List the rules that implement this security rule by issuing this
+command:
 +
 [source]
 midonet> chain chain0 list rule

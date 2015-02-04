@@ -1,18 +1,22 @@
 [[connect_vtep_to_neutron]]
 = Setting up a connection between a VTEP and a Neutron network
 
-Use this procedure to set up a connection between a VTEP and a Neutron network
-in MidoNet.
+Use this procedure to set up a connection between a VTEP and a Neutron
+network in MidoNet.
 
-For this procedure you will need to know the VTEP's management IP and port, the
-physical port on the VTEP and the VLAN ID at this port to which you are
-connecting, the UUID of the Neutron network which you want to connect to the
-VTEP, and the IP addresses of all the hosts on the Neutron network that you want
-to communicate with the VTEP.
+For this procedure you will need to know the VTEP's management IP and
+port, the physical port on the VTEP and the VLAN ID at this port to
+which you are connecting, the UUID of the Neutron network which you want
+to connect to the VTEP, and the IP addresses of all the hosts on the
+Neutron network that you want to communicate with the VTEP.
 
 . Create a tunnel zone of type'vtep'.
 +
-Issue the following command in the MidoNet CLI:
+All hosts that want to communicate with the VTEP using VXLAN tunnels are
+required to belong to a tunnel zone of type VTEP, using the IP that each
+of them will use as VXLAN tunnel endpoint.
++
+To create a tunnel zone issue the following command in the MidoNet CLI:
 +
 [source]
 midonet> tunnel-zone create name vtep_zone1 type vtep
@@ -21,7 +25,9 @@ tzone1
 As you can see you just created a 'vtep' type tunnel zone, tzone1.
 
 . Add a VTEP to MidoNet and assign it to the 'vtep' tunnel zone that you
-created.
+created, using the local IP that this host it meant to use in VXLAN
+tunnels to the VTEP. Note that this IP may be the same that the host
+uses to communicate with other MidoNet hosts.
 +
 [source]
 midonet> vtep add management-ip 192.168.2.11 management-port 6632 tunnel-zone tzone1
@@ -32,9 +38,7 @@ saying 'connection-state CONNECTED'.
 
 . Create a binding between the VTEP and a Neutron network behind a
 MidoNet bridge. For that, you will need the UUID of the Neutron network behind
-that bridge.
-+
-To find out the UUID use these commands:
+that bridge.  To find out the UUID use these commands:
 +
 [source]
 midonet> list bridge
@@ -69,9 +73,10 @@ Repeat these steps for every host in the Neutron network that you want to
 communicate with the VTEP.
 +
 [IMPORTANT]
-Normally, a host may only be assigned to one tunnel zone, gre or vxlan type. A
-host connecting to a VTEP is an exception because you may assign it to two
-tunnel zones, a gre/vxlan one and a vtep one.
+Normally, a host may only be assigned to one tunnel zone, gre or vxlan
+type. A host connecting to a VTEP is an exception because you may assign
+it to two tunnel zones, a gre/vxlan one and a vtep one. Note that a host
+can still use the same IP for both tunnel zones.
 
 . Create a binding between the VTEP's vlan 10 and the Neutron network behind the
 bridge0.

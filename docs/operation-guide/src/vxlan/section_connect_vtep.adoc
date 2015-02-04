@@ -1,27 +1,57 @@
 [[connect_to_vtep]]
 = Connecting to the VTEP
 
-Use this procedure to connect to a hardware VTEP.
-
-This will allow you to establish a connection between the VTEP and a Neutron
-network.
+Use this procedure to connect MidoNet to a hardware VTEP.  This step is
+required before any Neutron networks can be bound to port/vlan pairs on
+that VTEP.
 
 . Refer to the documentation of your switch to enable VXLAN on it, then
 configure it as a VTEP with all the required parameters.
 +
-At a minimum, you need to set up these parameters for your hardware VTEP:
+MidoNet will expect that the Physical_Switch table on the VTEP contains
+a record with the management IP, management port and tunnel IP of this
+VTEP. Keep these details at hand as they will be needed to configure the
+VTEP and any bindings to Neutron networks. Use the following command to
+dump the contents of this table:
 +
-* VLAN-port mapping (for the physical servers that you want to be accessible to
-your virtual hosts).
+[source]
+vtep-ctl list Physical_switch
 +
-* the VTEP management interface IP and port.
+Make sure that your VTEP also registers all the physical ports.  You can
+verify this by examining the Physical_Ports table in the VTEP.  Only
+ports present in this table will be available for binding to a Neutron
+network, Use the following command would display all physical ports,
+replacing <vtep-name> with the name assigned to the Physical_Switch (you
+can check this using the previous "vtep-ctl list Physical_Switch"
+command).
++
+[source]
+vtep-ctl list-ports <vtep-name>
 
-. After setting up the VTEP you might need to test the connection to it, to make
-sure it's up and running.
+. After setting up the VTEP you might need to test connectivity to both
+the tunnel and management interfaces. Both should be 'up'.
 +
-For example, if the VTEP management interface has been properly configured and
-it is 'up', you should be able to establish a successful telnet connection
-(providing telnet is allowed on the switch).
+To test the connection to the management database, you can run:
++
+[source]
+$ telnet <management-ip> <management-port>
+Trying <management-ip>...
+Connected to <management-ip>
+Escape character is '^]'.
++
+At this point, paste this on the console:
++
+[source]
+{"method":"list_dbs","id":"list_dbs","params":[]}
++
+And you should see this reply:
++
+[source]
+{"id":"list_dbs","error":null,"result":["hardware_vtep"]}
++
+This just verified that the OVSDB server that holds the configuration of
+this VTEP is active and handling connections. If you did not get a
+similar reply, please review the configuration of the VTEP.
 
 . Enable VXLAN service in Midonet, by modifying the midonet-api config file
 /usr/share/midonet-api/WEB-INF/web.xml.
@@ -40,19 +70,20 @@ and change the value of the <param-value> tag to 'true'.
 
 .. Restart Tomcat to apply the change.
 
-. Having ensured that the VTEP has been properly configured, add the VTEP to the
-MidoNet configuration.
+. Having ensured that the VTEP has been properly configured, now you're
+ready to add the VTEP to the MidoNet configuration.
 +
 For information, see xref:cli_add_vtep[].
 +
 [IMPORTANT]
 Apart from the information on the VLAN-port assignment, and VTEP management
-interface IP and port, you will also need the identifier of the TunnelZone your
-virtual hosts reside in.All hosts that you want the VTEP to communicate with are
-expected to belong to that TunnelZone: the IP in the host's membership to that
-TunnelZone is the IP that will be used for the tunnel.
+interface IP and port, you will also need the identifier of a TunnelZone
+of type "VTEP". All the hosts running MidoNet Agent daemons that you
+want to create VXLAN tunnels with the VTEP should be members of this
+tunnel zone, using the local IP that each host uses as a VXLAN tunnel
+endpoint.
 
-After you successfully add a VTEP to the MidoNet configuration, the API Server
-connects to its (VTEP's) management interface and collects all the required
-information for creating a Logical Bridge. For more information, see the
-"Logical Bridge" section.
+After you successfully add a VTEP to the MidoNet configuration, the API
+Server connects to its (VTEP's) management interface and collects all
+the required information for creating a Logical Bridge. For more
+information, see the "Logical Bridge" section.
