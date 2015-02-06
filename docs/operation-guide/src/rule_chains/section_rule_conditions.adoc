@@ -79,8 +79,8 @@ physical Ethernet interfaces.
     for information. Examples: ICMP = 1, IGMP = 2, TCP = 6, UDP = 17
 |src [!]<CIDR>:|The source IP address or CIDR block
 |dst [!]<CIDR>:|The destination IP address or CIDR block
-|src-port [!]<INTEGER[:INTEGER]>:|The TCP or UDP source port or port range
-|dst-port [!]<INTEGER[:INTEGER]>:|The TCP or UDP destination port or port range
+|src-port [!]<INTEGER[-INTEGER]>:|The TCP or UDP source port or port range
+|dst-port [!]<INTEGER[-INTEGER]>:|The TCP or UDP destination port or port range
 |flow <fwd-flow\|return-flow>:|
     Matches the connection-tracking status of the packet. If the packet is
     starting a new connection, fwd-flow will match. Alternatively, if the packet
