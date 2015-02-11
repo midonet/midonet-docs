@@ -16,7 +16,7 @@ As Keystone +admin+, execute the following commands:
 
 [literal,subs="quotes"]
 ----
-$ keystone user-create --name *_midonet_* --pass *_MIDONET_PASS_* --tenant admin
-$ keystone user-role-add --user *_midonet_* --role admin --tenant admin
+$ keystone user-create --name *_midonet_* --pass *_MIDONET_PASS_* --tenant services
+$ keystone user-role-add --user *_midonet_* --role admin --tenant services
 ----
 ====

@@ -78,7 +78,7 @@ midonet_uri = http://*_controller_*:8080/midonet-api
 username = *_midonet_*
 password = *_MIDONET_PASS_*
 # MidoNet administrative user's tenant
-project_id = admin
+project_id = services
 ----
 +
 ====
