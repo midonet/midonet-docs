@@ -38,10 +38,11 @@
         <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
         {draftWarning}
 
+        <!-- Link to Mailing Lists and Chat. -->
         <note>
             <para>
                 Please consult the
-                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or IRC</link>
+                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or Chat</link>
                 if you need assistance.
             </para>
         </note>
