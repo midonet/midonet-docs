@@ -122,7 +122,7 @@ include::vxlan/section_cli_show_vtep.adoc[leveloffset=+3]
 include::vxlan/section_cli_add_vtep_binding.adoc[leveloffset=+3]
 include::vxlan/section_cli_list_vtep_bindings.adoc[leveloffset=+3]
 include::vxlan/section_cli_remove_vtep_binding.adoc[leveloffset=+3]
-include::vxlan/section_cli_remove_vtep.adoc[leveloffset=+3]
+include::vxlan/section_cli_delete_vtep.adoc[leveloffset=+3]
 
 // Chapter: Setting up an L2 gateway
 include::l2_gateway/chapter_l2_gateway.adoc[leveloffset=+1]
