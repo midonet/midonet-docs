@@ -91,6 +91,7 @@ include::resource_protection/chapter_resource_protection.adoc[leveloffset=+1]
 
 // Chapter: MidoNet monitoring
 include::monitoring/chapter_monitoring.adoc[leveloffset=+1]
+include::monitoring/section_metering.adoc[leveloffset=+2]
 include::monitoring/section_munin.adoc[leveloffset=+2]
 include::monitoring/section_zabbix.adoc[leveloffset=+2]
 include::monitoring/section_nsdb.adoc[leveloffset=+2]
