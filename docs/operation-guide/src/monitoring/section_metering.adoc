@@ -1,0 +1,116 @@
+[[metering]]
+= Metering
+
+**Note**: This feature is in *_experimental_* status.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Overview
+
+The goal of metering is to provide packets and bytes traffic counters
+for arbitrary slices of the traffic that travels through MidoNet.
+
+A meter is a counter of bytes and packets, associated with a name. In
+order to be incremented, the meter needs to have flows associated with
+it. MidoNet agents will automatically associate flows with certain
+meters, and users can create their own custom meters setting the
+`meterName` attribute in chain rules.
+
+For example, all traffic going through bridge with uuid `FOO` in MidoNet
+be counted under meter `meters:device:FOO`. All traffic egressing port
+`BAR` will also be reflected in meter `meters:port:tx:BAR`.
+
+MidoNet agents offer these counters for their partial view of overlay
+traffic. In other words, each agent will provide meters that only
+account for the traffic that agent has simulated. For a given meter, the
+MidoNet-wide real value is the sum of the value of this meter across all
+agents.
+
+**Note**: Metering data is meant to be polled and stored by a monitoring
+layer onto a time series database. Thus agents don't persist the
+metering data they gather, and meter values will reset to zero when an
+agent reboots. *Any metering data collection layer should account for
+this effect and detect counter resets.*
+
+== Querying meters
+
+Agents publish meters over JMX and a command line tool, `mm-meter`, uses
+their JMX interface to list, fetch and monitor meter values.
+
+For example code on the JMX interface, the best source is
+https://github.com/midonet/midonet/blob/fa133d06b4c2f04c771d19f68eb42243b6e77318/midolman/src/main/scala/org/midonet/midolman/management/MidolmanMeter.scala[the
+code of `mm-meter` itself].
+
+Querying meters with `mm-meter` is very simple:
+
+--------------------------------------------------------------------------
+$ mm-meter --help
+  -h, --host  <arg>   Host (default = localhost)
+  -p, --port  <arg>   JMX port (default = 7200)
+      --help          Show help message
+
+Subcommand: list - list all active meters
+      --help   Show help message
+Subcommand: get
+  -n, --meter-name  <arg>   name of the meter
+      --help                Show help message
+
+ trailing arguments:
+  delay (not required)   delay between updates, in seconds. If no delay is
+                     specified, only one report is printed. (default = 0)
+  count (not required)   number of updates, defaults to infinity
+                     (default = 2147483647)   
+--------------------------------------------------------------------------
+
+The `list` command will print a list of all meters known to this agent:
+
+---------------------------------------------------
+$ mm-meter list
+meters:user:port0-on-the-bridge
+meters:port:rx:cf453c9d-94c4-4c27-ba32-529b7cbacf1d
+meters:device:845a54bf-b702-4dc2-8958-bbe7156bc4ef
+meters:port:tx:cf453c9d-94c4-4c27-ba32-529b7cbacf1d
+meters:port:tx:9182485b-8f86-462d-a8be-62586060eeb9
+meters:device:f0d1f093-2de7-49a1-a5ec-898f94769e34
+meters:device:9182485b-8f86-462d-a8be-62586060eeb9
+meters:port:rx:9182485b-8f86-462d-a8be-62586060eeb9
+meters:device:cf453c9d-94c4-4c27-ba32-529b7cbacf1d
+---------------------------------------------------
+
+And the `get` command will print the __current__, _local_ counters for a
+meter. It takes a delay, in which case it will poll the meter and print
+deltas periodically:
+
+------------------------------------------------------------------------
+$ mm-meter get -n meters:port:rx:cf453c9d-94c4-4c27-ba32-529b7cbacf1d 10
+    packets        bytes
+     568935   4215888475
+          0            0
+          0            0
+         23         5834
+          0            0
+          
+------------------------------------------------------------------------
+
+== Creating a custom meter
+
+Operators may want to meter a custom slice of their virtual network
+traffic. This is possible by matching on that slice using one or several
+chain rules in the virtual topology. The `meterName` property in chain
+rules will assign matching flows to the meter referred to by its value,
+in addition to the meters that flow would naturally feed.
+
+Besides using the REST API, operators can use `midonet-cli` to set up
+such rules. The following rule will assign to meter `my-meter` all
+traffic that hits the rule after having traversed device
+`9182485b-8f86-462d-a8be-62586060eeb9`:
+
+-----------------------------------------------------------------------------------------------------------------------------------
+midonet> chain chain0 list rule
+rule rule0 proto 0 tos 0 traversed-device 9182485b-8f86-462d-a8be-62586060eeb9 fragment-policy any pos 1 type accept meter my-meter
+-----------------------------------------------------------------------------------------------------------------------------------
+
+Note that, when inspecting meters `my-meter` will turn into
+`meters:user:my-meter`, to avoid naming conflicts with built-in meters.
