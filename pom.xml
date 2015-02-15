@@ -74,7 +74,6 @@
                                 <![CDATA[
                                     <!-- this placeholder prevents failure for non-SNAPSHOT versions -->
                                 ]]>
-                                ${parsedVersion.qualifier}
                             </value>
                             <regex>SNAPSHOT</regex>
                             <replacement>
