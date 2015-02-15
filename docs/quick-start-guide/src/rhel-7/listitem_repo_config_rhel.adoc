@@ -1,10 +1,9 @@
-. *Enable Red Hat repositories*
+. *Enable Red Hat base repository*
 +
 ====
 
 [source]
 ----
 # subscription-manager repos --enable=rhel-7-server-rpms
-# subscription-manager repos --enable=rhel-7-server-openstack-5.0-rpms
 ----
 ====

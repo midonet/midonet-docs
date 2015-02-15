@@ -10,6 +10,9 @@ ifdef::rhel-7[]
 ifdef::icehouse[]
 = MidoNet Quick Start Guide for RHEL 7 / Icehouse
 endif::icehouse[]
+ifdef::juno-rdo[]
+= MidoNet Quick Start Guide for RHEL 7 / Juno (RDO)
+endif::juno-rdo[]
 endif::rhel-7[]
 
 // Preface
@@ -19,11 +22,14 @@ include::common/preface.adoc[leveloffset=+1]
 ifdef::ubuntu-1404[]
 include::ubuntu-1404/shared/chapter_architecture.adoc[leveloffset=+1]
 endif::ubuntu-1404[]
-ifdef::icehouse[]
 ifdef::rhel-7[]
+ifdef::icehouse[]
 include::rhel-7/icehouse/chapter_architecture.adoc[leveloffset=+1]
-endif::rhel-7[]
 endif::icehouse[]
+ifdef::juno-rdo[]
+include::rhel-7/juno-rdo/chapter_architecture.adoc[leveloffset=+1]
+endif::juno-rdo[]
+endif::rhel-7[]
 
 // Chapter: Basic Environment Configuration
 include::common/chapter_basic_environment_configuration.adoc[leveloffset=+1]

@@ -1,5 +1,6 @@
 /build.log
 /build/quick-start-guide_rhel-7_icehouse/target/
+/build/quick-start-guide_rhel-7_juno-rdo/target/
 /build/quick-start-guide_ubuntu-1404_icehouse/target/
 /build/quick-start-guide_ubuntu-1404_juno/target/
 /build/operation-guide/target/

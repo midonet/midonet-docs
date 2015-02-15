@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the
+http://docs.openstack.org/juno/install-guide/install/yum/content/[OpenStack Juno Installation Guide for Red Hat Enterprise Linux 7]
+, but *note the following differences*.
+

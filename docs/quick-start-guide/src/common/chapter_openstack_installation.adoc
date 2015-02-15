@@ -1,10 +1,18 @@
 = OpenStack Installation
 
 ifdef::rhel-7[]
+ifdef::icehouse[]
 include::../rhel-7/icehouse/content_openstack_installation.adoc[]
 include::../rhel-7/icehouse/chapter_keystone_installation.adoc[leveloffset=+1]
 include::../rhel-7/icehouse/chapter_neutron_installation.adoc[leveloffset=+1]
 include::../rhel-7/icehouse/chapter_nova_installation.adoc[leveloffset=+1]
+endif::icehouse[]
+ifdef::juno-rdo[]
+include::../rhel-7/juno-rdo/content_openstack_installation.adoc[]
+include::../rhel-7/juno-rdo/chapter_keystone_installation.adoc[leveloffset=+1]
+include::../rhel-7/juno-rdo/chapter_nova_installation.adoc[leveloffset=+1]
+include::../rhel-7/juno-rdo/section_neutron_installation.adoc[leveloffset=+1]
+endif::juno-rdo[]
 endif::rhel-7[]
 
 ifdef::ubuntu-1404[]
