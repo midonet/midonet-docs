@@ -6,8 +6,9 @@ VXLAN support.
 
 The Coordinator has the following responsibilities:
 
-* creating/configuring/deleting logical bridges on the VTEP.
+* Exposing VTEP state through the MidoNet REST API.
 
-* binding the VTEP's port-VLAN pairs to said logical bridges.
+* Configuring the VTEP switch in order to implement the bindings
+configured through the MidoNet REST API.
 
-* acting as an L2 control plane for traffic flowing between MN and the VTEP.
+* Acting as an L2 control plane for traffic flowing between MN and the VTEP.
