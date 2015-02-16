@@ -1,60 +1,71 @@
 [[cli_list_vtep_bindings]]
-= Obtaining descriptions of VTEP's vxlan ports
+= Obtaining descriptions of VTEP bindings
 
-Use this command to obtain the descriptions of all vxlan ports on a selected
-Neutron network.
+The MidoNet CLI offers a command to obtain the descriptions of all
+bindings on a given VTEP, as well as all the VTEPs to which a specific
+Neutron network is bound to.
 
-*Syntax*
+*All bindings in a VTEP*
+
+First, list all the VTEPs in order to identify the desired management IP:
 
 [source]
-vtep management-ip vtep-ip-address list binding
-
-[source]
-vtep vtep-id list binding
+midonet> vtep list
+name vtep0 description Vtep1 management-ip 192.168.2.13 management-port 6632 tunnel-zone tzone0 connection-state CONNECTED
 
 *Result*
 
-The successful command returns the descriptions of all vxlan ports and their
+The successful command returns the descriptions of all VXLAN ports and their
 Neutron network bindings on the selected VTEP:
 
 [source]
-midonet> vtep vtep0 list binding
-binding binding0 management-ip 119.15.112.22 physical-port Te 0/2 vlan 908 network-id bc3afc36-6274-4603-9109-c29f1c12ba33
-binding binding1 management-ip 119.15.112.22 physical-port Te 0/2 vlan 439 network-id bc3afc36-6274-4603-9109-c29f1c12ba33
-binding binding2 management-ip 119.15.112.22 physical-port Te 0/2 vlan 777 network-id bc3afc36-6274-4603-9109-c29f1c12ba33
-binding binding3 management-ip 119.15.112.22 physical-port fakevm1_out vlan 0 network-id 7071b156-5f05-4d8c-8df2-3bb22a9325fc
-binding binding4 management-ip 119.15.112.22 physical-port in1 vlan 119 network-id 1d475afc-d892-4dc7-af72-9bd88e565dde
+vtep management-ip 192.168.2.13 list binding
+binding binding0 management-ip 192.168.2.13 physical-port Te 0/2 vlan 908 network-id bc3afc36-6274-4603-9109-c29f1c12ba33
+binding binding1 management-ip 192.168.2.13 physical-port Te 0/2 vlan 439 network-id 1d475afc-d892-4dc7-af72-9bd88e565dde
+binding binding4 management-ip 192.168.2.13 physical-port in1 vlan 119 network-id bc3afc36-6274-4603-9109-c29f1c12ba33
 
-From the output you can see that:
+From the output you can see a list of all the port-vlan pairs applied on
+a given VTEP.  The following information is displayed (the first line
+will be used as example):
 
-* a vxlan port's description includes:
+* The alias of the binding (e.g., binding0).
 
-** a list of all the port-vlan bindings specific to that Neutron network AND
-hardware VTEP.
+* The management IP of the VTEP (e.g., 192.15.112.22).
 
-** the name of the logical bridge that represents the Neutron network on the
-VTEP side (it's a combination of the Neutron network name and UUID)
+* The physical port (e.g., Te 0/2) and VLAN (908).
 
-** the VNI (Virtual Network Id, equivalent to the vxlan tunnel key) that was
-assigned to this Neutron network. The selected VNID is unique within that VTEP.
+* The UUID of the Neutron network to which the port-vlan pair is bound (e.g.,
+bc3afc36-6274-4603-9109-c29f1c12ba33)
 
-* there is one vxlan port for each VTEP that has port-VLANs bound to that
-Neutron network. Each Neutron network is allowed to have only a single vxlan
-port and therefore may only be bridged to ports on one VTEP.
+*VTEPs bound in a Neutron network*
 
-[TIP]
-When issued without any parameters, the command returns descriptions of all
-vxlan ports on all Neutron networks.
-
-*Example*
+First chose the MidoNet bridge corresponding to the desired Neutron
+network:
 
 [source]
-midonet> vtep vtep0 list binding
+midonet> bridge list
+bridge bridge0 name my_network state up
+
+We can verify the id of this bridge, which will be the same as the
+Neutron network:
 
 [source]
-midonet> vtep management-ip 119.15.112.22 list binding
+midonet> bridge bridge0 show id
+bc3afc36-6274-4603-9109-c29f1c12ba33
 
-To list bindings with a filter:
+List the ports on the bridge:
 
 [source]
-midonet> vtep management-ip 119.15.112.22 list binding vlan 119
+midonet> bridge bridge0 port list
+port port0 device bridge0 state up
+port port1 device bridge0 state up
+port port2 device bridge0 state up management-ip 192.168.2.13 vni 10012
+port port3 device bridge0 state up management-ip 192.168.2.14 vni 10012
+
+*Result*
+
+The bridge will complete the list of ports with one entry for each of
+the VTEPs that contain at least one binding.  In this case we see that
+the Neutron network is bound to port-vlan pairs at VTEPs 192.168.2.13
+(as shown in the "list binding" example above) and 192.68.2.14 (not
+shown for conciseness).
