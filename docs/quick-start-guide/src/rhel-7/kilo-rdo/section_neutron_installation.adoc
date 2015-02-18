@@ -1,0 +1,10 @@
+= Networking Service (Neutron)
+
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/kilo/install-guide/install/yum/content/section_neutron-networking.html[Chapter 6. OpenStack Networking (neutron)]
+instructions, but *note the following differences*.
+
+include::section_neutron_controller_node_installation.adoc[leveloffset=+1]
+include::section_neutron_network_node_installation.adoc[leveloffset=+1]
+include::section_neutron_compute_node_installation.adoc[leveloffset=+1]
