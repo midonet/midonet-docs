@@ -16,8 +16,10 @@
     <modules>
         <module>build/quick-start-guide_rhel-7_icehouse</module>
         <module>build/quick-start-guide_rhel-7_juno-rdo</module>
+        <module>build/quick-start-guide_rhel-7_kilo-rdo</module>
         <module>build/quick-start-guide_ubuntu-1404_icehouse</module>
         <module>build/quick-start-guide_ubuntu-1404_juno</module>
+        <module>build/quick-start-guide_ubuntu-1404_kilo</module>
         <module>build/operation-guide</module>
         <module>build/reference-architecture</module>
         <module>build/rest-api</module>
@@ -74,6 +76,7 @@
                                 <![CDATA[
                                     <!-- this placeholder prevents failure for non-SNAPSHOT versions -->
                                 ]]>
+                                ${parsedVersion.qualifier}
                             </value>
                             <regex>SNAPSHOT</regex>
                             <replacement>

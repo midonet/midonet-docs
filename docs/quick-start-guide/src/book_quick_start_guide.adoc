@@ -5,6 +5,9 @@ endif::icehouse[]
 ifdef::juno[]
 = MidoNet Quick Start Guide for Ubuntu 14.04 / Juno
 endif::juno[]
+ifdef::kilo[]
+= MidoNet Quick Start Guide for Ubuntu 14.04 / Kilo
+endif::kilo[]
 endif::ubuntu-1404[]
 ifdef::rhel-7[]
 ifdef::icehouse[]
@@ -13,6 +16,9 @@ endif::icehouse[]
 ifdef::juno-rdo[]
 = MidoNet Quick Start Guide for RHEL 7 / Juno (RDO)
 endif::juno-rdo[]
+ifdef::kilo-rdo[]
+= MidoNet Quick Start Guide for RHEL 7 / Kilo (RDO)
+endif::kilo-rdo[]
 endif::rhel-7[]
 
 // Preface
@@ -29,6 +35,9 @@ endif::icehouse[]
 ifdef::juno-rdo[]
 include::rhel-7/juno-rdo/chapter_architecture.adoc[leveloffset=+1]
 endif::juno-rdo[]
+ifdef::kilo-rdo[]
+include::rhel-7/kilo-rdo/chapter_architecture.adoc[leveloffset=+1]
+endif::kilo-rdo[]
 endif::rhel-7[]
 
 // Chapter: Basic Environment Configuration
