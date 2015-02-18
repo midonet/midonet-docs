@@ -6,5 +6,8 @@ endif::icehouse[]
 ifdef::juno[]
 http://docs.openstack.org/juno/install-guide/install/apt/content/[OpenStack Juno Installation Guide for Ubuntu 14.04 (LTS)]
 endif::juno[]
+ifdef::kilo[]
+http://docs.openstack.org/kilo/install-guide/install/apt/content/[OpenStack Kilo Installation Guide for Ubuntu 14.04 (LTS)]
+endif::kilo[]
 , but *note the following differences*.
 
