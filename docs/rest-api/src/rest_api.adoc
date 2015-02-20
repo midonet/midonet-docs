@@ -556,7 +556,8 @@ location of the vip with the provided ID
 Application v1 has been removed from the API. Application v2 has been
 removed from the API. Application v3 has been removed from the API.
 
-Neutron - v2 +++++++
+Neutron - v2
+^^^^^^^^^^^^
 
 _Media Type_: `[application/vnd.org.midonet.neutron.Neutron-v1+json]`
 
@@ -638,7 +639,8 @@ a Neutron security group rule
 balancer objects. pools, vips, members and health_monitors.
 |=======================================================================
 
-Neutron, Deprecated +++++++
+Neutron - v1, Deprecated
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 _Media Type_: `[application/vnd.org.midonet.neutron.Neutron-v1+json]`
 
