@@ -1036,16 +1036,20 @@ rule belongs to
 |remote_group_id |UUID |POST |No |ID of the security group to match
 against
 
-|direction |String |POST |Yes |
+|direction |String |POST |Yes |Traffic direction to match: 'ingress'
+or 'egress'
 
-|protocol |String |POST |No |
+|protocol |String |POST |No |The protocol to match.  It could be
+specified in either string or numerical value.   Supported protocols
+are "icmp"/"1", "icmpv6"/"58", "tcp"/"6" and "udp"/"17".
 
 |port_range_min |Integer |POST |No |Start protocol port number to match
 on
 
 |port_range_max |Integer |POST |No |End protocol port number to match on
 
-|ethertype |String |POST |No |
+|ethertype |String |POST |No | ethertype to match on.  Supported
+types are "ipv4", "ipv6" and "arp"
 
 |remote_ip_prefix |String |POST |No |IP address in the CIDR format
 (x.x.x.x/y) to match on
