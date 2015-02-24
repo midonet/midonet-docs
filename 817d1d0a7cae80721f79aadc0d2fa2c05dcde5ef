@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_a6acada1",
+        "filename": "docs/operation-guide/src/vxlan/section_cli_list_vtep_bindings.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-02-24T05:36:10Z",
+      "side": 1,
+      "message": "That sentence is not complete.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 60
+      },
+      "revId": "817d1d0a7cae80721f79aadc0d2fa2c05dcde5ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
