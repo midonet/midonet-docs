@@ -15,7 +15,7 @@
 
     <groupId>org.midonet</groupId>
     <artifactId>midonet-docs-quick-start-guide-rhel-7-juno-rdo</artifactId>
-    <version>2015.01</version>
+    <version>2015.01-rev1</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId} v${project.version}</name>
@@ -75,7 +75,7 @@
                                     <replacetoken><![CDATA[<info>]]></replacetoken>
                                     <replacevalue>
                                         <![CDATA[
-                                            <?rax status.bar.text.font.size="40px" status.bar.text="DRAFT"?>
+                                            <?rax status.bar.text.font.size="40px" status.bar.text=""?>
                                             <?rax subtitle.font.size="17px" title.font.size="32px"?>
                                             <info>
                                         ]]>
