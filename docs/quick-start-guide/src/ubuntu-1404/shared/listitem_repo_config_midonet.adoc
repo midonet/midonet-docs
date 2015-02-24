@@ -23,6 +23,9 @@ endif::icehouse[]
 ifdef::juno[]
 deb http://repo.midonet.org/openstack-juno stable main
 endif::juno[]
+ifdef::kilo[]
+deb http://repo.midonet.org/openstack-kilo stable main
+endif::kilo[]
 
 # MidoNet 3rd Party Tools and Libraries
 deb http://repo.midonet.org/misc stable main
