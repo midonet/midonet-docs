@@ -1,15 +1,359 @@
 [[vxgw_troubleshooting]]
 = Troubleshooting VTEP/VXGW configuration
 
-You can use this information for troubleshooting the VXGW/VTEP:
+VTEP deployments have a relatively large number of moving pieces and
+potential failure points.  This guide will focus on troubleshooting
+MidoNet and the integration with the VTEP.  For specifics on the
+configuration of the logical switch please refer to your vendor's
+documentation.
 
-* Try to establish a Telnet connection to the VTEP management interface IP and
-port. You should be able to connect successfully if the VTEP has been properly
-configured.
+*Is the MidoNet API able to connect to the VTEP*
 
-* You can examine the MAC-table of the Neutron network. MAC entries pointing to
-vxlan ports indicate MAC addresses that are "local" to the vxlan port's VTEP.
+After following the procedure to add a VTEP as described in xref:cli_add_vtep[],
+the expected output should be as follows:
 
-* You can examine the ARP-suppression-table of the Neutron network. IP-mac
-entries in that table (if they point to MACs that are local to MidoNet) are used
-to populate MAC suppression tables in the VTEP.
+[source]
+midonet> vtep add management-ip 119.15.120.123 management-port 6633 tunnel-zone tzone0
+management-ip 119.15.120.123 management-port 6633 tunnel-zone tzone0 connection-state CONNECTED
+
+The same output should appear for VTEPs already added to MidoNet.
+
+Note that the state is CONNECTED.  An ERROR state will indicate that the
+VTEP's management IP is unreachable from the MidoNet API.
+
+*Is the VTEP well configured?*
+
+A typical reason for the VTEP being on ERROR state is a misconfiguration
+of the VTEP OVDSB instance. You can verify this by executing the
+following command on the console:
+
+[source]
+ovsdb-client dump hardware_vtep
+
+Scroll down to the Physical_Switch table, which will look like this:
+
+[source]
+----
+Physical_Switch table
+_uuid                                description         management_ips   name        ports                                  switch_fault_status tunnel_ips
+------------------------------------ ------------------- ---------------- ----------- -------------------------------------- ------------------- ------------
+3647f020-9ecf-4854-8f75-9011b8c9996a "VTEP DESCRIPTION"  ["192.168.2.14"] "VTEP NAME" [698ede89-31f8-4797-a885-1b2dd4c585e3] []                  ["10.0.0.1"]
+----
+
+Verify that an entry exists, and the management_ips and tunnel_ips
+fields correspond to the physical configuration.  The management IP is
+the one you'll be using on the "vtep add" command. The tunnel IP is not
+relevant at this point, however, MidoNet expects that a value is present
+in this field.
+
+*Is the OVSDB instance running and accessible?*
+
+If the MidoNet API shows an ERROR on the VTEP list, and your
+configuration is correct, you should verify that the OVSDB instance is
+listening on the same management-port that you're specifying in the vtep
+add call.
+
+From the host running the MidoNet REST API (and Coordinator) try to
+establish a Telnet connection to the VTEP management interface IP and
+port, assuming these are 192.168.2.13 and 6632:
+
+[source]
+telnet 192.168.2.13 6632
+
+If the connection is successful, you should see the following output:
+
+[source]
+Trying 192.168.2.13..
+Connected to localhost.
+Escape character is '^]'.
+
+This means that we have a TCP socket listening on the right port.
+We can now verify that the OVSDB is responsive.  If this is not the
+case, then check your switch manual to listen for connections at the
+selected TCP port.
+
+If the output was correct, then enter the following input into the
+console:
+
+[source]
+{"method":"list_dbs","id":"list_dbs","params":[]}
+
+The desired output is:
+
+[source]
+{"id":"list_dbs","result":["hardware_vtep"],"error":null}
+
+The content of the brackets after "result" may vary, but we must see a
+"hardware_vtep", indicating that there is a VTEP schema on this instance
+of the OVSDB. If you fail to see this output, the VTEP likely doesn't
+contain a hardware_vtep schema in its OVSDB instance.  Refer to your
+switch documentation for instructions to configure it.
+
+*VTEP and bindings are added but no traffic goes through*
+
+Verify first that you enabled the VxLAN Gateway Service in the MidoNet
+API.  This service is not enabled by default, but is required to
+configure the VTEP and synchronize state.  Open the MidoNet API
+configuration file:
+
+[source]
+vi /usr/share/midonet-api/WEB-INF/web.xml
+
+And scroll down until you find this section:
+
+[source]
+<!-- VXLAN gateway configuration -->
+<context-param>
+    <param-name>midobrain-vxgw_enabled</param-name>
+    <param-value>true</param-value>
+</context-param>
+
+Note that the value is set to "true" in all MidoNet API instances that
+you want to participate in VxLAN Gateway coordination.
+
+*Verify that the VxLAN Gateway service is started*
+
+The VxLAN Gateway service may be enabled in several MidoNet API
+instances.  All of them will coordinate through the Network State
+Database (NSDB) to elect a leader that will perform all coordination
+tasks. When a MidoNet API instance takes over leadership the following
+INFO message is displayed in the logs (/var/log/tomcat/catalina.out):
+
+[source]
+"I am the VxLAN Gateway leader! \o/"
+
+If another instance is already a leader, all other instances will
+display the following INFO message:
+
+[source]
+"I am no longer VxLAN Gateway leader, going passive"
+
+At least one instance of the MidoNet API should display the positive
+message indicating that it became the VxLAN Gateway Leader.  This is the
+instance that should be watched for further log messages.
+
+*Verify that the VxLAN Gateway leader picks up VTEPs and Networks*
+
+VxLAN Gateway services will scan all the Neutron networks in MidoNet's
+NSDB and proceed to monitor those that are bound to any VTEPs.
+
+Whenever a Neutron network is bound to a VTEP, the following message
+will appear in the INFO logs.  Note that all log messages relevant for a
+given Neutron network will be tagged with the appropriate UUID:
+
+[source]
+INFO c68fa502-62e5-4b33-9f2f-d5d0257deb4f - Successfully processed update
+
+You can filter updates relevant to specific networks by editing:
+
+[source]
+vi /usr/share/midonet-api/WEB-INF/classes/logback.xml
+
+Follow the instructions detailed in this file to enable different
+processes in the coordinator.  For brevity, log messages mentioned
+below will omit the Network UUID tag.
+
+As mentioned above, you should be seeing a message like the following
+for each Neutron network:
+
+[source]
+Network <NETWORK_UUID> is now part of a VxLAN Gateway
+
+Failures during this phase typically indicate errors accessing the
+NSDB, for example:
+
+[source]
+Cannot retrieve network state
+
+The MidoNet controller will WARN in the logs whenever a recoverable
+error is found, and try to restore connectivity to the NSDB.  Non
+recoverable errors will be marked as ERROR.
+
+If the logs show problems connecting to the NSDB verify that the NSDB is
+active, and MidoNet API is successfully able to access it.
+
+*Verify that the MidoNet coordinator synchronizes MAC with the VTEPs*
+
+After fetching Neutron network configuration from the NDSB, the MidoNet
+API logs should display the following messages (note that they may
+appear mixed with other messages):
+
+[source]
+Starting to watch MAC-Port table in <NEUTRON_UUID>
+Starting to watch ARP table in <NEUTRON_UUID>
+Network state now monitored
+
+These indicate that the MidoNet coordinator is monitoring the network's
+state, which will be synchronized to the VTEP.
+
+*Verify that the MidoNet coordinator connects to the VTEP(s)*
+
+The MidoNet coordinator will also bootstrap a process to exchange state
+among the network, and all VTEPs with port-vlan pairs bound to it.  When
+the controller detects any port-vlan pair in a new VTEP, it'll show the
+following message (assuming management ip and management port are
+192.168.2.13 and 6632):
+
+[source]
+Bindings to new VTEP at 192.168.2.13:6632
+
+At this point it will ensure that a connection is stablished to this
+VTEP's management IP and that the bindings configured through the
+MidoNet REST API are correctly reflected in the VTEP.  Normal output will
+look like this (note that they may appear mixed with other messages):
+
+[source]
+Consolidate state into OVSDB for <VXLAN GATEWAY DESCRIPTION>
+Logical switch <LOGICAL_SWITCH_NAME> exists: ..
+Syncing port/vlan bindings: <PORT_VLAN PAIRS>
+
+If the coordinator reports any errors connecting to the VTEP it will
+automatically try to connect, but you should verify that the VTEP is
+up and accessible.
+
+Following a successful consolidation of state, MidoNet will start the
+synchronization of MACs and ARP entries:
+
+[source]
+Joining <VXLAN_GATEWAY_DESCRIPTION> and pre seeding <NUMBER> remote MACs
+Emitting snapshot with <NUMBER> local MACs
+Advertise unknown-dst to receive flooded traffic ..
+
+Connection errors to the VTEP are possible at this point, but should be
+handled gracefully by the coordinator.
+
+If MidoNet finds a non recoverable error, the following WARN will be
+displayed (assuming same management port and id as above):
+
+[source]
+Failed to bootstrap VTEP at 192.168.2.13:6632
+
+The MidoNet coordinator will ignore this Neutron network until it's
+updated again.  It should however be able to continue operating with all
+other configured networks.
+
+*Verify that the MidoNet coordinator synchronizes state*
+
+If no errors are displayed up to here, edit the logback.xml file
+mentioned above and enable DEBUG logs in the vxgw processes:
+
+[source]
+<!-- <logger name="org.midonet.vxgw" level="DEBUG" /> -->
+
+Remove the `<!--` and `-->` tags to enable this configuration and wait for a
+few seconds until the API logs start showing DEBUG messages.  Choose
+TRACE instead of DEBUG for more exhaustive information (none will be too
+verbose to have a significant performance impact).
+
+Messages like the following show that the MidoNet coordinator is
+successfully exchanging MACs among Midonet and VTEPs.
+
+[source]
+TRACE c68fa502-62e5-4b33-9f2f-d5d0257deb4f - Learned: MacLocation { logicalSwitchName=mn-c68fa502-62e5-4b33-9f2f-d5d0257deb4f, mac=96:8f:e8:12:33:55, vxlanTunnelEndpoint=192.168.2.16 }
+
+This message indicates that an update about the given MAC was detected
+on the Logical Switch that belongs to Neutron network
+c68fa502-62e5-4b33-9f2f-d5d0257deb4f. In this case, the
+vxlanTunnelEndpoint was 192.168.2.16, indicating that the MAC can be
+found at that tunnel endpoint. The removal of a MAC from a port can be
+identified because the vxlanTunnelEndpoint=null (that can be read as
+"the MAC is at no port").
+
+*Verify that VxLAN tunnels are being established*
+
+If the coordinator is working normally, but traffic is still not
+flowing, you should verify that the VTEPs and MidoNet hosts are able to
+stablish VxLAN tunnels successfully.
+
+While keeping a ping active from the VM to the server you're trying to
+communicate with, log in to the MidoNet compute hosting the VM that you're
+trying to communicate with a server on the VTEP.  Run the following
+command:
+
+[source]
+tcpdump -leni any port 4789
+
+Assuming that the MidoNet compute is 192.168.2.14, and the VTEP's tunnel
+IP is 192.168.2.17, the output should be similar to this (depending on
+your tcpdump version):
+
+[source]
+15:51:28.183233 Out fa:16:3e:df:b7:53 ethertype IPv4 (0x0800), length 94: 192.168.2.14.39547 > 192.168.2.17.4789: VXLAN, flags [I] (0x08), vni 10012
+aa:aa:aa:aa:aa:aa > ff:ff:ff:ff:ff:ff, ethertype ARP (0x0806), length 42: Request who-has 10.0.0.1 tell 10.0.0.10, length 28
+15:51:28.186891  In fa:16:3e:52:d8:f3 ethertype IPv4 (0x0800), length 94: 192.168.2.17.59630 > 192.168.2.13.4789: VXLAN, flags [I] (0x08), vni 10012
+cc:dd:ee:ee:ee:ff > aa:aa:aa:aa:aa:aa, ethertype ARP (0x0806), length 42: Reply 10.0.0.10 is-at cc:dd:ee:ee:ee:ff
+
+The first line shows that the MidoNet Agent (192.168.2.14) is emitting a
+tunnelled packet towards the VTEP (192.168.2.17:4789), using 10012 as
+VNID.  The encapsulated packet is shown on the second line, and
+corresponds to an ARP REQUEST from a VM with ip 10.0.0.10 regarding
+server 10.0.0.1.
+
+In this example, the VTEP is responding correctly on the third line,
+showing a return packet with the same VNID.
+
+The same example can be applied in reverse on the VTEP. A ping from the
+physical server connected to the VTEP should generate a tunnelled packet
+towards a MidoNet Agent, and receive similar return packets.
+
+*The MidoNet agent is not emitting traffic*
+
+Verify the VXLAN-related options in the /etc/midolman/midolman.conf
+file.  Examine the MidoNet Agent logs in debug mode and look for
+simulations on the Neutron network that might be dropping packets, or
+throwing errors on the simulation.
+
+*The VTEP is not emitting traffic on the tunnel*
+
+Ensure that the VTEP configuration reflects the bindings configured
+throught the MidoNet REST API.  Use the following command to list the
+VTEPs present in the switch:
+
+[source]
+vtep-ctl list-ls
+
+This will display all Logical Switches present in the switch.  If you
+bound a Neutron network with UUID c68fa502-62e5-4b33-9f2f-d5d0257deb4f,
+then you should see the following item in the list:
+
+[source]
+mn-c68fa502-62e5-4b33-9f2f-d5d0257deb4f
+
+Now list the bindings on the port that you used to create the port-vlan
+binding in the midonet-cli.  Let's assume we have port1, and created a
+binding with port1 and vlan 93.  The expected output would be:
+
+[source]
+vtep-ctl list-bindings <VTEP_NAME> port1
+0093 mn-c68fa502-62e5-4b33-9f2f-d5d0257deb4f
+
+You can find out the VTEP_NAME using the "vtep-ctl list-ps" command.
+
+If any of these outputs is not as expected, the MidoNet coordinator is
+most likely not being able to consolidate the configuration from the
+NSDB.  Verify the MidoNet API logs and locate the relevant errors in
+order to correct them.
+
+*Verify that MACs are being synchronized correctly to the VTEP*
+
+Finally, you can list the local and remote MACs present in the VTEP's
+database:
+
+[source]
+vtep-ctl list-local-macs mn-c68fa502-62e5-4b33-9f2f-d5d0257deb4f
+
+This should show all the MACs learned by the VTEP from traffic observed
+on local ports.  If the local server is correctly configured, you will
+typically see the server's MAC here.
+
+The following command will display the remote MACs:
+
+[source]
+vtep-ctl list-remote-macs mn-c68fa502-62e5-4b33-9f2f-d5d0257deb4f
+
+The list here will show MACs in MidoNet VMs or other VTEPs, which are
+injected by the MidoNet coordinator.
+
+If any of these steps don't show an expected output, the synchronisation
+processes may be failing.  Inspect the MidoNet API logs for more
+details.
