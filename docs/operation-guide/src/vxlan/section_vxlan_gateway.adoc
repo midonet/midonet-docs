@@ -1,90 +1,77 @@
 [[vxlan_gateway]]
 = VXLAN Gateway
 
-The VXLAN Gateway (VXGW) allows a virtual bridge to be extended to a physical L2
-segment that is reachable via an L3 network and a VXLAN-capable physical switch.
+The VXLAN Gateway (VXGW) allows a virtual bridge to be extended to a
+physical L2 segment that is reachable via an L3 network and a
+VXLAN-capable physical switch.
 
-A VXLAN-capable physical switch is also referred to as a "hardware VTEP" (VXLAN
-Tunnel End Point). The VXGW allows creating one or many VXLAN-based Logical
-Switches that span any number of hardware VTEPs and a single MidoNet-ODP cloud.
+A VXLAN-capable physical switch is also referred to as a "hardware VTEP"
+(VXLAN Tunnel End Point). The VXGW allows creating one or many
+VXLAN-based Logical Switches that span any number of hardware VTEPs and
+a single MidoNet-ODP cloud.
 
 The VXGW has the following advantages:
 
-* provides L2 connectivity between VMs in an overlay and servers in a physical
+* Provides L2 connectivity between VMs in an overlay and servers in a physical
 L2 segment.
 
-* provides L2 connectivity across an L3 transport network. This is useful when
-the L2 fabric doesn't reach all the way from the racks hosting the VMs to the
-physical L2 segment ofinterest.
+* Provides L2 connectivity across an L3 transport network. This is useful when
+the L2 fabric doesn't reach all the way from the racks hosting the VMs
+to the physical L2 segment of interest.
 
-* compared to a pure L2 gateway, the VXGW scales better for overlay solutions:
+* Compared to a pure L2 gateway, the VXGW scales better for overlay solutions:
 
-** in a pure L2 solution, traffic between VMs and the physical segment must be
-routed through a few (small number) gateway nodes that are physically connected
-to the L2 segment. The physical connections are inherently limited;
-additionally, their use is limited by protocols like STP.
+** in a pure L2 solution, traffic between VMs and the physical segment
+must be routed through a few  gateway nodes that are physically
+connected to the L2 segment. The physical connections are inherently
+limited; additionally, their use is limited by protocols like STP.
 
-** with the VXGW, traffic between VMs and the physical segment can be routed
-directly between any of the compute hosts and the hardware VTEP.
+** with the VXGW, traffic between VMs and the physical segment can be
+routed directly between any of the compute hosts and the hardware VTEP.
 
-*VXGW virtual port*
+*VXGW Management*
 
-To enable bridging of VXLAN and physical networks a exterior virtual bridge port
-has an optional set of VXGW-related properties. A port with such properties set
-will be referred to as a "vxlan gateway virtual port" or "VXGW virtual port".
+A VXGW will be formed by binding a Neutron network to any number of
+port-vlan pairs on one or multiple VTEPs.
 
-A VXGW virtual port is a new kind of an exterior bridge port type. It connects
-the virtual overlay to the physical world, but it's not bound to any specific
-network interface on any host.
+VTEPs implement an abstraction called Logical Switch, independent from
+MidoNet.  A Logical Switch represents a virtual L2 segment that connects
+VLANs on some of the VTEP's ports.  For example, in a given VTEP "A",
+with ports p1, p2, a Logical Switch can be formed by binding (p1, vlan
+40) and (p2, vlan 30).  A Logical Switch can also extend the L2 segment
+to ports on a different VTEP, whereby both devices would tunnelling
+traffic on the Logical Switch.
 
-A VXGW virtual port will have the following properties set:
+A port-vlan pair can only be bound to a single Logical Switch.  However,
+a given port may be configured multiple Logical Switches as long as the
+binding combines different VLANs.
 
-* a tunnel key, which is equivalent to VNID (Virtual Network ID).
+The MidoNet Coordinator (xref:vxlan_coordinator[]) is able to connect to
+the Management Service of VTEPs, create and configure Logical Switches
+in its OVSDB instance according to the settings applied through the
+MidoNet API.  Additionally, the Coordinator is able to extend the
+Logical Switch functions described above to a Neutron network.
 
-* a single hardware VTEP tunnel IP address.
+MidoNet simplifies and automates these configuration details which
+remain invisible to the user.  It uses some conventions that may be
+useful for two reasons: troubleshooting purposes, and making MidoNet
+usage of the VTEP compatible with non-MidoNet related ones.
 
-* a name of the Logical Switch used by the VTEP to refer to the Neutron network.
-The name of the Logical Switch is the UUID of the Neutron network to which the
-VTEP is bound (and at the same time the name of the MidoNet Bridge).
+* MidoNet will create a single Logical Switch in the VTEP to group
+all port-vlan pairs bound to each Neutron network.
 
-* a set of port-VLAN pairs indicating which of the VTEP's connected segments are
-intended to be bridged to the Neutron network.
+* The Logical Switch name will be formed by prepending "mn-" to the
+Neutron network ID, being thus unique in a single MidoNet deployment.
+Operators are free to create Logical Switches with any name format, but
+should never create VTEPs with names prefixed with "mn-".
 
-These rules apply to the VXGW virtual port properties:
+* The Logical Switch tunnel key (VNID) is automatically generated by
+MidoNet, monotonically increasing from 10000.  Operators are free to use
+VNIs from 1 to 9999 for their own purposes.
 
-* the Logical Switch name must be unique on the corresponding VTEP.
+* When a Neutron network is bound to port-vlan pairs on multiple VTEPs,
+a Logical Switch will be created on each VTEP's database.  However, all
+will share the same name and VNID, following the conventions above.
 
-* the combination of a tunnel key and a Logical Switch name is unique accross
-the entire MidoNet deployment.
-
-* the same VNID may be used by different MidoNet deployments that are using the
-same VTEP. MidoNet will choose the VNID for the Logical Switch. That VNID is
-visible to the MN operator so that it can be used in troubleshooting the VXLAN
-packets or the hardware VTEP's configuration (the part that is managed by MN).
-
-* each Logical Switch associated to a given Neutron network in each VTEP will
-have the same name, constructed by concatenating "mn-" to the Neutron network
-UUID.  All these Logical Switches will share the same tunnel key.
-
-*Logical Switch*
-
-The Logical Switch, is an abstract logical representation of the connections
-between a MidoNet host or hosts and a hardware VTEP, with its port-VLAN
-assignments.
-
-Conceptually, the Logical Switch is a set of vlan/port pairs. You can either
-think of the Logical Switch as spanning that set AND a single virtual bridge in
-MidoNet (or Neutron network in OpenStack). Or you can think of the Logical
-Switch as ONLY the set of vlan/port pairs on the VTEP and MidoNet's VXGW feature
-extends that Logical Switch to the MN virtual bridge.
-
-The following rules and restrictions apply to Logical Switchs:
-
-* one Logical Switch always has the same VTEP and the same VLAN assigned, but
-there may be be different ports and there may be more than one port assigned.
-
-* The Logical Switch Name is used by the VTEP to refer to the Neutron network.
-
-The creation, configuration and deletion of Logical Switchs is the
-responsibility of the Coordinator component. (For more information, see
-xref:vxlan_coordinator[])
+The MidoNet controller will handle the exchange of learned MACs among
+all VTEPs and MidoNet's Network State Database (NSDB) automatically.
