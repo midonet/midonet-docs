@@ -38,6 +38,6 @@ Download and install the repositories' key:
 
 [source]
 ----
-# curl -k http://repo.midonet.org/packages.midokura.key | apt-key add -
+# curl -L http://repo.midonet.org/packages.midokura.key | apt-key add -
 ----
 ====
