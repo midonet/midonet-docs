@@ -92,3 +92,5 @@ rpc_address: *_compute1_*
 # service cassandra start
 ----
 ====
+
+include::../common/listitem_cassandra_check.adoc[]
