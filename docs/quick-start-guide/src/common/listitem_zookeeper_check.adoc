@@ -1,0 +1,26 @@
+. *Verify Operation*
++
+After installation of all nodes has been completed, verify that ZooKeeper is
+operating properly.
++
+A basic check can be done by executing the `ruok` (Are you ok?) command on all
+nodes. This will reply with `imok` (I am ok.) if the server is running in a
+non-error state:
++
+====
+[source]
+----
+$ echo ruok | nc 127.0.0.1 2181
+imok
+----
+====
++
+More detailed information can be requested with the `stat` command, which lists
+statistics about performance and connected clients:
++
+====
+[source]
+----
+$ echo stat | nc 127.0.0.1 2181
+----
+====

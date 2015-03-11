@@ -81,3 +81,5 @@ Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 # systemctl start zookeeper.service
 ----
 ====
+
+include::../common/listitem_zookeeper_check.adoc[]
