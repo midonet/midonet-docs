@@ -1,0 +1,22 @@
+. *Verify Cassandra Operation*
++
+After installation of all nodes has been completed, verify that Cassandra is
+operating properly.
++
+A basic check can be done by executing the `nodetool status` command. This will
+reply with `UN` (Up / Normal) in the first column if the servers are running in
+a non-error state:
++
+====
+[source]
+----
+$ nodetool -host 127.0.0.1 status
+[...]
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--  Address    Load       Tokens  Owns   Host ID                               Rack
+UN  192.0.2.1  123.45 KB  256     33.3%  11111111-2222-3333-4444-555555555555  rack1
+UN  192.0.2.2  234.56 KB  256     33.3%  22222222-3333-4444-5555-666666666666  rack1
+UN  192.0.2.3  345.67 KB  256     33.4%  33333333-4444-5555-6666-777777777777  rack1
+----
+====

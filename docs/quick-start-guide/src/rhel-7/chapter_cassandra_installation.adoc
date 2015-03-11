@@ -90,3 +90,5 @@ rpc_address: *_compute1_*
 # systemctl start cassandra.service
 ----
 ====
+
+include::../common/listitem_cassandra_check.adoc[]
