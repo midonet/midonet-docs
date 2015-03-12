@@ -43,6 +43,7 @@
         <!-- Maven plugin versions -->
         <version.asciidoctor-maven-plugin>1.5.0</version.asciidoctor-maven-plugin>
         <version.build-helper-maven-plugin>1.9.1</version.build-helper-maven-plugin>
+        <version.maven-replacer-plugin>1.5.3</version.maven-replacer-plugin>
         <version.midonet-docs-maven-plugin>2.1.4-SNAPSHOT</version.midonet-docs-maven-plugin>
         <!-- Maven plugin versions -->
 
@@ -60,25 +61,14 @@
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>parse-version</id>
-                        <goals>
-                            <goal>parse-version</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>version-helper</id>
+                        <id>generate-draft-warning-step1</id>
                         <goals>
                             <goal>regex-property</goal>
                         </goals>
                         <configuration>
                             <name>draftWarning</name>
-                            <value>
-                                <![CDATA[
-                                    <!-- this placeholder prevents failure for non-SNAPSHOT versions -->
-                                ]]>
-                                ${parsedVersion.qualifier}
-                            </value>
-                            <regex>SNAPSHOT</regex>
+                            <value>${project.version}</value>
+                            <regex>.*SNAPSHOT</regex>
                             <replacement>
                                 <![CDATA[
                                     <caution>
@@ -89,6 +79,47 @@
                                     </caution>
                                 ]]>
                             </replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-draft-warning-step2</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>draftWarning</name>
+                            <value>${draftWarning}</value>
+                            <regex>${project.version}</regex>
+                            <replacement></replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+
+                    <!-- Set the status bar text to "DRAFT" for SNAPSHOT versions. -->
+                    <execution>
+                        <id>generate-status-bar-text-step1</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>draftStatusBarText</name>
+                            <value>${project.version}</value>
+                            <regex>.*-SNAPSHOT</regex>
+                            <replacement>DRAFT</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-status-bar-text-step2</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>draftStatusBarText</name>
+                            <value>${draftStatusBarText}</value>
+                            <regex>${project.version}</regex>
+                            <replacement></replacement>
                             <failIfNoMatch>false</failIfNoMatch>
                         </configuration>
                     </execution>
@@ -136,7 +167,37 @@
                 </plugin>
                 <!-- asciidoctor-maven-plugin -->
 
-                <!-- clouddocs-maven-plugin -->
+                <!-- maven-replacer-plugin -->
+                <plugin>
+                    <groupId>com.google.code.maven-replacer-plugin</groupId>
+                    <artifactId>replacer</artifactId>
+                    <version>${version.maven-replacer-plugin}</version>
+                    <executions>
+                        <execution>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>replace</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <file>${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml</file>
+                        <replacements>
+                            <replacement>
+                                 <token><![CDATA[<info>]]></token>
+                                 <value>
+                                     <![CDATA[
+                                         <?rax status.bar.text.font.size="40px" status.bar.text="${draftStatusBarText}"?>
+                                         <info>
+                                     ]]>
+                                 </value>
+                            </replacement>
+                        </replacements>
+                    </configuration>
+                </plugin>
+                <!-- maven-replacer-plugin -->
+
+                <!-- midonet-docs-maven-plugin -->
                 <plugin>
                     <groupId>org.midonet</groupId>
                     <artifactId>midonet-docs-maven-plugin</artifactId>
@@ -198,6 +259,7 @@
                         <defaultTableWidth>100%</defaultTableWidth>
                     </configuration>
                 </plugin>
+                <!-- midonet-docs-maven-plugin -->
             </plugins>
         </pluginManagement>
     </build>

@@ -49,6 +49,13 @@
             </plugin>
             <!-- asciidoctor-maven-plugin -->
 
+            <!-- maven-replacer-plugin -->
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+            </plugin>
+            <!-- maven-replacer-plugin -->
+
             <!-- midonet-docs-maven-plugin -->
             <plugin>
                 <groupId>org.midonet</groupId>
@@ -69,14 +76,13 @@
                                     <replacetoken><![CDATA[<book]]></replacetoken>
                                     <replacevalue><![CDATA[<book xml:id="book_quick_install_guide_rhel-7_kilo-rdo"]]></replacevalue>
                                 </replace>
-                                <!-- Add status bar for DRAFT versions. -->
-                                <echo>Adding status bar text to Docbook XML.</echo>
+
+                                <echo>Adding title and subtitle font sizes to Docbook XML.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
                                     <replacetoken><![CDATA[<info>]]></replacetoken>
                                     <replacevalue>
                                         <![CDATA[
-                                            <?rax status.bar.text.font.size="40px" status.bar.text="DRAFT"?>
-                                            <?rax subtitle.font.size="17px" title.font.size="32px"?>
+                                            <?rax title.font.size="40px" subtitle.font.size="25px"?>
                                             <info>
                                         ]]>
                                     </replacevalue>
