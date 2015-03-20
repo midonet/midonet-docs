@@ -3,10 +3,16 @@
 This repository includes the following http://www.midonet.org/[MidoNet]
 documentation:
 
-* MidoNet Quick Start Guide for RHEL 7 / Icehouse
-* MidoNet Quick Start Guide for Ubuntu 14.04 / Icehouse
 * MidoNet Operation Guide
+* MidoNet Quick Start Guide for RHEL 7 / Icehouse (OSP)
+* MidoNet Quick Start Guide for RHEL 7 / Juno (RDO)
+* MidoNet Quick Start Guide for RHEL 7 / Kilo (RDO)
+* MidoNet Quick Start Guide for Ubuntu 14.04 / Icehouse
+* MidoNet Quick Start Guide for Ubuntu 14.04 / Juno
+* MidoNet Quick Start Guide for Ubuntu 14.04 / Kilo
+* MidoNet Reference Architecture
 * MidoNet REST API
+* MidoNet Troubleshooting Guide
 
 The documentation is written in
 https://en.wikipedia.org/wiki/AsciiDoc[AsciiDoc]. Consult the

@@ -1,0 +1,87 @@
+= MidoNet Docs Internationalization (I18N)
+
+Documents in multiple languages are supported by the mechanisms described in
+the following.
+
+== Common
+
+If a document versions ends in `-SNAPSHOT`, a DRAFT warning gets inserted into
+the generated HTML and PDF automatically.
+
+Support for English and Japanese language has been added to the main Maven
+project file. See link:README_DRAFTS.adoc[DRAFTs README] for technical details.
+
+== Maven project files (pom.xml)
+
+The document language is determined by the `lang` attribute being passed to the
+`asciidoctor-maven-plugin`. It's value corresponds to the intermediate DocBook
+XML's `xml:lang` attribute and should be one of the ISO language codes that are
+supported by DocBook.
+
+[code]
+----
+<plugin>
+    <groupId>org.asciidoctor</groupId>
+    <artifactId>asciidoctor-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            [...]
+            <configuration>
+                [...]
+                <attributes>
+                    <lang>en</lang>
+                </attributes>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+----
+[code]
+
+== Base Book File
+
+The base book file used the `lang` attribute to include language specific files
+based on the language selected in the build process:
+
+[code]
+----
+// Title
+include::book_title_{lang}.adoc[leveloffset=+1]
+
+// Preface
+include::preface_{lang}.adoc[leveloffset=+1]
+
+// Chapter
+include::chapter_{lang}.adoc[leveloffset=+1]
+----
+
+== DocBook Info
+
+The DocBook `<book>/<info>` element's content is being shared for all languages
+from a single file, called `book_my_book_title-docinfo.xml`. See the section
+"Document Metadata" in the link:README_TOOLCHAIN.adoc[Toolchain README] for
+details about the contents of this file.
+
+However, the document's `<productname>` and `<abstract>` have to be
+differentiated by language, and thus are included from separate files:
+
+[code]
+----
+<xi:include href="productname_{lang}.xml" [...]>
+[...]
+<xi:include href="abstract_{lang}.xml" [...]>
+----
+
+== Main Contents
+
+The document's main contents, i.e. chapters and sections, are being include from
+the base book file and thus have separeta versions for each language:
+
+[code]
+----
+/src/chapter_en.adoc
+/src/chapter_ja.adoc
+/src/section_en.adoc
+/src/section_ja.adoc
+[...]
+----

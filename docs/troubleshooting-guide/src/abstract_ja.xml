@@ -1,0 +1,25 @@
+<abstract xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <para>
+        MidoNetは、IaaSクラウド向けのネットワーク仮想化ソフトウェアである。
+    </para>
+    <para>
+        既存の物理ネットワークと物理サーバ間で仮想環境の為のネットワーク機能をソフトウェアで抽象化し利用することが可能です、
+        既存の物理ネットワーク環境の上にIaaSクラウドネットワーク環境を切り離して利用することができるのです。
+    </para>
+    <para>
+        このドキュメントは、MidoNetやOpenstackのトラブルシューティングに関する有用な情報が含まれています。
+    </para>
+    <para>
+        <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
+        {draftWarningJA}
+
+        <!-- Link to Mailing Lists and Chat. -->
+        <note>
+            <para>
+                援助を必要とする場合は、
+                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNetメーリングリストやチャット</link>
+                までご連絡ください。
+            </para>
+        </note>
+    </para>
+</abstract>

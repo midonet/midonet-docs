@@ -112,6 +112,11 @@ be included or excluded from processing:
 \include::some_file_specific_to_ubuntu-1404.adoc[]
 \endif::ubuntu-1404[]
 
+= DRAFT Documents
+
+DRAFT versions are marked as such automatically. See the
+link:README_DRAFTS.adoc[DRAFTs README] for technical details.
+
 = Known Issues
 
 The current implementation of the asciidoctor-maven-plugin does not fail the
