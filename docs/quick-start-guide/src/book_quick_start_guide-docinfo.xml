@@ -1,13 +1,4 @@
 <productname>MidoNet Quick Start Guide</productname>
-<author>
-    <personname>
-        <firstname/>
-        <surname/>
-    </personname>
-    <affiliation>
-        <orgname/>
-    </affiliation>
-</author>
 <copyright>
     <year>2014</year>
     <year>2015</year>
@@ -36,7 +27,7 @@
     </para>
     <para>
         <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
-        {draftWarning}
+        {draftWarningEN}
 
         <!-- Link to Mailing Lists and Chat. -->
         <note>

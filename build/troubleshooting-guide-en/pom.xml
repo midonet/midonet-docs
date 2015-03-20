@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.midonet</groupId>
+        <artifactId>midonet-docs-parent-pom</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>org.midonet</groupId>
+    <artifactId>midonet-docs-troubleshooting-guide-en</artifactId>
+    <version>2015.02-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>${project.artifactId} v${project.version}</name>
+
+    <properties>
+        <file.book.basename>book_troubleshooting_guide</file.book.basename>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- asciidoctor-maven-plugin -->
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>asciidoc-to-docbook-en</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>../../docs/troubleshooting-guide/src</sourceDirectory>
+                            <attributes>
+                                <lang>en</lang>
+                            </attributes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- asciidoctor-maven-plugin -->
+
+            <!-- maven-replacer-plugin -->
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+            </plugin>
+            <!-- maven-replacer-plugin -->
+
+            <!-- midonet-docs-maven-plugin -->
+            <plugin>
+                <groupId>org.midonet</groupId>
+                <artifactId>midonet-docs-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>docbook-to-pdf-and-webhelp</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-webhelp</goal>
+                        </goals>
+                        <configuration>
+                            <webhelpDirname>troubleshooting-guide-en</webhelpDirname>
+                            <webhelpIndexerLanguage>en</webhelpIndexerLanguage>
+
+                            <pdfFilenameBase>MidoNet_Troubleshooting_Guide_EN_${project.version}</pdfFilenameBase>
+                            <preProcess>
+                                <echo>Adding xml:id attribute to Docbook's book element.</echo>
+                                <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
+                                    <replacetoken><![CDATA[<book]]></replacetoken>
+                                    <replacevalue><![CDATA[<book xml:id="book_troubleshooting_guide_en"]]></replacevalue>
+                                </replace>
+
+                                <echo>Adding title and subtitle font sizes to Docbook XML.</echo>
+                                <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
+                                    <replacetoken><![CDATA[<info>]]></replacetoken>
+                                    <replacevalue>
+                                        <![CDATA[
+                                            <?rax title.font.size="35px" subtitle.font.size="25px"?>
+                                            <info>
+                                        ]]>
+                                    </replacevalue>
+                                </replace>
+
+                                <echo>Replacing "draftWarningEN" entity with generated text:</echo>
+                                <echo>${draftWarningEN}</echo>
+                                <replace dir="${dir.tmp.asciidoc2docbook}" token="{draftWarningEN}" value="${draftWarningEN}">
+                                    <include name="**/*.xml"/>
+                                </replace>
+                            </preProcess>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- midonet-docs-maven-plugin -->
+        </plugins>
+    </build>
+
+</project>
