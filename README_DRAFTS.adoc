@@ -1,0 +1,78 @@
+= MidoNet Docs: DRAFTs
+
+If a document's version ends in `-SNAPSHOT`, a DRAFT warning similar to the
+below will be automatically inserted into both HTML and PDF outputs:
+
+[source]
+----
+CAUTION
+
+This document is a DRAFT. It may be MISSING relevant information
+or contain UNTESTED information. Use it at your own risk.
+----
+
+The content of this warning is identical for all documents, and thus defined in
+the main Maven project file, `pom.xml` in the base directory.
+
+To automatically generate it, the `build-helper-maven-plugin` is used to parse
+the project version and populate a variable with the DocBook XML code to be
+inserted.
+
+The variable is named `draftWarningXX`, where `XX` represents a language code,
+e.g. `EN` for English or `JA` for Japanese.
+
+[source]
+----
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>build-helper-maven-plugin</artifactId>
+    <executions>
+        <execution>
+[...]
+            <goals>
+                <goal>regex-property</goal>
+            </goals>
+            <configuration>
+                <name>draftWarningEN</name>
+                <value>${project.version}</value>
+                <regex>.*SNAPSHOT</regex>
+                <replacement>
+                    <![CDATA[
+                        <caution>
+                            <para>
+                                This document is a DRAFT. It may be MISSING relevant information
+                                or contain UNTESTED information. Use it at your own risk.
+                            </para>
+                        </caution>
+                    ]]>
+                </replacement>
+[...]
+----
+
+These variables are then passed as attributes to the `asciidoctor-maven-plugin`
+which automatically replaces them inside the book's abstract (DocBook's
+`<book>/<info>/<abstract>` element).
+
+Examples:
+
+.`docs/troubleshooting-guide/src/abstract_en.xml`
+[source]
+----
+<abstract [...]>
+[...]
+    <para>
+        <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
+        {draftWarningEN}
+[...]
+----
+
+.`docs/troubleshooting-guide/src/abstract_ja.xml`
+[source]
+----
+<abstract [...]>
+[...]
+    <para>
+        <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
+        {draftWarningJA}
+[...]
+----

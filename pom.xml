@@ -23,6 +23,8 @@
         <module>build/operation-guide</module>
         <module>build/reference-architecture</module>
         <module>build/rest-api</module>
+        <module>build/troubleshooting-guide-en</module>
+        <module>build/troubleshooting-guide-ja</module>
         <module>tools/midonet-docs-maven-plugin</module>
     </modules>
 
@@ -35,20 +37,20 @@
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Miscellaneous properties -->
-        
+
         <!-- Maven version -->
         <version.maven>3.2.2</version.maven>
         <!-- Maven version -->
 
         <!-- Maven plugin versions -->
-        <version.asciidoctor-maven-plugin>1.5.0</version.asciidoctor-maven-plugin>
+        <version.asciidoctor-maven-plugin>1.5.2</version.asciidoctor-maven-plugin>
         <version.build-helper-maven-plugin>1.9.1</version.build-helper-maven-plugin>
         <version.maven-replacer-plugin>1.5.3</version.maven-replacer-plugin>
         <version.midonet-docs-maven-plugin>2.1.4-SNAPSHOT</version.midonet-docs-maven-plugin>
         <!-- Maven plugin versions -->
 
         <!-- External tools and libraries versions -->
-        <version.asciidoctorj>1.5.1</version.asciidoctorj>
+        <version.asciidoctorj>1.5.2</version.asciidoctorj>
         <version.docbook-xml>5.0-all</version.docbook-xml>
         <!-- External tools and libraries versions -->
     </properties>
@@ -61,12 +63,12 @@
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>generate-draft-warning-step1</id>
+                        <id>generate-draft-warning-en-step1</id>
                         <goals>
                             <goal>regex-property</goal>
                         </goals>
                         <configuration>
-                            <name>draftWarning</name>
+                            <name>draftWarningEN</name>
                             <value>${project.version}</value>
                             <regex>.*SNAPSHOT</regex>
                             <replacement>
@@ -83,13 +85,48 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>generate-draft-warning-step2</id>
+                        <id>generate-draft-warning-en-step2</id>
                         <goals>
                             <goal>regex-property</goal>
                         </goals>
                         <configuration>
-                            <name>draftWarning</name>
-                            <value>${draftWarning}</value>
+                            <name>draftWarningEN</name>
+                            <value>${draftWarningEN}</value>
+                            <regex>${project.version}</regex>
+                            <replacement></replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-draft-warning-ja-step1</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>draftWarningJA</name>
+                            <value>${project.version}</value>
+                            <regex>.*SNAPSHOT</regex>
+                            <replacement>
+                                <![CDATA[
+                                    <caution>
+                                        <para>
+                                            この文書はドラフトです。それは、関連する情報が欠落しているか、テストされていない情報が含まれていることができる。
+                                            ご自身の責任でそれを使用してください。
+                                        </para>
+                                    </caution>
+                                ]]>
+                            </replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-draft-warning-ja-step2</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>draftWarningJA</name>
+                            <value>${draftWarningJA}</value>
                             <regex>${project.version}</regex>
                             <replacement></replacement>
                             <failIfNoMatch>false</failIfNoMatch>
@@ -158,10 +195,10 @@
                         <attributes>
                             <book/>
                             <docinfo/>
-                            <nolang/>
                             <buildVersion>${project.version}</buildVersion>
                             <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
-                            <draftWarning>${draftWarning}</draftWarning>
+                            <draftWarningEN>${draftWarningEN}</draftWarningEN>
+                            <draftWarningJA>${draftWarningJA}</draftWarningJA>
                         </attributes>
                     </configuration>
                 </plugin>
