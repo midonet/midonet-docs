@@ -14,7 +14,7 @@
     </parent>
 
     <groupId>org.midonet</groupId>
-    <artifactId>midonet-docs-operation-guide</artifactId>
+    <artifactId>midonet-docs-operation-guide-en</artifactId>
     <version>2015.02-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -39,6 +39,9 @@
                         </goals>
                         <configuration>
                             <sourceDirectory>../../docs/operation-guide/src</sourceDirectory>
+                            <attributes>
+                                <lang>en</lang>
+                            </attributes>
                         </configuration>
                     </execution>
                 </executions>
@@ -65,12 +68,14 @@
                         </goals>
                         <configuration>
                             <webhelpDirname>operation-guide</webhelpDirname>
-                            <pdfFilenameBase>MidoNet_Operation_Guide_${project.version}</pdfFilenameBase>
+                            <webhelpIndexerLanguage>en</webhelpIndexerLanguage>
+
+                            <pdfFilenameBase>MidoNet_Operation_Guide_EN_${project.version}</pdfFilenameBase>
                             <preProcess>
                                 <echo>Adding xml:id attribute to Docbook's book element.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
                                     <replacetoken><![CDATA[<book]]></replacetoken>
-                                    <replacevalue><![CDATA[<book xml:id="book_operation_guide"]]></replacevalue>
+                                    <replacevalue><![CDATA[<book xml:id="book_operation_guide_en"]]></replacevalue>
                                 </replace>
 
                                 <echo>Adding title and subtitle font sizes to Docbook XML.</echo>
@@ -82,6 +87,12 @@
                                             <info>
                                         ]]>
                                     </replacevalue>
+                                </replace>
+
+                                <echo>Replacing "draftWarningEN" entity with generated text:</echo>
+                                <echo>${draftWarningEN}</echo>
+                                <replace dir="${dir.tmp.asciidoc2docbook}" token="{draftWarningEN}" value="${draftWarningEN}">
+                                    <include name="**/*.xml"/>
                                 </replace>
                             </preProcess>
                         </configuration>
