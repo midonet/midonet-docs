@@ -1,0 +1,4 @@
+[IMPORTANT]
+Follow the
+http://docs.openstack.org/kilo/install-guide/install/apt/content/[OpenStack Kilo Installation Guide for Ubuntu 14.04 (LTS)]
+, but *note the following differences*.

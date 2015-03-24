@@ -1,8 +1,0 @@
-= Identity Service (Keystone)
-
-[IMPORTANT]
-Follow the OpenStack documentation's
-http://docs.openstack.org/juno/install-guide/install/yum/content/ch_keystone.html[Chapter 3. Add the Identity service]
-instructions, but *note the following additions*.
-
-include::../../common/listitems_keystone_midonet_configuration.adoc[]

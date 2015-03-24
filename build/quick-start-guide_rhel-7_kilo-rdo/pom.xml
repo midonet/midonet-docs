@@ -40,8 +40,9 @@
                         <configuration>
                             <sourceDirectory>../../docs/quick-start-guide/src</sourceDirectory>
                             <attributes>
-                                <rhel-7/>
-                                <kilo-rdo/>
+                                <operating_system>rhel-7</operating_system>
+                                <openstack_version>kilo-rdo</openstack_version>
+                                <lang>en</lang>
                             </attributes>
                         </configuration>
                     </execution>

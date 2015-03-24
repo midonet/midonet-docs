@@ -1,0 +1,8 @@
+. *Enable Red Hat base repository*
++
+====
+[source]
+----
+# subscription-manager repos --enable=rhel-7-server-rpms
+----
+====
