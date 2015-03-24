@@ -1,8 +1,0 @@
-= Identity Service (Keystone)
-
-[IMPORTANT]
-Follow the Red Hat documentation's
-https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Installation_and_Configuration_Guide/chap-OpenStack_Identity_Service_Installation.html[Chapter 3. OpenStack Identity Service Installation]
-instructions, but *note the following additions*.
-
-include::../../common/listitems_keystone_midonet_configuration.adoc[]
