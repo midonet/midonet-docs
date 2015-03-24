@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/kilo/install-guide/install/apt/content/section_neutron-networking.html[Chapter 6. OpenStack Networking (neutron)]
+instructions, but *note the following differences*.
+

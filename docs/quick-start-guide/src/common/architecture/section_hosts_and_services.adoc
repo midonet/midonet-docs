@@ -1,0 +1,42 @@
+= Hosts and Services
+
+.Controller Node (*_controller_*)
+* General
+** Database (MariaDB)
+** Message Broker (RabbitMQ)
+* OpenStack
+** Identity Service (Keystone)
+** Image Service (Glance)
+** Compute (Nova)
+** Networking (Neutron)
+** Dashboard (Horizon)
+* MidoNet
+** API
+** CLI
+** Neutron Plugin
+** Network State Database (NSDB)
+*** Network Topology (ZooKeeper)
+*** Network State Information (Cassandra)
+
+.Network Node (*_network_*)
+* OpenStack
+** Networking (Neutron)
+*** DHCP Agent
+*** Metadata Agent
+* MidoNet
+** Agent (Midolman)
+** Neutron Plugin
+** Network State Database (NSDB)
+*** Network Topology (ZooKeeper)
+*** Network State Information (Cassandra)
+
+.Compute Node (*_compute1_*)
+* OpenStack
+** Compute (Nova)
+** Networking (Neutron)
+* MidoNet
+** Agent (Midolman)
+** Neutron Plugin
+** Network State Database (NSDB)
+*** Network Topology (ZooKeeper)
+*** Network State Information (Cassandra)

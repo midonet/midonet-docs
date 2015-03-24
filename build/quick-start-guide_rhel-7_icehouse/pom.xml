@@ -14,7 +14,7 @@
     </parent>
 
     <groupId>org.midonet</groupId>
-    <artifactId>midonet-docs-quick-start-guide-rhel-7-icehouse</artifactId>
+    <artifactId>midonet-docs-quick-start-guide-rhel-7-icehouse-osp</artifactId>
     <version>2015.02-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -40,8 +40,9 @@
                         <configuration>
                             <sourceDirectory>../../docs/quick-start-guide/src</sourceDirectory>
                             <attributes>
-                                <rhel-7/>
-                                <icehouse/>
+                                <operating_system>rhel-7</operating_system>
+                                <openstack_version>icehouse-osp</openstack_version>
+                                <lang>en</lang>
                             </attributes>
                         </configuration>
                     </execution>
