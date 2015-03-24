@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/icehouse/install-guide/install/apt/content/ch_nova.html[Chapter 6. Configure Compute services]
+instructions, but *note the following differences*.
+
