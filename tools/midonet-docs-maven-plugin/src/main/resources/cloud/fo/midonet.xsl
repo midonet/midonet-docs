@@ -11,6 +11,13 @@
     <xsl:param name="linenumbering.extension" select="'1'"/>
     <xsl:param name="linenumbering.everyNth">1</xsl:param>
 
+    <!-- Enable wrapping in "screen" sections. -->
+    <xsl:attribute-set name="monospace.verbatim.properties" use-attribute-sets="verbatim.properties monospace.properties">
+        <xsl:attribute name="text-align">start</xsl:attribute>
+        <xsl:attribute name="wrap-option">wrap</xsl:attribute>
+    </xsl:attribute-set>
+
+    <!-- Hyphenation works with FOP 1.1, but does not work with FOP 1.0.
     <xsl:attribute-set name="monospace.verbatim.properties" use-attribute-sets="verbatim.properties monospace.properties">
         <xsl:attribute name="text-align">start</xsl:attribute>
         <xsl:attribute name="wrap-option">wrap</xsl:attribute>
@@ -19,6 +26,7 @@
         <xsl:attribute name="margin">0.5pt</xsl:attribute>
         <xsl:attribute name="margin">2pt</xsl:attribute>
     </xsl:attribute-set>
+    -->
 
     <xsl:attribute-set name="lit.shading.style">
         <xsl:attribute name="background-color">#993399</xsl:attribute>
