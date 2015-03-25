@@ -40,8 +40,9 @@
                         <configuration>
                             <sourceDirectory>../../docs/quick-start-guide/src</sourceDirectory>
                             <attributes>
-                                <ubuntu-1404/>
-                                <icehouse/>
+                                <operating_system>ubuntu-1404</operating_system>
+                                <openstack_version>icehouse</openstack_version>
+                                <lang>en</lang>
                             </attributes>
                         </configuration>
                     </execution>

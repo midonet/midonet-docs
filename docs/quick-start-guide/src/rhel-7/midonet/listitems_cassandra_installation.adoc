@@ -1,0 +1,91 @@
+. *Install Cassandra packages*
++
+====
+[source]
+----
+# yum install dsc20-2.0.10-1
+# echo "exclude=dsc20 cassandra20" >> /etc/yum.conf
+----
+====
+
+. *Configure Cassandra*
++
+====
+
+.. *Common Configuration*
++
+Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# The name of the cluster.
+cluster_name: 'midonet'
+
+...
+
+# Addresses of hosts that are deemed contact points.
+seed_provider:
+    - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+      parameters:
+          - seeds: "*_controller_*,*_network_*,*_compute1_*"
+----
++
+
+.. *Node-specific Configuration*
+
+... *Controller Node*
++
+Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_controller_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_controller_*
+----
+
+... *Network Node*
++
+Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_network_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_network_*
+----
+
+... *Compute Node*
++
+Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_compute1_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_compute1_*
+----
+====
+
+. *Enable and start Cassandra*
++
+====
+[source]
+----
+# systemctl enable cassandra.service
+# systemctl start cassandra.service
+----
+====
+

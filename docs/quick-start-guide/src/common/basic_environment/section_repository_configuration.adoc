@@ -1,0 +1,3 @@
+= Repository Configuration
+
+Configure necessary software repositories and update installed packages.
