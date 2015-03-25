@@ -5,7 +5,7 @@ The default BGP failover time is 2-3 minutes. However, you can reduce this time
 by changing some parameters on both ends of the BGP session.
 
 You must make the change in the midolman.conf file on the MidoNet side, and the
-bgpd.conf file on the BGP peer's side.
+remote end BGP peer configuration.
 
 The basic BGP timers are 'keepalive' and 'holdtime'. By default, keepalive timer
 is 60 seconds. The hold-down timer is, by convention, 3 times the keepalive

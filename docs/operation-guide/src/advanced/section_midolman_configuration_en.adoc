@@ -217,9 +217,9 @@ frame, plus enough room for the flow's actions.
 
 The default BGP fail-over time is 2-3 minutes. However, you can reduce this time
 by changing some parameters on both ends of the session: in the midolman.conf
-file (the MidoNet side) and the bgpd.conf file (the BGP peer's side). The
-example below shows how to reduce the BGP fail-over time to one minute on the
-MidoNet side:
+file (the MidoNet side) and the remote end BGP peer configuration. The example
+below shows how to reduce the BGP fail-over time to one minute on the MidoNet
+side:
 
 [source]
 ----
@@ -229,6 +229,6 @@ bgp_holdtime=3
 bgp_keepalive=1
 ----
 
-The settings in the host's midolman.conf file must match those on the other end
-of the BGP session, in the peer's bgpd.conf file. For more information about how
-to set them, see xref:bgp_failover[].
+The settings in the host's midolman.conf file must match those on the remote end
+BGP peer configuration. For more information about how to set them, see
+xref:bgp_failover[].
