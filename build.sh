@@ -27,3 +27,17 @@ if [ "${#DUPLICATE_DISQUS_IDS}" -ne 0 ]; then
     echo "BUILD FAILURE: DUPLICATE DISQUS ID(S) FOUND!"
     exit 1
 fi
+
+#
+# Search the FO for unintended ":leveloffset:" identifiers.
+#
+UNINTENDED_LEVELOFFSETS=$(find . -path "*/docbkx/autopdf/*.fo" -print0  | xargs -0 grep -l ":leveloffset:" | sort | uniq)
+if [[ ! -z ${UNINTENDED_LEVELOFFSETS} ]]; then
+    echo ""
+    echo "############################################################"
+    echo "${UNINTENDED_LEVELOFFSETS}"
+    echo "############################################################"
+    echo ""
+    echo "BUILD FAILURE: UNINTENDED \":leveloffset:\" IN FO OUTPUT FOUND!"
+    exit 1
+fi
