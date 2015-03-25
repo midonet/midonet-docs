@@ -14,7 +14,7 @@
     </parent>
 
     <groupId>org.midonet</groupId>
-    <artifactId>midonet-docs-quick-start-guide-ubuntu-1404-icehouse</artifactId>
+    <artifactId>midonet-docs-quick-start-guide-ubuntu-1404-icehouse-en</artifactId>
     <version>2015.02-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -69,13 +69,13 @@
                             <goal>generate-webhelp</goal>
                         </goals>
                         <configuration>
-                            <webhelpDirname>quick-start-guide/ubuntu-1404_icehouse</webhelpDirname>
-                            <pdfFilenameBase>MidoNet_Quick_Start_Guide_Ubuntu-1404_Icehouse_${project.version}</pdfFilenameBase>
+                            <webhelpDirname>quick-start-guide/ubuntu-1404_icehouse_en</webhelpDirname>
+                            <pdfFilenameBase>MidoNet_Quick_Start_Guide_Ubuntu-1404_Icehouse_EN_${project.version}</pdfFilenameBase>
                             <preProcess>
                                 <echo>Adding xml:id attribute to Docbook's book element.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
                                     <replacetoken><![CDATA[<book]]></replacetoken>
-                                    <replacevalue><![CDATA[<book xml:id="book_quick_install_guide_ubuntu-1404_icehouse"]]></replacevalue>
+                                    <replacevalue><![CDATA[<book xml:id="book_quick_install_guide_ubuntu-1404_icehouse_en"]]></replacevalue>
                                 </replace>
 
                                 <echo>Adding title and subtitle font sizes to Docbook XML.</echo>
@@ -87,6 +87,12 @@
                                             <info>
                                         ]]>
                                     </replacevalue>
+                                </replace>
+
+                                <echo>Replacing "draftWarningEN" entity with generated text:</echo>
+                                <echo>${draftWarningEN}</echo>
+                                <replace dir="${dir.tmp.asciidoc2docbook}" token="{draftWarningEN}" value="${draftWarningEN}">
+                                    <include name="**/*.xml"/>
                                 </replace>
                             </preProcess>
                         </configuration>

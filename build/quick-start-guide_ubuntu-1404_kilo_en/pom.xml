@@ -14,7 +14,7 @@
     </parent>
 
     <groupId>org.midonet</groupId>
-    <artifactId>midonet-docs-quick-start-guide-rhel-7-kilo-rdo</artifactId>
+    <artifactId>midonet-docs-quick-start-guide-ubuntu-1404-kilo-en</artifactId>
     <version>2015.05-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -40,8 +40,8 @@
                         <configuration>
                             <sourceDirectory>../../docs/quick-start-guide/src</sourceDirectory>
                             <attributes>
-                                <operating_system>rhel-7</operating_system>
-                                <openstack_version>kilo-rdo</openstack_version>
+                                <operating_system>ubuntu-1404</operating_system>
+                                <openstack_version>kilo</openstack_version>
                                 <lang>en</lang>
                             </attributes>
                         </configuration>
@@ -69,13 +69,13 @@
                             <goal>generate-webhelp</goal>
                         </goals>
                         <configuration>
-                            <webhelpDirname>quick-start-guide/rhel-7_kilo-rdo</webhelpDirname>
-                            <pdfFilenameBase>MidoNet_Quick_Start_Guide_RHEL-7_Kilo-RDO_${project.version}</pdfFilenameBase>
+                            <webhelpDirname>quick-start-guide/ubuntu-1404_kilo_en</webhelpDirname>
+                            <pdfFilenameBase>MidoNet_Quick_Start_Guide_Ubuntu-1404_Kilo_EN_${project.version}</pdfFilenameBase>
                             <preProcess>
                                 <echo>Adding xml:id attribute to Docbook's book element.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
                                     <replacetoken><![CDATA[<book]]></replacetoken>
-                                    <replacevalue><![CDATA[<book xml:id="book_quick_install_guide_rhel-7_kilo-rdo"]]></replacevalue>
+                                    <replacevalue><![CDATA[<book xml:id="book_quick_install_guide_ubuntu-1404_kilo_en"]]></replacevalue>
                                 </replace>
 
                                 <echo>Adding title and subtitle font sizes to Docbook XML.</echo>
@@ -87,6 +87,12 @@
                                             <info>
                                         ]]>
                                     </replacevalue>
+                                </replace>
+
+                                <echo>Replacing "draftWarningEN" entity with generated text:</echo>
+                                <echo>${draftWarningEN}</echo>
+                                <replace dir="${dir.tmp.asciidoc2docbook}" token="{draftWarningEN}" value="${draftWarningEN}">
+                                    <include name="**/*.xml"/>
                                 </replace>
                             </preProcess>
                         </configuration>

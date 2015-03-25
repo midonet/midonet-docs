@@ -1,4 +1,4 @@
-<productname>MidoNet Quick Start Guide</productname>
+<xi:include href="productname_{lang}.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
 <copyright>
     <year>2014</year>
     <year>2015</year>
@@ -11,31 +11,4 @@
         <remark>Copyright details are filled in by the midonet-docs-maven-plugin template.</remark>
     </annotation>
 </legalnotice>
-<abstract>
-    <para>
-        MidoNet is a network virtualization software for
-        Infrastructure-as-a-Service (IaaS) clouds.
-    </para>
-    <para>
-        It decouples your IaaS cloud from your network hardware, creating an
-        intelligent software abstraction layer between your end hosts and your
-        physical network.
-    </para>
-    <para>
-        This guide walks through the minimum installation and configuration
-        steps neccessary to use MidoNet with OpenStack.
-    </para>
-    <para>
-        <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
-        {draftWarningEN}
-
-        <!-- Link to Mailing Lists and Chat. -->
-        <note>
-            <para>
-                Please consult the
-                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or Chat</link>
-                if you need assistance.
-            </para>
-        </note>
-    </para>
-</abstract>
+<xi:include href="abstract_{lang}.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>

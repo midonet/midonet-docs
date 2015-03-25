@@ -14,12 +14,12 @@
     <name>${project.artifactId} v${project.version}</name>
 
     <modules>
-        <module>build/quick-start-guide_rhel-7_icehouse</module>
-        <module>build/quick-start-guide_rhel-7_juno-rdo</module>
-        <module>build/quick-start-guide_rhel-7_kilo-rdo</module>
-        <module>build/quick-start-guide_ubuntu-1404_icehouse</module>
-        <module>build/quick-start-guide_ubuntu-1404_juno</module>
-        <module>build/quick-start-guide_ubuntu-1404_kilo</module>
+        <module>build/quick-start-guide_rhel-7_icehouse_en</module>
+        <module>build/quick-start-guide_rhel-7_juno-rdo_en</module>
+        <module>build/quick-start-guide_rhel-7_kilo-rdo_en</module>
+        <module>build/quick-start-guide_ubuntu-1404_icehouse_en</module>
+        <module>build/quick-start-guide_ubuntu-1404_juno_en</module>
+        <module>build/quick-start-guide_ubuntu-1404_kilo_en</module>
         <module>build/operation-guide</module>
         <module>build/reference-architecture</module>
         <module>build/rest-api</module>

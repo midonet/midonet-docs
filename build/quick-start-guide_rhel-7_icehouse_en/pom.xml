@@ -14,7 +14,7 @@
     </parent>
 
     <groupId>org.midonet</groupId>
-    <artifactId>midonet-docs-quick-start-guide-rhel-7-juno-rdo</artifactId>
+    <artifactId>midonet-docs-quick-start-guide-rhel-7-icehouse-osp-en</artifactId>
     <version>2015.02-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -41,7 +41,7 @@
                             <sourceDirectory>../../docs/quick-start-guide/src</sourceDirectory>
                             <attributes>
                                 <operating_system>rhel-7</operating_system>
-                                <openstack_version>juno-rdo</openstack_version>
+                                <openstack_version>icehouse-osp</openstack_version>
                                 <lang>en</lang>
                             </attributes>
                         </configuration>
@@ -69,13 +69,13 @@
                             <goal>generate-webhelp</goal>
                         </goals>
                         <configuration>
-                            <webhelpDirname>quick-start-guide/rhel-7_juno-rdo</webhelpDirname>
-                            <pdfFilenameBase>MidoNet_Quick_Start_Guide_RHEL-7_Juno-RDO_${project.version}</pdfFilenameBase>
+                            <webhelpDirname>quick-start-guide/rhel-7_icehouse_en</webhelpDirname>
+                            <pdfFilenameBase>MidoNet_Quick_Start_Guide_RHEL-7_Icehouse_EN_${project.version}</pdfFilenameBase>
                             <preProcess>
                                 <echo>Adding xml:id attribute to Docbook's book element.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
                                     <replacetoken><![CDATA[<book]]></replacetoken>
-                                    <replacevalue><![CDATA[<book xml:id="book_quick_install_guide_rhel-7_juno-rdo"]]></replacevalue>
+                                    <replacevalue><![CDATA[<book xml:id="book_quick_install_guide_rhel-7_icehouse_en"]]></replacevalue>
                                 </replace>
 
                                 <echo>Adding title and subtitle font sizes to Docbook XML.</echo>
@@ -87,6 +87,12 @@
                                             <info>
                                         ]]>
                                     </replacevalue>
+                                </replace>
+
+                                <echo>Replacing "draftWarningEN" entity with generated text:</echo>
+                                <echo>${draftWarningEN}</echo>
+                                <replace dir="${dir.tmp.asciidoc2docbook}" token="{draftWarningEN}" value="${draftWarningEN}">
+                                    <include name="**/*.xml"/>
                                 </replace>
                             </preProcess>
                         </configuration>
