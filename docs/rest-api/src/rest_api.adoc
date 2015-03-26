@@ -1880,6 +1880,7 @@ to. If the port is a router port, it gets a router resource, and if it’s
 a bridge port, it gets a bridge resource
 
 |type |String |POST |Yes |
+Possible values are "Router", "Bridge" or "Vxlan".
 
 |peerId |UUID | | |ID
 of the peer port that this port is linked to. This will be set when
