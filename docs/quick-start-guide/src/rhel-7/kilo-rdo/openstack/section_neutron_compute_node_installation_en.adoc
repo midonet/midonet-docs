@@ -37,7 +37,7 @@ to the `[DEFAULT]` section:
 ----
 [DEFAULT]
 ...
-core_plugin = midonet.neutron.plugin.MidonetPluginV2
+core_plugin = neutron.plugins.midonet.plugin.MidonetPluginV2
 ----
 ====
 
