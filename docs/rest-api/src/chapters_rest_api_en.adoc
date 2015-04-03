@@ -1879,7 +1879,34 @@ to. If the port is a router port, it gets a router resource, and if it’s
 a bridge port, it gets a bridge resource
 
 |type |String |POST |Yes |
-Possible values are "Router", "Bridge" or "Vxlan".
+Type of device port.  It must be one of:
+
+* Router
+
+* Bridge
+
+A new router or bridge port is unplugged. Depending on what it is later attached
+to, it is referred to as an exterior or interior port.
+
+An exterior router port is a virtual port that plugs into the VIF of an entity,
+such as a VM. It can also be a virtual port connected to a host physical port,
+directly or after implementing tunnel encapsulation. Access to exterior ports is
+managed by OpenVSwitch (OpenFlow switch). Exterior bridge port is the same as
+exterior router port but it is a port on a virtual bridge. Upon being bound to
+an interface, the port becomes exterior and will have the hostId, host, and
+interfaceName fields be non-null. The peer and peerId fields will be null.
+
+An interior router port is a virtual port that only exists in the MidoNet
+virtual router network abstraction. It refers to a logical connection to another
+virtual networking device such as another router. An interior bridge port is the
+equivalent on a virtual bridge. Upon being linked to a peer, a port will become
+interior and will have the peer and peerId fields be non-null. The hostId, host,
+and interfaceName fields will be null.
+
+There is a third type of port, Vxlan, which is created automatically when
+binding a VTEP to a Neutron network. The only operations supported on a port of
+this type are GET and DELETE. Deleting a VXLAN port will delete all associated
+VTEP bindings.
 
 |peerId |UUID | | |ID
 of the peer port that this port is linked to. This will be set when
@@ -2011,6 +2038,26 @@ to. If the port is a router port, it gets a router resource, and if it’s
 a bridge port, it gets a bridge resource
 
 |type |String |POST |Yes |
+Type of device port. It must be one of:
+
+* ExteriorRouter
+
+* InteriorRouter
+
+* ExteriorBridge
+
+* InteriorBridge
+
+Exterior router port is a virtual port that plugs into the VIF of an entity,
+such as a VM. It can also be a virtual port connected to a host physical port,
+directly or after implementing tunnel encapsulation. Access to exterior ports is
+managed by OpenVSwitch (OpenFlow switch). Exterior bridge port is the same as
+exterior router port but it is a port on a virtual bridge.
+
+Interior router port is a virtual port that only exists in the MidoNet virtual
+router network abstraction. It refers to a logical connection to another virtual
+networking device such as another router. Interior bridge is the equivalent port
+type on a virtual bridge.
 
 |peerId (Interior) |UUID |
 | |ID of the peer port that this port is linked
