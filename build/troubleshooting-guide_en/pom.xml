@@ -14,7 +14,7 @@
     </parent>
 
     <groupId>org.midonet</groupId>
-    <artifactId>midonet-docs-troubleshooting-guide-ja</artifactId>
+    <artifactId>midonet-docs-troubleshooting-guide-en</artifactId>
     <version>2015.02-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -40,7 +40,7 @@
                         <configuration>
                             <sourceDirectory>../../docs/troubleshooting-guide/src</sourceDirectory>
                             <attributes>
-                                <lang>ja</lang>
+                                <lang>en</lang>
                             </attributes>
                         </configuration>
                     </execution>
@@ -67,15 +67,15 @@
                             <goal>generate-webhelp</goal>
                         </goals>
                         <configuration>
-                            <webhelpDirname>troubleshooting-guide-ja</webhelpDirname>
-                            <webhelpIndexerLanguage>ja</webhelpIndexerLanguage>
+                            <webhelpDirname>troubleshooting-guide_en</webhelpDirname>
+                            <webhelpIndexerLanguage>en</webhelpIndexerLanguage>
 
-                            <pdfFilenameBase>MidoNet_Troubleshooting_Guide_JA_${project.version}</pdfFilenameBase>
+                            <pdfFilenameBase>MidoNet_Troubleshooting_Guide_EN_${project.version}</pdfFilenameBase>
                             <preProcess>
                                 <echo>Adding xml:id attribute to Docbook's book element.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
                                     <replacetoken><![CDATA[<book]]></replacetoken>
-                                    <replacevalue><![CDATA[<book xml:id="book_troubleshooting_guide_ja"]]></replacevalue>
+                                    <replacevalue><![CDATA[<book xml:id="book_troubleshooting_guide_en"]]></replacevalue>
                                 </replace>
 
                                 <echo>Adding title and subtitle font sizes to Docbook XML.</echo>
@@ -83,15 +83,15 @@
                                     <replacetoken><![CDATA[<info>]]></replacetoken>
                                     <replacevalue>
                                         <![CDATA[
-                                            <?rax title.font.size="25px" subtitle.font.size="25px"?>
+                                            <?rax title.font.size="35px" subtitle.font.size="25px"?>
                                             <info>
                                         ]]>
                                     </replacevalue>
                                 </replace>
 
-                                <echo>Replacing "draftWarningJA" entity with generated text:</echo>
-                                <echo>${draftWarningJA}</echo>
-                                <replace dir="${dir.tmp.asciidoc2docbook}" token="{draftWarningJA}" value="${draftWarningJA}">
+                                <echo>Replacing "draftWarningEN" entity with generated text:</echo>
+                                <echo>${draftWarningEN}</echo>
+                                <replace dir="${dir.tmp.asciidoc2docbook}" token="{draftWarningEN}" value="${draftWarningEN}">
                                     <include name="**/*.xml"/>
                                 </replace>
                             </preProcess>

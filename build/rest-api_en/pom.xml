@@ -21,7 +21,7 @@
     <name>${project.artifactId} v${project.version}</name>
 
     <properties>
-        <file.book.basename>rest_api</file.book.basename>
+        <file.book.basename>book_rest_api</file.book.basename>
     </properties>
 
     <build>
@@ -39,6 +39,9 @@
                         </goals>
                         <configuration>
                             <sourceDirectory>../../docs/rest-api/src</sourceDirectory>
+                            <attributes>
+                                <lang>en</lang>
+                            </attributes>
                         </configuration>
                     </execution>
                 </executions>
@@ -64,13 +67,15 @@
                             <goal>generate-webhelp</goal>
                         </goals>
                         <configuration>
-                            <webhelpDirname>rest-api</webhelpDirname>
-                            <pdfFilenameBase>MidoNet_REST_API_${project.version}</pdfFilenameBase>
+                            <webhelpDirname>rest-api_en</webhelpDirname>
+                            <webhelpIndexerLanguage>en</webhelpIndexerLanguage>
+
+                            <pdfFilenameBase>MidoNet_REST_API_EN${project.version}</pdfFilenameBase>
                             <preProcess>
                                 <echo>Adding xml:id attribute to Docbook's book element.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
                                     <replacetoken><![CDATA[<book]]></replacetoken>
-                                    <replacevalue><![CDATA[<book xml:id="book_rest_api"]]></replacevalue>
+                                    <replacevalue><![CDATA[<book xml:id="book_rest_api_en"]]></replacevalue>
                                 </replace>
 
                                 <echo>Adding title and subtitle font sizes to Docbook XML.</echo>
@@ -82,6 +87,12 @@
                                             <info>
                                         ]]>
                                     </replacevalue>
+                                </replace>
+
+                                <echo>Replacing "draftWarningEN" entity with generated text:</echo>
+                                <echo>${draftWarningEN}</echo>
+                                <replace dir="${dir.tmp.asciidoc2docbook}" token="{draftWarningEN}" value="${draftWarningEN}">
+                                    <include name="**/*.xml"/>
                                 </replace>
                             </preProcess>
                         </configuration>
