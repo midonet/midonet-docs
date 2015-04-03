@@ -1,6 +1,11 @@
 mvn clean install 2>&1 | tee build.log
 
 #
+# Print current/working directory.
+#
+echo "Current/working directory: '$(pwd)'"
+
+#
 # Search the build log for AsciiDoc warnings.
 #
 ASCIIDOC_WARNINGS=$(grep -i "asciidoctor.*warning" build.log)
@@ -29,7 +34,7 @@ if [ "${#DUPLICATE_DISQUS_IDS}" -ne 0 ]; then
 fi
 
 #
-# Search the FO for unintended ":leveloffset:" identifiers.
+# Search the generated FO for unintended ":leveloffset:" identifiers.
 #
 UNINTENDED_LEVELOFFSETS=$(find . -path "*/docbkx/autopdf/*.fo" -print0  | xargs -0 grep -l ":leveloffset:" | sort | uniq)
 if [[ ! -z ${UNINTENDED_LEVELOFFSETS} ]]; then
