@@ -1,17 +1,4 @@
-<productname>MidoNet REST API</productname>
-<copyright>
-    <year>2014</year>
-    <year>2015</year>
-    <holder>Midokura SARL</holder>
-</copyright>
-<releaseinfo>{buildVersion}</releaseinfo>
-<pubdate>{buildTimestamp}</pubdate>
-<legalnotice role="apache2">
-    <annotation>
-        <remark>Copyright details are filled in by the midonet-docs-maven-plugin template.</remark>
-    </annotation>
-</legalnotice>
-<abstract>
+<abstract xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
     <para>
         MidoNet is a network virtualization software for
         Infrastructure-as-a-Service (IaaS) clouds.

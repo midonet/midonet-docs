@@ -67,7 +67,7 @@
                             <goal>generate-webhelp</goal>
                         </goals>
                         <configuration>
-                            <webhelpDirname>troubleshooting-guide-en</webhelpDirname>
+                            <webhelpDirname>troubleshooting-guide_en</webhelpDirname>
                             <webhelpIndexerLanguage>en</webhelpIndexerLanguage>
 
                             <pdfFilenameBase>MidoNet_Troubleshooting_Guide_EN_${project.version}</pdfFilenameBase>
