@@ -67,15 +67,15 @@ differentiated by language, and thus are included from separate files:
 
 [code]
 ----
-<xi:include href="productname_{lang}.xml" [...]>
+<xi:include href="docinfo_productname_{lang}.xml" [...]>
 [...]
-<xi:include href="abstract_{lang}.xml" [...]>
+<xi:include href="docinfo_abstract_{lang}.xml" [...]>
 ----
 
 == Main Contents
 
 The document's main contents, i.e. chapters and sections, are being include from
-the base book file and thus have separeta versions for each language:
+the base book file and thus have separate versions for each language:
 
 [code]
 ----

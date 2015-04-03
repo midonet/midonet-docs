@@ -1,10 +1,9 @@
-= MidoNet REST API
-
 ////
-This document was machine-converted from reStructuredText to AsciiDoc.
-We need to decrement the level offset by 1 to have proper section leveling.
+The REST API document was machine-converted from reStructuredText to AsciiDoc
+and thus contains different section leveling.
+We need to decrement the level offset by 2 to have it proper.
 ////
-:leveloffset: -1
+:leveloffset: -2
 
 [[introduction]]
 Introduction

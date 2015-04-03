@@ -1,8 +1,10 @@
+:sourcedir: .
+
 // Title
-include::book_title_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/book_title_{lang}.adoc[leveloffset=+1]
 
 // Preface
-include::preface_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/preface_{lang}.adoc[leveloffset=+1]
 
 // Chapter
-include::chapter_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/chapter_{lang}.adoc[leveloffset=+1]

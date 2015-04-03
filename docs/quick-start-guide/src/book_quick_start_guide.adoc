@@ -1,69 +1,71 @@
+:sourcedir: .
+
 // Title
-include::{operating_system}/{openstack_version}/book_title_{lang}.adoc[]
+include::{sourcedir}/{operating_system}/{openstack_version}/book_title_{lang}.adoc[]
 
 // Preface
-include::common/preface_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/common/preface_{lang}.adoc[leveloffset=+1]
 
 // Chapter: Architecture
-include::common/architecture/chapter_architecture_{lang}.adoc[leveloffset=+1]
-include::{operating_system}/{openstack_version}/architecture/content_architecture_example_reference_{lang}.adoc[]
-include::common/architecture/content_architecture_{lang}.adoc[]
-include::common/architecture/section_hosts_and_services_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/common/architecture/chapter_architecture_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/{operating_system}/{openstack_version}/architecture/content_architecture_example_reference_{lang}.adoc[]
+include::{sourcedir}/common/architecture/content_architecture_{lang}.adoc[]
+include::{sourcedir}/common/architecture/section_hosts_and_services_{lang}.adoc[leveloffset=+2]
 
 // Chapter: Basic Environment Configuration
-include::common/basic_environment/chapter_basic_environment_configuration_{lang}.adoc[leveloffset=+1]
-include::common/basic_environment/section_basic_networking_configuration_{lang}.adoc[leveloffset=+2]
-include::{operating_system}/{openstack_version}/basic_environment/content_basic_networking_configuration_{lang}.adoc[]
-include::{operating_system}/basic_environment/section_basic_selinux_configuration_{lang}.adoc[leveloffset=+2]
-include::common/basic_environment/section_repository_configuration_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/common/basic_environment/chapter_basic_environment_configuration_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/common/basic_environment/section_basic_networking_configuration_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/{operating_system}/{openstack_version}/basic_environment/content_basic_networking_configuration_{lang}.adoc[]
+include::{sourcedir}/{operating_system}/basic_environment/section_basic_selinux_configuration_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/common/basic_environment/section_repository_configuration_{lang}.adoc[leveloffset=+2]
 
 [.procedure]
-include::{operating_system}/basic_environment/listitem_repo_config_operating_system_{lang}.adoc[]
-include::{operating_system}/{openstack_version}/basic_environment/listitem_repo_config_openstack_{lang}.adoc[]
-include::{operating_system}/basic_environment/listitem_repo_config_datastax_{lang}.adoc[]
-include::{operating_system}/{openstack_version}/basic_environment/listitem_repo_config_midonet_{lang}.adoc[]
-include::{operating_system}/basic_environment/listitem_install_updates_{lang}.adoc[]
-include::common/basic_environment/listitem_reboot_system_{lang}.adoc[]
+include::{sourcedir}/{operating_system}/basic_environment/listitem_repo_config_operating_system_{lang}.adoc[]
+include::{sourcedir}/{operating_system}/{openstack_version}/basic_environment/listitem_repo_config_openstack_{lang}.adoc[]
+include::{sourcedir}/{operating_system}/basic_environment/listitem_repo_config_datastax_{lang}.adoc[]
+include::{sourcedir}/{operating_system}/{openstack_version}/basic_environment/listitem_repo_config_midonet_{lang}.adoc[]
+include::{sourcedir}/{operating_system}/basic_environment/listitem_install_updates_{lang}.adoc[]
+include::{sourcedir}/common/basic_environment/listitem_reboot_system_{lang}.adoc[]
 
 // Chapter: OpenStack Installation
-include::common/openstack/chapter_openstack_installation_{lang}.adoc[leveloffset=+1]
-include::{operating_system}/{openstack_version}/openstack/content_openstack_installation_{lang}.adoc[]
+include::{sourcedir}/common/openstack/chapter_openstack_installation_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/content_openstack_installation_{lang}.adoc[]
 
 // Section: Keystone
-include::common/openstack/section_keystone_installation_{lang}.adoc[leveloffset=+2]
-include::{operating_system}/{openstack_version}/openstack/content_keystone_installation_{lang}.adoc[]
-include::common/openstack/listitems_keystone_midonet_configuration_{lang}.adoc[]
+include::{sourcedir}/common/openstack/section_keystone_installation_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/content_keystone_installation_{lang}.adoc[]
+include::{sourcedir}/common/openstack/listitems_keystone_midonet_configuration_{lang}.adoc[]
 
 // Section: Nova
-include::common/openstack/section_nova_installation_{lang}.adoc[leveloffset=+2]
-include::{operating_system}/{openstack_version}/openstack/content_nova_installation_{lang}.adoc[]
-include::{operating_system}/{openstack_version}/openstack/section_nova_controller_node_installation_{lang}.adoc[leveloffset=+3]
-include::{operating_system}/{openstack_version}/openstack/section_nova_compute_node_installation_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/common/openstack/section_nova_installation_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/content_nova_installation_{lang}.adoc[]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_nova_controller_node_installation_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_nova_compute_node_installation_{lang}.adoc[leveloffset=+3]
 
 // Section: Neutron
-include::common/openstack/section_neutron_installation_{lang}.adoc[leveloffset=+2]
-include::{operating_system}/{openstack_version}/openstack/content_neutron_installation_{lang}.adoc[]
-include::{operating_system}/{openstack_version}/openstack/section_neutron_common_installation_{lang}.adoc[leveloffset=+3]
-include::{operating_system}/{openstack_version}/openstack/section_neutron_controller_node_installation_{lang}.adoc[leveloffset=+3]
-include::{operating_system}/{openstack_version}/openstack/section_neutron_network_node_installation_{lang}.adoc[leveloffset=+3]
-include::{operating_system}/{openstack_version}/openstack/section_neutron_compute_node_installation_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/common/openstack/section_neutron_installation_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/content_neutron_installation_{lang}.adoc[]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_common_installation_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_controller_node_installation_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_network_node_installation_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_compute_node_installation_{lang}.adoc[leveloffset=+3]
 
 // Chapter: MidoNet Installation
-include::common/midonet/chapter_midonet_installation_{lang}.adoc[leveloffset=+1]
-include::common/midonet/section_midonet_nsdb_nodes_installation_{lang}.adoc[leveloffset=+2]
-include::common/midonet/section_zookeeper_installation_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/common/midonet/chapter_midonet_installation_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/common/midonet/section_midonet_nsdb_nodes_installation_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/common/midonet/section_zookeeper_installation_{lang}.adoc[leveloffset=+3]
 [.procedure]
-include::{operating_system}/midonet/listitems_zookeeper_installation_{lang}.adoc[]
-include::common/midonet/listitem_zookeeper_check_{lang}.adoc[]
-include::common/midonet/section_cassandra_installation_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/{operating_system}/midonet/listitems_zookeeper_installation_{lang}.adoc[]
+include::{sourcedir}/common/midonet/listitem_zookeeper_check_{lang}.adoc[]
+include::{sourcedir}/common/midonet/section_cassandra_installation_{lang}.adoc[leveloffset=+3]
 [.procedure]
-include::{operating_system}/midonet/listitems_cassandra_installation_{lang}.adoc[]
-include::common/midonet/listitem_cassandra_check_{lang}.adoc[]
-include::common/midonet/section_midonet_controller_node_installation_{lang}.adoc[leveloffset=+2]
-include::{operating_system}/midonet/section_midonet-api_installation_{lang}.adoc[leveloffset=+3]
-include::{operating_system}/midonet/section_midonet-cli_installation_{lang}.adoc[leveloffset=+3]
-include::{operating_system}/midonet/section_midolman_installation_{lang}.adoc[leveloffset=+2]
-include::common/midonet/section_midonet_host_registration_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/{operating_system}/midonet/listitems_cassandra_installation_{lang}.adoc[]
+include::{sourcedir}/common/midonet/listitem_cassandra_check_{lang}.adoc[]
+include::{sourcedir}/common/midonet/section_midonet_controller_node_installation_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/{operating_system}/midonet/section_midonet-api_installation_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/{operating_system}/midonet/section_midonet-cli_installation_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/{operating_system}/midonet/section_midolman_installation_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/common/midonet/section_midonet_host_registration_{lang}.adoc[leveloffset=+2]
 
 // Chapter: Further Steps
-include::common/chapter_further_steps_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/common/chapter_further_steps_{lang}.adoc[leveloffset=+1]
