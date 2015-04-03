@@ -1,32 +1,35 @@
-= MidoNet Reference Architecture
+:sourcedir: .
+
+// Title
+include::{sourcedir}/book_title_{lang}.adoc[leveloffset=+1]
 
 // Preface
-include::preface.adoc[leveloffset=+1]
+include::{sourcedir}/preface_{lang}.adoc[leveloffset=+1]
 
 // Chapter: MidoNet overview
-include::overview/chapter_overview.adoc[leveloffset=+1]
-include::overview/section_key_features.adoc[leveloffset=+2]
-include::overview/section_recommended_hardware.adoc[leveloffset=+2]
-include::overview/section_installation_requirements.adoc[leveloffset=+2]
-include::overview/section_openstack_integration.adoc[leveloffset=+2]
+include::{sourcedir}/overview/chapter_overview_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/overview/section_key_features_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/overview/section_recommended_hardware_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/overview/section_installation_requirements_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/overview/section_openstack_integration_{lang}.adoc[leveloffset=+2]
 
 // Chapter: MidoNet network architecture
-include::architecture/chapter_architecture.adoc[leveloffset=+1]
-include::architecture/section_internal_network.adoc[leveloffset=+2]
-include::architecture/section_underlay_network.adoc[leveloffset=+2]
-include::architecture/section_bgp_setup_and_layer_3_topologies.adoc[leveloffset=+2]
-include::architecture/section_virtual_routers.adoc[leveloffset=+2]
-include::architecture/section_provider_router.adoc[leveloffset=+2]
-include::architecture/section_compute_host_agents.adoc[leveloffset=+2]
-include::architecture/section_bridges.adoc[leveloffset=+2]
-include::architecture/section_metadata_server.adoc[leveloffset=+2]
+include::{sourcedir}/architecture/chapter_architecture_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/architecture/section_internal_network_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/architecture/section_underlay_network_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/architecture/section_bgp_setup_and_layer_3_topologies_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/architecture/section_virtual_routers_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/architecture/section_provider_router_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/architecture/section_compute_host_agents_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/architecture/section_bridges_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/architecture/section_metadata_server_{lang}.adoc[leveloffset=+2]
 
 // Chapter: Solution components
-include::components/chapter_components.adoc[leveloffset=+1]
-include::components/section_state_management.adoc[leveloffset=+2]
-include::components/section_zookeeper.adoc[leveloffset=+3]
-include::components/section_cassandra.adoc[leveloffset=+3]
-include::components/section_gateway_nodes.adoc[leveloffset=+1]
-include::components/section_midolman.adoc[leveloffset=+1]
-include::components/section_midonet_api.adoc[leveloffset=+1]
-include::components/section_midonet_cli.adoc[leveloffset=+1]
+include::{sourcedir}/components/chapter_components_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/components/section_state_management_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/components/section_zookeeper_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/components/section_cassandra_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/components/section_gateway_nodes_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/components/section_midolman_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/components/section_midonet_api_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/components/section_midonet_cli_{lang}.adoc[leveloffset=+1]

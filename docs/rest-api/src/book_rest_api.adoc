@@ -1,0 +1,7 @@
+:sourcedir: .
+
+// Title
+include::{sourcedir}/book_title_{lang}.adoc[leveloffset=+1]
+
+// Chapters
+include::{sourcedir}/chapters_rest_api_{lang}.adoc[leveloffset=+1]
