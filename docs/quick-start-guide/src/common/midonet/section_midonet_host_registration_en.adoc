@@ -12,13 +12,29 @@ midonet>
 
 . *Create tunnel zone*
 +
+MidoNet supports the Generic Routing Encapsulation (GRE) and Virtual Extensible
+LAN (VXLAN) protocols to communicate to other hosts within a tunnel zone.
++
+To use the GRE protocol, create the tunnel zone with type 'gre':
++
 ====
 [source]
 ----
-midonet> tunnel-zone create name gre type gre
+midonet> tunnel-zone create name tz type gre
 tzone0
 ----
 ====
++
+To use the VXLAN protocol, create the tunnel zone with type 'vxlan':
++
+====
+[source]
+----
+midonet> tunnel-zone create name tz type vxlan
+tzone0
+----
+====
+
 
 . *Add hosts to tunnel zone*
 +
