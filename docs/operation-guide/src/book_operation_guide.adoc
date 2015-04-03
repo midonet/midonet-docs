@@ -1,7 +1,7 @@
 :sourcedir: .
 
 // Title
-include::{sourcedir}/title_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/book_title_{lang}.adoc[leveloffset=+1]
 
 // Preface
 include::{sourcedir}/preface_{lang}.adoc[leveloffset=+1]
