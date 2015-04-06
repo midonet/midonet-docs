@@ -7,7 +7,7 @@
         既存の物理ネットワーク環境の上にIaaSクラウドネットワーク環境を切り離して利用することができるのです。
     </para>
     <para>
-        このドキュメントは、MidoNetやOpenstackのトラブルシューティングに関する有用な情報が含まれています。
+        このドキュメントは、MidoNetやOpenStackのトラブルシューティングに関する有用な情報が含まれています。
     </para>
     <para>
         <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
