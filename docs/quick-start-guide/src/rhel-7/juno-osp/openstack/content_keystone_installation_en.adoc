@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/6/html/Deploying_OpenStack_Learning_Environments/chap-OpenStack_Identity_Service_Installation.html[Chapter 3. OpenStack Identity Service Installation]
+instructions, but *note the following additions*.
+

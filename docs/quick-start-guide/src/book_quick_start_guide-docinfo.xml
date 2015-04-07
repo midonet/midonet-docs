@@ -1,6 +1,5 @@
 <xi:include href="docinfo_productname_{lang}.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
 <copyright>
-    <year>2014</year>
     <year>2015</year>
     <holder>Midokura SARL</holder>
 </copyright>
