@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 #
 # Remove stale build target directories manually
 # to avoid trouble when running within Jenkins.
