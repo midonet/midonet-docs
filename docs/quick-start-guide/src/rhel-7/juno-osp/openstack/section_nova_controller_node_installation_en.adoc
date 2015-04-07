@@ -1,0 +1,111 @@
+= Controller Node
+
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/6/html/Deploying_OpenStack_Learning_Environments/sect-Install_a_Compute_Node.html[8.3. Install a Compute Node]
+instructions, but *note the following differences and additions*.
+
+. *8.3.1. Create the Compute Service Database*
++
+====
+Apply as is.
+====
+
+. *8.3.2. Configure Compute Service Authentication*
++
+====
+Apply as is.
+====
+
+. *8.3.3. Install the Compute Service Packages*
++
+====
+Do *not* apply as is.
+
+Instead, install only the following packages:
+
+[source]
+----
+# yum install openstack-nova-api openstack-nova-conductor openstack-nova-scheduler python-cinderclient
+----
+
+[NOTE]
+The `openstack-nova-compute` package is going to be installed on the Compute
+Node instead.
+====
+
+. *8.3.4. Configure the Compute Service to Use SSL*
++
+====
+Apply as is.
+====
+
+. *8.3.5. Configure the Compute Service*
++
+====
+Apply as is.
+====
+
+. *8.3.6. Populate the Compute Service Database*
++
+====
+Apply as is.
+====
+
+. *8.3.7. Launch the Compute Services*
++
+====
+.. *1. Starting the Message Bus Service*
++
+Do *not* apply. Only required on the Compute Node.
+
+.. *2. Starting the Libvirtd Service*
++
+Do *not* apply. Only required on the Compute Node.
+
+.. *3. Starting the API Service*
++
+Apply as is.
+
+.. *4. Starting the Scheduler*
++
+Apply as is.
+
+.. *5. Starting the Conductor*
++
+Apply as is.
+
+.. *6. Starting the Compute Service*
++
+Do *not* apply. Only required on the Compute Node.
+====
+
+{empty} +
+
+[[nova_metadata_proxy]]
+. *Additional Changes*
++
+====
+.. *Configure Metadata Proxy*
++
+Edit the `/etc/nova/nova.conf` file to contain the following:
++
+[literal,subs="quotes"]
+----
+[neutron]
+...
+service_metadata_proxy = true
+metadata_proxy_shared_secret = *_METADATA_SECRET_*
+----
++
+[NOTE]
+Use the same *_METADATA_SECRET_* as in the
+xref:neutron_metadata_proxy[Metadata Proxy configuration].
++
+Restart the Compute API service:
++
+[source]
+----
+# systemctl restart openstack-nova-api
+----
+====

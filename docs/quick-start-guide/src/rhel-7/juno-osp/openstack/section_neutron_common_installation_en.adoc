@@ -1,0 +1,37 @@
+= Common
+
+[IMPORTANT]
+Follow the OpenStack documentation's
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/6/html/Deploying_OpenStack_Learning_Environments/sect-Common_Networking_Configuration.html[7.3 Common Networking Configuration]
+instructions, but *note the following difference*.
+
+. *7.3.1. Disable Network Manager*
++
+====
+Apply as is.
+====
+
+. *7.3.2. Disable firewalld*
++
+====
+Apply as is.
+====
+
+. *7.3.3. Install the OpenStack Networking Service Packages*
++
+====
+Do *not* apply as is.
+
+Instead, install the following packages:
+
+[source]
+----
+# yum install openstack-neutron openstack-utils openstack-selinux python-neutron-plugin-midonet
+----
+====
+
+. *7.3.4. Configure the Firewall to Allow OpenStack Networking Traffic*
++
+====
+Apply as is.
+====

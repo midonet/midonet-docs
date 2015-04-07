@@ -1,0 +1,119 @@
+= Network Node
+
+== DHCP Agent
+
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/6/html/Deploying_OpenStack_Learning_Environments/Configuring_the_DHCP_Agent.html[7.5. Configure the DHCP Agent]
+instructions, but *note the following differences and additions*.
+
+. *Configuring Authentication*
++
+====
+Apply as is.
+====
+
+. *Configuring the Interface Driver*
++
+====
+Do *not* apply.
+
+.. Instead, edit the `/etc/neutron/dhcp_agent.ini` file to contain the
+following:
++
+[literal,subs="quotes"]
+----
+[DEFAULT]
+interface_driver = neutron.agent.linux.interface.MidonetInterfaceDriver
+dhcp_driver = midonet.neutron.agent.midonet_driver.DhcpNoOpDriver
+use_namespaces = True
+enable_isolated_metadata = True
+
+[MIDONET]
+# MidoNet API URL
+midonet_uri = http://*_controller_*:8080/midonet-api
+# MidoNet administrative user in Keystone
+username = *_midonet_*
+password = *_MIDONET_PASS_*
+# MidoNet administrative user's tenant
+project_id = services
+----
++
+====
+
+. *Starting the DHCP Agent*
++
+====
+Apply as is.
+====
+
+== Metadata Agent
+
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/6/html/Deploying_OpenStack_Learning_Environments/Configuring_the_L3_Agent.html[7.8. Configure the L3 Agent]
+instructions, but *note the following differences*.
+
+. *Configuring Authentication*
++
+====
+Apply as is.
+====
+
+. *Configuring the Interface Driver*
++
+====
+Do *not* apply.
+====
+
+. *Configuring External Network Access*
++
+====
+Do *not* apply.
+====
+
+. *Starting the L3 Agent*
++
+====
+Do *not* apply.
+====
+
+. *Starting the Metadata Agent*
++
+====
+Apply as is.
+====
+
+. *Enable leastrouter scheduling*
++
+====
+Do *not* apply.
+====
+
+{empty} +
+
+[[neutron_metadata_proxy]]
+. *Additional changes*
++
+====
+Edit the `/etc/neutron/metadata_agent.ini` file to contain the following:
+
+[literal,subs="quotes"]
+----
+[DEFAULT]
+[...]
+nova_metadata_ip = *_controller_*
+metadata_proxy_shared_secret = *_METADATA_SECRET_*
+----
+
+[NOTE]
+Use the same *_METADATA_SECRET_* as in the
+xref:nova_metadata_proxy[Nova configuration on the Controller Node].
+
+Restart the Metadata Agent:
+
+[source]
+----
+# systemctl restart neutron-metadata-agent.service
+----
+====

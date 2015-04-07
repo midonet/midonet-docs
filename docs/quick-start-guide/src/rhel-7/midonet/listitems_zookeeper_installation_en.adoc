@@ -3,7 +3,7 @@
 ====
 [source]
 ----
-# yum install zookeeper zkdump
+# yum install zookeeper zkdump nmap-ncat
 ----
 ====
 
