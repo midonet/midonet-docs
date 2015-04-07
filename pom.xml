@@ -13,6 +13,8 @@
 
     <name>${project.artifactId} v${project.version}</name>
 
+test only for demo purpose
+
     <modules>
         <module>build/quick-start-guide_rhel-7_icehouse_en</module>
         <module>build/quick-start-guide_rhel-7_juno-osp_en</module>
