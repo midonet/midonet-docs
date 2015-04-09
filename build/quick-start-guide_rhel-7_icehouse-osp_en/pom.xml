@@ -69,7 +69,7 @@
                             <goal>generate-webhelp</goal>
                         </goals>
                         <configuration>
-                            <webhelpDirname>quick-start-guide/rhel-7_icehouse_en</webhelpDirname>
+                            <webhelpDirname>quick-start-guide/rhel-7_icehouse-osp_en</webhelpDirname>
                             <webhelpIndexerLanguage>en</webhelpIndexerLanguage>
 
                             <pdfFilenameBase>MidoNet_Quick_Start_Guide_RHEL-7_Icehouse_EN_${project.version}</pdfFilenameBase>
