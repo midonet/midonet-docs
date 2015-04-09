@@ -15,6 +15,7 @@
 
     <modules>
         <module>build/quick-start-guide_rhel-7_icehouse_en</module>
+        <module>build/quick-start-guide_rhel-7_juno-osp_en</module>
         <module>build/quick-start-guide_rhel-7_juno-rdo_en</module>
         <module>build/quick-start-guide_rhel-7_kilo-rdo_en</module>
         <module>build/quick-start-guide_ubuntu-1404_icehouse_en</module>
