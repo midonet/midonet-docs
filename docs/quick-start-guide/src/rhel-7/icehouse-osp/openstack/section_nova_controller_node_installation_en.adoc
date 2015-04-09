@@ -109,7 +109,7 @@ neutron_metadata_proxy_shared_secret = *_METADATA_SECRET_*
 ----
 +
 [NOTE]
-Use the same *_METADATA_SECRET_* during the
+Use the same *_METADATA_SECRET_* as in the
 xref:neutron_metadata_proxy[Metadata Proxy configuration].
 +
 Restart the Compute API service:
