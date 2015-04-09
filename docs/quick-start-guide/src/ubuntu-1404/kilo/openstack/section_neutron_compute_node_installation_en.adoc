@@ -20,7 +20,7 @@ Do *not* apply.
 +
 [source]
 ----
-# apt-get install neutron-common python-neutron-plugin-midonet
+# apt-get install neutron-common
 ----
 +
 ====
@@ -30,17 +30,6 @@ Do *not* apply.
 ====
 Do *not* apply step 'd. Enable the Modular Layer 2 (ML2) plug-in, router
 service, and overlapping IP addresses'.
-
-.. Instead, Edit the `/etc/neutron/neutron.conf` file and add the following key
-to the `[DEFAULT]` section:
-+
-[source]
-----
-[DEFAULT]
-...
-core_plugin = neutron.plugins.midonet.plugin.MidonetPluginV2
-----
-+
 ====
 
 . *To configure the Modular Layer 2 (ML2) plug-in*
