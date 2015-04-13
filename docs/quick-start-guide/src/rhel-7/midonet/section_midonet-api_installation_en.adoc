@@ -64,6 +64,22 @@ Edit the `/usr/share/midonet-api/WEB-INF/web.xml` file to contain the following:
 ----
 ====
 
+. *Configure Tomcat's Maximum HTTP Header Size*
++
+====
+Edit the `/etc/tomcat7/server.xml` file and adjust the maximum header size for
+the HTTP connector:
+
+[literal,subs="verbatim,quotes"]
+----
+<Connector port="8080" protocol="HTTP/1.1"
+           connectionTimeout="20000"
+           URIEncoding="UTF-8"
+           redirectPort="8443"
+           **maxHttpHeaderSize="65536"** />
+----
+====
+
 . *Configure MidoNet API context*
 +
 ====
