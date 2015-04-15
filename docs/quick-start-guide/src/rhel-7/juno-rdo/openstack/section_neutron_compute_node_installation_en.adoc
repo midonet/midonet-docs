@@ -20,7 +20,7 @@ Instead, install the following packages:
 
 [source]
 ----
-# yum install openstack-neutron python-neutron-plugin-midonet
+# yum install openstack-neutron
 ----
 ====
 
@@ -29,16 +29,6 @@ Instead, install the following packages:
 ====
 Do *not* apply step 'd. Enable the Modular Layer 2 (ML2) plug-in, router
 service, and overlapping IP addresses'.
-
-Instead, Edit the `/etc/neutron/neutron.conf` file and add the following key
-to the `[DEFAULT]` section:
-
-[source]
-----
-[DEFAULT]
-...
-core_plugin = midonet.neutron.plugin.MidonetPluginV2
-----
 ====
 
 . *To configure the Modular Layer 2 (ML2) plug-in*
