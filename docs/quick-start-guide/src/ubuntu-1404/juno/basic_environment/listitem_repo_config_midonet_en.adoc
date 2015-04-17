@@ -8,7 +8,7 @@ the following:
 [source]
 ----
 # MidoNet
-deb http://repo.midonet.org/midonet/v2015.01 stable main
+deb http://repo.midonet.org/midonet/v2015.03 stable main
 
 # MidoNet OpenStack Integration
 deb http://repo.midonet.org/openstack-juno stable main
