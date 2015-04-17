@@ -18,7 +18,7 @@
 *** Network Topology (ZooKeeper)
 *** Network State Information (Cassandra)
 
-.Network Node (*_network_*)
+.Gateway Node (*_network_*)
 * OpenStack
 ** Networking (Neutron)
 *** DHCP Agent
