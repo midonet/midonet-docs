@@ -1,4 +1,4 @@
-[[gateway_nodes]]
+[[Gateway Nodes]]
 = MidoNet gateway nodes
 
 In addition to the hardware required to run OpenStack and MidoNet, you need one
