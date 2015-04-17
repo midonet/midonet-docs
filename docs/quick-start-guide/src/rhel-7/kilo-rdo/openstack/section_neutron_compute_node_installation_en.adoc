@@ -16,7 +16,7 @@ Apply as is.
 ====
 Do *not* apply.
 
-Instead, install the following packages:
+Instead, install the following package:
 
 [source]
 ----
