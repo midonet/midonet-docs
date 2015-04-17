@@ -1,4 +1,4 @@
-= Network Node
+= Gateway Node
 
 == DHCP Agent
 

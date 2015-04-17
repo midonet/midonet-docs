@@ -49,7 +49,7 @@ listen_address: *_controller_*
 rpc_address: *_controller_*
 ----
 
-... *Network Node*
+... *Gateway Node*
 +
 Edit the `/etc/cassandra/cassandra.yaml` file to contain the following:
 +
