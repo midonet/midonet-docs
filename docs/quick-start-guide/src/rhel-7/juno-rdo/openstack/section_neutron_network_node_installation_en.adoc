@@ -1,8 +1,8 @@
-= Network Node
+= Gateway Node
 
 [IMPORTANT]
 Follow the OpenStack documentation's
-http://docs.openstack.org/juno/install-guide/install/yum/content/neutron-network-node.html[Install and configure network node]
+http://docs.openstack.org/juno/install-guide/install/yum/content/neutron-network-node.html[Install and configure Gateway Node]
 instructions, but *note the following differences*.
 
 . *To configure prerequisites*

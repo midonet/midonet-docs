@@ -1,8 +1,8 @@
-= Network Node
+= Gateway Node
 
 [IMPORTANT]
 Follow the OpenStack documentation's
-http://docs.openstack.org/icehouse/install-guide/install/apt/content/neutron-ml2-network-node.html[Configure network node]
+http://docs.openstack.org/icehouse/install-guide/install/apt/content/neutron-ml2-network-node.html[Configure Gateway Node]
 instructions, but *note the following differences*.
 
 . *Prerequisites*

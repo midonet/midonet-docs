@@ -1,4 +1,4 @@
-[[gateway_node_services]]
+[[Gateway Node_services]]
 = Services on the Gateway Nodes
 
 This section lists the TCP/UDP ports used by the services on the Gateway Nodes.
