@@ -35,6 +35,7 @@ how to build the docs.
 |`build`   | Maven project files
 |`docs`    | Document sources
 |`tools`   | Build tools
+|`www`     | WWW archive
 |===============================
 
 The `build` directory contains the documents' Maven project files, each located
@@ -44,6 +45,10 @@ The `docs` directory contains the document sources, each located in the `src`
 directory of the specific document's sub directory.
 
 The `tools` directory contains the source code of the midonet-docs-maven-plugin.
+
+The `www` directory contains an archive of the document versions that have been
+published to the MidoNet Documentation web site. The web site links to the
+"latest" subdirectory, which symlinks to the latest available document versions.
 
 === Output Files
 
