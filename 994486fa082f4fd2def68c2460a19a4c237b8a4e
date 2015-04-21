@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_8391839b",
+        "filename": "docs/reference-architecture/src/book_reference_architecture.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-04-21T10:40:36Z",
+      "side": 1,
+      "message": "That should not have been renamed, it\u0027s a file name.",
+      "range": {
+        "startLine": 32,
+        "startChar": 32,
+        "endLine": 32,
+        "endChar": 53
+      },
+      "revId": "994486fa082f4fd2def68c2460a19a4c237b8a4e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
