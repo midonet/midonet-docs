@@ -1,7 +1,7 @@
 This architecture consists of three hosts:
 
 * Controller Node (*_controller_*)
-* Network Node (*_network_*)
+* Gateway Node (*_network_*)
 * Compute Node (*_compute1_*)
 
 The _MidoNet Network State Database (NSDB)_ uses

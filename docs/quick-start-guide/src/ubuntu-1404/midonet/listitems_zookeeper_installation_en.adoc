@@ -33,7 +33,7 @@ Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 # echo *1* > /var/lib/zookeeper/myid
 ----
 
-... *Network Node*
+... *Gateway Node*
 +
 Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 +
