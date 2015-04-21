@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_63e3a733",
+        "filename": "docs/operation-guide/src/services/section_services_gateway_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-04-21T10:49:03Z",
+      "side": 1,
+      "message": "The anchor name should not be changed (it determines the HTML file name).",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 25
+      },
+      "revId": "aad71b2a0e67649bc9bcefee337018670b8b2d00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_83e86311",
+        "filename": "docs/reference-architecture/src/components/section_gateway_nodes_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-04-21T10:49:03Z",
+      "side": 1,
+      "message": "The anchor name should not be changed (it determines the HTML file name).",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "aad71b2a0e67649bc9bcefee337018670b8b2d00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
