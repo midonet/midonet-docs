@@ -1,5 +1,5 @@
 fil = new Array();
-fil["0"]= "_network_node.html@@@Network Node - MidoNet Quick Start Guide for RHEL 7 / Icehouse  - 2015.01-rev3@@@null";
+fil["0"]= "_network_node.html@@@Gateway Node - MidoNet Quick Start Guide for RHEL 7 / Icehouse  - 2015.01-rev3@@@null";
 fil["1"]= "_zookeeper_installation.html@@@ZooKeeper Installation - MidoNet Quick Start Guide for RHEL 7 / Icehouse  - 2015.01-rev3@@@null";
 fil["2"]= "_openstack_installation.html@@@Chapter 3. OpenStack Installation - MidoNet Quick Start Guide for RHEL 7 / Icehouse  - 2015.01-rev3@@@null";
 fil["3"]= "_nsdb_nodes.html@@@NSDB Nodes - MidoNet Quick Start Guide for RHEL 7 / Icehouse  - 2015.01-rev3@@@null";
