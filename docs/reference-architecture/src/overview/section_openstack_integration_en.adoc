@@ -1,9 +1,9 @@
 [[openstack_integration]]
 = OpenStack integration
 
-MidoNet works very well with OpenStack, Icehouse release, taking over nearly all
-of the networking functions currently found in OpenStack, including Layer 2
-network isolation, Layer 3 routing, security groups, floating IPs, and more.
+MidoNet works very well with OpenStack, taking over nearly all of the networking
+functions currently found in OpenStack, including Layer 2 network isolation,
+Layer 3 routing, security groups, floating IPs, and more.
 
 MidoNet integrates with OpenStack by providing an OpenStack Networking plugin,
 as well as drivers for OpenStack Networking. End users can use the same
