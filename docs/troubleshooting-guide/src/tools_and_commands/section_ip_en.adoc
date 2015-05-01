@@ -1,0 +1,33 @@
+[[ip]]
+= ip
+
+The `ip` command can be used to show / manipulate routing, devices, policy
+routing and tunnels.
+
+See the man page for detailed information: http://linux.die.net/man/8/ip
+
+* List interfaces:
+
+[source]
+----
+# ip link show
+----
+
+
+* List namespaces
+
+[source]
+----
+# ip netns list
+----
+
+List interfaces within a namespace:
+
+[source]
+----
+# ip netns exec __**namespace**__ ip link show
+----
+
+
+
+

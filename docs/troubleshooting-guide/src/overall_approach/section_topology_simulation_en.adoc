@@ -1,0 +1,20 @@
+[[topology_simulation]]
+= Topology Simulation
+
+Topology simulation is done by the MidoNet Agent (Midolman), which retrieves the
+virtual topology data from the Network State Database (NSDB).
+
+Check the `/var/log/midolman.log` file for errors or warnings.
+
+Ensure that the connection to the NSDB works properly. The NSDB consists of two
+components, ZooKeeper and Cassandra.
+
+You can verify network accessibility manually by pinging the NSDB hosts and
+telneting to the appropriate service ports.
+
+[options="header"]
+|====
+|Service   |Port
+|ZooKeeper |9160
+|Cassandra |2181
+|====

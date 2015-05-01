@@ -15,7 +15,7 @@
 
     <groupId>org.midonet</groupId>
     <artifactId>midonet-docs-troubleshooting-guide-ja</artifactId>
-    <version>2015.03-SNAPSHOT</version>
+    <version>2015.02-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId} v${project.version}</name>

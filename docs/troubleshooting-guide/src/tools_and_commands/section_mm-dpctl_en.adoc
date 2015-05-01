@@ -1,0 +1,27 @@
+[[mm_dpctl]]
+= mm-dpctl
+
+The `mm-dpctl` command can be run on any MidoNet Agent node and will display the
+datapath information, such as the current flows.
+
+Available options:
+
+[source]
+----
+$ mm-dpctl 
+usage: mm-dpctl
+    --add-dp <arg>      Add a new datapath.
+    --delete-dp <arg>   Delete a datapath.
+    --dump-dp <arg>     Show all the flows installed for a given datapath.
+    --list-dps          List all the installed datapaths
+    --show-dp <arg>     Show all the information related to a given datapath.
+    --timeout <arg>     Specifies a timeout in seconds. If the program is not able to get the results in less than this amount of time it will stop and return with an error code
+----
+
+Examples:
+
+[source]
+----
+$ mm-dpctl --show-dp midonet # shows datapath and interfaces
+$ mm-dpctl --dump-dp midonet # shows current flows
+----

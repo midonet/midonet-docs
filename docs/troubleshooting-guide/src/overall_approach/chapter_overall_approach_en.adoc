@@ -1,0 +1,21 @@
+[[overall_approach]]
+= Overall Approach
+
+When troubleshooting a MidoNet environment, there are multiple layers to be
+checked:
+
+* Underlay Network
+* Overlay Network
+* Virtual Network Topology Simulation
+* Virtual Network Topology
+
+[options="header"]
+|=======================
+|Layer                               |Components
+|Virtual Network Topology            |Neutron, MidoNet NSDB
+|Virtual Network Topology Simulation |MidoNet Agent
+|Overlay Network                     |Tunnel, Datapath
+|Underlay Network                    |Physical Environment, Operating System
+|=======================
+
+To rule out possible issues these layers shall be checked from bottom to top.

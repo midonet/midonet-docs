@@ -1,0 +1,14 @@
+[[virtual_topology]]
+= Virtual Topology
+
+The virtual topology is stored in the Neutron database and MidoNet's Network
+State Database (NSDB).
+
+Below are some common thing to check.
+
+== Security Groups
+
+Are the Neutron Security Groups configured to let desired traffic pass?
+
+Check if appropriate rules for the protocols (e.g. ICMP, SSH, HTTP) and ports
+being used exist.
