@@ -1,0 +1,11 @@
+[[directories_and_files]]
+= Directories and Files
+
+This section gives an overview of frequently used configuration and log files.
+
+Note that the file names and paths may slightly differ depending on the used
+operating system and OpenStack distribution.
+
+++++
+<?dbhtml stop-chunking?>
+++++

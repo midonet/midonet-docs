@@ -1,0 +1,25 @@
+[[zookeeper]]
+ZooKeeper
+
+This section covers some common ZooKeeper related topics.
+
+Lists statistics about performance and connected clients:
+
+[source]
+----
+$ echo stat | nc localhost 2181
+----
+
+Tests if server is running in a non-error state. The server will respond with imok if it is running. Otherwise it will not respond at all.
+
+[source]
+----
+$ echo ruok | nc localhost 2181
+----
+
+Dump the contents of the ZooKeeper database into a human readable JSON file:
+
+[source]
+----
+zkdump -z localhost:2181 -d -p -o zookeeper_dump.json
+----

@@ -1,10 +1,26 @@
-:sourcedir: .
-
 // Title
-include::{sourcedir}/book_title_{lang}.adoc[leveloffset=+1]
+include::book_title_{lang}.adoc[leveloffset=+1]
 
 // Preface
-include::{sourcedir}/preface_{lang}.adoc[leveloffset=+1]
+include::preface_{lang}.adoc[leveloffset=+1]
 
-// Chapter
-include::{sourcedir}/chapter_{lang}.adoc[leveloffset=+1]
+// Overall Approach
+include::overall_approach/chapter_overall_approach_{lang}.adoc[leveloffset=+1]
+include::overall_approach/section_underlay_network_{lang}.adoc[leveloffset=+2]
+include::overall_approach/section_overlay_network_{lang}.adoc[leveloffset=+2]
+
+// Common Topics
+include::common_topics/chapter_common_topics_{lang}.adoc[leveloffset=+1]
+include::common_topics/section_zookeeper_{lang}.adoc[leveloffset=+2]
+include::common_topics/section_midonet_agent_{lang}.adoc[leveloffset=+2]
+include::common_topics/section_bgp_{lang}.adoc[leveloffset=+2]
+
+// Tools and Commands
+include::tools_and_commands/chapter_tools_and_commands_{lang}.adoc[leveloffset=+1]
+include::tools_and_commands/section_midonet-cli_{lang}.adoc[leveloffset=+2]
+include::tools_and_commands/section_mm-dpctl_{lang}.adoc[leveloffset=+2]
+include::tools_and_commands/section_mm-trace_{lang}.adoc[leveloffset=+2]
+include::tools_and_commands/section_ip_{lang}.adoc[leveloffset=+2]
+
+// Directories and Files
+include::dirs_and_files/chapter_dirs_and_files_{lang}.adoc[leveloffset=+1]

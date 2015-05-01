@@ -1,0 +1,39 @@
+[[midonet_agent]]
+= MidoNet Agent
+
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Debugging
+
+During troubleshooting periods, you can increase the logging level via the
+`/etc/midolman/logback.xml` file.
+
+To do so, change the root loggers level to one of the following values:
+DEBUG, INFO, WARN, ERROR
+
+[source]
+----
+<root level=”DEBUG”>
+----
+
+This change does not require an Agent restart. The Agent periodically checks the
+configuration file for changes and applies the automatically (within 30
+seconds).
+
+
+== Files
+
+/etc/midolman/midolman.conf
+/etc/midolman/logback.xml
+/etc/midolman/logback-dpctl.xml
+/etc/midolman/midolman-env.sh
+
+
+
+
+
+
+

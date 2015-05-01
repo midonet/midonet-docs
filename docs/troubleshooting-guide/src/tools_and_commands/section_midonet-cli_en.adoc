@@ -1,0 +1,5 @@
+[[midonet_cli]]
+= midonet-cli
+
+The `midonet-cli` command can be run on any host which has the
+`python-midonet-client` package installed and connectivity to the MidoNet API.

@@ -1,0 +1,126 @@
+[[underlay_network]]
+= Underlay Network
+
+The underlay network, i.e. the physical network, should be the first starting
+point to check for any connectivity issues:
+
+* Hardware / Cabling
+* Routing
+* Firewall
+* Access Control
+* Linux Kernel / Open vSwitch
+* Time Synchronization
+
+== Hardware / Cabling
+
+Ensure that the hardware works properly.
+
+. *Is the physical link established?*
++
+====
+[literal,subs="quotes"]
+----
+# ethtool *_eth0_*
+Settings for eth0:
+[...]
+   Link detected: *yes*
+----
+====
+
+. *Is the interface up?*
++
+====
+[literal,subs="verbatim,quotes"]
+----
+# ip link
+[...]
+2: *_eth0_*: <BROADCAST,MULTICAST,*UP*,*LOWER_UP*> mtu 1500 qdisc mq *state UP* mode DEFAULT group default qlen 1000
+    link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff
+----
+====
+
+== Routing
+
+Ensure that the routing is configured correctly and check connectivity between
+hosts via the `ping` command.
+
+[source]
+----
+# netstat -nr
+Destination  Gateway      Genmask        Flags  MSS  Window  irtt  Iface
+0.0.0.0      192.168.0.1  0.0.0.0        UG     0    0       0     eth0
+192.168.0.0  0.0.0.0      255.255.255.0  U      0    0       0     eth0
+----
+
+[source]
+----
+# ip route
+default via 192.168.0.1 dev eth0  proto static 
+192.168.0.0/24 dev eth0  proto kernel  scope link  src 192.168.96.100  metric 1 
+----
+
+== Firewall
+
+Ensure that the firewall is not blocking necessary protocols, hosts or ports.
+
+If unsure, disable the firewall and verify if connectivity issues still persist.
+
+[source]
+----
+# iptables -L
+----
+
+== Access Control
+
+Ensure that no access control system, such as SELinux or AppArmor, is blocking
+necessary functionality.
+
+If unsure, disable the ACL system and verify if issues still persist.
+
+== Linux Kernel / Open vSwitch
+
+Ensure that the Open vSwitch kernel module is loaded and matches the running
+Kernel's version.
+
+[literal,subs="verbatim,quotes"]
+----
+# modinfo openvswitch
+filename:       /lib/modules/*_kernel_version_*/kernel/net/openvswitch/openvswitch.ko
+license:        GPL
+description:    Open vSwitch switching datapath
+depends:        libcrc32c,vxlan,gre
+intree:         Y
+----
+
+[source]
+----
+# lsmod | grep openvswitch
+openvswitch            70743  0 
+vxlan                  37584  1 openvswitch
+gre                    13808  1 openvswitch
+libcrc32c              12644  2 xfs,openvswitch
+----
+
+== Time Synchronization
+
+Ensure that the time is synchronized across all nodes.
+
+[source]
+----
+# ntpq -pn
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+*157.7.153.56    133.243.238.164  2 u  114  128  377    4.239    2.713   6.608
++106.186.114.89  9.22.27.124      3 u   73  128  377    4.845    5.069   4.802
++157.7.235.92    10.84.87.146     2 u  115  128  377    4.326   14.744   8.498
++122.215.240.52  133.243.238.164  2 u   45  128  377    4.291    5.400   4.462
++91.189.94.4     131.188.3.220    2 u   75  128  367  229.564    4.604   6.896
+----
+
+Ensure that correct time zones are configured.
+
+[literal,subs="quotes"]
+----
+# date
+Thu Mar 26 13:24:34 *JST* 2015
+----

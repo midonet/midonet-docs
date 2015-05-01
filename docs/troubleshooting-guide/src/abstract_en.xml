@@ -1,0 +1,28 @@
+<abstract xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <para>
+        MidoNet is a network virtualization software for
+        Infrastructure-as-a-Service (IaaS) clouds.
+    </para>
+    <para>
+        It decouples your IaaS cloud from your network hardware, creating an
+        intelligent software abstraction layer between your end hosts and your
+        physical network.
+    </para>
+    <para>
+        This document contains useful information on troubleshooting MidoNet
+        and OpenStack related issues.
+    </para>
+    <para>
+        <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
+        {draftWarningEN}
+
+        <!-- Link to Mailing Lists and Chat. -->
+        <note>
+            <para>
+                Please consult the
+                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or Chat</link>
+                if you need assistance.
+            </para>
+        </note>
+    </para>
+</abstract>

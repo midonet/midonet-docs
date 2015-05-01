@@ -1,0 +1,68 @@
+[[mm_trace]]
+= mm-trace
+
+The `mm-trace` command allows the MidolMan Agent to capture a particular traffic
+flow and to log each stage of the simulation.
+
+It's settings are not persistent across MidolMan restarts.
+
+Outputs are written to the `/var/log/midolman/mm-trace.log` file.
+
+Available options:
+
+[source]
+----
+$ mm-trace --help
+  -h, --host  <arg>   Host (default = localhost)
+  -p, --port  <arg>   JMX port (default = 7200)
+      --help          Show help message
+
+Subcommand: add - add a packet tracing match
+  -d, --debug                logs at debug level
+      --dst-port  <arg>      match on TCP/UDP destination port
+      --ethertype  <arg>     match on ethertype
+      --ip-dst  <arg>        match on ip destination address
+      --ip-protocol  <arg>   match on ip protocol field
+      --ip-src  <arg>        match on ip source address
+  -l, --limit  <arg>         number of packets to match before disabling this trace
+      --mac-dst  <arg>       match on destination MAC address
+      --mac-src  <arg>       match on source MAC address
+      --src-port  <arg>      match on TCP/UDP source port
+  -t, --trace                logs at trace level
+      --help                 Show help message
+Subcommand: remove - remove a packet tracing match
+  -d, --debug                logs at debug level
+      --dst-port  <arg>      match on TCP/UDP destination port
+      --ethertype  <arg>     match on ethertype
+      --ip-dst  <arg>        match on ip destination address
+      --ip-protocol  <arg>   match on ip protocol field
+      --ip-src  <arg>        match on ip source address
+  -l, --limit  <arg>         number of packets to match before disabling this trace
+      --mac-dst  <arg>       match on destination MAC address
+      --mac-src  <arg>       match on source MAC address
+      --src-port  <arg>      match on TCP/UDP source port
+  -t, --trace                logs at trace level
+      --help                 Show help message
+Subcommand: flush - clear the list of tracing matches
+  -D, --dead-only   flush expired tracers only
+      --help        Show help message
+Subcommand: list - list all active tracing matches
+  -L, --live-only   list active tracers only
+      --help        Show help message
+----
+
+Examples:
+
+[source]
+----
+$ mm-trace list
+$ mm-trace add --debug --ip-dst 192.0.2.1
+$ mm-trace add --trace --ip-src 192.0.2.1 --dst-port 80
+$ mm-trace list
+tracer: --debug --ip-dst 192.0.2.1
+tracer: --trace --ip-src 192.0.2.1 --dst-port 80
+$ mm-trace remove --trace --ip-src 192.0.2.1 --dst-port 80
+Removed 1 tracer(s)
+$ mm-trace flush
+Removed 1 tracer(s)
+----
