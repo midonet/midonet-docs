@@ -34,14 +34,13 @@ HAProxy instances. The HAProxy instances are managed by the MidoNet Agent
 (midolman) and do not require setup. However, you need to choose hosts that can
 potentially hold the HAProxy instances.
 
-To configure this, add an haproxy_health_monitor section to the midolman.conf
-file on the desired hosts, and set health_monitor_enable to true, as shown in
-the example below.
+To configure this, add an haproxy_health_monitor section to the agent section
+in mn-conf(1) for the desired hosts, and set health_monitor_enable to true, as
+shown in the example below.
 
 [source]
 ----
-[haproxy_health_monitor]
-health_monitor_enable = true
+agent.haproxy_health_monitor.health_monitor_enable = true
 ----
 
 Additionally, the hosts running the HAProxy instances must have a group called
@@ -66,7 +65,7 @@ it must watch.
 If it detects a change in status, the MidoNet Agent will update its own database
 with the status information.
 
-* The following configuration settings (in the midolman.conf file) tell the
+* The following configuration settings (inside +mn-conf(1)+) tell the
 MidoNet Agent how to act with respect to health monitoring:
 
 ** health_monitor_enable: true indicates the MidoNet Agent host is eligible to
@@ -86,7 +85,7 @@ files for HAProxy will be created. The default value is: /etc/midolman/l4lb/.
 
 * At any given time, there is only one host containing all of the HAProxy
 instances. This host will be one of the MidoNet Agent hosts that has
-health_monitor_enable=true defined in its midolman.conf file. If this host goes
+health_monitor_enable=true defined in its configuration. If this host goes
 down for any reason, one of the other hosts with the health_monitor_enable=true
 setting will take over and spawn any required HAProxy instances.
 

@@ -93,14 +93,6 @@ router0:port0:bgp0:ad-route0
 midonet> router router0 port port0 bgp bgp0 list route
 ad-route ad-route0 net 192.168.12.0/24
 
-. *Optional:* On Ubuntu only, you must set this property in the midolman.conf
-file:
-+
-[source]
-bgpd_binary = /usr/lib/quagga/
-+
-Without this configuration setting the bgpd process will not be able to start.
-
 . Bind the router's port to a physical network interface.
 +
 If you just created the router port to connect to the BGP peer, the port might
