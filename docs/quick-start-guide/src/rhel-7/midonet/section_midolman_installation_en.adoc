@@ -10,23 +10,38 @@ The Midolman agent shall be installed on all network and compute nodes.
 # yum install midolman
 ----
 ====
-
-. *Configure NSDB*
+. *Set up mn-conf*
 +
 ====
-Edit the `/etc/midolman/midolman.conf` file to contain the following:
+Edit /etc/midolman/midolman.conf to point mn-conf to the ZooKeeper cluster:
 
 [literal,subs="quotes"]
-----
 [zookeeper]
 zookeeper_hosts = *_controller_*:2181,*_network_*:2181,*_compute1_*:2181
 
-...
+----
+====
 
-[cassandra]
-servers = *_controller_*,*_network_*,*_compute1_*
-replication_factor = 3
-cluster = midonet
+
+. *Configure access to the NSDB for all agents*
++
+====
+This step needs to happen only once, it will set up access to the NSDB for
+all midonet nodes. Run the following command to set the cloud-wide values for
+the zookeeper and cassandra server addresses:
+
+[literal,subs="quotes"]
+----
+$ echo << EOF | mn-conf set -t default
+zookeeper {
+    zookeeper_hosts = *_controller_*:2181,*_network_*:2181,*_compute1_*:2181
+}
+
+cassandra {
+    servers = *_controller_*,*_network_*,*_compute1_*
+}
+EOF
+
 ----
 ====
 
