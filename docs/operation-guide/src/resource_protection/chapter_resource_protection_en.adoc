@@ -50,9 +50,8 @@ traffic or VTEP buckets, or to the top-level bucket.
 
 == Configuration
 
-You can specify resource protection configuration parameters in the
-/etc/midolman/midolman.conf file, under the [datapath] stanza. The available
-parameters are:
+You can specify resource protection configuration parameters using +mn-conf(1)+,
+in the +agent.datapath+ section. The available parameters are:
 
 * global_incoming_burst_capacity - this sets the size of the top-level bucket
 and also defines the total number of tokens in the system (corresponding to
@@ -72,7 +71,7 @@ individual VMs can sendtraffic.
 with the VxLAN VTEP functionality, which enforces the rate at which the MidoNet
 Agent can communicate with the VxLAN domain.
 
-See "midolman.conf" section for more information about the above parameters.
+See the +mn-conf(1)+ schemas for more information about the above parameters.
 
 Recommended values for these properties depend on the role of the MidoNet host
 (Gateway vs. Compute Node) and interaction with other resource-related
@@ -89,7 +88,7 @@ You can disable the resource protection feature.
 To disable resource protection:
 
 . Specify a size value of "0" for all the parameters described in the
-"midolman.conf" section, except for the global_incoming_burst_capacity
+Configuration section, except for the global_incoming_burst_capacity
 parameter.
 
 This will cause all tokens to accumulate in the global bucket and all the
