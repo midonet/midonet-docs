@@ -1,11 +1,11 @@
 [[midolman_configuration_options]]
 = MidoNet Agent (Midolman) configuration options
 
-This section covers all configuration options for the
-/etc/midolman/midolman.conf file.
+This section covers all configuration options for the MidoNet Agent.
 
 We don't recommend making changes to the default values, except possibly the
-session_gracetime and buf_size_kb setting value.
++zookeeper.session_gracetime+ and +agent.datapath.send_buffer_pool_buf_size_kb+
+setting values.
 
 [WARNING]
 Do not modify the root key, cluster name, or keyspace unless you know what you
@@ -25,7 +25,7 @@ When ZooKeeper becomes inaccessible, a MidoNet Agent instance will continue
 operating for as long as there's a chance to recover connectivity while keeping
 the same ZooKeeper session. The amount of operating time is thus dictated by the
 session timeout, which you can control by editing the zookeeper
-session_gracetime setting in midolman.conf.
+session_gracetime setting in mn-conf(1).
 
 Once the session expires, the MidoNet Agent will give up and shut itself down,
 prompting upstart to re-launch it. If the ZooKeeper connection and session are
@@ -59,25 +59,26 @@ connectivity.
 
 == ZooKeeper configuration
 
-You may use the ZooKeeper configuration section to adjust:
+You may use the ZooKeeper configuration section in +mn-conf(1)+ to adjust:
 
 * the ZooKeeper session timeout value (in milliseconds). This value determines
 when the system considers the connection between ZooKeeper and the MidoNet Agent
 to be interrupted.
 
 * the session grace timeout value (in milliseconds). This value determines the
-period of time during which Midolman can reconnect to ZooKeeper without causing
+period of time during which the Agent can reconnect to ZooKeeper without causing
 node outage.
 
 * the root path for MidoNet data.
 
 [source]
 ----
-[zookeeper]
-zookeeper_hosts = [see above]
-session_timeout = 30000
-midolman_root_key = /midonet/v1
-session_gracetime = 30000
+zookeeper {
+    zookeeper_hosts = [see above]
+    session_timeout = 30000
+    root_key = /midonet/v1
+    session_gracetime = 30000
+}
 ----
 
 == Cassandra configuration
@@ -88,123 +89,21 @@ You may use the Cassandra configuration section to adjust:
 
 * the MidoNet cluster name
 
-* the MidoNet keyspace.
-
 [source]
 ----
-[cassandra]
-servers = [see above]
-replication_factor = 1
-cluster = midonet
-keyspace = midolman
+cassandra {
+    servers = [see above]
+    replication_factor = 1
+    cluster = midonet
+}
 ----
 
-== Bridge configuration
+== MidoNet Agent datapath configuration
 
-You may use the Bridge configuration section to adjust the expiration of
-bridge-port-to-MAC-address mapping in the virtual topology. Specify the value in
-milliseconds. Below is an example.
-    
-[source]
-----
-[bridge]
-mac_port_mapping_expire_millis=15000
-----
-
-== ARP table configuration
-
-You may use the ARP table configuration section to adjust the timeout values of
-internal ARP table tracking. You may specify:
-
-* the ARP request retry period
-
-* the ARP requests timeout period
-
-* when to consider an ARP entry stale
-
-* when to consider an ARP entry expired.
-
-Below is an example.
-
-[source]
-----
-[arptable]
-arp_retry_interval_seconds=10
-arp_timeout_seconds=60
-arp_stale_seconds=1800
-arp_expiration_seconds=3600
-----
-
-== Midolman configuration
-
-You may use the Midolman configuration section to control the internal MidoNet
-Agent configuration. You may specify:
-
-* the Network State Database timeout period (the time period after which the
-MidoNet Agent shuts down)
-
-* the MidoNet Agent state cache type
-
-* how often to check for Open vSwitch flows that have expired
-
-* how to handle crashes of the main program thread.
-
-Below is an example.
-
-[source]
-----
-[midolman]
-disconnected_ttl_seconds=30
-cache_type=cassandra
-check_flow_expiration_interval=10000 #millis
-top_level_actor_supervisor=crash # set this to resume for production
-----
-
-== Host configuration
-
-You may use the host configuration section to configure the MidoNet Agent
-identity, which is stored as a UUID value in the
-/etc/midolman/host_uuid.properties file. You may adjust:
-
-* the location of the identity file
-
-* the interval at which the identity file is re-scanned.
-
-Below is an example.
-
-[source]
-----
-[host]
-properties_file = /etc/midolman/host_uuid.properties
-wait_time_between_scans = 5000       # 5 * 1000 millis
-----
-
-== Monitoring configuration
-
-You may use the monitoring section to enable and configure metrics collection by
-the MidoNet Agent. Information collected includes:
-
-* periodic JVM statistics
-
-* ZooKeeper communication statistics
-
-* metrics exported by MidoNet.
-
-You may also adjust how often (in milliseconds) to query the virtual port statistics.
-
-[source]
-----
-[monitoring]
-enable_monitoring=false
-port_stats_request_time=1000
-----
-
-== datapath
-
-Midolman uses a pool of reusable buffers to send requests to the datapath. You
-may use the options in this section to tune the pool's size and its buffers. One
-pool is created for each output channel, the settings defined here will apply to
-each of those pools.
+The agent uses a pool of reusable buffers to send requests to the datapath. You
+may use the options in the +agent.datapath+ of mn-conf(1) to tune the pool's size
+and its buffers. One pool is created for each output channel, the settings
+defined here will apply to each of those pools.
 
 If you notice decreased performance because packet sizes exceed the maximum
 buffer size, you can increase the value for the buf_size_kb setting. This
@@ -216,19 +115,21 @@ frame, plus enough room for the flow's actions.
 == BGP failover configuration
 
 The default BGP fail-over time is 2-3 minutes. However, you can reduce this time
-by changing some parameters on both ends of the session: in the midolman.conf
-file (the MidoNet side) and the remote end BGP peer configuration. The example
+by changing some parameters on both ends of the session: in +mn-conf(1)+
+(the MidoNet side) and the remote end BGP peer configuration. The example
 below shows how to reduce the BGP fail-over time to one minute on the MidoNet
 side:
 
 [source]
 ----
-# bgpd
-bgp_connect_retry=1
-bgp_holdtime=3
-bgp_keepalive=1
+agent {
+    midolman {
+        bgp_connect_retry=1
+        bgp_holdtime=3
+        bgp_keepalive=1
+    }
+}
 ----
 
-The settings in the host's midolman.conf file must match those on the remote end
-BGP peer configuration. For more information about how to set them, see
-xref:bgp_failover[].
+The settings in mn-conf must match those on the remote end BGP peer configuration.
+For more information about how to set them, see xref:bgp_failover[].

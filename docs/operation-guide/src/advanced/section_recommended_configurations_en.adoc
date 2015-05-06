@@ -10,9 +10,7 @@ MidoNet performance.
 
 == Overview of Performance-Impacting Configuration Options
 
-*midolman.conf*
-
-*[midolman]*
+*+agent.midolman+ configuration section in mn-conf(1)*
 
 simulation_threads - Number of threads to dedicate to packet processing
 
@@ -25,7 +23,7 @@ strategy for reading on those channels: one_to_many will make the Agent use a
 single thread for all input channels. one_to_one will make the Agent use one
 thread for each input channel.
 
-*[datapath]*
+*+agent.datapath+ section in mn-conf(1)*
 
 global_incoming_burst_capacity - Incoming packets are rate-limited by a
 Hierarchical Token Bucket (HTB) that gets refilled as packets are processed and
@@ -43,19 +41,13 @@ vm_incoming_burst_capacity - Each VM port gets its own bucket in the HTB,
 allowing the ports to accumulate burst capacity if they are not sending at the
 max. rate. This setting controls the size in packets of that bucket.
 
-*midolman-akka.conf*
+*+agent.loggers+ section in mn-conf(1)*
 
-*akka*
+*root*
 
-loglevel - Log level for messages generated in certain parts of the Agent, such
-as the packet-simulation code. The DEBUG setting is meant for development and
-troubleshooting only because it severely affects performance and is highly
-verbose.
-
-*akka.actor.default-dispatcher*
-
-parallelism-max - Number of threads to dedicate to non-fastpath, but potentially
-expensive Agent components, such as flow management.
+level - Default process-wide log level. The DEBUG setting is meant for
+development and troubleshooting only because it severely affects performance and
+is highly verbose.
 
 *midolman-env.sh*
 
@@ -65,15 +57,6 @@ HEAP_NEWSIZE - The total amount of the JVM memory that will be dedicated to the
 Eden garbage-collection generation. 75% of the total is a good ballpark figure,
 as the Agent uses most of the memory for short-lived objects during packet
 processing.
-
-*logback.xml*
-
-*root*
-
-level - Default process-wide log level. The DEBUG setting is meant for
-development and troubleshooting only because it severely affects performance and
-is highly verbose.
-
 == Recommended Values
 
 .Recommended Configuration Values
@@ -82,14 +65,12 @@ is highly verbose.
 |File|Section|Option|Compute|Gateway|L4 Gateway
 
 |logback.xml|root|level|INFO|INFO|INFO
-|midolman-akka.conf|akka|loglevel|INFO|INFO|INFO
-|midolman-akka.conf|akka.actor.default-dispatcher|parallelism-max|1|2|2
 |midolman-env.sh|-|MAX_HEAP_SIZE|2048M|6144M|6144M
 |midolman-env.sh|-|HEAP_NEWSIZE|1536M|5120M|5120M
-|midolman.conf|[midolman]|simulation_threads|1|4|16
-|midolman.conf|[midolman]|output_channels|1|2|2
-|midolman.conf|[midolman]|input_channel_threading|one_to_many|one_to_many|one_to_many
-|midolman.conf|[datapath]|global_incoming_burst_capacity|128|256|128
-|midolman.conf|[datapath]|tunnel_incoming_burst_capacity|64|128|64
-|midolman.conf|[datapath]|vm_incoming_burst_capacity|16|32|16
+|mn-conf(1)|[agent.midolman]|simulation_threads|1|4|16
+|mn-conf(1)|[agent.midolman]|output_channels|1|2|2
+|mn-conf(1)|[agent.midolman]|input_channel_threading|one_to_many|one_to_many|one_to_many
+|mn-conf(1)|[agent.datapath]|global_incoming_burst_capacity|128|256|128
+|mn-conf(1)|[agent.datapath]|tunnel_incoming_burst_capacity|64|128|64
+|mn-conf(1)|[agent.datapath]|vm_incoming_burst_capacity|16|32|16
 |===============

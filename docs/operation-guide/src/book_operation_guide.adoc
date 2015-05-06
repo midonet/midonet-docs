@@ -139,12 +139,12 @@ include::{sourcedir}/mn_cli/section_mn_cli_usage_{lang}.adoc[leveloffset=+2]
 
 // Chapter: Advanced configuration and concepts
 include::{sourcedir}/advanced/chapter_advanced_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/advanced/section_midonet_config_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/advanced/section_recommended_configurations_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/advanced/section_midolman_configuration_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/advanced/section_api_configuration_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/advanced/section_cassandra_cache_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/advanced/section_cassandra_midolman_{lang}.adoc[leveloffset=+3]
-include::{sourcedir}/advanced/section_cassandra_additional_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/advanced/section_cassandra_nsdb_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/advanced/section_tomcat_{lang}.adoc[leveloffset=+2]
 

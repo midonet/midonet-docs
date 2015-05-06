@@ -1,0 +1,67 @@
+[[midonet_config]]
+= MidoNet Configuration: mn-conf(1)
+
+MidoNet stores its configuration in the same ZooKeeper cluster that it uses
+to store network topology data.
+
+Configuration can be read and managed via the +mn-conf(1)+ command line tool.
+Refer to its manpage for its full documentation, and to the next paragraphs
+for a light introduction.
+
+== Bootstrapping
+
+The entire configuration of MidoNet is stored in ZooKeeper, however operators
+need to point mn-conf itself to the ZooKeeper cluster. The same is true
+for any MidoNet processes, such as its agent. They will fetch configuration
+from ZooKeeper but need its address to bootstrap that process.
+
+Bootstrap configuration is read, in order of preference, from these sources:
+
+* The +MIDO_ZOOKEEPER_HOSTS+ and +MIDO_ZOOKEEPER_ROOT_KEY+ environment
+variables.
+
+* +~/.midonetrc+
+
+* +/etc/midonet/midonet.conf+
+
+* +/etc/midolman/midolman.conf+ (for backwards compatibility).
+
+These files should have .ini format, and look like this:
+
+[source]
+----
+[zookeeper]
+zookeeper_hosts = 127.0.0.1:2181
+root_key = /midonet/v1
+----
+
+[WARNING]
+Do not modify the root key unless you know what you are doing.
+
+
+== Configuration sources
+
++mn-conf+ can store and manage a few different configuration documents:
+
+* Node specific configuration. These contain configuration keys that will
+apply only to a particular MidoNet node, identified by its UUID.
+
+* Configuration templates. These are chunks of configuration, stored by
+a user-given name that can be assigned to a set of MidoNet nodes.
+
+* The "default" configuration template. Configuration keys found here
+will be used by every MidoNet node in the system. But only if
+the first two sources don't override their values.
+
+* The configuration schemas. These are read only and contain default values
+and _documentation_ strings for every configuration key in MidoNet. The
+defaults found in these schemas will only apply if they are not overriden
+by one of the higher priority sources.
+
+
+A single mn-conf command will dump the schemas, effectively getting the full
+list of all existing MidoNet configuration keys, their default values  and their
+documentation:
+
+[source,bash]
+$ mn-conf dump -s
