@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_ccf4ec5c",
+        "filename": "docs/operation-guide/src/advanced/section_cassandra_midolman_en.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-05-07T09:54:48Z",
+      "side": 1,
+      "message": "Typo: unavailable",
+      "range": {
+        "startLine": 18,
+        "startChar": 52,
+        "endLine": 18,
+        "endChar": 63
+      },
+      "revId": "ab5726fde9b109fe092274c84aee745ec0036219",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_ec98c81d",
+        "filename": "docs/operation-guide/src/advanced/section_midonet_config_en.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-05-07T09:54:48Z",
+      "side": 1,
+      "message": "ZooKeeper with upper-case \"K\" for consistency.",
+      "range": {
+        "startLine": 16,
+        "startChar": 5,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "ab5726fde9b109fe092274c84aee745ec0036219",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_ecbf285f",
+        "filename": "docs/quick-start-guide/src/rhel-7/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-05-07T09:54:48Z",
+      "side": 1,
+      "message": "midonet -\u003e MidoNet",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 11
+      },
+      "revId": "ab5726fde9b109fe092274c84aee745ec0036219",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_ccc22ce8",
+        "filename": "docs/quick-start-guide/src/rhel-7/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-05-07T09:54:48Z",
+      "side": 1,
+      "message": "zookeeper -\u003e ZooKeeper",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "ab5726fde9b109fe092274c84aee745ec0036219",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_2cb6608a",
+        "filename": "docs/quick-start-guide/src/rhel-7/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-05-07T09:54:48Z",
+      "side": 1,
+      "message": "cassandra -\u003e Cassandra",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 31,
+        "endChar": 27
+      },
+      "revId": "ab5726fde9b109fe092274c84aee745ec0036219",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_4cae3c2f",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-05-07T09:54:48Z",
+      "side": 1,
+      "message": "midonet -\u003e MidoNet",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 11
+      },
+      "revId": "ab5726fde9b109fe092274c84aee745ec0036219",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_8ca4b44b",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-05-07T09:54:48Z",
+      "side": 1,
+      "message": "cassandra -\u003e Cassandra",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 31,
+        "endChar": 27
+      },
+      "revId": "ab5726fde9b109fe092274c84aee745ec0036219",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_aca9b025",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-05-07T09:54:48Z",
+      "side": 1,
+      "message": "zookeeper -\u003e ZooKeeper",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "ab5726fde9b109fe092274c84aee745ec0036219",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
