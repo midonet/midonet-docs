@@ -298,10 +298,9 @@ towards a MidoNet Agent, and receive similar return packets.
 
 *The MidoNet agent is not emitting traffic*
 
-Verify the VXLAN-related options in the /etc/midolman/midolman.conf
-file.  Examine the MidoNet Agent logs in debug mode and look for
-simulations on the Neutron network that might be dropping packets, or
-throwing errors on the simulation.
+Verify the VXLAN-related options in +mn-conf(1)+.  Examine the MidoNet
+Agent logs in debug mode and look for simulations on the Neutron network
+that might be dropping packets, or throwing errors on the simulation.
 
 *The VTEP is not emitting traffic on the tunnel*
 

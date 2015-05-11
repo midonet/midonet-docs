@@ -1,35 +1,22 @@
 [[midolman_behavior_on_cassandra_failure]]
-= Midolman behavior on node failure
+= Agent behavior on node failure
 
-As described, when a Cassandra node fails, the expected behavior should be as
-follows.
+The MidoNet Agent writes to Cassandra asynchronously after processing a packet
+that produced stateful connection data, such as NAT mappings or connection
+tracking keys.
 
-We assume there is a constant flow of calls to Cassandra during the period. All
-times are taken from a t=0 point when the connectivity to the node starts
-failing.
+The data written to Cassandra is purely a back up, as MidoNet agents share all
+stateful connection data directly amongst themselves. The back up is used upon
+agent reboot (to prevent lost connections across the reboot) and upon port
+migration. An agent binding a port will fetch the existing connection state
+from Cassandra for all connections traversing that port.
 
-* Within 2.5 seconds (as determined by the thrift_socket_timeout config setting,
-see also xref:midolman_configuration_options[]), an exception should appear in
-Midolman advising it about a timeout. This implies that one of the clients
-assigned to the pool has become unavailable.
-
-After this, there are two options:
-
-. The host timeout tracking mechanism will detect more than host_timeout_counter
-timeouts in less than host_timeout_window milliseconds (see also
-xref:midolman_configuration_options[]). This is the fastest option, but requires
-that many timeouts happen within a short period of time.
-+
-* Note that this may be especially problematic for us, because we try to go to
-Cassandra as little as possible and many packets will be hitting flows. Hitting
-the timeout tracker case requires higher traffic.
-+
-* Increase the window size, or increase the counter, or both, to be stricter
-when diagnosing node failures.
-
-. The pool of clients in the given host becomes exhausted. The time for this to
-happen depends on how many clients are present in the host's pool. The maximum
-number of clients is determined by max_active_connections: each of the clients
-will have to timeout at least once to be closed and removed from the host's
-queue. This is the slowest case, it may take up to max_active_connections *
-thrift_socket_timeout seconds.
+Should a Cassandra node fail, agents connected to it will fail over to other
+nodes in the Cassandra cluster. If the host tries to bind a port during that
+interval it may fail to fetch the state for the port, breaking pre-existing
+connections on that port. Additionally, state for flows processed during that
+interval may not be written to Cassandra, making it unavailable if it's needed
+later in the process of binding a port. State is refreshed every minute, thus
+a port migration would only break connections that were established in the
+minute prior to the port migration and only if the disconnection happened
+in that interval.
