@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<products xmlns:xlink="http://www.w3.org/1999/xlink">
+   <latestpdf>MidoNet_Quick_Start_Guide_Ubuntu-1404_Juno_EN_2015.03-rev1-latest.pdf</latestpdf>
+   <pdfoutname>MidoNet_Quick_Start_Guide_Ubuntu-1404_Juno_EN_2015.03-rev1.pdf</pdfoutname>
+   <docname>MidoNet Quick Start Guide for Ubuntu 14.04 / Juno</docname>
+   <productname>MidoNet Quick Start Guide</productname>
+   <webappname>quick-start-guide/ubuntu-1404_juno_en</webappname>
+   <pominfo>
+      <groupid>org.midonet</groupid>
+      <artifactid>midonet-docs-quick-start-guide-ubuntu-1404-juno-en</artifactid>
+      <version>2015.03-rev1</version>
+      <pomname>midonet-docs-quick-start-guide-ubuntu-1404-juno-en v2015.03-rev1</pomname>
+   </pominfo>
+</products>
