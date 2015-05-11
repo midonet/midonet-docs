@@ -15,7 +15,7 @@
 
     <groupId>org.midonet</groupId>
     <artifactId>midonet-docs-quick-start-guide-ubuntu-1404-juno-en</artifactId>
-    <version>2015.03</version>
+    <version>2015.03-rev1</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId} v${project.version}</name>
