@@ -9,7 +9,7 @@ deployment.
 |===============
 |Hardware|Requirements
 |Network State Database, API, and Agent Nodes|
-    CPU: 64-bit x86
+    CPU: 64-bit x86, quad core or above
 
     Memory: ≥ 32GB RAM
 
@@ -17,7 +17,7 @@ deployment.
 
     NIC: 2 x ≥ 1Gbit
 |2 x GW Nodes|
-    CPU: 64-bit x86
+    CPU: 64-bit x86, quad core or above
 
     Memory: ≥ 32GB RAM
 
