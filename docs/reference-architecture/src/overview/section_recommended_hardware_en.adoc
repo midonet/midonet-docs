@@ -13,7 +13,7 @@ deployment.
 
     Memory: ≥ 32GB RAM
 
-    HDD: ≥ 30GB (available free disc space)
+    HDD: ≥ 30GB (available free disk space)
 
     NIC: 2 x ≥ 1Gbit
 |2 x GW Nodes|
@@ -26,7 +26,13 @@ deployment.
     Network: 3 x ≥ 1Gbit
 |NIC Cards|
     For a high-performance data network: use NICs that support multiple queues
-    and MSI-X.
+    and MSI-X
 |Top of Rack Switch|
     Non-blocking multilayer switch (L2/L3) with jumbo frame support
+|Hard Disks|
+    Ideally, both the Zookeeper transaction log and Cassandra data files need
+    their own dedicated disks, with additional disks for other services on the
+    host. However, for small POCs and small deployments, it is ok to share the
+    Cassandra disk with other services and just leave the Zookeeper transaction
+    log on its own.
 |===============
