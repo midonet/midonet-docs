@@ -1,3 +1,4 @@
-////
-Not used on RHEL 7 / Kilo (RDO)
-////
+This guide assumes that you follow the instructions in
+http://docs.openstack.org/kilo/install-guide/install/yum/content/ch_basic_environment.html#basics-networking-neutron[OpenStack Networking (neutron)]
+of the OpenStack Documentation.
+
