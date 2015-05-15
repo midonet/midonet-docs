@@ -30,21 +30,20 @@ This step needs to happen only once, it will set up access to the NSDB for
 all MidoNet nodes. Run the following command to set the cloud-wide values for
 the ZooKeeper and Cassandra server addresses:
 
-[source,bash]
+[source,subs="specialcharacters,quotes"]
 ----
 $ echo << EOF | mn-conf set -t default
 zookeeper {
-    zookeeper_hosts = $CONTROLLER:2181,$NETWORK:2181,$COMPUTE1:2181
+    zookeeper_hosts = *_controller_*:2181,*_network_*:2181,*_compute1_*:2181
 }
 
 cassandra {
-    servers = $CONTROLLER,$NETWORK,$COMPUTE1
+    servers = *_controller_*,*_network_*,*_compute1_*
 }
 EOF
-
-
 ----
 ====
+
 . *Start Midolman*
 +
 ====
