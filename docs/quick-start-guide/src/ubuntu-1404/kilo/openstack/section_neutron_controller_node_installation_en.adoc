@@ -97,5 +97,28 @@ Apply as is.
 . *To finalize installation*
 +
 ====
-Apply as is.
+Do *not* apply.
+
+Instead, perform the following steps.
+
+.. Populate the database:
++
+[source]
+----
+# su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/midonet/midonet.ini upgrade kilo" neutron
+----
++
+.. Restart the Compute service:
++
+[source]
+----
+# service nova-api restart
+----
++
+.. Restart the Networking service:
++
+[source]
+----
+# service neutron-server restart
+----
 ====

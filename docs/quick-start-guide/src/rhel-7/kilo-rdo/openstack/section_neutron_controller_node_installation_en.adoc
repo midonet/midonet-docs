@@ -115,6 +115,4 @@ Instead, perform the following steps.
 # systemctl enable neutron-server.service
 # systemctl start neutron-server.service
 ----
-+
-
 ====
