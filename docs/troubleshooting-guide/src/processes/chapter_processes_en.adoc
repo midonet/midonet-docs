@@ -1,0 +1,21 @@
+[[processes]]
+= Processes
+
+This section gives an overview of common processes.
+
+Note that names and paths may slightly differ depending on the used operating
+system and OpenStack distribution.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+[options="header"]
+|====
+| Program | Process
+| Cassandra                | java [...] org.apache.cassandra.service.CassandraDaemon
+| MidoNet Agent            | java [...] org.midonet.midolman.Midolman
+| MidoNet Agent (Watchdog) | /usr/bin/python /usr/bin/wdog [...] org.midonet.midolman.Midolman
+| MidoNet API (Tomcat)     | java [...] org.apache.catalina.startup.Bootstrap
+| ZooKeeper                | java [...] org.apache.zookeeper.server.quorum.QuorumPeerMain
+|====

@@ -3,9 +3,56 @@
 
 This section gives an overview of frequently used configuration and log files.
 
-Note that the file names and paths may slightly differ depending on the used
+Note that file names and paths may slightly differ depending on the used
 operating system and OpenStack distribution.
 
 ++++
 <?dbhtml stop-chunking?>
 ++++
+
+== Cassandra
+[options="header"]
+|====
+| File | Type
+| /etc/cassandra/conf/cassandra.yaml | CONF
+| /var/log/cassandra/cassandra.log   | LOG
+|====
+
+== MidoNet Agent
+[options="header"]
+|====
+| File | Type
+| /etc/midolman/logback-dpctl.xml      | CONF
+| /etc/midolman/logback.xml            | CONF
+| /etc/midolman/midolman-akka.conf     | CONF
+| /etc/midolman/midolman.conf          | CONF
+| /etc/midolman/midolman-env.sh        | CONF
+| /var/log/midolman/midolman.event.log | LOG
+| /var/log/midolman/midolman.log       | LOG
+| /var/log/midolman/mm-trace.log       | LOG
+| /var/log/midolman/upstart-stderr.log | LOG
+|====
+
+== MidoNet API
+[options="header"]
+|====
+| File | Type
+| /usr/share/midonet-api/WEB-INF/web.xml | CONF
+| /var/log/tomcat/catalina.out           | LOG
+| /var/log/tomcat/midonet-api.log        | LOG
+|====
+
+== Quagga (BGPD)
+[options="header"]
+|====
+| File | Type
+| /var/log/quagga/bgpd.log | LOG
+|====
+
+== ZooKeeper
+[options="header"]
+|====
+| File | Type
+| /etc/zookeeper/zoo.cfg           | CONF
+| /var/log/zookeeper/zookeeper.out | LOG
+|====
