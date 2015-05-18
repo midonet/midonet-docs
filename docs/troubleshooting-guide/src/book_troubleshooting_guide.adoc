@@ -28,3 +28,7 @@ include::{sourcedir}/tools_and_commands/section_ip_{lang}.adoc[leveloffset=+2]
 
 // Directories and Files
 include::{sourcedir}/dirs_and_files/chapter_dirs_and_files_{lang}.adoc[leveloffset=+1]
+
+// Processes
+include::{sourcedir}/processes/chapter_processes_{lang}.adoc[leveloffset=+1]
+
