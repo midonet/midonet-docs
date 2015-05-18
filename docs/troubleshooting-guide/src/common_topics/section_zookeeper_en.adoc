@@ -1,25 +1,32 @@
 [[zookeeper]]
-ZooKeeper
+= ZooKeeper
 
-This section covers some common ZooKeeper related topics.
+Test if ZooKeeper is running in a non-error state. The server will respond with
+`imok` if it is running. Otherwise it will not respond at all.
+
+[literal,subs="quotes"]
+----
+$ echo ruok | nc __**zk-host**__ 2181
+imok
+----
 
 Lists statistics about performance and connected clients:
 
-[source]
+[literal,subs="quotes"]
 ----
-$ echo stat | nc localhost 2181
-----
-
-Tests if server is running in a non-error state. The server will respond with imok if it is running. Otherwise it will not respond at all.
-
-[source]
-----
-$ echo ruok | nc localhost 2181
+$ echo stat | nc __**zk-host**__ 2181
 ----
 
-Dump the contents of the ZooKeeper database into a human readable JSON file:
+Dump the contents of the ZooKeeper database into a pretty-printed text file:
 
-[source]
+[literal,subs="quotes"]
 ----
-zkdump -z localhost:2181 -d -p -o zookeeper_dump.json
+$ zkdump -z __**zk-host**__:2181 -d -p -o zkdump.txt
+----
+
+Dump the contents of the ZooKeeper database into a machine readable JSON file:
+
+[literal,subs="quotes"]
+----
+$ zkdump -z __**zk-host**__:2181 -d -o zkdump.json
 ----

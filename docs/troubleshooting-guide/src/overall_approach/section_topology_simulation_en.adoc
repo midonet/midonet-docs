@@ -15,6 +15,6 @@ telneting to the appropriate service ports.
 [options="header"]
 |====
 |Service   |Port
-|ZooKeeper |9160
-|Cassandra |2181
+|ZooKeeper |2181
+|Cassandra |9042
 |====
