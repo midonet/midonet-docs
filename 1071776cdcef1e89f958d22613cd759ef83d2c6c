@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_accce262",
+        "filename": "docs/quick-start-guide/src/common/midonet/section_midonet_host_registration_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-05-18T15:34:38Z",
+      "side": 1,
+      "message": "Use mn-conf instead of midolman.conf?",
+      "range": {
+        "startLine": 40,
+        "startChar": 135,
+        "endLine": 40,
+        "endChar": 166
+      },
+      "revId": "1071776cdcef1e89f958d22613cd759ef83d2c6c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
