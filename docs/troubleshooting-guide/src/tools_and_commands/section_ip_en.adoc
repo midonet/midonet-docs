@@ -23,7 +23,7 @@ See the man page for detailed information: http://linux.die.net/man/8/ip
 
 List interfaces within a namespace:
 
-[source]
+[literal,subs="quotes"]
 ----
 # ip netns exec __**namespace**__ ip link show
 ----
