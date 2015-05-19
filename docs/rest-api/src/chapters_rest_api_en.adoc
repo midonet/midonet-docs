@@ -2517,6 +2517,11 @@ PUT      /health_monitors/:healthMonitorId
 DELETE   /health_monitors/:healthMonitorId
 ------------------------------------------
 
+[NOTE]
+To use this feature, please make sure that health monitoring is activated in the
+MidoNet Host Agent configuration. See "HAProxy configuration" in the Operation
+Guide for details.
+
 A HealthMonitor is an entity that represents a virtual health monitor
 device for use with load balancers in MidoNet. It contains the following
 fields:
