@@ -1,0 +1,28 @@
+[[midonet_api]]
+= MidoNet API
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Debugging
+
+During troubleshooting periods, you can increase the logging level via the
+`/usr/share/midonet-api/WEB-INF/classes/logback.xml` file.
+
+To do so, change the root loggers level to one of the following values:
+DEBUG, INFO, WARN, ERROR
+
+[literal,subs="verbatim,quotes"]
+----
+<logger name="org.midonet.event" level="*DEBUG*">
+    <appender-ref ref="EVENT-FILE"/>
+</logger>
+
+<root level="*DEBUG*">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="LOG-FILE" />
+</root>
+----
+
+This change does require a Tomcat restart.
