@@ -16,8 +16,10 @@ include::{sourcedir}/overall_approach/section_virtual_topology_{lang}.adoc[level
 // Common Topics
 include::{sourcedir}/common_topics/chapter_common_topics_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/common_topics/section_midonet_agent_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/common_topics/section_midonet_api_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/common_topics/section_bgp_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/common_topics/section_zookeeper_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/common_topics/section_vm_interconnectivity_{lang}.adoc[leveloffset=+2]
 
 // Tools and Commands
 include::{sourcedir}/tools_and_commands/chapter_tools_and_commands_{lang}.adoc[leveloffset=+1]

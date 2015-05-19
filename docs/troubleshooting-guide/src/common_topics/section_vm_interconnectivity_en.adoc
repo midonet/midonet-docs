@@ -1,0 +1,55 @@
+[[vm_interconnectivity]]
+= VM Interconnectivity
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Scenario
+
+VM1 can not send TCP traffic to VM2.
+
+We want to determine how far the packet is reaching before being lost.
+
+== Determine physical compute hosts
+
+To find out on which physical compute hosts these VMs live on, log into Horizon
+as administrative user and navigate to the instances page.
+
+Find the VMs in the list and note the down the compute hosts, Internal IPs and
+Floating IPs:
+
+VM1: compute1, 192.168.0.1, 172.16.0.1
+
+VM2: compute2, 192.168.0.2, 172.16.0.2
+
+== Determine TAP interfaces
+
+TAP interface names consists of the string "tap", followed by the first 11
+characters of the VM's port UUID.
+
+To determine the VM's port UUID, navigate to the VM's network in Horizon and
+search the port list for the VM's internal IP. Construct the TAP interface name
+from it like in the following example:
+
+Port UUID: **7aa08012-d0**6c-4c78-aee8-1fff7c063fed
+
+TAP interface: *tap7aa08012-d0*
+
+== Examine the traffic on the TAP interfaces
+
+In order to verify if the traffic is being seen on a VM's virtual NIC without
+logging into the guest host, you can use `tcpdump` on the VM's TAP interface on
+the compute host.
+
+[literal,subs="quotes"]
+----
+# tcpdump -n -i *tap7aa08012-d0*
+----
+
+Watch packet counters on the TAP interface:
+
+[literal,subs="quotes"]
+----
+# watch -d ifconfig *tap7aa08012-d0*
+----
