@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_22748e9b",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 2523,
+      "author": {
+        "id": 1002709
+      },
+      "writtenOn": "2015-05-19T08:08:30Z",
+      "side": 1,
+      "message": "I would say: please make sure that health monitoring is activated in the MidoNet Host Agent configuration.",
+      "range": {
+        "startLine": 2522,
+        "startChar": 37,
+        "endLine": 2523,
+        "endChar": 35
+      },
+      "revId": "05b5414d89e19e0ca55f04a245cc21ee9fade46c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_82739ab0",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 2524,
+      "author": {
+        "id": 1002709
+      },
+      "writtenOn": "2015-05-19T08:08:30Z",
+      "side": 1,
+      "message": "the Operation Guide",
+      "range": {
+        "startLine": 2523,
+        "startChar": 68,
+        "endLine": 2524,
+        "endChar": 17
+      },
+      "revId": "05b5414d89e19e0ca55f04a245cc21ee9fade46c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
