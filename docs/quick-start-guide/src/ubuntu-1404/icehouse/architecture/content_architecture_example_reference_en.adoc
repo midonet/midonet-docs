@@ -1,4 +1,0 @@
-[IMPORTANT]
-This guide assumes the following system architecture, based on
-http://docs.openstack.org/icehouse/install-guide/install/apt/content/ch_overview.html#example-architecture-with-neutron-networking[Figure 1.2. Three-node architecture with OpenStack Networking (neutron)]
-of the OpenStack Documentation.
