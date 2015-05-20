@@ -36,6 +36,10 @@ tzone0
 ----
 ====
 
+[IMPORTANT]
+Make sure to allow GRE/VXLAN traffic for all hosts that belong to the tunnel
+zone. For VXLAN MidoNet uses UDP port 6677 as default.
+
 . *Add hosts to tunnel zone*
 +
 ====
