@@ -16,9 +16,9 @@ Edit the `/etc/zookeeper/zoo.cfg` file to contain the following:
 +
 [literal,subs="quotes"]
 ----
-server.*1*=*_controller_*:2888:3888
-server.*2*=*_network_*:2888:3888
-server.*3*=*_compute1_*:2888:3888
+server.*1*=*_nsdb1_*:2888:3888
+server.*2*=*_nsdb2_*:2888:3888
+server.*3*=*_nsdb3_*:2888:3888
 ----
 +
 Create data directory:
@@ -32,7 +32,7 @@ Create data directory:
 
 .. *Node-specific Configuration*
 
-... *Controller Node*
+... *NSDB Node 1*
 +
 Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 +
@@ -41,7 +41,7 @@ Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 # echo *1* > /var/lib/zookeeper/data/myid
 ----
 
-... *Gateway Node*
+... *NSDB Node 2*
 +
 Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 +
@@ -50,7 +50,7 @@ Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 # echo *2* > /var/lib/zookeeper/data/myid
 ----
 
-... *Compute Node*
+... *NSDB Node 3*
 +
 Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 +

@@ -1,27 +1,43 @@
-This architecture consists of three hosts:
+This example architecture consists of three hosts:
 
 * Controller Node (*_controller_*)
-* Gateway Node (*_network_*)
+* Gateway Node (*_gateway_*)
 * Compute Node (*_compute1_*)
+
+[IMPORTANT]
+====
+Since MidoNet is a distributed system, it does not have the concept of a
+"Network Node" as being used with the default OpenStack networking plugin.
+
+Instead, it uses one or more "Gateway Nodes" that provide connectivity to
+external networks via the Border Gateway Protocol (BGP).
+===
+
+Additionally, there are three (or more) hosts to be allocated for the MidoNet
+Network State Database (NSDB) cluster which stores virtual network topology
+and active connection related data:
+
+* NSDB Node 1 (*_nsdb1_*)
+* NSDB Node 2 (*_nsdb2_*)
+* NSDB Node 3 (*_nsdb3_*)
 
 The _MidoNet Network State Database (NSDB)_ uses
 https://zookeeper.apache.org/[ZooKeeper]
 and
 http://www.datastax.com/documentation/cassandra/2.0/cassandra/gettingStartedCassandraIntro.html[Cassandra]
-to store network topology and state information. The NSDB components can be
-installed on separate hosts, but this guide assumes them to be installed on all
-three nodes (*_controller_*, *_network_*, *_compute1_*).
+to store network topology and state information.
 
 The _MidoNet Agent (Midolman)_ has to be installed on all nodes where traffic
-enters or leaves the virtual topology, in this guide this are the *_network_*
-and *_compute1_* nodes.
+enters or leaves the virtual topology, in this guide this are the
+*_controller_*, *_gateway_* and *_compute1_* nodes.
 
 The _Midonet API_ can be installed on a separate host, but this guide assumes it
 to be installed on the *_controller_* node.
 
-The _Midonet Command Line Interface (CLI)_ can be installed on a separate host,
-but this guide assumes it to be installed on the *_controller_* node.
+The _Midonet Command Line Interface (CLI)_ can be installed on any host that has
+connectivity to the MidoNet API, but this guide assumes it to be installed on
+the *_controller_* node.
 
 The _Midonet Neutron Plugin_ replaces the ML2 Plugin and has to be installed on
-all three nodes (*_controller_*, *_network_*, *_compute1_*).
+the *_controller_*, *_gateway_* and *_compute1_* hosts.
 

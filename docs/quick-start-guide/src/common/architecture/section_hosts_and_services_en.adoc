@@ -14,11 +14,8 @@
 ** API
 ** CLI
 ** Neutron Plugin
-** Network State Database (NSDB)
-*** Network Topology (ZooKeeper)
-*** Network State Information (Cassandra)
 
-.Gateway Node (*_network_*)
+.Gateway Node (*_gateway_*)
 * OpenStack
 ** Networking (Neutron)
 *** DHCP Agent
@@ -26,9 +23,6 @@
 * MidoNet
 ** Agent (Midolman)
 ** Neutron Plugin
-** Network State Database (NSDB)
-*** Network Topology (ZooKeeper)
-*** Network State Information (Cassandra)
 
 .Compute Node (*_compute1_*)
 * OpenStack
@@ -37,6 +31,18 @@
 * MidoNet
 ** Agent (Midolman)
 ** Neutron Plugin
+
+.NSDB Node 1 (*_nsdb1_*)
+** Network State Database (NSDB)
+*** Network Topology (ZooKeeper)
+*** Network State Information (Cassandra)
+
+.NSDB Node 2 (*_nsdb2_*)
+** Network State Database (NSDB)
+*** Network Topology (ZooKeeper)
+*** Network State Information (Cassandra)
+
+.NSDB Node 3 (*_nsdb3_*)
 ** Network State Database (NSDB)
 *** Network Topology (ZooKeeper)
 *** Network State Information (Cassandra)
