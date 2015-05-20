@@ -42,7 +42,7 @@ Edit the `/usr/share/midonet-api/WEB-INF/web.xml` file to contain the following:
 ----
 <context-param>
     <param-name>zookeeper-zookeeper_hosts</param-name>
-    <param-value>**_controller_**:2181,*_network_*:2181,*_compute1_*:2181</param-value>
+    <param-value>**_nsdb1_**:2181,*_nsdb2_*:2181,*_nsdb3_*:2181</param-value>
 </context-param>
 ----
 ====

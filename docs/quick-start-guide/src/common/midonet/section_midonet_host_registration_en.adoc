@@ -49,13 +49,21 @@ midonet> list tunnel-zone
 tzone tzone0 name tz type vxlan
 
 midonet> list host
-host host0 name *_network_* alive true
-host host1 name *_compute1_* alive true
+host host0 name *_controller_* alive true
+host host1 name *_gateway1_* alive true
+host host2 name *_gateway2_* alive true
+host host3 name *_compute1_* alive true
 
 midonet> tunnel-zone tzone0 add member host host0 address *_ip_address_of_host0_*
 zone tzone0 host host0 address *_ip_address_of_host0_*
 
 midonet> tunnel-zone tzone0 add member host host1 address *_ip_address_of_host1_*
 zone tzone0 host host1 address *_ip_address_of_host1_*
+
+midonet> tunnel-zone tzone0 add member host host2 address *_ip_address_of_host2_*
+zone tzone0 host host2 address *_ip_address_of_host2_*
+
+midonet> tunnel-zone tzone0 add member host host3 address *_ip_address_of_host3_*
+zone tzone0 host host3 address *_ip_address_of_host3_*
 ----
 ====

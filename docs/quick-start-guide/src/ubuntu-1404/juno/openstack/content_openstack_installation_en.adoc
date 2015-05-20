@@ -1,4 +1,4 @@
 [IMPORTANT]
 Follow the
-http://docs.openstack.org/juno/install-guide/install/apt/content/[OpenStack Juno Installation Guide for Ubuntu 14.04 (LTS)]
-, but *note the following differences*.
+http://docs.openstack.org/juno/install-guide/install/apt/content/[OpenStack Juno Installation Guide for Ubuntu 14.04 (LTS)],
+but *note the following differences*.
