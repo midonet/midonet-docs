@@ -9,26 +9,14 @@
 ** Image Service (Glance)
 ** Compute (Nova)
 ** Networking (Neutron)
+*** Neutron Server
+*** DHCP Agent
+*** Metadata Agent
 ** Dashboard (Horizon)
 * MidoNet
 ** API
 ** CLI
 ** Neutron Plugin
-** Network State Database (NSDB)
-*** Network Topology (ZooKeeper)
-*** Network State Information (Cassandra)
-
-.Gateway Node (*_network_*)
-* OpenStack
-** Networking (Neutron)
-*** DHCP Agent
-*** Metadata Agent
-* MidoNet
-** Agent (Midolman)
-** Neutron Plugin
-** Network State Database (NSDB)
-*** Network Topology (ZooKeeper)
-*** Network State Information (Cassandra)
 
 .Compute Node (*_compute1_*)
 * OpenStack
@@ -37,6 +25,13 @@
 * MidoNet
 ** Agent (Midolman)
 ** Neutron Plugin
+
+.NSDB Nodes (*_nsdb1_*, *_nsdb2_*, *_nsdb3_*)
 ** Network State Database (NSDB)
 *** Network Topology (ZooKeeper)
 *** Network State Information (Cassandra)
+
+.Gateway Nodes (*_gateway1_*, *_gateway2_*)
+* BGP Daemon (Quagga)
+* MidoNet
+** Agent (Midolman)
