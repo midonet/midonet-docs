@@ -1,4 +1,0 @@
-[IMPORTANT]
-This guide assumes the following system architecture, based on
-http://docs.openstack.org/juno/install-guide/install/yum/content/ch_basic_environment.html#d6e643[Figure 2.1. Minimal architecture example with OpenStack Networking (neutron)—Network layout]
-of the OpenStack Documentation.
