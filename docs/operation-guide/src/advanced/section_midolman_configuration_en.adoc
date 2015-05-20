@@ -74,7 +74,7 @@ node outage.
 [source]
 ----
 zookeeper {
-    zookeeper_hosts = [see above]
+    zookeeper_hosts = <comma separated IPs>
     session_timeout = 30000
     root_key = /midonet/v1
     session_gracetime = 30000
@@ -92,7 +92,7 @@ You may use the Cassandra configuration section to adjust:
 [source]
 ----
 cassandra {
-    servers = [see above]
+    servers = <comma separated IPs>
     replication_factor = 1
     cluster = midonet
 }
