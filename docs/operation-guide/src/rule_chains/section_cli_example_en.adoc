@@ -4,8 +4,8 @@
 This example shows how you can use the MidoNet CLI to display the rule chains
 used to implement security groups.
 
-MidoNet implements security groups by configuring rule chains on a network
-(bridge) port basis.
+MidoNet implements security groups by configuring rule chains on a port basis,
+as well as on bridges and routers (pre/post filtering).
 
 ++++
 <?dbhtml stop-chunking?>
@@ -58,7 +58,7 @@ port port1 device bridge0 state up infilter chain2 outfilter chain3
 port port2 device bridge0 state up peer router1:port1
 
 [NOTE]
-ports with infilter (pre-routing) and outfilter (post-routing) chains are
+Ports with infilter (pre-routing) and outfilter (post-routing) chains are
 connected to VMs. port1 is connected to a VM.
 
 == Listing the Rules for the Inbound Chain on a Port
