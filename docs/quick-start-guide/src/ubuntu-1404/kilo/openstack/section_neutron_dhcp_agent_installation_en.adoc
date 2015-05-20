@@ -1,0 +1,39 @@
+= DHCP Agent
+
+[NOTE]
+Since MidoNet does not have the concept of a Network Node like with the default
+OpenStack networking plugin, the DHCP Agent is going to be installed on the
+Controller Node.
+
+. *Configure the DHCP agent*
++
+====
+Edit the `/etc/neutron/dhcp_agent.ini` file to contain the following:
+
+[literal,subs="quotes"]
+----
+[DEFAULT]
+interface_driver = neutron.agent.linux.interface.MidonetInterfaceDriver
+dhcp_driver = midonet.neutron.agent.midonet_driver.DhcpNoOpDriver
+use_namespaces = True
+enable_isolated_metadata = True
+
+[MIDONET]
+# MidoNet API URL
+midonet_uri = http://*_controller_*:8080/midonet-api
+# MidoNet administrative user in Keystone
+username = *_midonet_*
+password = *_MIDONET_PASS_*
+# MidoNet administrative user's tenant
+project_id = service
+----
+====
+
+. *Restart the service*
++
+====
+[source]
+----
+# service neutron-dhcp-agent restart
+----
+====

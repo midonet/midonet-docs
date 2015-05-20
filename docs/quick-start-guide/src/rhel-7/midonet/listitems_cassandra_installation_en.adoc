@@ -27,55 +27,55 @@ cluster_name: 'midonet'
 seed_provider:
     - class_name: org.apache.cassandra.locator.SimpleSeedProvider
       parameters:
-          - seeds: "*_controller_*,*_network_*,*_compute1_*"
+          - seeds: "*_nsdb1_*,*_nsdb2_*,*_nsdb3_*"
 ----
 +
 
 .. *Node-specific Configuration*
 
-... *Controller Node*
+... *NSDB Node 1*
 +
 Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
 +
 [literal,subs="quotes"]
 ----
 # Address to bind to and tell other Cassandra nodes to connect to.
-listen_address: *_controller_*
+listen_address: *_nsdb1_*
 
 ...
 
 # The address to bind the Thrift RPC service.
-rpc_address: *_controller_*
+rpc_address: *_nsdb1_*
 ----
 
-... *Gateway Node*
+... *NSDB Node 2*
 +
 Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
 +
 [literal,subs="quotes"]
 ----
 # Address to bind to and tell other Cassandra nodes to connect to.
-listen_address: *_network_*
+listen_address: *_nsdb2_*
 
 ...
 
 # The address to bind the Thrift RPC service.
-rpc_address: *_network_*
+rpc_address: *_nsdb2_*
 ----
 
-... *Compute Node*
+... *NSDB Node 3*
 +
 Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
 +
 [literal,subs="quotes"]
 ----
 # Address to bind to and tell other Cassandra nodes to connect to.
-listen_address: *_compute1_*
+listen_address: *_nsdb3_*
 
 ...
 
 # The address to bind the Thrift RPC service.
-rpc_address: *_compute1_*
+rpc_address: *_nsdb3_*
 ----
 ====
 
