@@ -109,7 +109,7 @@ The example below shows how to use the MidoNet CLI to configure health monitorin
 
 [source]
 midonet> health-monitor list
-midonet> health-monitor create delay 100 max-retries 50 timeout 500
+midonet> health-monitor create type TCP delay 100 max-retries 50 timeout 500
 hm0
 midonet> load-balancer lb0 pool pool0 set health-monitor hm0
 midonet> load-balancer lb0 pool pool0 health-monitor show
