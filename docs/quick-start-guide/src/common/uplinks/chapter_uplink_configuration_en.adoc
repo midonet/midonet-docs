@@ -1,0 +1,7 @@
+[[uplink_configuration]]
+= Uplink Configuration
+
+For production deployments it is strongly recommended to use the Border Gateway
+Protocol (BGP) for external connectivity due to it's scalability and redundancy.
+
+For demo or POC environments, alternatively static routing can be used.
