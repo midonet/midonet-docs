@@ -104,6 +104,17 @@ GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '*_NEUTRON_DBPA
 FLUSH PRIVILEGES;
 quit
 ----
+
+Afterwards, run the `neutron-db-manage` command:
+
+[source]
+----
+# neutron-db-manage \
+  --config-file /usr/share/neutron/neutron-dist.conf \
+  --config-file /etc/neutron/neutron.conf \
+  --config-file /etc/neutron/plugin.ini \
+  upgrade head
+----
 ====
 
 . *7.4.8. Launch the OpenStack Networking Service*
