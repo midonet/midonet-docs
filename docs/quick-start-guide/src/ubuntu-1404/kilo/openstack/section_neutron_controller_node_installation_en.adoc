@@ -1,3 +1,5 @@
+:sourcedir: .
+
 = Controller Node
 
 [IMPORTANT]
@@ -122,3 +124,7 @@ Instead, perform the following steps.
 # service neutron-server restart
 ----
 ====
+
+== Configure Load-Balancer-as-a-Service (LBaaS)
+
+include::{sourcedir}/common/openstack/section_neutron_lbaas_installation_{lang}.adoc[]

@@ -1,4 +1,8 @@
+:sourcedir: .
+
 = Controller Node
+
+== Configure Neutron
 
 [IMPORTANT]
 Follow the OpenStack documentation's
@@ -116,3 +120,7 @@ Instead, perform the following steps.
 # systemctl start neutron-server.service
 ----
 ====
+
+== Configure Load-Balancer-as-a-Service (LBaaS)
+
+include::{sourcedir}/common/openstack/section_neutron_lbaas_installation_{lang}.adoc[]
