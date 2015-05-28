@@ -1,0 +1,62 @@
+[[configure_lbaas]]
+= Configure Load-Balancer-as-a-Service (LBaaS)
+
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/admin-guide-cloud/content/install_neutron-lbaas-agent.html[Configure Load-Balancer-as-a-Service (LBaaS)]
+instructions, but *note the following differences*.
+
+. *Install the agent*
++
+====
+Do *not* apply.
+====
+
+. *Enable the HAProxy plug-in by using the service_provider option in the /etc/neutron/neutron.conf file:*
++
+====
+Do *not* apply.
+
+Instead, set `service_provider` as follows:
+[source]
+----
+service_provider = LOADBALANCER:Midonet:midonet.neutron.services.loadbalancer.driver.MidonetLoadbalancerDriver:default
+----
+====
+
+. *Enable the load-balancing plug-in by using the service_plugins option in the /etc/neutron/neutron.conf file:*
++
+====
+Apply as is.
+====
+
+. *Enable the HAProxy load balancer in the /etc/neutron/lbaas_agent.ini file:*
++
+====
+Do *not* apply.
+====
+
+. *Select the required driver in the /etc/neutron/lbaas_agent.ini file:*
++
+====
+Do *not* apply.
+====
+
+. *Enable load balancing in the Project section of the dashboard.*
++
+====
+Apply as is.
+====
+
+. *Enable load balancing in the Project section of the dashboard.*
++
+====
+Apply as is.
+====
+
+. *To finalize installation*
++
+====
+Finalize the installation as described in
+xref:neutron_controller_node_installation_finalize[Neutron Controller Node Installation].
+====
