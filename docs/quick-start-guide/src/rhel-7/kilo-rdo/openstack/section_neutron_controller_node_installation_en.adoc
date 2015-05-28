@@ -1,9 +1,10 @@
+[[neutron_controller_node_installation]]
 = Controller Node
 
 [IMPORTANT]
 Follow the OpenStack documentation's
 http://docs.openstack.org/kilo/install-guide/install/yum/content/neutron-controller-node.html[Install and configure controller node]
-instructions, but *note the following differences*.
+instructions, but *note the following differences and additions*.
 
 . *To configure prerequisites*
 +
@@ -87,7 +88,14 @@ project_id = service
 Apply as is.
 ====
 
-. *To finalize installation*
+. *Configure Load-Balancer-as-a-Service (LBaaS)*
++
+====
+Additionally to the OpenStack Installation Guide, configure
+Load-Balancer-as-a-Service (LBaaS) as described in xref:configure_lbaas[].
+====
+
+. *To finalize installation* [[neutron_controller_node_installation_finalize]]
 +
 ====
 Do *not* apply.
