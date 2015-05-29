@@ -30,6 +30,11 @@ Create data directory:
 ----
 +
 
+[IMPORTANT]
+For production deployments it is recommended to configure the storage of snapshots in a different disk than the commit log, this can be set changing parameter `dataDir` in zoo.cfg to a different disk
+
+
+
 .. *Node-specific Configuration*
 
 ... *NSDB Node 1*

@@ -24,7 +24,6 @@
 ** Networking (Neutron)
 * MidoNet
 ** Agent (Midolman)
-** Neutron Plugin
 
 .NSDB Nodes (*_nsdb1_*, *_nsdb2_*, *_nsdb3_*)
 ** Network State Database (NSDB)

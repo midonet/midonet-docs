@@ -22,6 +22,10 @@ server.*3*=*_nsdb3_*:2888:3888
 ----
 +
 
+[IMPORTANT]
+For production deployments it is recommended to configure the storage of snapshots in a different disk than the commit log, this can be set changing parameter `dataDir` in zoo.cfg to a different disk
+
+
 .. *Node-specific Configuration*
 
 ... *NSDB Node 1*
