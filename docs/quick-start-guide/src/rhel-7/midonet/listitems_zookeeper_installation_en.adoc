@@ -29,6 +29,10 @@ Create data directory:
 # chown zookeeper:zookeeper /var/lib/zookeeper/data
 ----
 +
+[IMPORTANT]
+For production deployments it is recommended to configure the storage of
+snapshots in a different disk than the commit log. This can be set by changing
+the parameter `dataDir` in `zoo.cfg` to a different disk.
 
 .. *Node-specific Configuration*
 
