@@ -1,6 +1,8 @@
 = Midolman Installation
 
-The Midolman agent shall be installed on all network and compute nodes.
+The _MidoNet Agent (Midolman)_ has to be installed on all nodes where traffic
+enters or leaves the virtual topology, in this guide this are the
+*_controller_*, *_gateway1_*, *_gateway2_* and *_compute1_* nodes.
 
 . *Install Midolman package*
 +
@@ -10,19 +12,19 @@ The Midolman agent shall be installed on all network and compute nodes.
 # apt-get install midolman
 ----
 ====
+
 . *Set up mn-conf*
 +
 ====
-Edit /etc/midolman/midolman.conf to point mn-conf to the ZooKeeper cluster:
+Edit `/etc/midolman/midolman.conf` to point mn-conf to the ZooKeeper cluster:
 
 [source,subs="quotes"]
 ----
 [zookeeper]
-zookeeper_hosts = *_controller_*:2181,*_network_*:2181,*_compute1_*:2181
-----
-
+zookeeper_hosts = *_nsdb1_*:2181,*_nsdb1_*:2181,*_nsdb1_*:2181
 ----
 ====
+
 . *Configure access to the NSDB for all agents*
 +
 ====
@@ -34,11 +36,11 @@ the ZooKeeper and Cassandra server addresses:
 ----
 $ echo << EOF | mn-conf set -t default
 zookeeper {
-    zookeeper_hosts = *_controller_*:2181,*_network_*:2181,*_compute1_*:2181
+    zookeeper_hosts = *_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181
 }
 
 cassandra {
-    servers = *_controller_*,*_network_*,*_compute1_*
+    servers = *_nsdb1_*,*_nsdb1_*,*_nsdb3_*
 }
 EOF
 ----
@@ -49,6 +51,6 @@ EOF
 ====
 [source]
 ----
-# start midolman
+# service midolman start
 ----
 ====
