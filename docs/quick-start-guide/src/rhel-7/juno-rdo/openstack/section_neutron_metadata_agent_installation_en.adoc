@@ -1,0 +1,25 @@
+= Metadata Agent
+
+[NOTE]
+Since MidoNet does not have the concept of a Network Node like with the default
+OpenStack networking plugin, the Metadata Agent is going to be installed on the
+Controller Node.
+
+. *Configure the Metadata Agent*
++
+====
+Configure the agent according to the *"To configure the metadata agent"*
+section in the OpenStack documentation's
+http://docs.openstack.org/juno/install-guide/install/yum/content/neutron-network-node.html[Install and configure network node]
+instructions.
+====
+
+. *Enable and start the service*
++
+====
+[source]
+----
+# systemctl enable neutron-metadata-agent.service
+# systemctl start neutron-metadata-agent.service
+----
+====

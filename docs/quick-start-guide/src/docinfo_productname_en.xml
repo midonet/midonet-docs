@@ -1,1 +1,13 @@
+<!--
+    This "productname" determines the PDF's main title.
+    The PDF's subtitle is the book title minus the product name.
+
+    Example:
+
+    Book title     = "MidoNet Quick Start Guide for RHEL 7 / Icehouse (OSP)"
+    Product name   = "MidoNet Quick Start Guide"
+
+    PDF's title    = "MidoNet Quick Start Guide"
+    PDF's subtitle = "for RHEL 7 / Icehouse (OSP)"
+-->
 <productname xmlns="http://docbook.org/ns/docbook">MidoNet Quick Start Guide</productname>
