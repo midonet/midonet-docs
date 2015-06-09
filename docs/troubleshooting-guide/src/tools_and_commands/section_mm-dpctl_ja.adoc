@@ -1,0 +1,26 @@
+[[mm_dpctl]]
+= mm-dpctl
+
+`mm-dpctl` コマンドは、どのMidoNetエージェントでも走らせることができ、現在のフローなどデータパス情報を表示することができます。
+
+利用可能なオプション:
+
+[source]
+----
+$ mm-dpctl 
+usage: mm-dpctl
+    --add-dp <arg>      新しいデータパスを追加します。
+    --delete-dp <arg>   データパスを削除します。
+    --dump-dp <arg>     所与のデータパスにインストールされている全てのフローを表示します。
+    --list-dps          インストールされているデータパスをリスト化します。
+    --show-dp <arg>     所与のデータパスに関連する情報を表示します。
+    --timeout <arg>     何秒でタイムアウトするかを特定します。もし、プログラムがこちらで特定した時間内に結果が帰ってこない場合は、止まって、エラーコードを戻します。
+----
+
+例題:
+
+[source]
+----
+$ mm-dpctl --show-dp midonet # shows datapath and interfaces
+$ mm-dpctl --dump-dp midonet # shows current flows
+----

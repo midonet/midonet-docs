@@ -1,0 +1,20 @@
+[[midonet_agent]]
+= MidoNet エージェント
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== デバッギング
+
+トラブルシューティングの期間に、`/etc/midolman/logback.xml` ファイルを通じて、ログレベルを増やすことができます。
+
+これをするには、ルートのロガーレベルを以下の値に変更してください：
+DEBUG, INFO, WARN, ERROR
+
+[literal,subs="verbatim,quotes"]
+----
+<root level="**DEBUG**">
+----
+
+この変更を行う為に、エージェントの再起動は必要ありません。エージェントは、変更のための設定ファイルを定期的にチェックしており、自動的に適用します（30秒以内）

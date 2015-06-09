@@ -51,7 +51,7 @@ Check the MidoNet Datapath.
 # mm-dpctl --show-dp midonet
 Datapath name   : midonet
 Datapath index : 11
-Datapath Stats: 
+Datapath Stats:
   Flows :1340066
   Hits  :1111802509
   Lost  :0
@@ -79,7 +79,7 @@ Port #6 "tape3055fc6-cc"  NetDev  Stats{rxPackets=21375, txPackets=42911, rxByte
       EtherType{0x800}
       KeyIPv4{src=8.8.8.8, dst=10.17.3.14, proto=17, tos=0, ttl=55, frag=0}
       UDP{src=53, dst=56975}
-    actions: 
+    actions:
       Output{port=21}
 [...]
 ----
@@ -88,11 +88,11 @@ Port #6 "tape3055fc6-cc"  NetDev  Stats{rxPackets=21375, txPackets=42911, rxByte
 ====
 [literal,subs="quotes"]
 ----
-# mm-ctl --list-hosts                                                                                                                                                                                                          
-Host: id=17ef018f-de8b-431b-89f0-b5472f176769 
+# mm-ctl --list-hosts
+Host: id=17ef018f-de8b-431b-89f0-b5472f176769
   name=hostname
   isAlive=true
-  addresses: 
+  addresses:
   vport-host-if-bindings:
     VirtualPortMapping{virtualPortId=ac0c2557-9fa0-4009-9e18-dc62ea65052a, localDeviceName='tapac0c2557-9f'}
     VirtualPortMapping{virtualPortId=c37d8bf2-d008-464e-a688-0627f2da342f, localDeviceName='f58b0880_MN_dp'}

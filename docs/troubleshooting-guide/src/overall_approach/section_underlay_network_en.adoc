@@ -55,8 +55,8 @@ Destination  Gateway      Genmask        Flags  MSS  Window  irtt  Iface
 [source]
 ----
 # ip route
-default via 192.168.0.1 dev eth0  proto static 
-192.168.0.0/24 dev eth0  proto kernel  scope link  src 192.168.96.100  metric 1 
+default via 192.168.0.1 dev eth0  proto static
+192.168.0.0/24 dev eth0  proto kernel  scope link  src 192.168.96.100  metric 1
 ----
 
 == Firewall
@@ -95,7 +95,7 @@ intree:         Y
 [source]
 ----
 # lsmod | grep openvswitch
-openvswitch            70743  0 
+openvswitch            70743  0
 vxlan                  37584  1 openvswitch
 gre                    13808  1 openvswitch
 libcrc32c              12644  2 xfs,openvswitch

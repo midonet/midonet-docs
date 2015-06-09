@@ -25,6 +25,7 @@
         <module>build/reference-architecture_en</module>
         <module>build/rest-api_en</module>
         <module>build/troubleshooting-guide_en</module>
+        <module>build/troubleshooting-guide_ja</module>
         <module>tools/midonet-docs-maven-plugin</module>
     </modules>
 

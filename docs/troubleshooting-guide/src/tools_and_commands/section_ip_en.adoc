@@ -6,15 +6,14 @@ routing and tunnels.
 
 See the man page for detailed information: http://linux.die.net/man/8/ip
 
-* List interfaces:
+List interfaces:
 
 [source]
 ----
 # ip link show
 ----
 
-
-* List namespaces
+List namespaces:
 
 [source]
 ----
@@ -27,7 +26,3 @@ List interfaces within a namespace:
 ----
 # ip netns exec __**namespace**__ ip link show
 ----
-
-
-
-

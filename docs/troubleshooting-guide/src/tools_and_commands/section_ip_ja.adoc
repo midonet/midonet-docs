@@ -1,0 +1,27 @@
+[[ip]]
+= ip
+
+`ip` コマンドは、ルーティング、デバイス、ポリシールーティング、トンネルを表示したり、操作したりするために、使うことができます。
+
+詳細情報に関するメインページはこちらです： http://linux.die.net/man/8/ip
+
+インターフェースをリスト化します：
+
+[source]
+----
+# ip link show
+----
+
+名前空間をリスト化します：
+
+[source]
+----
+# ip netns list
+----
+
+名前空間の中で、インターフェースをリスト化します：
+
+[literal,subs="quotes"]
+----
+# ip netns exec __**namespace**__ ip link show
+----

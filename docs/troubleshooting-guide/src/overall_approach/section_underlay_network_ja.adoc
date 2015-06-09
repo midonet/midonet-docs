@@ -1,3 +1,123 @@
-////
-TODO: Create Japanese translation.
-////
+[[underlay_network]]
+= アンダーレイネットワーク
+
+アンダーレイネットワーク、つまり物理ネットワークは、何か接続性の問題があった時に一番最初に確認するべきポイントです：
+
+* ハードウェア / ケーブル
+* ルーティング
+* ファイヤーウォール
+* アクセスコントロール
+* リナックスカーネル / オープン vSwitch
+* 時間の同期化
+
+== Hardware / Cabling
+
+ハードウェアが正常に機能しているか確認してください。
+
+. *物理リンクは確立されていますか？*
++
+====
+[literal,subs="quotes"]
+----
+# ethtool *_eth0_*
+Settings for eth0:
+[...]
+   Link detected: *yes*
+----
+====
+
+. *インターフェースは立ち上がっていますか？*
++
+====
+[literal,subs="verbatim,quotes"]
+----
+# ip link
+[...]
+2: *_eth0_*: <BROADCAST,MULTICAST,*UP*,*LOWER_UP*> mtu 1500 qdisc mq *state UP* mode DEFAULT group default qlen 1000
+    link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff
+----
+====
+
+== Routing
+
+ルーティングが適切に設定されているか確認してください。そして、`ping` コマンドを使ってホスト間の接続性を確認してください。
+
+[source]
+----
+# netstat -nr
+Destination  Gateway      Genmask        Flags  MSS  Window  irtt  Iface
+0.0.0.0      192.168.0.1  0.0.0.0        UG     0    0       0     eth0
+192.168.0.0  0.0.0.0      255.255.255.0  U      0    0       0     eth0
+----
+
+[source]
+----
+# ip route
+default via 192.168.0.1 dev eth0  proto static
+192.168.0.0/24 dev eth0  proto kernel  scope link  src 192.168.96.100  metric 1
+----
+
+== Firewall
+
+ファイヤーウォールが必要なプロトコル、ホスト、ポートをブロックしていないか確認してください。
+
+もし確信の無い場合は、ファイヤーウォールを解除して、接続性問題が残っているか検証してください。
+
+[source]
+----
+# iptables -L
+----
+
+== Access Control
+
+SELinux もしくは AppArmorなどのアクセスコントロールシステムが、必要な機能をブロックしていないかを確認してください。
+
+もし確信が無い場合は、ACLシステムを解除して、まだ問題があるかどうかを検証してください。
+
+== Linux Kernel / Open vSwitch
+
+オープンvSwitchカーネルモジュールがロードされていて、走っているカーネルのバージョンとマッチしているか確認してください。
+
+[literal,subs="verbatim,quotes"]
+----
+# modinfo openvswitch
+filename:       /lib/modules/*_kernel_version_*/kernel/net/openvswitch/openvswitch.ko
+license:        GPL
+description:    Open vSwitch switching datapath
+depends:        libcrc32c,vxlan,gre
+intree:         Y
+----
+
+[source]
+----
+# lsmod | grep openvswitch
+openvswitch            70743  0
+vxlan                  37584  1 openvswitch
+gre                    13808  1 openvswitch
+libcrc32c              12644  2 xfs,openvswitch
+----
+
+== 時間の同期化
+
+全てのノードにおいて、時間が同期化しているか確認してください。
+
+[source]
+----
+# ntpq -pn
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+*157.7.153.56    133.243.238.164  2 u  114  128  377    4.239    2.713   6.608
++106.186.114.89  9.22.27.124      3 u   73  128  377    4.845    5.069   4.802
++157.7.235.92    10.84.87.146     2 u  115  128  377    4.326   14.744   8.498
++122.215.240.52  133.243.238.164  2 u   45  128  377    4.291    5.400   4.462
++91.189.94.4     131.188.3.220    2 u   75  128  367  229.564    4.604   6.896
+----
+
+正しいタイムゾーンが設定されているか確認ください。
+
+[literal,subs="quotes"]
+----
+# date
+Thu Mar 26 13:24:34 *JST* 2015
+----
+
