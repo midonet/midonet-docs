@@ -79,6 +79,31 @@ rpc_address: *_nsdb3_*
 ----
 ====
 
+. *Edit the service's init script*
++
+On installation, the `/var/run/cassandra` directory is created, but because it
+is located on a temporary file system it will be lost after system reboot. As a
+result it is not possible to stop or restart the Cassandra service anymore.
++
+To avoid this, edit the `/etc/init.d/cassandra` file to create the directory on
+service start:
++
+====
+[literal,subs="verbatim,quotes"]
+----
+[...]
+case "$1" in
+    start)
+        # Cassandra startup
+        echo -n "Starting Cassandra: "
+        *mkdir -p /var/run/cassandra*
+        *chown cassandra:cassandra /var/run/cassandra*
+        su $CASSANDRA_OWNR -c "$CASSANDRA_PROG -p $pid_file" > $log_file 2>&1
+        retval=$?
+[...]
+----
+
+====
 . *Enable and start Cassandra*
 +
 ====
