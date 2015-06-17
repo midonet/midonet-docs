@@ -7,7 +7,7 @@ LogicalSwitch.
 *Syntax*
 
 [source]
-vtep management-ip vtep-ip-address binding delete network-id neutron-network-id
+vtep management-ip vtep-ip-address delete binding network-id neutron-network-id
 
 *Result*
 
