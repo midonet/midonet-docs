@@ -14,7 +14,7 @@
     </parent>
 
     <groupId>org.midonet</groupId>
-    <artifactId>midonet-docs-operation-guide-en</artifactId>
+    <artifactId>midonet-docs-operations-guide-en</artifactId>
     <version>2015.02-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -67,10 +67,10 @@
                             <goal>generate-webhelp</goal>
                         </goals>
                         <configuration>
-                            <webhelpDirname>operation-guide_en</webhelpDirname>
+                            <webhelpDirname>operations-guide_en</webhelpDirname>
                             <webhelpIndexerLanguage>en</webhelpIndexerLanguage>
 
-                            <pdfFilenameBase>MidoNet_Operation_Guide_EN_${project.version}</pdfFilenameBase>
+                            <pdfFilenameBase>MidoNet_Operations_Guide_EN_${project.version}</pdfFilenameBase>
                             <preProcess>
                                 <echo>Adding xml:id attribute to Docbook's book element.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">

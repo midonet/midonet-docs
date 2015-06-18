@@ -7,7 +7,7 @@ For production deployments it is strongly recommended to use BGP due to it's
 scalability and redundancy.
 
 For demo or POC environments, alternatively static routing can be used. See the
-Operation Guide for details.
+Operations Guide for details.
 
 The following instructions assume below sample environment:
 

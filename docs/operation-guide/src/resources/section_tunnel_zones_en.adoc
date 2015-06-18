@@ -13,4 +13,5 @@ hardware VTEP. Whereas, a MidoNet host may only belong to one tunnel zone, type
 GRE or VXLAN, it may belong to two different tunnel zones if one of them is of
 GRE/VXLAN type and the other one of VTEP type. In fact, this configuration is
 required to successfully connect a MidoNet host to a hardware VTEP. For more
-information, see "VXLAN configuration" section in the "MidoNet Operation Guide".
+information, see "VXLAN configuration" section in the "MidoNet Operations
+Guide".
