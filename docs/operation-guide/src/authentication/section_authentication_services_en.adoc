@@ -27,11 +27,12 @@ encrypted communication using Keystone.
 
 .Keystone Service Protocols
 [options="header"]
-|===============
+|====
 | Parameter Name | Value | Description
-| 2*|keystone-service_protocol | http | Use plain HTTP to communicate with the Keystone server.
-| | https | Use encrypted HTTPS to communicate with the Keystone server.
-|===============
+.2+| keystone-service_protocol
+| http | Use plain HTTP to communicate with the Keystone server.
+| https | Use encrypted HTTPS to communicate with the Keystone server.
+|====
 
 Edit the `/usr/share/midonet-api/WEB-INF/web.xml` file to contain the desired
 service protocol:
