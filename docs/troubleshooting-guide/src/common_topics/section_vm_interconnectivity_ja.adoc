@@ -51,5 +51,5 @@ Watch packet counters on the TAP interface:
 
 [literal,subs="quotes"]
 ----
-# watch -d ifconfig *tap7aa08012-d0*
+# watch -d ip -s link show *tap7aa08012-d0*
 ----
