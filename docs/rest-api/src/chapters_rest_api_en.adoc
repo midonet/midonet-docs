@@ -1812,7 +1812,7 @@ against this URI returns the IP:MAC mappings of this DHCP Host.
 DHCP Host
 ^^^^^^^^^
 
-_Media Type_: `[application/vnd.org.midonet.DhcpHost-v1+json]`
+_Media Type_: `[application/vnd.org.midonet.DhcpHost-v2+json]`
 
 --------------------------------------------------------------
 GET     /bridges/:bridgeId/dhcp/:subnetAddr/hosts
@@ -1820,6 +1820,36 @@ GET     /bridges/:bridgeId/dhcp/:subnetAddr/hosts/:mac_address
 POST    /bridges/:bridgeId/dhcp/:subnetAddr/hosts
 DELETE  /bridges/:bridgeId/dhcp/:subnetAddr/hosts/:mac_address
 --------------------------------------------------------------
+
+[width="100%",cols="21%,16%,11%,11%,41%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|uri |URI | | |A GET
+against this URI returns or refreshes the representation of this source
+
+|ipAddress |String |POST |Yes |IPv4 address of the host in the form
+`1.2.3.4`
+
+|macAddress |String |POST |Yes |MAC Address of the host in the form
+`AA.BB.CC.DD.EE.FF`
+
+|extraDhcpOpts |List( (String, String), (String, String) ) |POST |
+No |List of DHCP options where an option is composed of two key-value
+pairs with the key fields, "optName" and "optValue".
+ +
+ +
+For "optName", use the DHCP option code listed here: +
+http://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml#options +
+ +
+For example, to set the interface MTU:
+`[{"optName": "26", "optValue": "9000"}]`
+|=======================================================================
+
+
+DHCP Host - v1, Deprecated
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+_Media Type_: `[application/vnd.org.midonet.DhcpHost-v1+json]`
 
 [width="100%",cols="21%,16%,11%,11%,41%",options="header",]
 |=======================================================================
