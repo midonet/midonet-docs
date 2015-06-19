@@ -22,8 +22,6 @@ operating system and OpenStack distribution.
 [options="header"]
 |====
 | File | Type
-| /etc/midolman/logback-dpctl.xml      | CONF
-| /etc/midolman/logback.xml            | CONF
 | /etc/midolman/midolman-akka.conf     | CONF
 | /etc/midolman/midolman.conf          | CONF
 | /etc/midolman/midolman-env.sh        | CONF
