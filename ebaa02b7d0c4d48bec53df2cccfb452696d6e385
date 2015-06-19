@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_a60100b1",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002754
+      },
+      "writtenOn": "2015-06-19T09:33:04Z",
+      "side": 0,
+      "message": "always avoid alliteration.",
+      "range": {
+        "startLine": 99,
+        "startChar": 37,
+        "endLine": 99,
+        "endChar": 53
+      },
+      "revId": "ebaa02b7d0c4d48bec53df2cccfb452696d6e385",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
