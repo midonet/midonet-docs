@@ -4,13 +4,13 @@
 For traffic that ingresses a router port, the router does the following:
 
 * Attempts to match a given packet's destination with a route in its routing
-table based on the packet's source and destination.
+table based on the packet's source and destination, prefering the route with
+the lower weight value.
 
-* For packets with more than one matching route, uses random selection based on
-the routes' weight values to route the packets.
+* For packets with more than one matching route, uses per-agent round robin
+selection among those routes. 
 
-* For packets that don't match routes with matching sources and destinations,
-drops these packets.
+* Drops packets that don't match routes with matching sources and destinations.
 
 The router uses information in the following fields in the routing table:
 
@@ -46,7 +46,7 @@ mask of length zero, so the address 0.0.0.0 is ignored.
 has the longest mask (a.k.a. longest-prefix matching).
 
 . If there's more than one route candidate (with equal destination prefix mask
-length), use weighted random selection based on the routes' Weight fields.
+length and weight), use per-agent round robin to select a route.
 
 == Type
 
@@ -96,7 +96,7 @@ resolution (mapping the IP address to a MAC address) and to determine how to
 re-write the packet's destination MAC address before emitting it towards the
 intermediate router.
 
-Note that normal (that is, physical) routers' routes differ from MidoNet's
+Note that routes in normal (that is, physical) routers differ from MidoNet's
 virtual routers in that they don't have a target/destination virtual port (the
 'Normal' route in MidoNet has this; see "Type"). Therefore, normal routers use
 the Next Hop Gateway IP address to determine which port should be used to emit
@@ -108,6 +108,7 @@ Shows the ID of the port connected to the peer device.
 
 == Weight
 
-Can be used for load balancing for destinations with multiple paths. Higher
-weight values identify preferred (for example, higher bandwidth) paths. The
-default weight value is 100. See also "Source".
+Can be used for load balancing for destinations with multiple paths. Lower
+weight values identify preferred paths (for example, higher bandwidth). The
+default weight value is 100. For routes learned from BGP peers, the BGP
+administrative distance becomes the route's weight. See also "Source".
