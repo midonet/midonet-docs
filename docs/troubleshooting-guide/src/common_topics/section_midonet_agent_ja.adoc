@@ -7,14 +7,24 @@
 
 == デバッギング
 
-トラブルシューティングの期間に、`/etc/midolman/logback.xml` ファイルを通じて、ログレベルを増やすことができます。
+トラブルシューティングの期間に、`mn-conf(1)` ツールを通じて、ログレベルを増やすことができます。
 
-これをするには、ルートのロガーレベルを以下の値に変更してください：
+ログレベルを以下の値に変更できます：
 DEBUG, INFO, WARN, ERROR
+
+現在設定されたレベルをチェックするため、下記のコマンドを実行して下さい：
 
 [literal,subs="verbatim,quotes"]
 ----
-<root level="**DEBUG**">
+$ mn-conf get agent.loggers.root
+agent.loggers.root = *INFO*
 ----
 
-この変更を行う為に、エージェントの再起動は必要ありません。エージェントは、変更のための設定ファイルを定期的にチェックしており、自動的に適用します（30秒以内）
+レベルを増やすため、下記のコマンドを実行して下さい：
+
+[literal,subs="verbatim,quotes"]
+----
+$ echo "agent.loggers.root : *DEBUG*" | mn-conf set -t default
+----
+
+この変更を行う為に、エージェントの再起動は必要ありません。
