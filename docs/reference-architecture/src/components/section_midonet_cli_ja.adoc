@@ -1,0 +1,5 @@
+[[midonet_cli]]
+= MidoNetコマンドラインインターフェイス
+
+MidoNet CLIはMidoNetの仮想トポロジを検査および編集するためのコマンドラインインターフェイスです。
+

@@ -1,0 +1,48 @@
+[[zookeeper]]
+= ZooKeeper
+
+MidoNetではApache ZooKeeperを使用して、仮想および物理ネットワークトポロジに関する重要なパスデータを保存します。
+
+保存されるデータには 仮想マシン（VM）、ブリッジ、ルーター間の相互接続、アドレス解決プロトコル（ARP）とNDテーブル、ホストUUID（Universally Unique Identifier）およびインターネットプロトコル（IP）のアドレス登録が含まれます。 MidoNetエージェントとMidoNet APIサーバーはZooKeeperのスキーマを管理します。 ZooKeeperに保存される情報の性質から、このスキーマは速度よりもクラスタ内のデータの整合性と一貫性を重視して最適化します。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Necessary software
+
+MidoNetにはZooKeeperバージョン3.4.5が必要です（MidoNetレポジトリで提供されます）。
+
+また、ZooKeeperはApacheソフトウェア財団からも入手できます。
+
+ZooKeeperソフトウェアに加え、Java? Runtime Environmentも必要です。 多くのLinuxディストリビューションで提供されるOpenJDK? 7をお勧めします。
+
+== Fault-tolerant configuration guidelines
+
+また、ZooKeeperのインスタンスは3つ以上実行することを強くお勧めします。
+
+規模が極端に小さいテストおよび開発環境（ゲートウェイノードを含め、MidoNetエージェントが3つ以下）では、実行できるZookeeperのインスタンスは1つです。 すべての導入製品に対して、3つのインスタンスの使用を強くお勧めします。
+
+大規模な環境では（ゲートウェイノードを含め、数十のMidoNetエージェントを実行）、ワークロードに最適化された別々のノードにCassandraとZooKeeperをインストールすることをお勧めします。また、負荷を削減し、クラスタの残りの部分により多くのリソースを提供するために、ZooKeeperとCassandraのインスタンスは5つか7つ実行することをお勧めします。
+
+ZooKeeperとCassandraのノードはインスタンスを奇数（3、7、9など）にします。この定足数はノードに障害が発生したときに確保されます。 クラスタが耐えられるノードの障害数は、3ノードのクラスタは1つ、5ノードのクラスタは2つ、7ノードのクラスタは3つと、ノード数に合わせて増えます。
+
+ZooKeeperクラスタの管理を簡略化するため、ZooKeeperにはExhibitor Supervisor Systemを使用することをお勧めします。
+
+== Accessibility considerations
+
+ZooKeeperクラスタは通常、 TCP/2181、TCP/2888、TCP/3888の3つのポートを使用します。
+
+また、Exhibitor Supervisorは通常、TCP/8080でWebインターフェイスを実行します。
+
+ZooKeeperクラスタはプロキシを使わず、次のMidoNetコンポーネントに直接アクセスする必要があります。
+
+* MidoNet APIサーバー
+
+* MidoNetエージェント（MidoNetゲートウェイノードを含む）
+
+* 他のZooKeeperインスタンス
+
+MidoNetコントロールメッセージのデータパスとは異なるネットワークを使用することをお勧めします。たとえば、MidoNet API、MidoNet Network State DatabaseおよびMidoNetエージェントのノード間の接続には管理ネットワークを使用します。データパスネットワーク上のMidoNetエージェント間にはポイントツーポイントのトンネルを確立する必要があります。
+
+Exhibitorを使用している場合、Webインターフェイスがシステムオペレータにアクセスできるか確認してください。

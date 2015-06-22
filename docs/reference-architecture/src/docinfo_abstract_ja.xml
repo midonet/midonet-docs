@@ -1,0 +1,43 @@
+<abstract xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <para>
+        MidoNetはサービスとしてのインフラストラクチャ（IaaS）クラウドのためのネットワーク仮想ソフトウェアです。
+    </para>
+    <para>
+        IaaSクラウドをネットワークハードウェアから分離し、エンドホストと物理ネットワークの間のインテリジェントなソフトウェア抽象化レイヤを作成します。
+    </para>
+    <para>
+        この文書には、推奨されるハードウェアを含め、MidoNetのネットワーク仮想化インフラストラクチャを準備するのに便利な情報が含まれています。特に、この文書では次について説明します。
+
+        <itemizedlist mark='bullet'>
+            <listitem>
+                <para>
+                    MidoNetの概要
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    OpenStack®およびその他のクラウドコントローラに対してMidoNetネットワーク仮想化を構成するのに必要なハードウェアとオペレーティングシステムソフトウェアの概要。
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    ボーダーゲートウェイプロトコル（BGP）の設定とMidoNetネットワークアーキテクチャの一般的な概要。
+                </para>
+            </listitem>
+        </itemizedlist>
+    </para>
+    <para>
+        <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
+        {draftWarningJA}
+
+        <!-- Link to Mailing Lists and Chat. -->
+        <note>
+            <para>
+                サポートが必要な場合は、
+                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or Chat</link>
+                を参照してください。
+            </para>
+        </note>
+    </para>
+</abstract>
+

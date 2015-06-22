@@ -1,0 +1,17 @@
+[[bgp_setup_and_layer_3_topologies]]
+= BGPの設定とレイヤ3のトポロジ
+
+このセクションでは、BGPの設定とレイヤ3のトポロジに関する図と情報を提供します。
+
+xref:l3_physical_underlay_network[] は、基盤となるネットワークインフラストラクチャの例です。
+
+xref:l3_virtual_overlay_network[] は、MidoNet仮想化ネットワークを基盤となるネットワークアーキテクチャの上位に配置した例と、BGPルートアドバタイズメントの情報です。
+
+[[l3_physical_underlay_network]]
+.レイヤ3のトポロジ（物理下層ネットワーク）
+image::l3_physical_underlay_network_3299x977.png[scaledwidth="100%"]
+
+[[l3_virtual_overlay_network]]
+.レイヤ3のトポロジ（仮想上層ネットワーク）
+image::l3_virtual_overlay_network_3299x1589.png[scaledwidth="100%"]
+
