@@ -1,0 +1,16 @@
+[[solution_components]]
+= ソリューションコンポーネント
+
+MidoNetソリューションは次のコンポーネントで構成されています。
+
+* MidoNet Network State Databaseノード
+
+* MidoNetゲートウェイノード
+
+* MidoNet APIで実行しているサーバー、MidoNetエージェント（Midolman）およびコマンド
+ラインインターフェイス（CLI）
+
+* NovaおよびOpenStackネットワーキングサービスをホストするOpenStackコントローラノード
+
+* OpenStackコンピュートノード
+

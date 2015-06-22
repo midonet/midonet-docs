@@ -1,0 +1,29 @@
+[[midonet_api]]
+= MidoNet API
+
+MidoNet APIはHTTP（Hypertext Transfer Protocol）で実行するRESTful APIです。外部のアプリケーション（クラウドコントローラを含む）と内部のMidoNetの構成の間に統合ポイントを提供します。
+
+REST APIはステートレスなため、RESTサーバーを追加するだけでそのサービスを拡張できます。 REST APIには状態管理サーバー（Apache ZookeeperおよびCassandra）への接続が必要です。 REST APIで認証を使用する場合、OpenStack Keystoneのアイデンティティサービスを利用できます。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== 推奨されるインストールノード
+
+MidoNet APIサーバーはサーブレットコンテナでホストできます。
+
+たとえば、Apache Tomcatは比較的軽量なため、MidoNet APIサーバーをZooKeeperインスタンスまたはNeutronサーバーインスタンスとともにインストールできます。
+
+== 耐障害性の構成ガイドライン
+
+耐障害性ソリューションを提供するために、MidoNet APIの複数のインスタンスを異なるノードで実行してから、外部のロードバランサーで共通の仮想IP（VIP）アドレスを使用してAPIコールをインスタンス間に配信することをお勧めします。
+
+特別なロードバランス機能は不要なため、任意のロードバランサーを使用できます。
+
+== アクセス可能性に関する注意事項
+
+Apache TomcatサーバーはデフォルトでポートTCP/8080を使用します。
+
+MidoNetは ZooKeeperクラスタのすべてのノードにアクセスする必要があります。ZooKeeperクラスタは通常、TCP/2181、TCP/2888、TCP/3888の3つのポートを使用します。
+

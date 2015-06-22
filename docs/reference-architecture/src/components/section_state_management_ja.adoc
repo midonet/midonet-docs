@@ -1,0 +1,9 @@
+[[state_management]]
+= 状態管理
+
+MidoNet Network State DatabaseはMidoNetの構成、ランタイムの状態および統計データを保存するサーバークラスタです。
+
+MidoNetでは構成の状態に関する情報は2つの異なるシステムに保存されます。また、Apache? Zookeeper?とCassandra?を使用してMidoNetエージェント間を連係させ、ネットワークの構成と状態（Network State Databaseノード）を保存します。
+
+このクラスタはMidoNet Network State Databaseを実行する専用サーバーで構成するため、これらのサーバーで他のソフトウェアをホストしないでください。3台の専用サーバーの使用をお勧めします。
+

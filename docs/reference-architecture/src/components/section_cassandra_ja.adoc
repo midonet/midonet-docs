@@ -1,0 +1,26 @@
+[[cassandra]]
+= Cassandra
+
+MidoNetではApache Cassandraバーション2.0を使用して、NATバインディングや接続トラッキング情報などのフローステート情報が保存され、VMの移行がサポートされます。 
+
+MidoNetではCassandraの耐久性、耐障害性、有効期限、低遅延の読み込み/書き込みなどの利点を活用していますが、Cassandraは一次データソースではなくバックアップとしてのみ使用します。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Necessary software
+
+CassandraにはJavaランタイム環境（JRE）が必要です。
+
+Linuxディストリビューションの多くで提供され、公式インストールガイドを使用してインストールできることから、当社はOpenJDK 7をお勧めしています（http://openjdk.java.net/でインストールに関する情報をご覧ください）。 
+== Fault-tolerant configuration guidelines
+
+推奨されるCassandraの最小構成は、3ノードのクラスタと3のレプリケーションファクタ（N）です。
+
+MidoNetエージェント（ Midolman）では、QUORUM（N/2 + 1）を整合性ポリシーとして使用していますが、これは提案した構成では2になります。
+
+== Accessibility considerations
+
+Cassandraは2つのIPアドレスを使用します。1つはクラスタ内の通信（listen_addressパラメータ）、もう1つはリモートプロシージャコール（RPC）によるクライアントの接続です（rpc_address）。
+

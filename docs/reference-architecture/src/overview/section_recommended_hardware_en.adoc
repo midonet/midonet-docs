@@ -30,7 +30,7 @@ deployment.
 |Top of Rack Switch|
     Non-blocking multilayer switch (L2/L3) with jumbo frame support
 |Hard Disks|
-    Ideally, both the Zookeeper transaction log and Cassandra data files need
+    Ideally, both the ZooKeeper transaction log and Cassandra data files need
     their own dedicated disks, with additional disks for other services on the
     host. However, for small POCs and small deployments, it is ok to share the
     Cassandra disk with other services and just leave the Zookeeper transaction
