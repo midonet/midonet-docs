@@ -1,0 +1,89 @@
+[[static_setup]]
+= スタティックな設定
+
+BGPリンクを通じて接続していない場合、スタティックなルーティングを使って、以下のセクションをフォローしてください。
+
+これはVMを外部ネットワークに接続する為のスタティックなアップリンクを作成します。
+
+. フェイクのアップリンクを作成します
++
+VMが外部ネットワークにリーチする為に、以下のトポロジーを作成します：
++
+[source]
+----
+
+             +---------------+
+                             |
+                             | 172.19.0.1/30
+          +------------------+---------------+
+          |                                  |
+          |     Fakeuplink linux bridge      |
+          |                                  |
+          +------------------+---------------+        UNDERLAY
+                             | veth0
+                             |
+                             |
+                             |
+  +------+  +------+  +-------------+  +------+  +------+
+                             |
+                             |
+                             |
+               172.19.0.2/30 | veth1
+          +------------------+----------------+        OVERLAY
+          |                                   |
+          |    MidonetProviderRouter          |
+          |                                   |
+          +------------------+----------------+
+                             |  200.200.200.0/24
+                             |
+          +------------------+----------------+
+----
+
+. veth ペアを作成します
++
+[source]
+# ip link add type veth
+# ip link set dev veth0 up
+# ip link set dev veth1 up
+
+. ブリッジを作成します。IPアドレスを設定して、veth0にアタッチします。
++
+[source]
+# brctl addbr uplinkbridge
+# brctl addif uplinkbridge veth0
+# ip addr add 172.19.0.1/30 dev uplinkbridge
+# ip link set dev uplinkbridge up
+
+. IPフォワーディングを利用可能にします。 
++
+[source]
+# sysctl -w net.ipv4.ip_forward=1
+
+. パケットを“外部”ネットワークからブリッジにルートします。
++
+[source]
+# ip route add 200.200.200.0/24 via 172.19.0.2
+
+. MidoNetプロバイダルーターにポートを作成して、vethにバインドします:
++
+[source]
+----
+$ midonet-cli
+midonet> router list
+router router0 name MidoNet Provider Router state up 
+midonet> router router0 add port address 172.19.0.2 net 172.19.0.0/30
+router0:port0
+midonet> router router0 add route src 0.0.0.0/0 dst 0.0.0.0/0 type normal port router router0 port port0 gw 172.19.0.1
+midonet> host list
+host host0 name controller alive true
+midonet> host host0 add binding port router router0 port port0 interface veth1
+host host0 interface veth1 port router0:port
+----
+
+. 外部インターフェースにマスカレードを加えます。 "フェイクの" 外部ネットワークに属するアドレスのオーバーレイから来る接続がNAT化されます。またこれらのパケットが転送できることを確認ください：
++
+[source]
+# iptables -t nat -I POSTROUTING -o eth0 -s 200.200.200.0/24 -j MASQUERADE
+# iptables -I FORWARD -s 200.200.200.0/24 -j ACCEPT
+
+フローティングIPを使って、アンダーレイホストからVMにリーチできるようになりました。VMも外部リンクにリーチで切るようになります。（ホストが外部接続性をもっている場合に限ります）

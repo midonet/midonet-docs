@@ -1,0 +1,17 @@
+[[log_file_locations]]
+= イベントログファイルのロケーション
+
+イベントメッセージは通常のログファイルに加えて、別個ファイルでもファイルシステム内にローカルに保管されます。
+
+.Event Message Files/Locations
+[options="header"]
+|===============
+|Type of Node|Location
+|MidoNet Network Agent|/var/log/midolman/midolman.event.log
+|MidoNet API server|
+/var/log/tomcat6/midonet-api.event.log (on Red Hat)
+
+/var/log/tomcat7/midonet-api.event.log (on Ubuntu)
+|===============
+
+ヒント: midolman.event.logに加え、/var/log/midolman/midolman.logに追加のデバッグ情報も含まれています。通常は使う必要はありませんが、トラブルシューティングをする際に有益な情報が含まれている場合があります。

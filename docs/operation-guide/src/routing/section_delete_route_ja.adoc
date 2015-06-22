@@ -1,0 +1,37 @@
+[[deleting_routes]]
+= ルートの削除
+
+あなたがスタンドアロンSDNコントローラーとしてMidoNetを使っていて、ルートを消したいと考えるシチュエーションが数多くあると思います; そしてそれらのシチュエーションは物理的なネットワークデバイスの管理に関係しています。
+
+例えば、もしあなたがマニュアルでルートを足す必要がある何らかの処理を取り消したいとしたら、あなたはルートを削除することができます。
+
+[WARNING]
+OpenStack Neutronオペレーションの結果として自動的に加えられたルートを削除することは推奨されていません。
+
+ルートを消すために:
+
+. 特定のルーターにルートをリスト化するためのコマンドを入力してください:
++
+[source]
+midonet> router router2 list route
+route route0 type normal src 0.0.0.0/0 dst 10.100.1.1 port router2:port0 weight 0
+route route1 type normal src 0.0.0.0/0 dst 10.100.1.2 port router2:port1 weight 0
+route route2 type normal src 0.0.0.0/0 dst 169.254.255.3 port router2:port2 weight 0
+route route3 type normal src 0.0.0.0/0 dst 169.254.255.0/30 port router2:port2 weight 0
++
+上記は、ルーター2にルートをリスト化するコマンドです。
+
+. 希望のルーターから希望のルートを削除するコマンドを入力してください:
++
+[source]
+midonet> router router2 delete route route2
+midonet> router router2 delete route route3
++
+上記のコマンドはルート2とルート3をルーター2より削除します。
+
+. 削除を確定するためルーター上のルートをリスト化するコマンドを入力してください:
++
+[source]
+midonet> router router2 list route
+route route0 type normal src 0.0.0.0/0 dst 10.100.1.1 port router2:port0 weight 0
+route route1 type normal src 0.0.0.0/0 dst 10.100.1.2 port router2:port1 weight 0

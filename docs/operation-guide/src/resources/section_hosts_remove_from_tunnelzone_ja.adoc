@@ -1,0 +1,32 @@
+[[removing_a_host_from_a_tunnel_zone]]
+= トンネルゾーンよりホストを削除することを指します。
+
+トンネルゾーンからホストを削除するには、この方法で行います。
+. トンネルゾーンをリストアップするには、`list tunnel-zone`というコマンドを入力します。例としては下記のようなソースが挙げられます：
++
+[source]
+midonet> list tunnel-zone
+tzone tzone0 name default_tz type gre
+
+. トンネルゾーン内のホストをリストアップするには、`tunnel-zone tunnel-zone list member`というコマンドを入力します。例としては下記のようなソースが挙げられます：
++
+[source]
+midonet> tunnel-zone tzone0 list member
+zone tzone0 host host0 address 172.19.0.2
+
+. 特定のホスト情報を閲覧するには、`tunnel-zone tunnel-zone member host host show`というコマンドを入力します。例としては下記のようなソースが挙げられます：
++
+[source]
+midonet> tunnel-zone tzone0 member host host0 show
+tunnel-zone-host zone tzone0 host host0 address 172.19.0.2
+
+. ホストのエイリアスに特定されているホストを削除するには、`tunnel-zone tunnel-zone member host host delete`というコマンドを入力します。例としては下記のようなソースが挙げられます：
++
+[source]
+midonet> tunnel-zone tzone0 member host host0 delete
+
+. （オプション）`tunnel-zone tunnel-zone member add host host address ip-address`というコマンドを入力すれば、トンネルゾーンにホストを再追加することもできます。例としては下記のようなソースが挙げられます：
++
+[source]
+midonet> tunnel-zone tzone0 member add host host0 address 172.19.0.2
+zone tzone0 host host0 address 172.19.0.2

@@ -1,0 +1,46 @@
+[[adding_routes]]
+= ルートの追加
+
+下記は、ルートの追加をしたい場合のいくつかの例です:
+
+* 特定のIPアドレスもしくはレンジがあなたのネットワークを攻撃していることに気づきます。このような攻撃を防ぐため、MidoNet Provider Routerにルートを加えます; このルートのソースIPが攻撃しているIPアドレスもしくはレンジとマッチします。MidoNet Provider Routerがこのソースからパケットをドロップするように設定するため、タイプをBlackholeと規定します。
+
+* BGPダイナミックルーティングが利用可能でない場合は、アップストリームルーターにトラフィックを転送するためスタティックルートを設定することができます。
+
+規定するアトリビュートは:
+
+* dst = マッチする送付先IPアドレスもしくはネットワーク
+* src = マッチする送付元IPアドレスもしくはネットワーク
+* type = 例としては、"normal"
+* port = トラフィックを排出するポート
+
+MidoNet CLIを使ってルートを追加するには:
+
+. ルートを加えるためにコマンドを入力してください:
++
+[source]
+midonet> router router2 add route dst 169.254.255.0/30 src 0.0.0.0/0 type normal port router2:port2
+router2:route2
++
+上記のコマンドは下記のインストラクションを含んでいます:
++
+* 全ての送付元ネットワーク(0.0.0.0/0)を持ち、かつ送付先ネットワーク169.254.255.0/30であるトラフィックについて、このトラフィックをルート2上のポート2に転送してください。
+
++
+[NOTE]
+====
+上記のルートを追加する前に、下記のコマンドを使ってルーター2が追加されました:
+
+[source]
+midonet> router router2 add port address 169.254.255.3 net 169.254.255.0/30
+router2:port2
+====
+
+. ルートの追加を確定するため、ルーター2にルートをリスト化するコマンドを入力してください:
++
+[source]
+midonet> router router2 list route
+route route0 type normal src 0.0.0.0/0 dst 10.100.1.1 port router2:port0 weight 0
+route route1 type normal src 0.0.0.0/0 dst 10.100.1.2 port router2:port1 weight 0
+route route2 type normal src 0.0.0.0/0 dst 169.254.255.3 port router2:port2 weight 0
+route route3 type normal src 0.0.0.0/0 dst 169.254.255.0/30 port router2:port2 weight 0

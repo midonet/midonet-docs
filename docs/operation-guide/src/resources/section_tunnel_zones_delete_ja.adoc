@@ -1,0 +1,24 @@
+[[deleting_tunnel_zones]]
+= トンネルゾーンを削除することを指します。
+
+トンネルゾーンを削除する際にこの方法を用います。
+
+. トンネルゾーンをリストアップするには、`list tunnel-zone`というコマンドを入力します。例としては以下のようなソースが挙げられます:
++
+[source]
+midonet> list tunnel-zone
+tzone tzone0 name new-tz type gre
+tzone tzone1 name gre type gre
+
+. 特定のトンネルゾーンを削除するには、`delete tunnel-zone tz-alias`というコマンドを入力します。例としては以下のようなソースが挙げられます:
++
+[source]
+midonet> delete tunnel-zone tzone0
++
+トンネルゾーンを削除するためにダイナミックにアサインされたエイリアスの数字を特定します。上記の例で、アサインされた数字は0 (tzone0)となります。
+. （オプション）トンネルゾーンが削除されたかどうかを確認するために、以下のコマンドを入力します：
++
+[source]
+midonet> list tunnel-zone
+tzone tzone1 name gre type gre
+

@@ -1,0 +1,59 @@
+[[authentication_roles]]
+
+= MidoNet内のロール
+
+MidoNet APIは承認を行うためRBACメカニズムを実装しています。
+
+AutoRoleクラスにて定義されるMidoNet内のロールは以下となります:
+
+* アドミン: システムのルートアドミニストレーターです。このロールを持ったユーザーは全ての運用を行うことが許されています。
+
+* テナントアドミン: このロールを持ったユーザーは自分のリソースに対して読み書きアクセス権を持っています。
+
+* テナントユーザー: このロールを持ったユーザーは自分のリソースに対してリードアクセスのみを持っています。
+
+[NOTE]
+外部の識別サービスにて定義されたRBACポリシーはMidoNet RBAC内では適用されないことを留意してください。たとえば、Keystone内で持っているアクセスタイプがそのままMidoNet内で同じアクセスを持つわけではありません。MidoNet APIは上記に記載されている3つのロールへのポリシーに正確に従います。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== MidoNet用アドミンロールの作成
+
+承認サービスはロールマッピングを決めるにあたり、web.xmlファイルに明記された入力内容に依拠している。web.xmlはMidoNet APIの設定ファイルであり以下のロケーションにあります:
+
+[source]
+/usr/share/midonet-api/WEB-INF/web.xml
+
+web.xml file内で設定する設定要素は名前と値のペアにより構成されています。名前と値のペアを加える場合には、XMLにてエンコードする必要があります。
+
+外部のサービス(OpenStack Keystoneのような)内でのロールをMidoNetでのロールに変換するために承認サービスを使うことができます。下記の例は、別々のアドミンロール(auth-admin-role、auth-tenant-admin、auth-tenant_user_role)をどのようにしてMidoNet向けに作成するかを表しています。 
+
+.Admin Roles
+[options="header"]
+|===============
+|Name|Value|Description
+|auth-admin_role|[name]|
+    Specifies the name for the admin role in MidoNet.
+|auth-tenant_admin_role|[name]|
+    Specifies the name for the tenant admin role in MidoNet.
+|auth-tenant_user_role|[name]|
+    Specifies the name for the tenant user role in MidoNet.
+|===============
+
+[source]
+...
+<context-param>
+    <param-name>auth-admin_role</param-name>
+    <param-value>mido_admin</param-value> </context-param>
+<context-param>
+    <param-name>auth-tenant_admin_role</param-name>
+    <param-value>mido_tenant_admin</param-value> </context-param>
+<context-param>
+    <param-name>auth-tenant_user_role</param-name>
+    <param-value>mido_tenant_user</param-value>
+</context-param>
+...
+
+上記の例において、外部サービスに保管されているmido_admin、mido_tenant_admin及びmido_tenant_userロールはそれぞれMidonet内admin、tenant_admin及びtenant_user in Midonetと変換されます。

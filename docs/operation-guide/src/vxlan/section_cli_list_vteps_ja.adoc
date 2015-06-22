@@ -1,0 +1,34 @@
+[[cli_list_vteps]]
+= 各種VTEPのリストを入手します
+
+このコマンドは、MidoNetが認知しているハードウェアVTEP各種のリストを入手するために用います。
+
+*シンタックス*
+
+[source]
+list vtep
+
+*結果*
+
+コマンドは、VTEPそれぞれにたいしてこの情報を返信します：
+
+* 名前
+
+* 説明
+
+* マネージメントIPアドレス
+
+* マネージメントポート
+
+* トンネルIP
+
+* 接続状況(次のいずれかである：接続中、切断中、エラー。エンドポイントがVXLAN End Pointではない時にはエラーステータスになります。)
+
+* 各種ポート　?　これは三種類の情報(port_name, port_description, port_bindings)のリストであり、このうちのport_bindingsとは(vlan, neutronNetworkId, logicalSwitchName)
+のリストの事を指します。
+
+*事例*
+
+[source]
+midonet> list vtep
+vtep vtep0 name br0 management-ip 119.15.112.22 management-port 6633 connection-state CONNECTED

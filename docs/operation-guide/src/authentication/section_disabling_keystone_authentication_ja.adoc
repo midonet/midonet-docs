@@ -1,0 +1,55 @@
+[[disabling_keystone_authentication]]
+
+= Keystone認証の無効化
+
+MidoNetでは、模擬認証サービスを使って認証を無効化することができます。
+
+このサービスを使うことにより、外部の認証サービスは使われないという効力があります。その代わりに、MidoNetは単純にトークンをweb.xmlファイルに設定されている内容に基づいて返します。
+
+この模擬認証サービスを使うためには、web.xmlファイルを以下のように設定する必要があります。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== auth-auth_provider
+
+認証サービスを提供するJavaクラスの完全修飾パスをリスト化します。
+
+[source]
+<context-param>
+  <param-name>auth-auth_provider</param-name>
+  <param-value>
+    org.midonet.api.auth.MockAuthService
+  </param-value>
+</context-param>
+
+== mock_auth-admin_token
+
+アドミンロールアクセスをエミュレートするために使われた偽のトークンを特定します。これは、模擬認証（MockAuth）を認証サービスとして規定したときにのみ適用されます。
+
+[source]
+<context-param>
+  <param-name>mock_auth-admin_token</param-name>
+  <param-value>secret_token_XYZ</param-value>
+</context-param>
+
+== mock_auth-tenant_admin_token
+
+テナントアドミンロールアクセスをエミュレートするために使われた偽のトークンを特定します。これは、模擬認証（MockAuth）を認証サービスとして規定したときにのみ適用されます。
+
+[source]
+<context-param>
+  <param-name>mock_auth-tenant_admin_token</param-name>
+  <param-value>secret_token_XYZ</param-value>
+</context-param>
+
+== mock_auth-tenant_user_token
+
+テナントユーザーロールアクセスをエミュレートするために使われた偽のトークンを特定します。これは、模擬認証（MockAuth）を認証サービスとして規定したときにのみ適用されます。
+
+[source]
+<context-param>
+  <param-name>mock_auth-tenant_user_token</param-name>
+  <param-value>secret_token_XYZ</param-value>
+</context-param>

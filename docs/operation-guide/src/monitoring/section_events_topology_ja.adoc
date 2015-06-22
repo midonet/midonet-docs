@@ -1,0 +1,384 @@
+[[topology_events]]
+= 仮想トポロジーイベント
+
+このセクションでは仮想トポロジーイベントに関するメッセージについて説明します。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== ルーター
+
+|===============
+|Logger|org.midonet.event.topology.Router.CREATE
+|Message|CREATE routerId={0}, data={1}.
+|Level|INFO
+|Explanation| routerId={0}のルーターが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Router.UPDATE
+|Message|UPDATE routerId={0}, data={1}.
+|Level|INFO
+|Explanation| routerId={0}のルーターは{1}にアップデートされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Router.DELETE
+|Message|DELETE routerId={0}.
+|Level|INFO
+|Explanation| routerId={0}のルーターが削除されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Router.ROUTE_CREATE
+|Message|ROUTE_CREATE routerId={0}, data={1}.
+|Level|INFO
+|Explanation| routerId={0}内にRoute={1}が作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Router.ROUTE_DELETE
+|Message|ROUTE_DELETE routerId={0}, routeId={1}.
+|Level|INFO
+|Explanation| routerId={0}内にてrouteId={1}が削除されました。
+|Corrective Action|N/A
+|===============
+
+== ブリッジ
+
+|===============
+|Logger|org.midonet.event.topology.Bridge.CREATE
+|Message|CREATE bridgeId={0}, data={1}.
+|Level|INFO
+|Explanation| bridgeId={0}のブリッジが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bridge.UPDATE
+|Message|UPDATE bridgeId={0}, data={1}.
+|Level|INFO
+|Explanation| bridgeId={0}のブリッジが{1}にアップデートされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bridge.DELETE
+|Message|DELETE bridgeId={0}.
+|Level|INFO
+|Explanation| bridgeId={0}のブリッジが削除されました。
+|Corrective Action|N/A
+|===============
+
+== ポート
+
+|===============
+|Logger|org.midonet.event.topology.Port.CREATE
+|Message|CREATE portId={0}, data={1}.
+|Level|INFO
+|Explanation| portId={0}のポートが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.UPDATE
+|Message|UPDATE portId={0}, data={1}.
+|Level|INFO
+|Explanation|P portId={0}のポートは{1}にアップデートされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.DELETE
+|Message|DELETE portId={0}.
+|Level|INFO
+|Explanation| portId={0}のポートが削除されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.LINK
+|Message|LINK portId={0}, data={1}.
+|Level|INFO
+|Explanation| portId={0}のポートがリンクされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.UNLINK
+|Message|UNLINK portId={0}, data={1}.
+|Level|INFO
+|Explanation| portId={0}のポートがリンクをはずされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.BIND
+|Message|BIND portId={0}, data={1}.
+|Level|INFO
+|Explanation| portId={0}のポートがバインドされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Port.UNBIND
+|Message|UNBIND portId={0}.
+|Level|INFO
+|Explanation| portId={0}のポートがバインドを外されました。
+|Corrective Action|N/A
+|===============
+
+== チェーン
+
+|===============
+|Logger|org.midonet.event.topology.Chain.CREATE
+|Message|CREATE chainId={0}, data={1}.
+|Level|INFO
+|Explanation|CchainId={0}のチェーンが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Chain.DELETE
+|Message|DELETE chainId={0}.
+|Level|INFO
+|Explanation| chainId={0}のチェーンが削除されました。
+|Corrective Action|N/A
+|===============
+
+== ルール
+
+|===============
+|Logger|org.midonet.event.topology.Rule.CREATE
+|Message|CREATE ruleId={0}, data={1}.
+|Level|INFO
+|Explanation| ruleId={0}のルールが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Rule.DELETE
+|Message|DELETE ruleId={0}.
+|Level|INFO
+|Explanation| ruleId={0}のルールが削除されました。
+|Corrective Action|N/A
+|===============
+
+== トンネルゾーン
+
+|===============
+|Logger|org.midonet.event.topology.TunnelZone.CREATE
+|Message|CREATE tunnelZoneId={0}, data={1}.
+|Level|INFO
+|Explanation| tunnelZoneId={0}のトンネルゾーンが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.TunnelZone.UPDATE
+|Message|UPDATE tunnelZoneId={0}, data={1}.
+|Level|INFO
+|Explanation| tunnelZoneId={0}のトンネルゾーンが{1}にアップデートされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.TunnelZone.DELETE
+|Message|DELETE tunnelZoneId={0}.
+|Level|INFO
+|Explanation| tunnelZoneId={0}のトンネルゾーンが削除されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.TunnelZone.MEMBER_CREATE
+|Message|MEMBER_CREATE tunnelZoneId={0}, data={1}.
+|Level|INFO
+|Explanation| TunnelZone member={1}がtunnelZoneId={0}に加えられました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.TunnelZone.MEMBER_DELETE
+|Message|MEMBER_DELETE tunnelZoneId={0}, data={1}.
+|Level|INFO
+|Explanation| TunnelZone member={1}がtunnelZoneId={0}より削除されました。
+|Corrective Action|N/A
+|===============
+
+== BGP
+
+|===============
+|Logger|org.midonet.event.topology.Bgp.CREATE
+|Message|CREATE bgpId={0}, data={1}.
+|Level|INFO
+|Explanation| bgpId={0}のBGPが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bgp.UPDATE
+|Message|UPDATE bgpId={0}, data={1}.
+|Level|INFO
+|Explanation| bgpId={0}のBGPが{1}にアップデートされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bgp.DELETE
+|Message|DELETE bgpId={0}.
+|Level|INFO
+|Explanation| bgpId={0}のBGPが削除されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bgp.ROUTE_CREATE
+|Message|ROUTE_CREATE bgpId={0}, data={1}.
+|Level|INFO
+|Explanation| Route={1}がbgpId={0}に加えられました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Bgp.ROUTE_DELETE
+|Message|ROUTE_DELETE bgpId={0}, data={1}.
+|Level|INFO
+|Explanation| Route={1}がbgpId={0}より削除されました。
+|Corrective Action|N/A
+|===============
+
+== ロードバランサー
+
+|===============
+|Logger|org.midonet.event.topology.LoadBalancer.CREATE
+|Message|CREATE loadBalancerId={0}, data={1}.
+|Level|INFO
+|Explanation| loadBalancerId={0}のロードバランサーが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.LoadBalancer.UPDATE
+|Message|UPDATE loadBalancerId={0}, data={1}.
+|Level|INFO
+|Explanation| loadBalancerId={0}のロードバランサーが{1}にアップデートされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.LoadBalancer.DELETE
+|Message|DELETE loadBalancerId={0}.
+|Level|INFO
+|Explanation| loadBalancerId={0}のロードバランサーが削除されました。
+|Corrective Action|N/A
+|===============
+
+== VIP
+
+|===============
+|Logger|org.midonet.event.topology.VIP.CREATE
+|Message|CREATE vipId={0}, data={1}.
+|Level|INFO
+|Explanation| vipId={0}のVIPが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.VIP.UPDATE
+|Message|UPDATE vipId={0}, data={1}.
+|Level|INFO
+|Explanation| vipId={0}のVIPが{1}にアップデートされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.VIP.DELETE
+|Message|DELETE vipId={0}.
+|Level|INFO
+|Explanation| vipId={0}のVIPが削除されました。
+|Corrective Action|N/A
+|===============
+
+== プール
+
+|===============
+|Logger|org.midonet.event.topology.Pool.CREATE
+|Message|CREATE poolId={0}, data={1}.
+|Level|INFO
+|Explanation| poolId={0}のプールが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Pool.UPDATE
+|Message|UPDATE poolId={0}, data={1}.
+|Level|INFO
+|Explanation| poolId={0}のプールが{1}にアップデートされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.Pool.DELETE
+|Message|DELETE poolId={0}.
+|Level|INFO
+|Explanation| poolId={0}のプールが削除されました。
+|Corrective Action|N/A
+|===============
+
+== プールメンバー
+
+|===============
+|Logger|org.midonet.event.topology.PoolMember.CREATE
+|Message|CREATE poolMemberId={0}, data={1}.
+|Level|INFO
+|Explanation| poolMemberId={0}のプールメンバーが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.PoolMember.UPDATE
+|Message|UPDATE poolMemberId={0}, data={1}.
+|Level|INFO
+|Explanation| poolMemberId={0}のプールメンバーが{1}にアップデートされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.PoolMember.DELETE
+|Message|DELETE poolMemberId={0}.
+|Level|INFO
+|Explanation| poolMemberId={0}のプールメンバーが削除されました。
+|Corrective Action|N/A
+|===============
+
+== ヘルスモニター
+
+|===============
+|Logger|org.midonet.event.topology.HealthMonitor.CREATE
+|Message|CREATE healthMonitorId={0}, data={1}.
+|Level|INFO
+|Explanation| healthMonitorId={0}のヘルスモニターが作成されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.HealthMonitor.UPDATE
+|Message|UPDATE healthMonitorId={0}, data={1}.
+|Level|INFO
+|Explanation| healthMonitorId={0}のヘルスモニターが{1}にアップデートされました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.topology.HealthMonitor.DELETE
+|Message|DELETE healthMonitorId={0}.
+|Level|INFO
+|Explanation| healthMonitorId={0}のヘルスモニターが削除されました。
+|Corrective Action|N/A
+|===============

@@ -1,0 +1,48 @@
+[[cli_add_vtep_binding]]
+= VTEPバインディングを追加します
+
+このコマンドは、VTEP上にあるポートVLANペアを特定のニュートロンネットワークに橋渡しする時に使います。
+
+*シンタックス*
+
+[source]
+vtep management-ip vtep-ip-address add binding physical-port port-id vlan vlan-id network-id neutron-network-id
+
+上記の内容は、_neutron-network-id_が、ニュートロンネットワークのVNI(バーチャルネットワークIDのことでvxlanトンネルキーと同義語)であり、このIDにたいしてポート-VLANが割り当てられる場合です。
+
+vtep management-ip vtep-ip-address add binding physical-port port-id vlan vlan-id network-id neutron-network-id
+
+*結果*
+
+コマンドが成功すると、ニュートロンネットワークのVTEP(VTEP=コマンドと一緒に使われているmngmnt_ip) へのワイアリングを代表しているMidoNet vbridge”vxlan”ポートの説明が表示されます。もしも、そのVTEP上で別のポート-VLANペアが既に同じニュートロンネットワークにバインドしているのであれば、vxlanポートは既に存在しているかもしれません。
+
+vxlanポートの説明には次のものも含まれています：
+
+* そのニュートロンネットワークおよびハードウェアVTEPに特化したポート-vlanバインディング事例全てのリスト
+
+* VTEP側でニュートロンネットワークを代表する論理ブリッジのNameがあります。このNameはニュートロンネットワーク名とUUIDとを組み合わせてできています。
+
+
+* このニュートロンネットワークに割り当てられたVNI(仮想ネットワークIDのことで、VXLANトンネルキーと同義語)。選択されたVNIDはそのVTEPの中ではユニークです。
+
+次のような条件の中ではコマンドの遂行は失敗に終わります：
+
+* もしもそのポート-VLANペアが、既にもう1つ別のニュートロンネットワークに橋渡しされていた場合
+
+* そのニュートロンネットワークが、既に、もう１つ別のハードウェアVTEP上にあるポート-VLANペアに橋渡しされていた場合
+
+*事例*
+
+成功したコマンド：
+
+[source]
+midonet> vtep management-ip 119.15.112.22 add binding physical-port in1 vlan 143 network-id 9082e813-38f1-4795-8844-8fc35ec0b19b
+management-ip 119.15.112.22 physical-port in1 vlan 143 network-id 9082e813-38f1-4795-8844-8fc35ec0b19b
+
+成功しなかったコマンド：
+
+[source]
+midonet> vtep management-ip 119.15.112.22 add binding physical-port in1 vlan 143 network-id 9082e813-38f1-4795-8844-8fc35ec0b19b
+Internal error: {"message":"内部サーバーエラーが発生しましたので、再度トライしてみてください。","code":500}
+midonet> vtep management-ip 119.15.112.22 add binding physical-port in1 vlan 144 network-id 9082e813-38f1-4795-8844-8fc35ec00000
+Internal error: {"message":"No bridge with ID 9082e813-38f1-4795-8844-8fc35ec00000 exists.","code":400}

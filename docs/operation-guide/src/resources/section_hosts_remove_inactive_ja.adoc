@@ -1,0 +1,16 @@
+[[removing_a_host]]
+= ホストを削除することを指します。
+
+アクティブでないホストを削除するには、この方法で行います。
+
+. ホストをリストアップするコマンドを入力します：
++
+[source]
+midonet> list host
+host host0 name precise64 alive true
+
+. エイリアスに特定されたホストを削除するコマンドを入力します：
++
+[source]
+midonet> host host0 delete
+

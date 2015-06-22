@@ -1,0 +1,80 @@
+[[packet_tracing]]
+= パケットトレーシング 
+
+MidoNet Agent（Midolman）内で、(ロギング経由で)パケットトレーシングの設定をするには、'mm-trace'コマンドを使うことができます。
+
+A MidoNet エージェントは、受信パケットをマッチングする際に、設定されたログのレベルに関わらずエージェントのログファイルのシミュレーションに関する全てのログをとるフィルターを持つことができます。
+
+全てのトレースメッセージはパケットを識別するための"cookie:"プレフィックスを持っており、そのプレフィックスはトレーシングメッセージではないものをフィルターアウトするためのグレップ表現として使われます。
+
+[IMPORTANT]
+====
+フィルターは永続的ではなく、エージェントがリブートされる度に失われます。
+
+しかしながら、mm-traceはまったく同じシンタックスのフィルターを表示し、そのフィルターを再追加できるようにするので、運用者がコマンドを簡単に再実行することを可能にします。
+====
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Usage
+
+全ての利用可能なオプションは'--help'オプションとともに表示されます:
+
+[source]
+----
+$ mm-trace --help
+  -h, --host  <arg>   Host (default = localhost)
+  -p, --port  <arg>   JMX port (default = 7200)
+      --help          ヘルプメッセージの表示
+
+Subcommand: add - add a packet tracing match
+  -d, --debug                デバッグレベルでのログ
+      --dst-port  <arg>      TCP/UDP送信先ポートのマッチ
+      --ethertype  <arg>     イーサータイプのマッチ
+      --ip-dst  <arg>        IP送信先アドレスのマッチ
+      --ip-protocol  <arg>   IPプロトコルフィールドのマッチ
+      --ip-src  <arg>        IP送信元アドレスのマッチ
+  -l, --limit  <arg>         このトレースを使用不可にする前にパケット数をマッチ
+      --mac-dst  <arg>       送信先MACアドレスのマッチ
+      --mac-src  <arg>       送信元MACアドレスのマッチ
+      --src-port  <arg>      TCP/UDP送信元ポートのマッチ
+  -t, --trace                トレースレベルでのログ
+      --help                 ヘルプメッセージの表示
+Subcommand: remove -パケットトレーシングマッチの除去
+  -d, --debug                デバッグレベルでのログ
+      --dst-port  <arg>      TCP/UDP送信先ポートのマッチ
+      --ethertype  <arg>     イーサータイプのマッチ
+      --ip-dst  <arg>        IP送信先アドレスのマッチ
+      --ip-protocol  <arg>   IPプロトコルフィールドのマッチ
+      --ip-src  <arg>        IP送信元アドレスのマッチ
+  -l, --limit  <arg>         このトレースを使用不可にする前にパケット数をマッチ
+      --mac-dst  <arg>       送信先MACアドレスのマッチ
+      --mac-src  <arg>       送信元MACアドレスのマッチ
+      --src-port  <arg>      TCP/UDP送信元ポートのマッチ
+  -t, --trace                トレースレベルでのログ
+      --help                 ヘルプメッセージの表示
+Subcommand: flush -トレーシングマッチのリストの消去
+  -D, --dead-only   期限切れのトレーサーのみのフラッシュ
+      --help        ヘルプメッセージの表示 
+Subcommand: list - 全てのアクティブなトレーシングマッチのリスト化
+  -L, --live-only   アクティブトレーサーのみのリスト化
+      --help        ヘルプメッセージの表示 
+----
+
+== Example
+
+[source]
+----
+$ mm-trace list
+$ mm-trace add --debug --ip-dst 192.0.2.1
+$ mm-trace add --trace --ip-src 192.0.2.1 --dst-port 80
+$ mm-trace list
+tracer: --debug --ip-dst 192.0.2.1
+tracer: --trace --ip-src 192.0.2.1 --dst-port 80
+$ mm-trace remove --trace --ip-src 192.0.2.1 --dst-port 80
+Removed 1 tracer(s)
+$ mm-trace flush
+Removed 1 tracer(s)
+----

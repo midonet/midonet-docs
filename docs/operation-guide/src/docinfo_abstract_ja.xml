@@ -1,0 +1,23 @@
+<abstract xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <para>
+        MidoNetはInfrastructure-as-a-Service (IaaS)クラウドを可能にするネットワーク仮想化ソフトウェアです。
+    </para>
+    <para>
+        これによりIaaSクラウドをネットワークハードウェアを切り離すことができ、自分側のホストと、自分の物理ネットワークの間にインテリジェントなソフトウェア抽象化レイヤーを作ることができます。
+    </para>
+    <para>
+        このガイドには、ルーター、ブリッジ、ポートの作成が含まれます。また、ルールチェーンといくつかのMidoNetのフィーチャー、例えば、L4ロードバランシング、リソースプロテクション、NAT設定、IPパケットフラグメンテーションの対応、L2アドレスマッチングなど、が含まれます。
+    </para>
+    <para>
+        <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
+        {draftWarningJA}
+
+        <!-- Link to Mailing Lists and Chat. -->
+        <note>
+            <para>
+                もし、ヘルプが必要ならば、以下のリンクを参照ください。
+                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or Chat</link>
+            </para>
+        </note>
+    </para>
+</abstract>

@@ -1,0 +1,60 @@
+[[recommended_configurations]]
+= 推奨される設定
+
+このセクションには、MidoNetのパフォーマンスに影響を及ぼす推奨設定の情報が含まれています。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== 設定オプションの概要
+
+*mn-conf(1) の +agent.midolman+ セクション*
+
+*midolman.conf*
+
+*[midolman]*
+
+simulation_threads - パケット処理に専属的に使われるスレッドの数
+
+output_channels - フロー作成とパケット実行に活用されるアウトプットチャネルの数。各チャネルには専属スレッドがあります。
+.
+
+input_channel_threading - 各データポートからパケットを受け取る為に、MidoNetエージェントは、専属のNetlinkチャネルを作成します。このオプションは、それらのチャネルにおける、読み込みのスレッドストラテジーをチューチングします：one_to_manyの場合は、全てのインプットチャネルに対して、エージェントは一つのスレッドを使います。one_to_oneの場合は、各インプットチャネルに対して、エージェントが一つのスレッドを使います。
+
+*mn-conf(1) の +agent.datapath+ セクション*
+
+global_incoming_burst_capacity - パケットが処理されてシステムをだて行く時にリフィルされるHierarchical Token Bucket (HTB)によって、入ってくるパケットはレート制限されます。この設定は、HTTBの中のルートバケットのパケット内のサイズをコントロールします。デーモンがパケットのドロップを始める前に、バースト内（ハンドルできる高いほうのレート）で受け入れるパケットの数になります。それは、システム内のインフライトパケットの最大数です。この値の変更は、ハイスループットのレイテンシーに影響します。
+
+tunnel_incoming_burst_capacity - トンネルポートはHTTBで自らのバケット取ることができます。最大レートで送られない時に、トンネルポートがバーストキャパシティー蓄積することを許可します。この設定は、そのバケットのパケット内のサイズをコントロールします。
+
+vm_incoming_burst_capacity - 各VMポートは、HTBの中で自らのバケットを獲得します。最大レートで送られない時に、トンネルポートがバーストキャパシティー蓄積することを許可します。この設定は、そのバケットのパケット内のサイズをコントロールします。
+
+*mn-conf(1) の +agent.loggers+ セクション*
+
+*root*
+
+loglevel - デフォールトのログレベルです。DEBUG設定は、開発とトラブルシューティングのみに利用します。なぜなら、この設定はパフォーマンスに影響する上、非常に冗長的だからです。
+
+*midolman-env.sh*
+
+MAX_HEAP_SIZE - JVMに割り当てられるメモリーの総量
+
+HEAP_NEWSIZE - エデンのガベージコレクション生成に使われるJVMメモリーの総量です。パケット処理の際に短命なオブジェクト向けにエージェントが使うメモリーの量は、概算して全体の７５％です。
+
+== 推奨値
+
+.推奨される設定値 [options="header"]
+|===============
+|File|Section|Option|Compute|Gateway|L4 Gateway
+
+|logback.xml|root|level|INFO|INFO|INFO
+|midolman-env.sh|-|MAX_HEAP_SIZE|2048M|6144M|6144M
+|midolman-env.sh|-|HEAP_NEWSIZE|1536M|5120M|5120M
+|mn-conf(1)|[agent.midolman]|simulation_threads|1|4|16
+|mn-conf(1)|[agent.midolman]|output_channels|1|2|2
+|mn-conf(1)|[agent.midolman]|input_channel_threading|one_to_many|one_to_many|one_to_many
+|mn-conf(1)|[agent.datapath]|global_incoming_burst_capacity|128|256|128
+|mn-conf(1)|[agent.datapath]|tunnel_incoming_burst_capacity|64|128|64
+|mn-conf(1)|[agent.datapath]|vm_incoming_burst_capacity|16|32|16
+|===============

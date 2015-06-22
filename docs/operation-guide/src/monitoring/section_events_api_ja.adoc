@@ -1,0 +1,38 @@
+[[api_server_events]]
+
+= APIサーバーイベント
+
+このセクションではAPIサーバーイベントに関連するメッセージについて説明します。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== NSDB (Network State Database)
+
+|===============
+|Logger|org.midonet.event.api.Nsdb.CONNECT
+|Message| NSDBクラスターに接続しました。
+|Level|INFO
+|Explanation| APIサーバーはNSDBクラスターに接続していました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.api.Nsdb.DISCONNECT
+|Message|NSDBクラスターから切断しました。
+|Level|WARNING
+|Explanation| APIサーバーはNSDBクラスターより切断されています。
+|Corrective Action|
+ このイベント後、接続が復元されていたならば修正措置は必要ありません。もし  このイベントが続くようであれば、APIサーバーとNSDBクラスター間のネットワーク接続を確認してください。
+|===============
+
+|===============
+|Logger|org.midonet.event.api.Nsdb.CONN_EXPIRE
+|Message|CONN_EXPIRE NSDBクラスターへの接続は期限切れです。
+|Level|ERROR
+|Explanation|APIサーバーからNSDBクラスターへの接続は期限切れです。
+|Corrective Action|
+    APIサーバーとNSDBクラスター間のネットワーク接続を確認して、NSDBクラスターに再接続するようにMidoNet APIサーバーを再起動してください。
+
+|===============

@@ -1,0 +1,16 @@
+[[configuration]]
+= 設定
+
+それぞれのイベントメッセージはlogback (http://logback.qos.ch/)によって生成されます。
+
+設定ファイルは、ノードのタイプにより以下のロケーションにおかれます。
+
+.Configuration Files/Locations
+[options="header"]
+|===============
+|Type of Node          |設定ファイルのロケーション
+|MidoNet Network Agent |/etc/midolman/logback.xml
+|MidoNet API server    |/usr/share/midonet-api/WEB-INF/classes/logback.xml
+|===============
+
+以下は、MidoNetのリリース時にデフォルト設定されているビヘイビアですが、好きなようにビヘイビアを設定することが可能です。logback.xmlファイルの設定方法についての説明はhttp://logback.qos.ch/manual/index.htmlをご参照ください。

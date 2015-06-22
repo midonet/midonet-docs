@@ -1,4 +1,4 @@
-[[appi_configuration_options]]
+[[api_configuration_options]]
 = Advanced MidoNet API configuration options
 
 This section describes the configuration elements advanced users can employ.

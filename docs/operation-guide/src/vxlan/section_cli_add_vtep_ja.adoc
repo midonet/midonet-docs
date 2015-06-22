@@ -1,0 +1,33 @@
+[[cli_add_vtep]]
+= VTEPを追加します
+
+このコマンドは、ハードウェアVTEPをMidoNetに追加する時に使います。
+
+*シンタックス*
+
+[source]
+vtep add management-ip vtep-ip-address management-port vtep-port tunnel-zone-id tunnel-zone-id
+
+上記の内容は、_vtep-ip-address_ ならびに _vtep-port_が、VTEPのマネージメントIPアドレスならびにポートであり、_tunnel-zone-id_が(MidolManの中の)VXLANトンネルのもう片方のエンドポイントとして使われるインターフェースを特定するために使われる場合です。
+
+vtep add management-ip vtep-ip-address management-port vtep-port tunnel-zone-id tunnel-zone-id
+
+*結果*
+
+コマンドが成功裏に実行されれば、そのコマンドと一緒にZookeepterに提供した情報が書き込まれます。これらのパラメータを伴ったVTEPが既に存在する場合には、コマンドはエラーメッセージを返信します。
+
+*事例*
+
+成功したコマンドの事例：
+
+[source]
+midonet> vtep add management-ip 119.15.120.123 management-port 6633 tunnel-zone tzone0
+management-ip 119.15.120.123 management-port 6633 tunnel-zone tzone0 connection-state CONNECTED
+
+成功しなかったコマンドの事例：
+
+[source]
+midonet> vtep add management-ip 119.15.120.123 management-port 6633
+Internal error: {"message":"Validation error(s) found","code":400,"violations":[{"message":"Tunnel zone ID is not valid.","property":"tunnelZoneId"}]}
+
+

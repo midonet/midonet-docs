@@ -1,0 +1,31 @@
+[[controller_node_services]]
+= コントローラーノードのサービス
+
+このセクションはコントローラーノサービスを使われるTCP/UDPポートのリスト化をしています。
+
+[options="header"]
+|===============
+|Category|Service|Prot ocol|Port|Self|Controller|Compute|Mgmt. PC
+|OpenStack|glance-api|TCP|9292|x|x|x|x
+|OpenStack|httpd (Horizon)|TCP|80|x| | |x
+|MidoNet|midonet-api|TCP|8080|x|x| |x
+|OpenStack|swift-object-server|TCP|6000|x|x|x|
+|OpenStack|swift-container-server|TCP|6001|x|x|x|
+|OpenStack|swift-account-server|TCP|6002|x|x|x|
+|OpenStack|keystone|TCP|35357|x|x|x|x
+|OpenStack|neutron-server|TCP|9696|x|x|x|x
+|OpenStack|nova-novnc-proxy|TCP|6080|x|x| |x
+|OpenStack|heat-api|TCP|8004|x|x| |x
+|OpenStack|nova-api|TCP|8773|x|x| |x
+|Tomcat|Tomcat shutdown control channel|TCP|8005|x|x| |
+|OpenStack|nova-api|TCP|8774|x|x|x|x
+|OpenStack|nova-api|TCP|8775|x|x|x|x
+|OpenStack|glance-registry|TCP|9191|x|x|x|
+|OpenStack|qpidd|TCP|5672|x|x|x|
+|OpenStack|keystone|TCP|5000|x|x|x|x
+|OpenStack|cinder-api|TCP|8776|x|x|x|x
+|Tomcat|Tomcat management port (not used)|TCP|8009|x|x| |
+|OpenStack|ceilometer-api|TCP|8777|x|x|x|x
+|OpenStack|mongod (ceilometer)|TCP|27017|x|x|x|
+|OpenStack|MySQL|TCP|3306|x|x|x|
+|===============

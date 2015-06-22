@@ -1,0 +1,16 @@
+[[gateway_node_services]]
+= ゲートウェイノードのサービス
+
+このセクションはゲートウェイノードのサービスによって使われるTCP/UDPポートをリスト化しています。
+
+[options="header"]
+|===============
+|Category|Service|Prot ocol|Port|Self|Misc.|Comment
+|MidoNet|midolman|TCP|random|x| |
+ midolemanはTCPハイナンバーポートを　“LISTEN” します。各MNエージェントホストでポート番号はランダムに選択されます。
+|MidoNet|midolman|TCP|7200|x|x|
+    もし健全性をモニターする為にこのポートを使っているなら、JMXモニターポートはモニターサーバーからのコミュニケーションを可能にします。
+|MidoNet|quagga bgpd control|TCP|2606|x| |NetworkNameSpace mbgp[Peer Number]_ns
+|MidoNet|quagga bgpd bgp|TCP|179| |BGP neighbor|NetworkNameSpace mbgp[Peer Number]_ns
+|===============
+

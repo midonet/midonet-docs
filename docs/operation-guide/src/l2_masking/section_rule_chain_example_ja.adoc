@@ -1,0 +1,36 @@
+[[rule_chain_example]]
+= L2アドレスマスクルールチェーンの例を指します。
+
+ここでは、L2アドレスマスクルールチェーンの作成方法の例を挙げています。
+
+. Create a chain (this creates chain alias, "chain0" in the example, pointing to
+the chain created):
+チェーンを作成します。（作成されたチェーンにポイントされているチェーンエイリアスを作成します。エイリアスの例としては、”chain0”が挙げられています。）:
+
++
+[source]
+create chain name "l2-mask"
+
+. トラフィックをドロップするルールをチェーンに追加します。ルールは、src (source) MAC not
+starting with 12:34:56となります:
++
+[source]
+chain chain0 create rule hw-src !12:34:56:78:90:ab hw-src-mask ffff.ff00.0000 type drop
+
+*例*
+
+hw-dst-maskの使い方の例をここに挙げています。
+
+特定のL2バーチャルネットワーク（ブリッジ）上の全てのマルチキャストトラフィックをブロック（ドロップ）します。MACアドレスの最初のオクテット（最も重要）の８番目のビット（最も重要でない）がマルチキャストなら”1”でユニキャストなら”0”になります。
+
+しかしながら、MACブロードキャストアドレスの全てのオクテットが”FF”に設定されている場合、ARPリクエストなどのブロードキャストパケットをドロップしないことをお勧めします。従ってそのような場合は、以下の二つのルールをバーチャルブリッジのプレブリッジルールチェーンに追加します:
+* ポジション１では、もし”hw-dst”が"ff:ff:ff:ff:ff:ff”の場合、承認します。
++
+[source]
+midonet> chain chain0 add rule hw-dst ff:ff:ff:ff:ff:ff type accept
+
+* ポジション２では、もし”hw-dst”が”0100.0000.0000”ビットセットの場合、ドロップします。
++
+[source]
+chain chain0 add rule hw-dst 01:00:00:00:00:00 hw-dst-mask 0100.0000.0000 pos 2 type drop
+

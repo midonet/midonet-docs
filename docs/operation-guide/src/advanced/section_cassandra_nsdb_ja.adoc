@@ -1,0 +1,40 @@
+[[nsdb_connectivity]]
+= ネットワークステートデータベースコネクティビティー
+
+MidoNetネットワークステートデータベースを修正するために、web.xmlファイルの以下のパラメーターを設定する必要があります：
+
+* zookeeper-zookeeper_hosts
+
+* zookeeper-session_timeout
+
+* cassandra-servers
+
+以下は、web.xmlスニペッツの事例です。
+
+[NOTE]
+残りの設定は、クラウドコントローラーに依拠しており、このドキュメントの関連するセクションでカバーされています
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== zookeeper-zookeeper_hosts
+
+ZooKeeperホストのリストはMidoNet設定データを格納するために使われます。エントリーはコンマ区切りになります：
+
+[source]
+<context-param>
+    <param-name>zookeeper-zookeeper_hosts</param-name>
+    <param-value>192.168.1.100:2181,192.168.1.101:2181,192.168.1.102:2181</param-value>
+</context-param>
+
+== zookeeper-session_timeout
+
+ZookeeperがZookeeperサーバーからクライントをディスコネクトすることを検討してからタイムアウトバリュー（ミリ秒単位）で設定します。
+
+[source]
+<context-param>
+    <param-name>zookeeper-session_timeout</param-name>
+    <param-value>30000</param-value>
+</context-param>
+

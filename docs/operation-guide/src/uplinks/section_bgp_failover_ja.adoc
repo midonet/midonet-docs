@@ -1,0 +1,29 @@
+[[bgp_failover]]
+= BGPピアにおけるBGPフェールオーバーの設定
+
+デフォルトのBGPフェールオーバー時間は２、３分になっています。しかし、BGPセッションの両端のいくつかのパラメータを変更することによって、この時間を減らすことができます。
+
+MidoNet側の +mn-conf(1)+ とリモートエンドのBGPピア設定を変更する必要があります。
+
+基本的なBGPタイマーは'keepalive' と 'holdtime'です。デフォルト設定で、keepalive 
+タイマーは60秒です。hold-downタイマーは通例で、keepaliveインターバルの３倍、つまり１８０秒になっています。この値は最小でそれぞれ、１秒と３秒に下げることができます。しかし、これはBGPセッションのフロッピングを引き起こしてしまう可能性があることをご留意ください。
+
+もう一つ設定したい重要なBGPタイマーは、BGP'connect_retry'タイマーで、’connect’タイマーとも呼ばれます。何らかの理由で落ちてしまった設定済みのピアで接続の再トライのインターバルの時間を設定することができます。
+
+この下の事例は、BGPピアのセッションエンド（Quagga や Ciscoなど）におけるデフォルトのBGPの値をkeep-alive, hold-time, connect-retryでそれぞれ 1秒、１秒、３秒に減らすやり方を示しています：
+
+[source]
+neighbor 192.0.2.1 timers 1 3
+neighbor 192.0.2.1 timers connect 1
+
+これらの設定にマッチする為に、BGP セッションのMidoNet側で以下のパラメーターを設定する必要があります：
+
+[source]
+----
+# bgpd
+bgp_connect_retry=1
+bgp_holdtime=3
+bgp_keepalive=1
+----
+
+

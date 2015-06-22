@@ -1,0 +1,81 @@
+[[l4lb_configuration]]
+= ロードバランサーの設定
+
+この手続きは、MidoNet内でロードバランサーを作成して設定する為に必要なステップを提供しています。それを行う為の、CLIコマンドの事例を示しています。
+
+MidoNetデプロイメントで利用可能なルーターのリストを決定することから始めましょう：
+
+[source]
+midonet> list router
+router router0 name TenantRouter state up infilter chain0 outfilter chain1
+router router1 name MidoNet Provider Router state up
+
+見て分かるように、ロードバランサーを作成するテナントルーターはrouter0です。
+
+[IMPORTANT]
+MidoNetの中で、ルーターにはインバウンドとアウトバウンドのフィルターがあります。もし、ルーターの中のロードバランサーが、トラフィックのバランスを取るならば、これらのフィルターはスキップされます。OpenStackと一緒にMidoNetを使うならば、これらのフィルターは、ロードバランサーとは関連のないNATルールのみを通常含むことになります。しかし、ルーターのフィルターにたいして、カスタマイズしたルールを追加するならば、上記を考慮する価値はあります。
+
+.ロードバランサーを作成して、テナントルーターに割り当てます。
++
+[source]
+midonet> load-balancer create
+lb0
+midonet> router router0 set load-balancer lb0
++
+ルーターにアサインされるロードバランサーは、そのルーターの中のトラフィックフローに働きかけます。
+
+. ターゲットのバックエンドサーバーがアサインされるプールを作成します。
++
+[source]
+midonet> load-balancer lb0 create pool lb-method ROUND_ROBIN
+lb0:pool0
+midonet> load-balancer lb0 pool pool0 show
+pool pool0 load-balancer lb0 lb-method ROUND_ROBIN state up
+
+. 次に、たった今作成したターゲットのバックエンドサーバーを追加します。
++
+[source]
+midonet> load-balancer lb0 pool pool0 create member address 192.168.100.1 protocol-port 80
+lb0:pool0:pm0
+midonet> load-balancer lb0 pool pool0 member pm0 show
+pm pm0 address 192.168.100.1 protocol-port 80 weight 0 state up
++
+各バックエンドサーバーに対して、IPアドレスとポートをプールに加える必要があります。
+
+. 仮想IPアドレス(VIP)を作成して、それをロードバランシングが稼働しているプールに割り当てます。(lb0:pool0)通常は、VIP はパブリックIPスペースからのIPアドレスです。 
++
+[source]
+midonet> load-balancer lb0 pool pool0 list vip
+midonet> load-balancer lb0 pool pool0 create vip address 203.0.113.2 persistence SOURCE_IP protocol-port 8080
+lb0:pool0:vip0
+midonet> load-balancer lb0 pool pool0 vip vip0 show
+vip vip0 load-balancer lb0 address 203.0.113.2 protocol-port 8080 persistence SOURCE_IP state up
++
+[NOTE]
+ポート8080はただ単なる事例です。ロードバランシングトラフィックのためのポートを使うには、最初に、それが他で使われていないことを確認する必要があります。
+
+.最後に、プロバイダールーター(router1)に適切なルーティングルールを挿入する必要があります。そうすることで、外部ネットワークからVIPに送られたパケットは、テナントルーターに対するパスを見つけることができます。
+Lastly, you must insert an appropriate routing rule on the provider router
+(router1) so that a packet sent from an external network to the VIP is able to
+find its way to the tenant router.
+
+.. 最初に、router router1 list portのようなコマンドを使って、プロバイダールーターのポートを識別します:
++
+[source]
+midonet> router router1 list port
+port port0 device router1 state up mac 02:c2:0f:b0:f2:68 address 100.100.100.1 net 100.100.100.0/30
+port port1 device router1 state up mac 02:cb:3d:85:89:2a address 172.168.0.1 net 172.168.0.0/16
+port port2 device router1 state up mac 02:46:87:89:49:41 address 200.200.200.1 net 200.200.200.0/24 peer bridge0:port0
+port port3 device router1 state up mac 02:6b:9f:0d:c4:a8 address 203.0.113.2 net 203.0.113.0/30 peer router0:port0
+...
++
+トラフィックをテナントルーター(router0)にルートする為に使用されるプロバイダールーターのポートを示しているリストを見てください。これはルーターport3です。
+
+.. 次に、プロバイダールーターport3をMidNet設定に追加してください。
++
+[source]
+midonet> router router1 add route dst 203.0.113.2/32 src 0.0.0.0/0 type normal port router1:port3
+router1:route11
++
+このルールは、やってくるトラフィック(src 0.0.0.0/0)をプロバイダールーターにマッチします。これは、プロバイダールーター203.0.113.2 (dst 203.0.113.2/32)のVIPに送られて、プロバイダールーターポート3(router1:port3)に送ります。
+

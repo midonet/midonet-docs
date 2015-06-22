@@ -1,0 +1,47 @@
+[[concept_i13_q4d_q4]]
+= ブリッジをルーターに接続します
+
+二つのデバイスの仮想ポートを通じて仮想ルーターを仮想ブリッジに簡単に接続することができます。各デバイスの内部ポートと、ブリッジとルーターを作成することを確認してください。
+
+[NOTE]
+ルーターとブリッジの作成とルーターとブリッジポートの追加に関する情報はxref:creating_a_router[] と xref:adding_a_bridge[]を参照ください。
+
+ルーターをブリッジに接続するには:
+
+. 現在のテナントのブリッジをリスト化するためのコマンドを入力してください：
++
+[source]
+midonet> list bridge
+bridge bridge1 name test-bridge state up
+
+. ブリッジのポートをリスト化するためのコマンドを入力してください:
++
+[source]
+midonet> bridge bridge1 list port
+port port0 device bridge1 state up
+
+. 現在のテナントのルーターをリスト化するためのコマンドを入力してください:
++
+[source]
+midonet> list router
+router router1 name test-router state up
+
+. ルーターのポートのリスト化するためのコマンドを入力してください:
++
+[source]
+midonet> router router1 list port
+port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24
+
+. 適せつなブリッジポート（例えばbridge1のport0）に適切なルーターポート（例えば、router1のport0）にバインドするためのコマンドを入力してください：
++
+[source]
+midonet> router router1 port port0 set peer bridge1:port0
+
+. ルーターのポート（例えば、router1）をリスト化するためのコマンドを入力してください:
++
+[source]
+midonet> router router1 list port
+port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24 peer bridge1:port0
++
+上記のアウトプットはrouter1のport0が bridge1のport0に接続されたことを示しています。
+

@@ -1,0 +1,55 @@
+[[cli_show_vtep]]
+= VTEPに関する情報を入手します
+
+選択したVTEPに関する情報を入手するにはこのコマンドを使ってください。
+
+*シンタックス*
+
+[source]
+vtep management-ip vtep-ip-address show property
+
+上記プログラムは_property_ が以下のVTEP属性の１つに当てはまる時に実行します：
+
+* 名前
+
+* 説明
+
+* マネージメント-ip
+
+* マネージメント-ポート
+
+* 結果 *
+
+コマンドはVTEPに関する以下の情報を返信します：
+
+* 名前
+
+* 説明
+
+* マネージメントIPアドレス(これはコマンドとともに使用したIPと同じアドレス)
+
+* mgmt_port (これはコマンドが使用するポートバリューと同じもの)
+
+*トンネルIP
+
+*接続状況(次のいずれかである：接続中、切断中、エラー。エンドポイントがVXLAN End Pointではない場合にはステータスはエラーになります。)
+
+* 各種ポート　?　これは三種類の内容(port_name, port_description, port_bindings)がリスト化されたもので、この中のport_bindingsとは(vlan, neutronNetworkId, logicalSwitchName) をリスト化したものです。
+
+*事例*
+
+コマンドが成功した場合：
+
+[source]
+midonet> vtep management-ip 119.15.112.22 show name
+br0
+
+[source]
+midonet> vtep vtep0 show management-ip
+119.15.112.22
+
+コマンドが成功しなかった場合：
+
+[source]
+midonet> vtep management-ip 119.15.112.22 show id
+Syntax error at: ...id

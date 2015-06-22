@@ -1,0 +1,38 @@
+[[connect_vtep_to_midonet]]
+= VTEPとMidoNetホストとの間の接続を実現します
+
+ニュートロンの初期設定は、そのネットワーク全てについてのセキュリティールールを含んでいるため、そのネットワーク上のVMのIP/MACが宛先であるトラフィックにしか送信がされないよう制限がかかっています。
+
+VTEPの中であるネットワークを物理的なポートにバインドすることで、事実上、ニュートロン自体が認識していないこのニュートロンネットワークのL2セグメントに、ホストを追加していることになるのです。よって、これらの物理的なホストに向けたトラフィックはドロップされることになります。
+
+以下に挙げた手順は、VTEP上のホストへのトラフィックを許可するために、初期設定されている進入セキュリティールールをどのように変更するかを示しています。
+
+. このコマンドを発行し、初期設定されている進入セキュリティールールがいかなるものなのかをMidoNet CLIの中で確認します：
++
+[source]
+midonet> list chain
+chain chain0 name OS_SG_64d9f3df-9875-4896-ad0c-ffc5bba84c5e_INGRESS
+chain chain1 name OS_SG_64d9f3df-9875-4896-ad0c-ffc5bba84c5e_EGRESS
+...
++
+ニュートロンネットワークに割り当てられている進入セキュリティールールを見つけます。ここではチェーン0を使います。
+これはルールチェーン(OS_SG_64d9f3df-9875-4896-ad0c-ffc5bba84c5e_INGRESS)であり、進入チェーンです。
+
+. このコマンドを立ち上げて、このセキュリティールールを実装する各種ルールをリスト化します：
++
+[source]
+midonet> chain chain0 list rule
+rule rule0 ethertype 2048 proto 0 tos 0 ip-address-group-src ip-address-group0 fragment-policy unfragmented pos 1 type accept
+rule rule1 ethertype -31011 proto 0 tos 0 ip-address-group-src ip-address-group0 fragment-policy unfragmented pos 2 type accept
++
+ICMPパケット(ethertype2048=IP)を制御する担い手であるセキュリティーグループはip-address-group0です。
+
+. それでは、VTEP上にあるホストのIPアドレスをsecurity group ip-address-group0に追加します。
++
+たとえば、ホストのIPアドレスが172.16.0.3であるとすれば、以下のコマンドを立ち上げます：
++
+[source]
+midonet> ip-address-group ip-address-group0 add ip address 172.16.0.3
+address 172.16.0.3
+
+これで、VTEP上にあるホスト172.16.0.3からMidoNetの中のホストにpingすることができます。(ただし両者が同じトンネルゾーンにいることが条件です。)

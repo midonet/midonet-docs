@@ -22,6 +22,7 @@
         <module>build/quick-start-guide_ubuntu-1404_juno_en</module>
         <module>build/quick-start-guide_ubuntu-1404_kilo_en</module>
         <module>build/operation-guide_en</module>
+        <module>build/operation-guide_ja</module>
         <module>build/reference-architecture_en</module>
         <module>build/rest-api_en</module>
         <module>build/troubleshooting-guide_en</module>

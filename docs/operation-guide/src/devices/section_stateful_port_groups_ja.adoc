@@ -1,0 +1,77 @@
+[[stateful_port_groups]]
+= ステートフルポートグループ
+
+MidoNetはステートフルなポートグループを特徴としています。これは通常ロードバランスやリンク冗長の実行を行うための論理的に関連づけられた仮想ポートのグループ（通常は２つ）です。
+
+そのようなポートに対して、MidoNetは接続の二つのエンドポイントの状態をローカルとしてキープします。ほとんどの場合は、MidoNetを横切る接続は、ポートのシングルペアの間で、その状態をキープします。二つのアップリンクBGPポートとルーター、もしくは、物理L2ネットワークを二つポートがあるL2GWを結びつけるような典型的なケースがあります。これらのケースでは、ポートのペアがポートのセットになります。なぜなら、パケットが違ったパスを通じてリターンされるからです。これらのポートペアは状態を共有します。
+
+ポートグループコマンドを使って、MidoNet CLIでステートフルなポートグループを設定します。
+
+== ステートフルなポートグループを作成します。
+
+以下はMidoNet CLIを使って、ポートのステートフルなグループを作成するステップです。
+
+MidoNet CLIをローンチする前に、ポートグループを作成したいテナントのOpenStack UUID を見つける必要があります。ここでは、キーストーンを使うことができます。MidoNetホストのターミナルで以下のコマンドを打ってみましょう：
+
+[source]
+[root@rhos5-allinone-jenkins ~]# source keystonerc_admin
+[root@rhos5-allinone-jenkins ~(keystone_admin)]# keystone tenant-list
++----------------------------------+----------+---------+
+|                id                |   name   | enabled |
++----------------------------------+----------+---------+
+| 7a4937fa604a425e867f085427cc351e |  admin   |   True  |
+| 037b382a5706483a822d0f7b3b2a9555 | alt_demo |   True  |
+| 0a1bf57198074c779894776a9d002146 |   demo   |   True  |
+| 28c40ac757e746f08747cdb32a83c40b | services |   True  |
++----------------------------------+----------+---------+
+
+このコマンドのアウトプットはテナントのフルリストになります。このプロシージャでは、’admin’テナント、7a4937fa604a425e867f085427cc351eを使います。
+
+. MidoNet CLIは利用可能なルーターのリストを検証します。
++
+[source]
+midonet> list router
+router router0 name MidoNet Provider Router state up
+router router1 name TenantRouter state up
++
+このポートグループに追加するルーターのポートがMidoNetプロバイダールーター、router0と想定しましょう。
+
+. router0でポートをリスト化します。
++
+[source]
+midonet> router router0 list port
+port port0 device router0 state up mac 02:c2:0f:b0:f2:68 address 100.100.100.1 net 100.100.100.0/30
+port port1 device router0 state up mac 02:cb:3d:85:89:2a address 172.168.0.1 net 172.168.0.0/16
+port port2 device router0 state up mac 02:46:87:89:49:41 address 200.200.200.1 net 200.200.200.0/24 peer bridge0:port0
+port port3 device router0 state up mac 02:6b:9f:0d:c4:a8 address 169.254.255.1 net 169.254.255.0/30
++
+プロバイダールーターのBGPトラフィックのロードバランスを行うためにport0とport1をルーターに追加しましょう。
+
+. ‘sett’コマンドを使ってテナントをロードします。
++
+[source]
+midonet-cli> sett 7a4937fa604a425e867f085427cc351e
+tenant_id: 7a4937fa604a425e867f085427cc351e
+
+. 'port-group create'を使って、ステートフルなポートグループを作成します。
++
+[source]
+midonet-cli> port-group create name SPG stateful true
+pgroup0
+
+. ロードバランスに追加したいプロバイダールーターの二つのポートを、ちょうど作成したポートグループに加えます。
++
+[source]
+midonet> port-group pgroup0 add member port router0:port0
+port-group pgroup0 port router0:port0
+midonet> port-group pgroup0 add member port router0:port1
+port-group pgroup0 port router0:port1
+
+ステートフルなポートグループに、二つのルーターポートの追加を無事にできました。
+これは、以下のコマンドを使って検証できます：
+
+[source]
+midonet> port-group pgroup0 list member
+port-group pgroup0 port router0:port1
+port-group pgroup0 port router0:port0
+

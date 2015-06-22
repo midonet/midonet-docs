@@ -1,3 +1,4 @@
+[[create_tunnel_zone]]
 = Creating tunnel zones
 
 This section describes how to create tunnel zones.

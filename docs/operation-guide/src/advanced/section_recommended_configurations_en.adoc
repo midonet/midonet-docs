@@ -57,6 +57,7 @@ HEAP_NEWSIZE - The total amount of the JVM memory that will be dedicated to the
 Eden garbage-collection generation. 75% of the total is a good ballpark figure,
 as the Agent uses most of the memory for short-lived objects during packet
 processing.
+
 == Recommended Values
 
 .Recommended Configuration Values

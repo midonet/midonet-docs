@@ -1,0 +1,123 @@
+[[establish_bgp_session]]
+= BGPセッションを確立します。
+
+このセクションは、BGPセッションの設定方法プロセスのウォークスルーをします。
+
+BGPを設定する時に以下の情報があることを確認ください：
+
+* BGPセッションを確立する仮想ルーターを持っているテナントID.通常このルーターは“MidoNetプロバイダールーター”で使用されるテナントIDは”admin”です。
+
+* BGPセッションのためのローカルとピアの自律システム（AS）番号。我々の例だと64512 と64513を使います。
+
+* BGPピアのIPアドレス
+
+* BGPピアにアドバタイズするルートのリスト
+
+* “MidoNetプロバイダールーター”のUUID
+
+我々の事例では、仮想トポロジーには、一つのポートに一つのルーターが含まれています。
+
+. midonet-cli を開始してプロバイダルーターを見つます
++
+midonet-cliを開始するために、システムのプロンプトに以下を入力します：
++
+[source]
+$ midonet-cli
++
+出てくるmidonet>プロンプトに、以下のコマンドをタイプしてください：
++
+[source]
+midonet> cleart
+midonet> router list
+router router0 name MidoNet Provider Router
++
+cleartコマンドは、CLIにロードされているテナントを取り除きます。プロバイダールーターにはテナントIDセットが無いので、テナントをまず最初に取り除く必要があります。
+
+.アドミンテナントをロードする為に以下のコマンドを発行します：
++
+[literal,subs="quotes"]
+midonet> sett _admin_
++
+where _admin_がOpenStackにおけるアドミンテナントUUIDです。例えば：12345678-90123456-123456789012などがあります。 OpenStack アイデンティティサービス（keystone）をコールすることによってこの識別子を獲得することができます：
++
+[source]
+$ keystone tenant-list
+
+. BGPセッションのための仮想ポートを作成します。
++
+リモートルーターとBGPコミュニケーションに使われる仮想ポートを作成する必要があります：
++
+[source]
+midonet> router router0 add port address 10.12.12.1 net 10.12.12.0/24
+router0:port0
++
+作成したポートを検証する為に、以下を入力ください：
++
+[source]
+midonet> router router0 list port
+port port0 device router0 state up mac 02:47:98:a1:e5:f8 address 10.12.12.1 net 10.12.12.0/24
+
+.  BGPセッションを作成する為に、ポートのBGPリンクのリスト化から開始します：
++
+[source]
+midonet> router router0 port port0 list bgp
++
+このコマンドのアウトプットはBGPリンクを戻すべきではありません。MidoNethは各ポートに一つのBGPセッションしかサポートしていないからです。
++
+次に、BGPセッションをポートに加えます：
++
+[source]
+midonet> router router0 port port0 add bgp local-AS 64512 peer-AS 64513 peer 10.12.12.2
+router0:port0:bgp0
+midonet> router router0 port port0 list bgp
+bgp bgp0 local-AS 64512 peer-AS 64513 peer 10.12.12.2
+
+. ルートをアドバタイズします。
++
+この時点で、BGPセッション上でルートをアドバタイズできます。OpenStackの環境で、ホストになった仮想マシンに外部接続性を提供する為にBGP上のパブリックフローティングIPレンジをアドバタイズする必要があります。
+
++
+[source]
+midonet> router router0 port port0 bgp bgp0 add route net 192.168.12.0/24
+router0:port0:bgp0:ad-route0
+midonet> router router0 port port0 bgp bgp0 list route
+ad-route ad-route0 net 192.168.12.0/24
+
+. ルーターのポートと物理ネットワークのインターフェースをバインドします。
++
+BGPピアに接続する為にルーターポートを作成した場合は、ポートはネットワークインターフェースに繋がらないかもしれません。アクティブな物理ネットワークインターフェースにバインドして、ポート（とそのBGPセッション）を利用可能にしなければなりません。
++
+このバインディングを作成する為に、ホストとネットワークのインターフェースを知る必要があります。この情報を用いて、物理ネットワークインターフェースとポートをバインドしたり、BGPセッションをアクティベートするためのコマンドを活用します。
++
+[NOTE]
+仮想ポートにバインドしたいインターフェースにIPアドレスがないこと、そのインターフェースがアップされていることを確認してください。
++
+最初にホストをリスト化します：
++
+[source]
+midonet> host list
+host host0 name ip-10-152-161-111 alive true
+host host1 name ip-10-164-23-206 alive true
++
+ホストを見つけた後に、ネットワークインターフェースをリスト化できます:
++
+[source]
+midonet> host host0 list interface
+iface midonet host_id host0 mac 6a:07:42:e2:6c:88 mtu 1500 type Virtual endpoint DATAPATH
+iface lo host_id host0 addresses [u'127.0.0.1', u'0:0:0:0:0:0:0:1'] mac 00:00:00:00:00:00 mtu 16436 type Physical endpoint LOCALHOST
+iface virbr0 host_id host0 addresses [u'192.168.122.1'] mac 46:0b:df:a4:91:65 mtu 1500 type Virtual endpoint UNKNOWN
+iface osvm-ef97-16fc host_id host0 addresses [u'fe80:0:0:0:7cf9:8ff:fe60:54ff'] mac 7e:f9:08:60:54:ff mtu 1500 type Virtual endpoint DATAPATH
+iface osvm-38d0-266a host_id host0 addresses [u'fe80:0:0:0:2034:f5ff:fe89:1b89'] mac 22:34:f5:89:1b:89 mtu 1500 type Virtual endpoint DATAPATH
+iface eth0 host_id host0 addresses [u'10.152.161.111', u'fe80:0:0:0:2000:aff:fe98:a16f'] mac 22:00:0a:98:a1:6f mtu 1500 type Physical endpoint PHYSICAL
+iface eth1 host_id host0 mac 22:00:0a:7a:b3:4e mtu 1500 type Physical endpoint PHYSICAL
++
+この場合ですと、router0:port0をhost0上のeth1にバインドします：
+ +
+[source]
+midonet> host host0 add binding port router0:port0 interface eth1
+host host0 interface eth1 port router0:port0
++
+この時点で、host0上でルーターポートはアクティベートされて、bgpdは走り出します。
++
+[NOTE]
+router0 と port0のエイリアスは、各midonet-cliセッションで、必要に応じて自動生成されます。従って、これらのエイリアスを使って(UUIDsの替わりに)、バインディングをしたいときは、midonet-cliは、現行のセッションで、これらのオブジェクトを“認識”する必要があります。これをするために、それらをリストします。

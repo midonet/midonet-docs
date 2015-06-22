@@ -1,0 +1,19 @@
+[[adding_a_port_to_a_bridge]]
+= ブリッジにポートを加えます
+
+ブリッジにポートを加える為に、このプロシージャを使います。
+
+. 現在のテナントのブリッジをリスト化するためにコマンドを入力します：
++
+[source]
+midonet> bridge list
+bridge bridge1 name test-bridge state up
+
+. 適切なブリッジにポートを加える為のコマンドを入力します:
++
+[source]
+midonet> bridge bridge1 add port
+bridge1:port0
++
+上のアウトプットはエイリアス("port0")が新しいポートにアサインされたことを示しています。
+

@@ -1,0 +1,9 @@
+[[message_format]]
+= メッセージフォーマット
+
+イベントメッセージはデフォルトで下記フォーマットのようになっています。
+
+[source]
+<pattern>%d{yyyy.MM.dd HH:mm:ss.SSS} ${HOSTNAME} %-5level %logger - %m%n%rEx </pattern>
+
+上記のプレースホルダーに関しての詳細はhttp://logback.qos.ch/manual/layouts.htmlをご参照ください。

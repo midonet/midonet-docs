@@ -1,0 +1,91 @@
+[[metering]]
+= 測定
+
+**注意**: この機能は”実験的”段階のものです。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== 概要
+
+測定の目的はパケットとバイトのトラッフィックカウンターにMidoNetを通過するトラフィックのうちの任意のスライスを提供することです。
+
+メーターとは名前と関連付けられたバイトとパケットのカウンターです。増やすためには、メーターはその名前に関連付けられたフローを持つ必要があります。MidoNetエージェントは自動的に特定のメーターとフローを関連付け、ユーザーはチェーンルールの中に”meterName”アトリビュートがセットされた自分専用のカスタムメーターを作成することができます。
+
+たとえば、MidoNet内のuuid `FOO` を持つブリッジを通過する全てのトラフィックは`meters:device:FOO`でカウントされます。また、`BAR` ポートを退出する全てのトラフィックは `meters:port:tx:BAR` に示されます。
+
+MidoNetエージェントはこれらのカウンターにオーバーレイトラフィックの部分的な表示を提供します。言い換えると、それぞれのエージェントは、エージェントがシミュレーションしたトラフィックによって構成されたメーターのみを提供します。規定のメーターについては、MidoNet全体の真の値は全てのエージェントにおけるこのメーター値の合計となります。
+
+**注意**: 測定データは時系列データベース上のモニタリングレイヤーによってポーリング及び保存されるようにされている。なので、エージェントは集めた測定データを保持しないので、エージェントがリブートした際には測定値はゼロにリセットされます。*全てのメーターデータコレクションレイヤーはこの影響を考慮すべきであり、またカウンターのリセットを検出すべきです。*
+
+== メーターのクエリ
+
+エージェントはJMXよりメーターを発行し、コマンドラインツールである `mm-meter` はメーター値をリスト化、フェッチそしてモニタリングをするためにJMXインターフェースを使います。
+
+JMXインターフェース上のコードの例の参照には、以下を参照ください
+https://github.com/midonet/midonet/blob/fa133d06b4c2f04c771d19f68eb42243b6e77318/midolman/src/main/scala/org/midonet/midolman/management/MidolmanMeter.scala[the
+code of `mm-meter` itself] 
+
+メーターを`mm-meter`でクエリするのは非常に簡単です:
+
+--------------------------------------------------------------------------
+$ mm-meter --help
+  -h, --host  <arg>   Host (default = localhost)
+  -p, --port  <arg>   JMX port (default = 7200)
+      --help          Show help message
+
+Subcommand: list - list all active meters
+      --help   Show help message
+Subcommand: get
+  -n, --meter-name  <arg>   name of the meter
+      --help                Show help message
+
+ trailing arguments:
+  delay (not required)   delay between updates, in seconds. If no delay is
+                     specified, only one report is printed. (default = 0)
+  count (not required)   number of updates, defaults to infinity
+                     (default = 2147483647)   
+--------------------------------------------------------------------------
+
+`list`コマンドはこのエージェントが知りうる全てのメーターのリストを表示します:
+
+---------------------------------------------------
+$ mm-meter list
+meters:user:port0-on-the-bridge
+meters:port:rx:cf453c9d-94c4-4c27-ba32-529b7cbacf1d
+meters:device:845a54bf-b702-4dc2-8958-bbe7156bc4ef
+meters:port:tx:cf453c9d-94c4-4c27-ba32-529b7cbacf1d
+meters:port:tx:9182485b-8f86-462d-a8be-62586060eeb9
+meters:device:f0d1f093-2de7-49a1-a5ec-898f94769e34
+meters:device:9182485b-8f86-462d-a8be-62586060eeb9
+meters:port:rx:9182485b-8f86-462d-a8be-62586060eeb9
+meters:device:cf453c9d-94c4-4c27-ba32-529b7cbacf1d
+---------------------------------------------------
+
+そして`get`コマンドは__current__, _local_ countersをメーターに表示します。これにより遅れが生じますがその場合には定期的にメーターをポーリングして超過分を表示します:
+
+------------------------------------------------------------------------
+$ mm-meter get -n meters:port:rx:cf453c9d-94c4-4c27-ba32-529b7cbacf1d 10
+    packets        bytes
+     568935   4215888475
+          0            0
+          0            0
+         23         5834
+          0            0
+          
+------------------------------------------------------------------------
+
+== カスタムメーターの作成
+
+運用者は彼らの仮想ネットワークトラフィックのカスタムスライスを測定したい場合があるかもしれません。これは、仮想トポロジー内のひとつもしくはいくつかのチェーンルールを使ってそのスライスをマッチすることで可能です。フローが自然に与えるメーターに加えて、チェーンルール内の`meterName`プロパティは自らの値により参照されたメーターにマッチングフローをアサインします。
+
+REST APIを使うことに加えて、運用者はこのようなルールを設定する際に`midonet-cli`を使うことができます。以下のルールは`my-meter`を測定するために`9182485b-8f86-462d-a8be-62586060eeb9`デバイスを通る全てのトラフィックにアサインされます:
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+midonet> chain chain0 list rule
+rule rule0 proto 0 tos 0 traversed-device 9182485b-8f86-462d-a8be-62586060eeb9 fragment-policy any pos 1 type accept meter my-meter
+-----------------------------------------------------------------------------------------------------------------------------------
+
+メーターを調べる場合、ビルトインメーターとの名付けのコンフリクトを避けるため、`my-meter`は`meters:user:my-meter`に変わることをご注意ください。

@@ -1,0 +1,113 @@
+//[[api_configuration_options]]
+= より高度なMidoNet API設定オプション
+
+このセクションはより高度なユーザーが活用できる設定要素について記しています。
+より高度なMidoNet設定運用を実行するため設定要素を使うことができます。MidoNet API設定は /usr/share/midonet-api/WEB-INF/web.xml ファイルに保存できます。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== rest_api-base_uri
+
+この値は、各HTTPリクエストのデフォルトベースURIを上書きします。
+クライアントがMidoNet APIサーバーにアクセスする時に使うベースURIが実際のサーバーのベースURIと違う時や、MidoNetAPIサーバーにプロキシーサーバーを設定した時に、通常これを活用します
+
+[source]
+----
+<context-param>
+    <param-name>rest_api-base_uri</param-name>
+    <param-value>http://example.com:8080/</param-value>
+</context-param>
+----
+
+== cors-access_control_allow_origin
+
+このバリューはMidoNet APIサーバーがアクセスをウケるドメイン元を特定します。この情報は、元ドメインがMidoNet APIサーバードメインが違うクライアントサイドからMidoNet APIサーバーにアクセスする時に必要になります。
+
+'*' は全てを許可することを意味する 
+
+[source]
+<context-param>
+    <param-name>cors-access_control_allow_origin</param-name>
+    <param-value>*</param-value>
+</context-param>
+
+下の事例は 'http://example.com' からアクセスを認めることを示しています。
+
+ [source]
+<context-param>
+    <param-name>cors-access_control_allow_origin</param-name>
+    <param-value>http://example.com</param-value>
+</context-param>
+
+== cors-access_control_allow_headers
+
+クライアントサイドのスクリプティングのためのAPIリクエストを作成する時に,
+どのHTTP ヘッダーが使えるかを示しています。
+
+ [source]
+<context-param>
+    <param-name>cors-access_control_allow_headers</param-name>
+    <param-value>Origin, X-Auth-Token, Content-Type, Accept</param-value>
+</context-param>
+
+== cors-access_control_allow_methods
+
+クライアントサイドスクリプティングにAPIリクエストを作成する時に、どのHTTPメソッドが使えるかを示しています：
+
+[source]
+<context-param>
+    <param-name>cors-access_control_allow_methods</param-name>
+    <param-value>GET, POST, PUT, DELETE, OPTIONS</param-value>
+</context-param>
+
+== cors-access_control_expose_headers
+
+サーバーがクライアントに見せるヘッダー項目のホワイトリストを特定しています：
+
+[source]
+<context-param>
+    <param-name>cors-access_control_expose_headers</param-name>
+    <param-value>Location</param-value>
+</context-param>
+
+== auth-tenant_admin_role
+
+MidoNetにおけるテナントアドミンロールの名前を特定しています。テナントアドミンは、そのテナントが所有するリソースに対して、読み書きアクセス権を持っています。MidoNetテナントアドミを外部認証サービスの同等のロースにマッピングする必要があります：
+
+[source]
+<context-param>
+    <param-name>auth-tenant_admin_role</param-name>
+    <param-value>mido_tenant_admin</param-value>
+</context-param>
+
+== auth-tenant_user_role
+
+MidoNetにおけるテナントユーザーの名前を特定します。テナントアドミは、そのテナントが所有するリソースに対して、リードオンリーアクセス権を持っています。MidoNetテナントアドミを外部認証サービスの同等のロースにマッピングする必要があります：
+
+[source]
+<context-param>
+    <param-name>auth-tenant_user_role</param-name>
+    <param-value>mido_tenant_user</param-value>
+</context-param>
+
+== zookeeper-use_mock
+
+APIを走らせる時に、ZooKeeperをモックするかを特定します
+
+[source]
+<context-param>
+    <param-name>zookeeper-use_mock</param-name>
+    <param-value>false</param-value>
+</context-param>
+
+== zookeeper-midolman_root_key
+
+ZooKeeperの中のルートディレクトリーを特定します:
+
+[source]
+<context-param>
+    <param-name>zookeeper-midolman_root_key</param-name>
+    <param-value>/midonet</param-value>
+</context-param>

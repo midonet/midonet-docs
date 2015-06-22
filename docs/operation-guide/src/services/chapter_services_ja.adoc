@@ -1,0 +1,4 @@
+[[service_ports]]
+= MidoNet と OpenStack TCP/UDP サービスポート
+
+このセクションはMidoNet とOpenStackのサービスで使うTCP/UDPポートをリスト化します。

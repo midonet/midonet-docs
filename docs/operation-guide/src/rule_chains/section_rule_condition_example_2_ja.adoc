@@ -1,0 +1,54 @@
+[[example_condition_2]]
+= 条件の事例２
+
+条件の事例1と同様ですが、ただし、条件の事例2の場合には、ルールの構築の仕方が異なるのだということを前提にします。全てのパケットとマッチするようなDROPルールを１つ、チェーンの終わりに保有したいわけです；チェーンの初めの箇所には、通過を許可されたパケット/フローとマッチするACCEPTルールを設置します。
+
+条件の事例１が許可したトラフィック用のACCEPTルールは、以下に挙げる属性を持った「条件」を持っています：
+
+ルール言語の中では、チェーンは以下を保有します：
+
+ACCEPT when src=(10.0.0.0, 16) OR dst=(10.0.5.0, 24)
+
+ルールの終わりの箇所：
+
+その他のパケットは全てDROPします
+
+上記した属性を持ったルールチェーンを作成する時には次の通りにします：
+
+.必要があればアイには、settコマンドを用いるか、あるいはその他の手段を使って、適切なテナントにアクセスします。
++
+[source]
+midonet> sett 10a83af63f9342118433c3a43a329528
+tenant_id: 10a83af63f9342118433c3a43a329528
+
+.新しいルールチェーンを作成するためにコマンドを入力し、そのルールチェーンに名前を付与します：
++
+[source]
+midonet> chain create name "accept_src_dst_mynetwork_INBOUND"
+chain11
+
+.コマンドを入力して、ソース10.0.0.0/16から来るIPv4トラフィックを受け入れます：
++
+[source]
+midonet> chain chain11 add rule ethertype 2048 src 10.0.0.0/16 type accept
+chain11:rule0
+
+.行き先が10.0.5.0/24を持ったIPv4トラフィックを受け入れるためにコマンドを入力します：
++
+[source]
+midonet> chain chain11 add rule ethertype 2048 dst 10.0.5.0/24 type accept
+chain11:rule1
+
+. コマンドを入力してIPv4トラフィック全て(これ以前のルールが持つ属性とマッチしなかったもの)をドロップします：
++
+[source]
+midonet> chain chain11 add rule ethertype 2048 pos 3 type drop
+chain11:rule2
+
+.コマンドを入力して新しいルールチェーンに追加されたルールをリスト化します：
++
+[source]
+midonet> chain chain11 list rule
+rule rule1 ethertype 2048 dst 10.0.5.0/24 proto 0 tos 0 pos 1 type accept
+rule rule0 ethertype 2048 src 10.0.0.0/16 proto 0 tos 0 pos 2 type accept
+rule rule3 ethertype 2048 proto 0 tos 0 pos 3 type drop

@@ -1,0 +1,18 @@
+[[create_tunnel_zone]]
+= トンネルゾーンを作成することを指します。
+
+このセクションでは、トンネルゾーンの作成方法を説明しています。
+
+. 新たなトンネルゾーンを作成するには、`create tunnel-zone name tz-name type tz-type` というコマンドを入力します。コマンド内の_tz-type_というのは、トンネルゾーンタイプで、gre、vxlan、または、vtepを入力します。例としては以下のようなソースが挙げられます：
++
+[source]
+midonet> create tunnel-zone name new-tz type gre
+tzone0
++
+new-tz = トンネルゾーンに付与する名前をあらわします；アウトプットはトンネルゾーンにアサインされたエイリアスをあらわしています。例としては、"tzone0" が挙げられます。
+. トンネルゾーンをリストアップして確認するには、`list tunnel-zone` というコマンドを入力します。例としては以下のようなソースが挙げられます：
++
+[source]
+midonet> list tunnel-zone
+tzone tzone0 name new-tz type gre
+tzone tzone1 name gre type gre

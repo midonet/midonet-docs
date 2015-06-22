@@ -1,0 +1,23 @@
+[[nsdb_node_services]]
+= ネットワークステートデータベースノードのサービスです
+
+このセクションはネットワークステートデータベースノードのサービスによって使われるTCP/UDPポートをリスト化します。
+
+[options="header"]
+|===============
+|Category|Service|Prot ocol|Port|Self|Controller|NSDB|Compute|Comment
+|MidoNet|ZooKeeper communication|TCP|3888|x| |x| |
+|MidoNet|ZooKeeper leader|TCP|2888|x| |x| |
+|MidoNet|ZooKeeper/Cassandra|TCP|random|x| | | |
+    ZooKeeper/CassandraはTCPハイナンバーポートを　“LISTEN” します。各ZooKeeper/Cassandraホストでポート番号はランダムに選択されます。
+
+|MidoNet|Cassandra Query Language (CQL) native transport port|TCP|9042| | | | |
+|MidoNet|Cassandra cluster communication|TCP|7000|x| |x| |
+|MidoNet|Cassandra cluster communication (Transport Layer Security (TLS ) support)|TCP|7001|x| |x| |
+|MidoNet|Cassandra JMX|TCP|7199|x| | | |
+   もしCassandra の健全性をモニターする為にこのポートを使っているなら、JMXモニターポートはモニターサーバーからのコミュニケーションを可能にします。
+
+|MidoNet|ZooKeeper client|TCP|2181|x|x|x|x|
+|MidoNet|Cassandra clients|TCP|9160|x|x|x|x|
+|===============
+

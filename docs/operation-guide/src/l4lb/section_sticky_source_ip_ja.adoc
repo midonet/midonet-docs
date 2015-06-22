@@ -1,0 +1,36 @@
+[[sticky_source_ip]]
+= スティッキーソース IP
+
+多くの場合、セッションの記録を取る為にロードバランサーを使います。これを行う為に、MidoNetロードバランサーはスティッキーソースのIPアドレスパーシステンスを提供します。
+
+仮想IP(VIP)を設定する時に、パケットのソースIPアドレスは、ディスティネーションサーバーを決定する時に使われます。そして、同じソースサーバーからくるその後のトラフィックは、同じサーバーに送られます。
+
+*セッションパーシステンスの例*
+
+下記の例は、ロードバランサーを設定する為にMidoNet CLIをどうやって使うかを示したものです。示しているように、VIPはSOURCE_IPに対してパーシステンスなセットです。
+
+[source]
+midonet> load-balancer create
+lb0
+midonet> router router0 set load balancer lb0
+midonet> load-balancer lb0 create pool lb-method ROUND_ROBIN
+b0:pool0
+midonet> load-balancer lb0 pool pool0 create member address 192.168.100.1 protocol-port 80
+b0:pool0:pm0
+midonet> load-balancer lb0 pool pool0 list vip
+midonet> load-balancer lb0 pool pool0 create vip address 192.168.0.1 persistence SOURCE_IP protocol-port 8080
+lb0:pool0:vip0
+midonet> router router1 add route dst 192.168.0.1/32 src 0.0.0.0/0 type normal port router1:port0
+router1:route11
+
+[NOTE]
+ポート8080は単なる例です。ロードバランシングトラフィックのためにポートを使うには、まずそれが、他で使われていないかを確認する必要があります。
+
+[IMPORTANT]
+====
+* VIPのスティッキーソースIPアドレスモードを切り替えon/offする場合、そのVIPを使う既存の接続はドロップします。
+* スティッキーソースIPアドレスモードで、プールメンバーを利用不可能にする場合は、そのメンバーに対してバランスしている接続はドロップされます。
+* スキィッキーソースIPアドレスモードでない時に、プールメンバーを利用不可能にしたら、そのメンバーをバランスしている既存の接続は完了することができます。しかし、そのメンバーに対して、新しいコネクションは送られません。
+＊スティッキネスは一日アクティブな状態にいます。もし、セッションが一日以上アクティブになったら、スティッキネスは無くなってしまい、後続のトラフィックが通常通りにロードバランスされます。
+====
+

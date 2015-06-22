@@ -1,0 +1,12 @@
+[[vxlan_coordinator]]
+= VXLANコーディネーター
+
+コーディネーターは、MidoNetアーキテクチャーの構成要素であり、VXLANサポートを担当しています。
+
+Coordinatorが果たすべき責務は次のとおりです：
+
+*MidoNet REST APIを通じて、VTEPの状態を開示します。
+
+* VTEPスイッチを設定することによって、MidoNet REST APIを通じて設定したバインディングを実装します。
+
+* MNとVTEPとの間に流れるトラフィックにたいして、L2制御プレインの役割を果たします。

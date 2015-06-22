@@ -1,0 +1,28 @@
+[[cli_remove_vtep_binding]]
+= VTEPバインディングを取り除きます
+
+このコマンドは、ニュートロンネットワークのLogicalSwitchからポート-VLANペア
+を切り離す時に使います。
+
+*シンタックス*
+
+[source]
+vtep management-ip vtep-ip-address delete binding network-id neutron-network-id
+
+*結果*
+
+ニュートロンネットワークにたいする単一のVTEPバインディングを削除することができます。その時、このバインディングが、VTEPにとって、ネットワークにバインドしている残る唯一のポート-VLANペアであった時には、ニュートロンネットワークのvxlanポートは削除されます。
+
+*事例*
+
+コマンドが成功裏に実行された場合の事例：
+
+[source]
+midonet> vtep management-ip 119.15.112.22 delete binding physical-port in1 vlan 143
+
+コマンドの実行が成功しなかった場合の事例：
+[source]
+midonet> vtep management-ip 119.15.112.22 delete binding
+Syntax error at: ...binding
+midonet> vtep management-ip 119.15.112.22 delete binding physical-port in1
+Syntax error at: ...binding physical-port in1

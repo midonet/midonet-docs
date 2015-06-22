@@ -1,0 +1,83 @@
+[[midolman_events]]
+= MidoNet エージェントイベント
+
+このセクションではMidoNet Agentイベントに関連するメッセージについて説明します。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== NSDB
+
+|===============
+|Logger|org.midonet.event.agent.Nsdb.CONNECT
+|Message|NSDBクラスターに接続しました。
+|Level|INFO
+|Explanation| MidoNet AgentがNSDBクラスターに接続しました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.agent.Nsdb.DISCONNECT
+|Message|DISCONNECT NSDBクラスターから切断されました。
+|Level|WARNING
+|Explanation| MidoNet エージェントはNSDBクラスターより切断されました。
+|Corrective Action|
+このイベント後、接続が復元されていたならば修正措置は必要ありません。もしこのイベントが続くようであれば、MidoNet エージェントとNSDBクラスター間のネットワーク接続を確認してください。
+|===============
+
+|===============
+|Logger|org.midonet.event.agent.Nsdb.CONN_EXPIRE
+|Message|
+    CONN_EXPIRE NSDBクラスターへの接続は期限切れです。MidoNet Agentを閉じてください。
+|Level|ERROR
+|Explanation|
+  MidoNet AgentからNSDBクラスターへの接続は期限切れです。MidoNet Agentを閉じてください。
+|Corrective Action|
+    MidoNet エージェントノードとNSDBクラスター間のネットワーク接続を確認し、NSDBクラスターに再接続されるよう、ノード上のMidoNet エージェントサービスを再起動してください。
+|===============
+
+== Interface
+
+|===============
+|Logger|org.midonet.event.agent.Interface.DETECT
+|Message|NEW interface={0}
+|Level|INFO
+|Explanation| MidoNet エージェントは新しいインターフェース={0}を検出しました
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.agent.Interface.UPDATE
+|Message|UPDATEインターフェース={0}はアップデートされました。
+|Level|INFO
+|Explanation| MidoNet エージェントはインターフェース={0}内にアップデートを検出しました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.agent.Interface.DELETE
+|Message|DELETEインターフェース={0}は削除されました。
+|Level|INFO
+|Explanation| MidoNet Agentはインターフェース={0}が削除されていることを検出しました。
+|Corrective Action|N/A
+|===============
+
+== Service
+
+|===============
+|Logger|org.midonet.event.agent.Service.START
+|Message|STARTサービスが開始されました。
+|Level|INFO
+|Explanation|サービスが開始されました。
+|Corrective Action|N/A
+|===============
+
+|===============
+|Logger|org.midonet.event.agent.Service.EXIT
+|Message|EXITサービスが終了しました。
+|Level|WARNING
+|Explanation|サービスが終了しました。
+|Corrective Action|
+   意図せずにこのイベントが起こった場合、MidoNet Agentサービスを再起動してください。もしこのイベントが繰り返されるようであれば、ディベロッパーが更なる調査をするため、バグトラッカー内でチケットを申請してください。
+|===============
