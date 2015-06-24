@@ -38,7 +38,7 @@ the parameter `dataDir` in `zoo.cfg` to a different disk.
 
 ... *NSDB Node 1*
 +
-Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
+Create the `/var/lib/zookeeper/data/myid` file and edit it to contain the host's ID:
 +
 [literal,subs="quotes"]
 ----
@@ -47,7 +47,7 @@ Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 
 ... *NSDB Node 2*
 +
-Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
+Create the `/var/lib/zookeeper/data/myid` file and edit it to contain the host's ID:
 +
 [literal,subs="quotes"]
 ----
@@ -56,7 +56,7 @@ Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
 
 ... *NSDB Node 3*
 +
-Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
+Create the `/var/lib/zookeeper/data/myid` file and edit it to contain the host's ID:
 +
 [literal,subs="quotes"]
 ----

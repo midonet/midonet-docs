@@ -1,0 +1,93 @@
+. *Cassandraパッケージをインストールする*
++
+====
+[source]
+----
+# apt-get install openjdk-7-jre-headless
+# apt-get install dsc20=2.0.10-1 cassandra=2.0.10
+# apt-mark hold dsc20 cassandra
+----
+====
+
+. *Cassandraを構成する*
++
+====
+
+.. *共通の構成*
++
+`/etc/cassandra/cassandra.yaml` ファイルを変更して以下を含めます。
++
+[literal,subs="quotes"]
+----
+# The name of the cluster.
+cluster_name: 'midonet'
+
+...
+
+# Addresses of hosts that are deemed contact points.
+seed_provider:
+    - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+      parameters:
+          - seeds: "*_nsdb1_*,*_nsdb2_*,*_nsdb3_*"
+----
++
+
+.. *ノード固有の構成*
+
+... *NSDB ノード 1*
++
+`/etc/cassandra/cassandra.yaml` ファイルを変更して以下を含めます。
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_nsdb1_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_nsdb1_*
+----
+
+... *NSDB ノード 2*
++
+`/etc/cassandra/cassandra.yaml` ファイルを変更して以下を含めます。
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_nsdb2_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_nsdb2_*
+----
+
+... *NSDB ノード 3*
++
+`/etc/cassandra/cassandra.yaml` ファイルを変更して以下を含めます。
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_nsdb3_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_nsdb3_*
+----
+====
+
+. *既存のデータを消去してをCassandra再開する*
++
+====
+[source]
+----
+# service cassandra stop
+# rm -rf /var/lib/cassandra/*
+# service cassandra start
+----
+====
+

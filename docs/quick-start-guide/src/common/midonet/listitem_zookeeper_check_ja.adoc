@@ -1,0 +1,36 @@
+. *ZooKeeperの動作を確認する*
++
+すべてのノードのインストールが完了したら、ZooKeeperが適切に動作するか確認します。
++
+基本的な検査は、`ruok`（Are you ok?）コマンドを実行して行えます。サーバーがエラーのない状態で実行している場合は、最初の列に`imok`（I am ok）と返されます。
++
+====
+[source]
+----
+$ echo ruok | nc 127.0.0.1 2181
+imok
+----
+====
++
+詳細情報が必要な場合は、`stat`コマンドを使用すると、パフォーマンスと接続しているクライアントの統計が一覧表示されます。
++
+====
+[source]
+----
+$ echo stat | nc 127.0.0.1 2181
+Zookeeper version: 3.4.5--1, built on 06/10/2013 17:26 GMT
+Clients:
+ /127.0.0.1:34768[0](queued=0,recved=1,sent=0)
+ /192.0.2.1:49703[1](queued=0,recved=1053,sent=1053)
+
+Latency min/avg/max: 0/4/255
+Received: 1055
+Sent: 1054
+Connections: 2
+Outstanding: 0
+Zxid: 0x260000013d
+Mode: follower
+Node count: 3647
+----
+====
+

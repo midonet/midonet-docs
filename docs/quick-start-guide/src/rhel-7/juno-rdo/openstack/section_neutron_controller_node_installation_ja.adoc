@@ -1,0 +1,116 @@
+= コントローラノード
+
+[IMPORTANT]
+OpenStackの文書のhttp://docs.openstack.org/juno/install-guide/install/yum/content/neutron-controller-node.html[Install and configure controller node]指示に従います。ただし、*次の相違点に注意してください*。
+
+. *前提条件を設定する場合*
++
+====
+このまま適用します。
+====
+
+. *ネットワーキングのコンポーネントをインストールする場合*
++
+====
+適用*しないで*ください。
+
+代わりに、次のパッケージをインストールします。
+
+[source]
+----
+# yum install openstack-neutron python-neutron-plugin-midonet
+----
+====
+
+. *ネットワーキングのサーバーコンポーネントを構成する場合*
++
+====
+step 'dを適用 *しないで* ください。モジュラーレイヤー2（ML2）プラグイン、ルーターサービスおよび重複するIPアドレスを有効にします。
+
+代わりに、 `/etc/neutron/neutron.conf` ファイルを変更して、次のキーを `[DEFAULT]` セクションに追加します。
+[source]
+----
+[DEFAULT]
+...
+core_plugin = midonet.neutron.plugin.MidonetPluginV2
+----
+====
+
+. *モジュラーレイヤー2（ML2）のプラグインを構成する場合*
++
+====
+適用*しないで*ください。
+
+代わりに、次の手順を実行します。
+
+.. MidoNetプラグインのディレクトリを作成します。
++
+[source]
+----
+# mkdir /etc/neutron/plugins/midonet
+----
++
+`/etc/neutron/plugins/midonet/midonet.ini` ファイルを作成し、修正して次を含めます。
++
+[literal,subs="quotes"]
+----
+[DATABASE]
+sql_connection = mysql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
+
+[MIDONET]
+# MidoNet API URL
+midonet_uri = http://*_controller_*:8080/midonet-api
+# MidoNet administrative user in Keystone
+username = *_midonet_*
+password = *_MIDONET_PASS_*
+# MidoNet administrative user's tenant
+project_id = service
+----
++
+.. NeutronをMidoNetの構成に転送するためのシンボリックリンクを作成します。
++
+[source]
+----
+# ln -s /etc/neutron/plugins/midonet/midonet.ini /etc/neutron/plugin.ini
+----
++
+====
+
+. *コンピュートでネットワーキングの使用を構成する場合*
++
+====
+このまま適用します。
+====
+
+. *インストールを終了する場合*
++
+====
+適用*しないで*ください。
+
+代わりに、次の手順を実行します。
+
+.. データベースを追加します。
++
+[source]
+----
+# su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/midonet/midonet.ini upgrade juno" neutron
+----
++
+.. コンピュートサービスを再開します。
++
+[source]
+----
+# systemctl restart openstack-nova-api.service openstack-nova-scheduler.service openstack-nova-conductor.service
+----
++
+.. ネットワーキングサービスを開始して、システムが起動したら開始するよう設定します。
++
+[source]
+----
+# systemctl enable neutron-server.service
+# systemctl start neutron-server.service
+----
++
+
+====
+

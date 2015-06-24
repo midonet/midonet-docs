@@ -102,8 +102,8 @@ case "$1" in
         retval=$?
 [...]
 ----
-
 ====
+
 . *Enable and start Cassandra*
 +
 ====
@@ -113,4 +113,3 @@ case "$1" in
 # systemctl start cassandra.service
 ----
 ====
-

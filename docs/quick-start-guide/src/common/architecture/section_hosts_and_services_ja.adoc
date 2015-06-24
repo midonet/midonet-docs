@@ -1,0 +1,36 @@
+= ホストとサービス
+
+.コントローラノード（*_controller_*）
+* 一般
+** データベース（MariaDB）
+** メッセージブローカー（RabbitMQ）
+* OpenStack
+** アイデンティティサービス（Keystone）
+** イメージサービス（Glance）
+** コンピュート（Nova）
+** ネットワーキング（Neutron）
+*** Neutron Server
+*** DHCP Agent
+*** Metadata Agent
+** ダッシュボード（Horizon）
+* MidoNet
+** API
+** CLI
+** Neutron Plugin
+
+.コンピュートノード（*_compute1_*）
+* OpenStack
+** コンピュート（Nova）
+** ネットワーキング（Neutron）
+* MidoNet
+** エージェント（Midolman）
+
+.NSDB ノード (*_nsdb1_*, *_nsdb2_*, *_nsdb3_*)
+** Network State Database（NSDB）
+*** ネットワークトポロジ（ZooKeeper）
+*** ネットワークステート情報（Cassandra）
+
+.ゲートウェイノード (*_gateway1_*, *_gateway2_*)
+* BGP Daemon (Quagga)
+* MidoNet
+** エージェント（Midolman）

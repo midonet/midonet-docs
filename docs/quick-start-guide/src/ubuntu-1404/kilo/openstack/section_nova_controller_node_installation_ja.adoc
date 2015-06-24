@@ -1,0 +1,5 @@
+= コントローラノード
+
+[NOTE]
+OpenStackの文書の http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_nova.html#nova-controller-install[Install and configure controller node] の指示にそのまま従います。
+

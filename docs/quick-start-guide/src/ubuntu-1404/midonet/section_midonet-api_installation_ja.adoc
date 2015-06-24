@@ -1,0 +1,109 @@
+= MidoNet APIのインストール
+
+. *MidoNet APIパッケージをインストールする*
++
+====
+[source]
+----
+# apt-get install midonet-api
+----
+====
+
+. *MidoNet APIを構成する*
++
+====
+`/usr/share/midonet-api/WEB-INF/web.xml` ファイルを変更して以下を含めます。
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>rest_api-base_uri</param-name>
+    <param-value>http://*_controller_*:8080/midonet-api</param-value>
+</context-param>
+----
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>keystone-service_host</param-name>
+    <param-value>**_controller_**</param-value>
+</context-param>
+----
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>keystone-admin_token</param-name>
+    <param-value>**_ADMIN_TOKEN_**</param-value>
+</context-param>
+----
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>zookeeper-zookeeper_hosts</param-name>
+    <param-value>**_nsdb1_**:2181,*_nsdb2_*:2181,*_nsdb3_*:2181</param-value>
+</context-param>
+----
+====
+
+. *Tomcatパッケージをインストールする*
++
+====
+[source]
+----
+# apt-get install tomcat7
+----
+====
+
+. *Tomcatのエントロピーソースを構成する*
++
+====
+Edit the `/usr/share/tomcat7/bin/catalina.sh` file to contain the following:
+
+[source]
+----
+JAVA_OPTS="$JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
+----
+====
+
+. *TomcatHTTPヘッダの最大サイズを構成する*
++
+====
+`/etc/tomcat7/server.xml` ファイルを変更して、HTTPコネクタの最大サイズを調整します。
+
+[literal,subs="verbatim,quotes"]
+----
+<Connector port="8080" protocol="HTTP/1.1"
+           connectionTimeout="20000"
+           URIEncoding="UTF-8"
+           redirectPort="8443"
+           **maxHttpHeaderSize="65536"** />
+----
+====
+
+. *MidoNet APIのコンテキストを構成する*
++
+====
+`/etc/tomcat7/Catalina/localhost/midonet-api.xml` ファイルを作成し、修正して次を含めます。
+
+[source]
+----
+<Context
+    path="/midonet-api"
+    docBase="/usr/share/midonet-api"
+    antiResourceLocking="false"
+    privileged="true"
+/>
+----
+====
+
+. *Tomcatを再開する*
++
+====
+[source]
+----
+# service tomcat7 restart
+----
+====
+

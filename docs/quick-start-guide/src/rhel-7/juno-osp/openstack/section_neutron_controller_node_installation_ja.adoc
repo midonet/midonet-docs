@@ -1,0 +1,120 @@
+= コントローラノード
+
+[IMPORTANT]
+Red Hatの文書のhttps://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/6/html/Deploying_OpenStack_Learning_Environments/sect-Configure_the_Networking_Service.html[7.4. Configure the Networking Service]の指示に従います。ただし、*次の相違点に注意してください。*
+
+. *7.4.1. OpenStack Networking Serviceの認証を構成する*
++
+====
+このまま適用します。
+====
+
+. *7.4.2. Networking ServiceのためにRabbitMQ Message Brokerを設定する*
++
+====
+このまま適用します。
+====
+
+. *7.4.3. OpenStack Networking Service Plug-inを設定する*
++
+====
+適用*しないで*ください。 代わりに、次の手順を実行します。
+
+.. `/etc/neutron/neutron.conf`ファイルを変更して、次のキーを`[DEFAULT]` セクションに追加します。
++
+[source]
+----
+[DEFAULT]
+...
+core_plugin = midonet.neutron.plugin.MidonetPluginV2
+allow_overlapping_ips = True
+----
++
+[NOTE]
+構成ファイルの行の開始にスペースを残さないでください（これはすべての構成ファイルに適用されます）。
+
+.. MidoNetプラグインのディレクトリを作成します。
++
+[source]
+----
+mkdir /etc/neutron/plugins/midonet
+----
+
+`/etc/neutron/plugins/midonet/midonet.ini`ファイルを作成し、修正して次を含めます。
++
+[literal,subs="quotes"]
+----
+[DATABASE]
+sql_connection = mysql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
+
+[MIDONET]
+# MidoNet API URL
+midonet_uri = http://*_controller_*:8080/midonet-api
+# MidoNet administrative user in Keystone
+username = *_midonet_*
+password = *_MIDONET_PASS_*
+# MidoNet administrative user's tenant
+project_id = services
+----
+
+.. NeutronをMidoNetの構成に転送するためのシンボリックリンクを作成します。
++
+[source]
+----
+# ln -s /etc/neutron/plugins/midonet/midonet.ini /etc/neutron/plugin.ini
+----
+====
+
+. *7.4.4. VXLANおよびGREトンネル*
++
+====
+適用*しないで*ください。
+====
+
+. *7.4.5. Open vSwitchのトンネルを構成する*
++
+====
+適用*しないで*ください。
+====
+
+. *7.4.6. OpenStack NetworkingのSQLデータベース接続を構成する*
++
+====
+適用*しないで*ください。
+====
+
+. *7.4.7. OpenStack Networking Databaseを作成する
++
+====
+適用*しないで*ください。
+
+代わりに、次のデータベースを作成します。
+
+[literal,subs="quotes"]
+----
+$ mysql -u root -p
+CREATE DATABASE neutron;
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY '*_NEUTRON_DBPASS_*';
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '*_NEUTRON_DBPASS_*';
+FLUSH PRIVILEGES;
+quit
+----
+
+Afterwards, run the `neutron-db-manage` command:
+
+[source]
+----
+# neutron-db-manage \
+  --config-file /usr/share/neutron/neutron-dist.conf \
+  --config-file /etc/neutron/neutron.conf \
+  --config-file /etc/neutron/plugin.ini \
+  upgrade head
+----
+====
+
+. *7.4.8. OpenStack Networking Serviceを開始する*
++
+====
+このまま適用します。
+====
+

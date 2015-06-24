@@ -1,3 +1,4 @@
+[[nova_compute_node]]
 = Compute Node
 
 [IMPORTANT]

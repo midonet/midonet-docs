@@ -1,0 +1,10 @@
+. *使用可能なアップデートをインストールする*
++
+====
+[source]
+----
+# apt-get update
+# apt-get dist-upgrade
+----
+====
+

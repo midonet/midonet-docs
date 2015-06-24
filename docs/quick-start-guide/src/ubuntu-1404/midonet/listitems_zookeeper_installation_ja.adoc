@@ -1,0 +1,67 @@
+. *ZooKeeperパッケージをインストールする*
++
+====
+[source]
+----
+# apt-get install zookeeper zookeeperd zkdump
+----
+====
+
+. *ZooKeeperを構成する*
++
+====
+.. *共通の構成*
++
+ `/etc/zookeeper/conf/zoo.cfg`ファイルを修正して次を含めます。
++
+[literal,subs="quotes"]
+----
+server.*1*=*_nsdb1_*:2888:3888
+server.*2*=*_nsdb2_*:2888:3888
+server.*3*=*_nsdb3_*:2888:3888
+----
++
+[IMPORTANT]
+For production deployments it is recommended to configure the storage of
+snapshots in a different disk than the commit log. This can be set by changing
+the parameter `dataDir` in `zoo.cfg` to a different disk.
+
+.. *ノード固有の構成*
+
+... *NSDB ノード 1*
++
+`/var/lib/zookeeper/myid` ファイルを作成し、ホストのIDを含めます。
++
+[literal,subs="quotes"]
+----
+# echo *1* > /var/lib/zookeeper/myid
+----
+
+... *NSDB ノード 2*
++
+`/var/lib/zookeeper/myid` ファイルを作成し、ホストのIDを含めます。
++
+[literal,subs="quotes"]
+----
+# echo *2* > /var/lib/zookeeper/myid
+----
+
+... *NSDB ノード 3*
++
+`/var/lib/zookeeper/myid` ファイルを作成し、ホストのIDを含めます。
++
+[literal,subs="quotes"]
+----
+# echo *3* > /var/lib/zookeeper/myid
+----
+====
+
+. *ZooKeeperを再開する*
++
+====
+[source]
+----
+# service zookeeper restart
+----
+====
+

@@ -1,0 +1,3 @@
+このガイドはOpenStackの文書のhttp://docs.openstack.org/juno/install-guide/install/apt/content/ch_basic_environment.html#basics-networking-neutron[OpenStack Networking (neutron)]の説明に基づいた次のシステムアーキテクチャを前提としています。
+
+

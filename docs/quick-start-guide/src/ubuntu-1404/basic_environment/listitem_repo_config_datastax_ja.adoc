@@ -1,0 +1,22 @@
+. *DataStaxのレポジトリを構成する*
++
+====
+`/etc/apt/sources.list.d/datastax.list` ファイルを作成し、修正して次を含めます。
+
+[source]
+----
+# DataStax (Apache Cassandra)
+deb http://debian.datastax.com/community stable main
+----
+====
+
++
+====
+レポジトリのキーをダウンロードしてインストールする。
+
+[source]
+----
+# curl -L http://debian.datastax.com/debian/repo_key | apt-key add -
+----
+====
+

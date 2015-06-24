@@ -1,0 +1,48 @@
+This guide assumes the following example system architecture.
+
+OpenStack Controller Node:
+
+* Controller Node (*_controller_*)
+
+Compute Node:
+
+* Compute Node (*_compute1_*)
+
+Since MidoNet is a distributed system, it does not have the concept of a Network
+Node as being used with the default OpenStack networking plugin. Instead it uses
+two or more Gateway Nodes that utilize http://www.quagga.net/[Quagga] to provide
+connectivity to external networks via the Border Gateway Protocol (BGP).
+
+* Gateway Node 1 (*_gateway1_*)
+* Gateway Node 2 (*_gateway2_*)
+
+Three or more hosts are being used for the MidoNet Network State Database (NSDB)
+cluster which utilizes https://zookeeper.apache.org/[ZooKeeper] and
+http://www.datastax.com/documentation/cassandra/2.0/cassandra/gettingStartedCassandraIntro.html[Cassandra]
+to store virtual network topology and connection state information:
+
+* NSDB Node 1 (*_nsdb1_*)
+* NSDB Node 2 (*_nsdb2_*)
+* NSDB Node 3 (*_nsdb3_*)
+
+[IMPORTANT]
+Ideally, both the ZooKeeper transaction log and Cassandra data files need
+their own dedicated disks, with additional disks for other services on the
+host. However, for small POCs and small deployments, it is ok to share the
+Cassandra disk with other services and just leave the ZooKeeper transaction
+log on its own.
+
+The _MidoNet Agent (Midolman)_ has to be installed on all nodes where traffic
+enters or leaves the virtual topology. In this guide this are the
+*_controller_*, *_gateway1_*, *_gateway2_* and *_compute1_* hosts.
+
+The _Midonet API_ can be installed on a separate host, but this guide assumes it
+to be installed on the *_controller_* host.
+
+The _Midonet Command Line Interface (CLI)_ can be installed on any host that has
+connectivity to the MidoNet API. This guide assumes it to be installed on the
+*_controller_* host.
+
+The _Midonet Neutron Plugin_ replaces the ML2 Plugin and has to be installed on
+the *_controller_*.
+

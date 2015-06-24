@@ -1,0 +1,41 @@
+. *追加のRed Hatレポジトリを有効にする*
++
+====
+
+[source]
+----
+# subscription-manager repos --enable=rhel-7-server-extras-rpms
+# subscription-manager repos --enable=rhel-7-server-optional-rpms
+----
+====
+
+. *レポジトリの優先順位付けを有効にする*
++
+====
+
+[source]
+----
+# yum install yum-plugin-priorities
+----
+====
+
+. *EPELレポジトリを有効にする*
++
+====
+
+[source]
+----
+# yum install http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+----
+====
+
+. *RDOレポジトリを有効にする*
++
+====
+
+[source]
+----
+# yum install http://rdo.fedorapeople.org/openstack-kilo/rdo-release-kilo.rpm
+----
+====
+

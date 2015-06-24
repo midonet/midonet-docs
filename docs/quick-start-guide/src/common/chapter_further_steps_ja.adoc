@@ -1,0 +1,9 @@
+= 高度な手順
+
+OpenStackへのMidoNetのインストールと設定が完了しました。
+
+これでNeutronの最初のネットワークの構築を続行できます。
+
+[NOTE]
+Midonetの運用に関する詳細については、「Operation Guide」を参照してください。
+

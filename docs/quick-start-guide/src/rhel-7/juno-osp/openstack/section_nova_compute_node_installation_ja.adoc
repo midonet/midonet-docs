@@ -1,0 +1,144 @@
+[[nova_compute_node]]
+= コンピュートノード
+
+[IMPORTANT]
+Red Hatの文書のhttps://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/6/html/Deploying_OpenStack_Learning_Environments/sect-Install_a_Compute_Node.html[8.3. Install a Compute Node]の指示に従います。ただし、 *次の相違事項と追加事項に注意してください。*
+
+. *8.3.1. Compute Service Databaseを作成する*
++
+====
+適用*しないで*ください。 コントローラ ノードでは実行済みです。
+====
+
+. *8.3.2. Compute Serviceの認証を構成する*
++
+====
+適用*しないで*ください。 コントローラ ノードでは実行済みです。
+====
+
+. *8.3.3. Compute Serviceパッケージをインストールする*
++
+====
+そのまま適用*しないで*ください。
+
+代わりに、次のパッケージのみインストールします。
+
+[source]
+----
+# yum install openstack-nova-compute openstack-utils
+----
+====
+
+. *8.3.4. Compute ServiceのSSLの使用を構成する*
++
+====
+このまま適用します。
+====
+
+. *8.3.5. Compute Serviceを構成する*
++
+====
+次のトピックを除き、そのまま適用します。
+
+.. *8.3.5.6.3. L2エージェントを構成する*
++
+適用*しないで*ください。
++
+.. *8.3.5.6.4. 仮想インターフェイスのプラグインを構成する*
++
+適用*しないで*ください。
+
+さらに、`/etc/nova/nova.conf`ファイルを変更して、次のキーを`[glance]`セクションに追加します。
+
+[literal,subs="quotes"]
+----
+[glance]
+...
+host = *_controller_*
+----
+====
+
+. *8.3.6. Compute Service Databaseを追加する*
++
+====
+適用*しないで*ください。 コントローラ ノードでは実行済みです。
+====
+
+. *8.3.7. コンピュートサービスを開始する*
++
+====
+.. *1. Message Bus Serviceの開始*
++
+このまま適用します。
+
+.. *2. Libvirtd Serviceの開始*
++
+このまま適用します。
+
+.. *3. API Serviceの開始*
++
+適用*しないで*ください。 コントローラノードでのみ必要です。
+
+.. *4. スケジューラの開始*
++
+適用*しないで*ください。 コントローラノードでのみ必要です。
+
+.. *5. コンダクタの開始*
++
+適用*しないで*ください。 コントローラノードでのみ必要です。
+
+.. *6. コンピュートサービスの開始*
++
+このまま適用します。
+====
+
+. *代わりに、次の手順を実行します*
+
+.. *libvirtを構成する*
++
+====
+`/etc/libvirt/qemu.conf`ファイルを修正して次を含めます。
+
+[literal,subs="quotes"]
+----
+user = "root"
+group = "root"
+
+cgroup_device_acl = [
+    "/dev/null", "/dev/full", "/dev/zero",
+    "/dev/random", "/dev/urandom",
+    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+    *_"/dev/net/tun"_*
+]
+----
+====
+
+.. *libvirtdサービスを再開する*
++
+====
+[source]
+----
+# systemctl restart libvirtd.service
+----
+====
+
+.. *nova-rootwrapネットワークフィルタをインストールする*
++
+====
+[source]
+----
+# yum install openstack-nova-network
+# systemctl disable openstack-nova-network.service  
+----
+====
+
+.. *Computeサービスを再開する*
++
+====
+[source]
+----
+# systemctl restart openstack-nova-compute.service
+----
+====
+

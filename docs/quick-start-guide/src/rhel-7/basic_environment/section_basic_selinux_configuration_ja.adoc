@@ -1,0 +1,20 @@
+= SELinuxの構成
+
+[IMPORTANT]
+このガイドはSELinux（インストール済みの場合）が`permissive`または`disabled`のいずれかのモードであることが前提となります。
+
+モードを変更する場合は、次のコマンドを実行します。 
+
+[source]
+----
+# setenforce Permissive
+----
+
+SELinuxの構成を恒久的に変更する場合は、`/etc/selinux/config`ファイルを適宜変更してください。
+
+[source]
+----
+SELINUX=permissive
+----
+
+

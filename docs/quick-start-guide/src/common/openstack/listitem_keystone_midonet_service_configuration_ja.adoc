@@ -1,0 +1,11 @@
+. *MidoNet APIサーバーを作成する*
++
+====
+Keystoneの+admin+として、以下のコマンドを実行します。 
+
+[source]
+----
+$ keystone service-create --name midonet --type midonet --description "MidoNet API Service"
+----
+====
+

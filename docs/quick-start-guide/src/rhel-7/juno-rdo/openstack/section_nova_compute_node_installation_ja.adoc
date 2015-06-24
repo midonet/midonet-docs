@@ -1,0 +1,54 @@
+[[nova_compute_node]]
+= コンピュートノード
+
+[IMPORTANT]
+OpenStackの文書のhttp://docs.openstack.org/juno/install-guide/install/yum/content/ch_nova.html#nova-compute-install[Install and configure a compute node]指示に従います。ただし、*次の追加点に注意してください*。
+
+. *libvirtを構成する*
++
+====
+`/etc/libvirt/qemu.conf` ファイルを変更して以下を含めます。
+
+[literal,subs="quotes"]
+----
+user = "root"
+group = "root"
+
+cgroup_device_acl = [
+    "/dev/null", "/dev/full", "/dev/zero",
+    "/dev/random", "/dev/urandom",
+    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+    *_"/dev/net/tun"_*
+]
+----
+====
+
+. *libvirtdサービスを再開する*
++
+====
+[source]
+----
+# systemctl restart libvirtd.service
+----
+====
+
+. *nova-rootwrapネットワークフィルタをインストールする*
++
+====
+[source]
+----
+# yum install openstack-nova-network
+# systemctl disable openstack-nova-network.service
+----
+====
+
+. *Computeサービスを再開する*
++
+====
+[source]
+----
+# systemctl restart openstack-nova-compute.service
+----
+====
+

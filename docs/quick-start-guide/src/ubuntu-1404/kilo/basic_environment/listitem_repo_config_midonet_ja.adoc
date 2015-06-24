@@ -1,0 +1,29 @@
+. *MidoNetのレポジトリを構成する*
++
+====
+
+`/etc/yum.repos.d/midonet.repo`ファイルを作成し、修正して次を含めます。
+
+[source]
+----
+# MidoNet
+deb http://repo.midonet.org/midonet/v2015.03 stable main
+
+# MidoNet OpenStack Integration
+deb http://repo.midonet.org/openstack-kilo stable main
+
+# MidoNet 3rd Party Tools and Libraries
+deb http://repo.midonet.org/misc stable main
+----
+====
+
++
+====
+レポジトリのキーをダウンロードしてインストールする。
+
+[source]
+----
+# curl -L http://repo.midonet.org/packages.midokura.key | apt-key add -
+----
+====
+

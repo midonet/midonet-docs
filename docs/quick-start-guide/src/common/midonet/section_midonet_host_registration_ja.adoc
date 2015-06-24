@@ -1,0 +1,68 @@
+= MidoNetのホストの登録
+
+. *MidoNet CLIを起動する*
++
+====
+[source]
+----
+$ midonet-cli
+midonet>
+----
+====
+
+. *トンネルゾーンを作成する*
++
+MidoNeはVXLANVirtual（Extensible LAN）およびGRE（Generic Routing  Encapsulation）プロトコルサポートしているため、トンネルゾーンで他のホストと通信できます。
++
+VXLANプロトコルを使用するには、「vxlan」と入力してトンネルゾーンを作成します。
++
+====
+[source]
+----
+midonet> tunnel-zone create name tz type vxlan
+tzone0
+----
+====
++
+GREプロトコルを使用するには、「gre」と入力してトンネルゾーンを作成します。
++
+====
+[source]
+----
+midonet> tunnel-zone create name tz type gre
+tzone0
+----
+====
+
+[IMPORTANT]
+Make sure to allow GRE/VXLAN traffic for all hosts that belong to the tunnel
+zone. For VXLAN MidoNet uses UDP port 6677 as default.
+
+. *トンネルゾーンにホストを追加する*
++
+====
+[literal,subs="quotes"]
+----
+midonet> list tunnel-zone
+tzone tzone0 name tz type vxlan
+
+midonet> list host
+host host0 name *_controller_* alive true
+host host1 name *_gateway1_* alive true
+host host2 name *_gateway2_* alive true
+host host3 name *_compute1_* alive true
+
+midonet> tunnel-zone tzone0 add member host host0 address *_ip_address_of_host0_*
+zone tzone0 host host0 address *_ip_address_of_host0_*
+
+midonet> tunnel-zone tzone0 add member host host1 address *_ip_address_of_host1_*
+zone tzone0 host host1 address *_ip_address_of_host1_*
+
+midonet> tunnel-zone tzone0 add member host host2 address *_ip_address_of_host2_*
+zone tzone0 host host2 address *_ip_address_of_host2_*
+
+midonet> tunnel-zone tzone0 add member host host3 address *_ip_address_of_host3_*
+zone tzone0 host host3 address *_ip_address_of_host3_*
+----
+====
+
