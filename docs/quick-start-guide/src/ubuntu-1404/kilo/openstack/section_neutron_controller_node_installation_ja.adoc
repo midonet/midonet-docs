@@ -19,7 +19,8 @@ OpenStackの文書のhttp://docs.openstack.org/kilo/install-guide/install/apt/co
 +
 [source]
 ----
-# apt-get install neutron-server python-neutron-plugin-midonet
+# apt-get install neutron-server python-neutronclient python-neutron-plugin-midonet
+# apt-get purge neutron-plugin-ml2
 ----
 +
 ====
@@ -100,7 +101,7 @@ Instead, perform the following steps.
 +
 [source]
 ----
-# su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/midonet/midonet.ini upgrade kilo" neutron
+# su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/midonet/midonet.ini upgrade head" neutron
 ----
 +
 .. Restart the Compute service:
