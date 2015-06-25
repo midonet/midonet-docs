@@ -1,7 +1,7 @@
 . *MidoNet APIサーバーを作成する*
 +
 ====
-Keystoneの+admin+として、以下のコマンドを実行します。 
+Keystoneの +admin+ として、以下のコマンドを実行します。
 
 [source]
 ----
