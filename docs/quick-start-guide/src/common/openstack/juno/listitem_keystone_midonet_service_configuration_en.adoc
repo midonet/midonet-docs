@@ -1,0 +1,10 @@
+. *Create MidoNet API Service*
++
+====
+As Keystone +admin+, execute the following command:
+
+[source]
+----
+$ keystone service-create --name midonet --type midonet --description "MidoNet API Service"
+----
+====
