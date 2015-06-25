@@ -5,7 +5,7 @@ As Keystone +admin+, execute the following commands:
 
 [literal,subs="quotes"]
 ----
-$ keystone user-create --name *_midonet_* --pass *_MIDONET_PASS_* --tenant service
-$ keystone user-role-add --user *_midonet_* --role admin --tenant service
+$ openstack user create --password-prompt midonet
+$ openstack role add --project service --user midonet admin
 ----
 ====

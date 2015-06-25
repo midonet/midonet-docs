@@ -20,6 +20,7 @@ Do *not* apply.
 Instead, set `service_provider` as follows:
 [source]
 ----
+[service_providers]
 service_provider = LOADBALANCER:Midonet:midonet.neutron.services.loadbalancer.driver.MidonetLoadbalancerDriver:default
 ----
 ====
@@ -40,12 +41,6 @@ Do *not* apply.
 +
 ====
 Do *not* apply.
-====
-
-. *Enable load balancing in the Project section of the dashboard.*
-+
-====
-Apply as is.
 ====
 
 . *Enable load balancing in the Project section of the dashboard.*
