@@ -1,9 +1,18 @@
-= DHCP Agent
+= DHCP and Metadata Agents
 
 [NOTE]
 Since MidoNet does not have the concept of a Network Node like with the default
-OpenStack networking plugin, the DHCP Agent is going to be installed on the
-Controller Node.
+OpenStack networking plugin, the DHCP and Metadata agents are going to be
+installed on the Controller Node.
+
+. *Install the agents*
++
+====
+[source]
+----
+# apt-get install neutron-dhcp-agent neutron-metadata-agent
+----
+====
 
 . *Configure the DHCP agent*
 +
@@ -17,6 +26,7 @@ interface_driver = neutron.agent.linux.interface.MidonetInterfaceDriver
 dhcp_driver = midonet.neutron.agent.midonet_driver.DhcpNoOpDriver
 use_namespaces = True
 enable_isolated_metadata = True
+dhcp_delete_namespaces = True
 
 [MIDONET]
 # MidoNet API URL
@@ -29,11 +39,47 @@ project_id = service
 ----
 ====
 
-. *Restart the service*
+. *Configure the Metadata agent*
++
+====
+Edit the `/etc/neutron/metadata_agent.ini` file to contain the following:
+
+[literal,subs="quotes"]
+----
+[DEFAULT]
+...
+auth_uri = http://*_controller_*:5000
+auth_url = http://*_controller_*:35357
+auth_region = RegionOne
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = neutron
+password = *_NEUTRON_PASS_*
+
+nova_metadata_ip = *_controller_*
+metadata_proxy_shared_secret = *_METADATA_SECRET_*
+----
+
+Edit the `/etc/nova/nova.conf` file to contain the following:
+
+[literal,subs="quotes"]
+----
+[neutron]
+...
+service_metadata_proxy = True
+metadata_proxy_shared_secret = *_METADATA_SECRET_*
+----
+====
+
+. *Restart the services*
 +
 ====
 [source]
 ----
 # service neutron-dhcp-agent restart
+# service neutron-metadata-agent restart
+# service nova-api restart
 ----
 ====
