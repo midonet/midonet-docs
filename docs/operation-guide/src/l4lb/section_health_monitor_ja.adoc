@@ -30,7 +30,7 @@ agent.haproxy_health_monitor.health_monitor_enable = true
 
 それに加えて、HAProxyインスタンスを走らせているホストは、"nogroup"と呼ばれるグループと"nobody"と呼ばれるユーザーを持つ必要があります。そうでないなら、HAProxyは起動することはできません。これはUbuntuのデフォルトの設定ですが、Red Hadではこのユーザーとグループを作成する必要があります。
 
-* MidNetエージェントの中で、ヘルスモニターがどのように機能するか*
+* MidoNetエージェントの中で、ヘルスモニターがどのように機能するか*
 
 * MidoNetエージェント(midolman)は自分のヘルスモニターは実装しません。その変わりに、haproxyパッケージ(使われるhaproxy バージョンは 1.4です)の一部であるヘルスチェッカーを活用します。MidoNetエージェントは、以下のことをやりながら、HAProxyを活用します：
 

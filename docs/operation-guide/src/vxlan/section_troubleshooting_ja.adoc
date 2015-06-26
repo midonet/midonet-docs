@@ -179,7 +179,7 @@ MidoNetコーディネーターは、このニュートロンネットワーク�
 
 `<!--` and `-->` タグを取り除くことでこの設定を有効にして、APIログがDEBUGメッセージを表示し始めるまで数秒間待ちます。さらに細かい情報を見るにはDEBUGではなくTRACEを選択します。(パフォーマンスに大きく影響を与えてしまうほどに冗長な情報はありません。)
 
-以下のようなメッセージは、MidoNetコーディネーターがMidnetとVTEP間でMACどうしを交換することに成功したことを示しています。
+以下のようなメッセージは、MidoNetコーディネーターがMidoNetとVTEP間でMACどうしを交換することに成功したことを示しています。
 
 [source]
 TRACE c68fa502-62e5-4b33-9f2f-d5d0257deb4f - Learned: MacLocation { logicalSwitchName=mn-c68fa502-62e5-4b33-9f2f-d5d0257deb4f, mac=96:8f:e8:12:33:55, vxlanTunnelEndpoint=192.168.2.16 }
