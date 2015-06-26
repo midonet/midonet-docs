@@ -1729,6 +1729,7 @@ _Media Type_: `[application/vnd.org.midonet.DhcpSubnet-v2+json]`
 GET     /bridges/:bridgeId/dhcp
 GET     /bridges/:bridgeId/dhcp/:subnetAddr
 POST    /bridges/:bridgeId/dhcp
+PUT     /bridges/:bridgeId/dhcp/:subnetAddr
 DELETE  /bridges/:bridgeId/dhcp/:subnetAddr
 -------------------------------------------
 
@@ -1738,22 +1739,22 @@ DELETE  /bridges/:bridgeId/dhcp/:subnetAddr
 |uri |URI | | |A GET
 against this URI returns or refreshes the representation of this source
 
-|subnetPrefix |String |POST |No |Subnet Prefix in the form of `1.2.3.4`
+|subnetPrefix |String |POST/PUT |No |Subnet Prefix in the form of `1.2.3.4`
 
-|subnetLength |Integer |POST |No |Subnet Length (0-32)
+|subnetLength |Integer |POST/PUT |No |Subnet Length (0-32)
 
-|defaultGateway |String |POST |No |Default Gateway in the form `1.2.3.4`
+|defaultGateway |String |POST/PUT |No |Default Gateway in the form `1.2.3.4`
 
-|serverAddr |String |POST |No |DHCP Server Address in the form of
+|serverAddr |String |POST/PUT |No |DHCP Server Address in the form of
 `1.2.3.4`
 
-|dnsServerAddrs |List(String) |POST |No |List of DNS Server Addresses in
+|dnsServerAddrs |List(String) |POST/PUT |No |List of DNS Server Addresses in
 the form of `1.2.3.4`
 
-|interfaceMTU |Integer |POST |No |Interface Maximum Transmission Unit
+|interfaceMTU |Integer |POST/PUT |No |Interface Maximum Transmission Unit
 advertised by DHCP
 
-|opt121Routes |List(String, Integer, String) |POST |No |List of DHCP
+|opt121Routes |List(String, Integer, String) |POST/PUT |No |List of DHCP
 Option 121 routes, each of which consists of \{destination prefix
 (String, `1.2.3.4` form), destination prefix length (Integer, 0-32),
 gateway address (String, `1.2.3.4` form)}
