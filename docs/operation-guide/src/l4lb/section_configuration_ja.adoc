@@ -71,7 +71,7 @@ port port3 device router1 state up mac 02:6b:9f:0d:c4:a8 address 203.0.113.2 net
 +
 トラフィックをテナントルーター(router0)にルートする為に使用されるプロバイダールーターのポートを示しているリストを見てください。これはルーターport3です。
 
-.. 次に、プロバイダールーターport3をMidNet設定に追加してください。
+.. 次に、プロバイダールーターport3をMidoNet設定に追加してください。
 +
 [source]
 midonet> router router1 add route dst 203.0.113.2/32 src 0.0.0.0/0 type normal port router1:port3
