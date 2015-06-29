@@ -1,7 +1,7 @@
 . *MidoNetのレポジトリを構成する*
 +
 ====
-`/etc/apt/sources.list.d/midonet.list`ファイルを作成し、修正して次を含めます。
+`/etc/apt/sources.list.d/midonet.list` ファイルを作成し、修正して次を含めます。
 
 [source]
 ----

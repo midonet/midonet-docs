@@ -20,7 +20,7 @@ Red Hatの文書のhttps://access.redhat.com/documentation/en-US/Red_Hat_Enterpr
 ====
 適用*しないで*ください。 代わりに、次の手順を実行します。
 
-.. `/etc/neutron/neutron.conf`ファイルを変更して、次のキーを`[DEFAULT]` セクションに追加します。
+.. `/etc/neutron/neutron.conf` ファイルを変更して、次のキーを `[DEFAULT]` セクションに追加します。
 +
 [source]
 ----
@@ -40,7 +40,7 @@ allow_overlapping_ips = True
 mkdir /etc/neutron/plugins/midonet
 ----
 
-`/etc/neutron/plugins/midonet/midonet.ini`ファイルを作成し、修正して次を含めます。
+`/etc/neutron/plugins/midonet/midonet.ini` ファイルを作成し、修正して次を含めます。
 +
 [literal,subs="quotes"]
 ----

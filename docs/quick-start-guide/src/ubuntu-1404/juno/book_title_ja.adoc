@@ -1,2 +1,1 @@
-= Ubuntu 14.04 / JunoのためのMidoNetクイックスタートガイド
-
+= MidoNet クイック スタート ガイド Ubuntu 14.04 / Juno

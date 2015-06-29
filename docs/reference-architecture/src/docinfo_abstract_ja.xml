@@ -1,9 +1,9 @@
 <abstract xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
     <para>
-        MidoNetはサービスとしてのインフラストラクチャ（IaaS）クラウドのためのネットワーク仮想ソフトウェアです。
+        MidoNetは、Infrastructure-as-a-Service (IaaS)のためのネットワーク仮想化ソフトウェアです。
     </para>
     <para>
-        IaaSクラウドをネットワークハードウェアから分離し、エンドホストと物理ネットワークの間のインテリジェントなソフトウェア抽象化レイヤを作成します。
+	これにより、ネットワークハードウェアとIaaSクラウドを切り離すことができ、ホストと物理ネットワークの間に、インテリジェントなソフトウェア抽象レイヤーを作成することができます。
     </para>
     <para>
         この文書には、推奨されるハードウェアを含め、MidoNetのネットワーク仮想化インフラストラクチャを準備するのに便利な情報が含まれています。特に、この文書では次について説明します。
@@ -11,7 +11,7 @@
         <itemizedlist mark='bullet'>
             <listitem>
                 <para>
-                    MidoNetの概要
+                    MidoNetの概要。
                 </para>
             </listitem>
             <listitem>
@@ -33,9 +33,9 @@
         <!-- Link to Mailing Lists and Chat. -->
         <note>
             <para>
-                サポートが必要な場合は、
-                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNet Mailing Lists or Chat</link>
-                を参照してください。
+                援助を必要とする場合は、
+                <link xlink:href="http://wiki.midonet.org/Mailing%20lists%20and%20IRC">MidoNetメーリングリストやチャット</link>
+                までご連絡ください。
             </para>
         </note>
     </para>

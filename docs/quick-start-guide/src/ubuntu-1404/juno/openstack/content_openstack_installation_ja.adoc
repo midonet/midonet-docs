@@ -1,3 +1,3 @@
 [IMPORTANT]
-http://docs.openstack.org/juno/install-guide/install/apt/content/[OpenStack Juno Installation Guide for Ubuntu 14.04 (LTS)]に従います。ただし、*次の相違点に注意してください*。
-
+http://docs.openstack.org/juno/install-guide/install/apt/content/[OpenStack Juno Installation Guide for Ubuntu 14.04 (LTS)]
+に従います。ただし、*次の相違点に注意してください*。

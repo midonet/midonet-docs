@@ -82,7 +82,7 @@
 . *MidoNet APIのコンテキストを構成する*
 +
 ====
- `/etc/tomcat/Catalina/localhost/midonet-api.xml` ファイルを作成し、修正して次を含めます。
+`/etc/tomcat/Catalina/localhost/midonet-api.xml` ファイルを作成し、修正して次を含めます。
 
 [source]
 ----
