@@ -14,14 +14,12 @@
     <name>${project.artifactId} v${project.version}</name>
 
     <modules>
-        <module>build/quick-start-guide_rhel-7_icehouse-osp_en</module>
         <module>build/quick-start-guide_rhel-7_juno-osp_en</module>
         <module>build/quick-start-guide_rhel-7_juno-osp_ja</module>
         <module>build/quick-start-guide_rhel-7_juno-rdo_en</module>
         <module>build/quick-start-guide_rhel-7_juno-rdo_ja</module>
         <module>build/quick-start-guide_rhel-7_kilo-rdo_en</module>
         <module>build/quick-start-guide_rhel-7_kilo-rdo_ja</module>
-        <module>build/quick-start-guide_ubuntu-1404_icehouse_en</module>
         <module>build/quick-start-guide_ubuntu-1404_juno_en</module>
         <module>build/quick-start-guide_ubuntu-1404_juno_ja</module>
         <module>build/quick-start-guide_ubuntu-1404_kilo_en</module>
@@ -34,6 +32,11 @@
         <module>build/troubleshooting-guide_en</module>
         <module>build/troubleshooting-guide_ja</module>
         <module>tools/midonet-docs-maven-plugin</module>
+
+        <!-- Icehouse not supported in MOSS 2015.06
+        <module>build/quick-start-guide_rhel-7_icehouse-osp_en</module>
+        <module>build/quick-start-guide_ubuntu-1404_icehouse_en</module>
+        -->
     </modules>
 
     <properties>

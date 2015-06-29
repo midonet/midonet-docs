@@ -9,7 +9,7 @@ following:
 ----
 [midonet]
 name=MidoNet
-baseurl=http://repo.midonet.org/midonet/v2015.03/RHEL/7/stable/
+baseurl=http://repo.midonet.org/midonet/v2015.06/RHEL/7/stable/
 enabled=1
 gpgcheck=1
 gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
