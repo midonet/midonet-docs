@@ -1,5 +1,6 @@
 = コントローラノード
 
 [NOTE]
-OpenStackの文書のhttp://docs.openstack.org/juno/install-guide/install/yum/content/ch_nova.html#nova-controller-install[Install and configure controller node]の指示にそのまま従います。
-
+OpenStackの文書の
+http://docs.openstack.org/juno/install-guide/install/yum/content/ch_nova.html#nova-controller-install[Install and configure controller node]
+の指示にそのまま従います。

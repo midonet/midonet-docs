@@ -1,7 +1,7 @@
 . *DataStaxのレポジトリを有効にする*
 +
 ====
-`/etc/yum.repos.d/datastax.repo`ファイルを作成し、修正して次を含めます。
+`/etc/yum.repos.d/datastax.repo` ファイルを作成し、修正して次を含めます。
 
 [source]
 ----

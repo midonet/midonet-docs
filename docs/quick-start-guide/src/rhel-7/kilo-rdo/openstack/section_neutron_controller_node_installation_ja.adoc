@@ -2,7 +2,9 @@
 = コントローラノード
 
 [IMPORTANT]
-OpenStackの文書のhttp://docs.openstack.org/kilo/install-guide/install/yum/content/neutron-controller-node.html[Install and configure controller node]指示に従います。ただし、 *次の相違事項と追加事項に注意してください。*
+OpenStackの文書の
+http://docs.openstack.org/kilo/install-guide/install/yum/content/neutron-controller-node.html[Install and configure controller node]
+指示に従います。ただし、 *次の相違事項と追加事項に注意してください。*
 
 . *前提条件を設定する場合*
 +
@@ -29,8 +31,8 @@ OpenStackの文書のhttp://docs.openstack.org/kilo/install-guide/install/yum/co
 step 'dを適用*しないで*ください。モジュラーレイヤー2（ML2）プラグイン、ルーター
 サービスおよび重複するIPアドレスを有効にします。
 
-代わりに、`/etc/neutron/neutron.conf`ファイルを変更して、次のキー
-を`[DEFAULT]`セクションに追加します。
+代わりに、`/etc/neutron/neutron.conf` ファイルを変更して、次のキーを `[DEFAULT]` セクションに追加します。
+
 [source]
 ----
 [DEFAULT]
@@ -53,7 +55,7 @@ core_plugin = neutron.plugins.midonet.plugin.MidonetPluginV2
 # mkdir /etc/neutron/plugins/midonet
 ----
 +
-.. `/etc/neutron/plugins/midonet/midonet.ini`ファイルを作成し、修正して次を含めます。
+.. `/etc/neutron/plugins/midonet/midonet.ini` ファイルを作成し、修正して次を含めます。
 +
 [literal,subs="quotes"]
 ----

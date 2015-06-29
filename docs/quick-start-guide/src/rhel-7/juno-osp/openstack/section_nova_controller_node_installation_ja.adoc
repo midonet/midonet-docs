@@ -85,7 +85,7 @@ Red Hatの文書のhttps://access.redhat.com/documentation/en-US/Red_Hat_Enterpr
 ====
 .. *メタデータプロキシを構成する*
 +
-`/etc/nova/nova.conf`ファイルを修正して次を含めます。
+`/etc/nova/nova.conf` ファイルを修正して次を含めます。
 +
 [literal,subs="quotes"]
 ----

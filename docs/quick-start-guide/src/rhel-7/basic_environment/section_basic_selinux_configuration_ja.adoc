@@ -10,7 +10,7 @@
 # setenforce Permissive
 ----
 
-SELinuxの構成を恒久的に変更する場合は、`/etc/selinux/config`ファイルを適宜変更してください。
+SELinuxの構成を恒久的に変更する場合は、`/etc/selinux/config` ファイルを適宜変更してください。
 
 [source]
 ----

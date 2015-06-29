@@ -1,10 +1,9 @@
 <abstract xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
     <para>
-        MidoNetは、IaaSクラウド向けのネットワーク仮想化ソフトウェアである。
+        MidoNetは、Infrastructure-as-a-Service (IaaS)のためのネットワーク仮想化ソフトウェアです。
     </para>
     <para>
-        既存の物理ネットワークと物理サーバ間で仮想環境の為のネットワーク機能をソフトウェアで抽象化し利用することが可能です、
-        既存の物理ネットワーク環境の上にIaaSクラウドネットワーク環境を切り離して利用することができるのです。
+	これにより、ネットワークハードウェアとIaaSクラウドを切り離すことができ、ホストと物理ネットワークの間に、インテリジェントなソフトウェア抽象レイヤーを作成することができます。
     </para>
     <para>
         このドキュメントは、MidoNetやOpenStackのトラブルシューティングに関する有用な情報が含まれています。

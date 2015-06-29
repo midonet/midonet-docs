@@ -1,7 +1,9 @@
 = コントローラノード
 
 [IMPORTANT]
-OpenStackの文書のhttp://docs.openstack.org/juno/install-guide/install/apt/content/neutron-controller-node.html[Install and configure controller node]の指示に従います。ただし、*次の相違点に注意してください。*
+OpenStackの文書の
+http://docs.openstack.org/juno/install-guide/install/apt/content/neutron-controller-node.html[Install and configure controller node]
+の指示に従います。ただし、*次の相違点に注意してください。*
 
 . *前提条件を設定する場合*
 +
@@ -28,7 +30,7 @@ OpenStackの文書のhttp://docs.openstack.org/juno/install-guide/install/apt/co
 ====
 ステップ'dを適用*しないで*ください。 モジュラーレイヤー2（ML2）プラグイン、ルーターサービスおよび重複するIPアドレスを有効にします。
 
-.. 代わりに、`/etc/neutron/neutron.conf`ファイルを変更して、次のキーを`[DEFAULT]`セクションに追加します。
+.. 代わりに、`/etc/neutron/neutron.conf` ファイルを変更して、次のキーを `[DEFAULT]` セクションに追加します。
 +
 [source]
 ----
@@ -56,7 +58,7 @@ core_plugin = midonet.neutron.plugin.MidonetPluginV2
 mkdir /etc/neutron/plugins/midonet
 ----
 +
-.. `/etc/neutron/plugins/midonet/midonet.ini`ファイルを作成し、修正して次を含めます。
+.. `/etc/neutron/plugins/midonet/midonet.ini` ファイルを作成し、修正して次を含めます。
 +
 [literal,subs="quotes"]
 ----
@@ -73,7 +75,7 @@ password = *_MIDONET_PASS_*
 project_id = service
 ----
 +
-.. `/etc/default/neutron-server`ファイルを変更して以下を含めます。
+.. `/etc/default/neutron-server` ファイルを変更して以下を含めます。
 +
 [source]
 ----

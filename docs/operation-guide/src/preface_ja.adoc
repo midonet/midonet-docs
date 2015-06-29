@@ -1,33 +1,32 @@
 [preface]
 [[preface]]
-= Preface
+= はじめに
 
 ++++
 <?dbhtml stop-chunking?>
 ++++
 
-== Conventions
+== 表記規則
 
-The MidoNet documentation uses several typesetting conventions.
+MidoNet のドキュメントは、いくつかの植字の表記方法を採用しています。
 
-=== Notices
+=== 注意
 
-Notices take these forms:
+注意には以下の種類があります。
 
-NOTE: A handy tip or reminder.
+NOTE: 簡単なヒントや備忘録です。
 
-IMPORTANT: Something you must be aware of before proceeding.
+IMPORTANT: 続行する前に注意する必要があるものです。
 
-WARNING: Critical information about the risk of data loss or security issues.
+WARNING: データ損失やセキュリティ問題のリスクに関する致命的な情報です。
 
-=== Command prompts
+=== コマンドプロンプト
 
-*$ prompt*
+*$ プロンプト*
 
-Any user, including the +root+ user, can run commands that are prefixed with the
-$ prompt.
++root+ ユーザーを含むすべてのユーザーが、$ プロンプトから始まるコマンドを実行できます。
 
-*# prompt*
+*# プロンプト*
 
-The +root+ user must run commands that are prefixed with the # prompt. You can
-also prefix these commands with the *sudo* command, if available, to run them.
++root+ ユーザーは、# プロンプトから始まるコマンドを実行する必要があります。利用可能ならば、
+これらを実行するために、*sudo* コマンドを使用できます。

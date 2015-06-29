@@ -1,1 +1,1 @@
-= MidoNet Quick Start Guide for RHEL 7 / Kilo (RDO)
+= MidoNet クイック スタート ガイド RHEL 7 / Kilo (RDO)
