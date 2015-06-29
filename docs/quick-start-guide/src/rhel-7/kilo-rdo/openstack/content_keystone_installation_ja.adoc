@@ -1,4 +1,5 @@
 [IMPORTANT]
-OpenStackの文書のhttp://docs.openstack.org/kilo/install-guide/install/yum/content/ch_keystone.html[Chapter 3. Add the Identity service]の指示に従います。ただし、*次の追加事項に注意してください。*
-
+OpenStackの文書の
+http://docs.openstack.org/kilo/install-guide/install/yum/content/ch_keystone.html[Chapter 3. Add the Identity service]
+の指示に従います。ただし、*次の追加事項に注意してください。*
 

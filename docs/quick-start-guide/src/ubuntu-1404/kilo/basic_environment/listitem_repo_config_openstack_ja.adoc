@@ -1,7 +1,7 @@
 . *Ubuntu Cloud Archiveのレポジトリを構成する*
 +
 ====
-/etc/apt/sources.list.d/cloudarchive-kilo.list`ファイルを作成し、修正して次を含めます。
+/etc/apt/sources.list.d/cloudarchive-kilo.list` ファイルを作成し、修正して次を含めます。
 
 [source]
 ----

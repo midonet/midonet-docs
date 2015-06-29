@@ -12,7 +12,7 @@
 . *MidoNet CLIを構成する*
 +
 ====
-`~/.midonetrc`ファイルを作成し、修正して次を含めます。
+`~/.midonetrc` ファイルを作成し、修正して次を含めます。
 
 [literal,subs="quotes"]
 ----

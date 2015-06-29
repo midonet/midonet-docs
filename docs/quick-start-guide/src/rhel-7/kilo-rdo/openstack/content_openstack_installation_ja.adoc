@@ -1,3 +1,4 @@
 [IMPORTANT]
-http://docs.openstack.org/kilo/install-guide/install/yum/content/[OpenStack Kilo Installation Guide for Red Hat Enterprise Linux 7]に従います。ただし、*次の相違点に注意してください。*
+http://docs.openstack.org/kilo/install-guide/install/yum/content/[OpenStack Kilo Installation Guide for Red Hat Enterprise Linux 7]
+に従います。ただし、*次の相違点に注意してください。*
 

@@ -2,12 +2,14 @@
 = コンピュートノード
 
 [IMPORTANT]
-OpenStackの文書のhttp://docs.openstack.org/juno/install-guide/install/apt/content/ch_nova.html#nova-compute-install[Install and configure a compute node]の指示に従います。ただし、*次の追加事項に注意してください*。 
+OpenStackの文書の
+http://docs.openstack.org/juno/install-guide/install/apt/content/ch_nova.html#nova-compute-install[Install and configure a compute node]
+の指示に従います。ただし、*次の追加事項に注意してください*。 
 
 . *libvirtを構成する*
 +
 ====
-`/etc/libvirt/qemu.conf`ファイルを変更して以下を含めます。
+`/etc/libvirt/qemu.conf` ファイルを変更して以下を含めます。
 
 [literal,subs="quotes"]
 ----
@@ -40,7 +42,7 @@ cgroup_device_acl = [
 . *nova-rootwrapを構成する*
 +
 ====
-`/etc/nova/rootwrap.d/midonet.filters`ファイルを作成し、修正して次を含めます。
+`/etc/nova/rootwrap.d/midonet.filters` ファイルを作成し、修正して次を含めます。
 
 [source]
 ----

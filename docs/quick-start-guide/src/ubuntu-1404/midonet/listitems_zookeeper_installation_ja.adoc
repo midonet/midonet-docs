@@ -12,7 +12,7 @@
 ====
 .. *共通の構成*
 +
- `/etc/zookeeper/conf/zoo.cfg`ファイルを修正して次を含めます。
+`/etc/zookeeper/conf/zoo.cfg` ファイルを修正して次を含めます。
 +
 [literal,subs="quotes"]
 ----

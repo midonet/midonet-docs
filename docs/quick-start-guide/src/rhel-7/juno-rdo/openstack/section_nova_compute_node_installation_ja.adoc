@@ -2,7 +2,9 @@
 = コンピュートノード
 
 [IMPORTANT]
-OpenStackの文書のhttp://docs.openstack.org/juno/install-guide/install/yum/content/ch_nova.html#nova-compute-install[Install and configure a compute node]指示に従います。ただし、*次の追加点に注意してください*。
+OpenStackの文書の
+http://docs.openstack.org/juno/install-guide/install/yum/content/ch_nova.html#nova-compute-install[Install and configure a compute node]
+指示に従います。ただし、*次の追加点に注意してください*。
 
 . *libvirtを構成する*
 +

@@ -85,7 +85,7 @@
                                     <replacetoken><![CDATA[<info>]]></replacetoken>
                                     <replacevalue>
                                         <![CDATA[
-                                            <?rax title.font.size="40px" subtitle.font.size="25px"?>
+                                            <?rax title.font.size="30px" subtitle.font.size="25px"?>
                                             <info>
                                         ]]>
                                     </replacevalue>
