@@ -28,8 +28,8 @@ midonet> bridge bridge2 port add
 bridge2:port0
 
 . Link the ports:
-[source]
 +
+[source]
 midonet> bridge bridge0 port port0 set peer bridge1:port0
 midonet> bridge bridge0 port port1 set peer bridge2:port0
 
