@@ -5,6 +5,15 @@ Since MidoNet does not have the concept of a Network Node like with the default
 OpenStack networking plugin, the DHCP Agent is going to be installed on the
 Controller Node.
 
+. *Install the DHCP agent*
++
+====
+[source]
+----
+# apt-get install neutron-dhcp-agent
+----
+====
+
 . *Configure the DHCP agent*
 +
 ====
