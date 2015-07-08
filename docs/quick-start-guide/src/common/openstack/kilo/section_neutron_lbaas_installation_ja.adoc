@@ -43,6 +43,18 @@ Do *not* apply.
 Do *not* apply.
 ====
 
+. *Create the required tables in the database:*
++
+====
+Do *not* apply.
+====
+
+. *Apply the settings by restarting the neutron-server and neutron-lbaas-agent services.*
++
+====
+Do *not* apply.
+====
+
 . *Enable load balancing in the Project section of the dashboard.*
 +
 ====
