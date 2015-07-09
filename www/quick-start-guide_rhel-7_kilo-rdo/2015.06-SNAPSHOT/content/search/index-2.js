@@ -1,5 +1,4 @@
 //Auto generated index for searching.
-w["draft"]="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28";
 w["driver"]="10";
 w["dsc20"]="5";
 w["dsc20-2"]="5";
@@ -197,8 +196,9 @@ w["network"]="0,2,6,9,12,13,16,19,20,21,26,27,28";
 w["neutron"]="0,2,10,13,16,20,21,27,28";
 w["neutron-db-manag"]="16";
 w["neutron-dhcp-ag"]="21";
+w["neutron-lbaas-ag"]="10";
 w["neutron-metadata-ag"]="12";
-w["neutron-serv"]="16";
+w["neutron-serv"]="10,16";
 w["neutron_dbpass@"]="16";
 w["nmap-ncat"]="1";
 w["noarch"]="24";
@@ -236,4 +236,5 @@ w["option"]="10";
 w["order"]="6";
 w["org"]="5,24";
 w["other"]="5,25,27";
+w["outfilt"]="6";
 

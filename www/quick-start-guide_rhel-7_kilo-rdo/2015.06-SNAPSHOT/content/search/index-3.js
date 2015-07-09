@@ -1,5 +1,4 @@
 //Auto generated index for searching.
-w["outfilt"]="6";
 w["outstand"]="1";
 w["ov"]="26";
 w["overlap"]="16,26";
@@ -83,7 +82,7 @@ w["request"]="1";
 w["requir"]="10";
 w["resolv"]="20";
 w["rest_api-base_uri"]="15";
-w["restart"]="5,9,16,26";
+w["restart"]="5,9,10,16,26";
 w["result"]="5";
 w["retval"]="5";
 w["rhel"]="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28";
@@ -157,6 +156,7 @@ w["symbol"]="16";
 w["symlink"]="1";
 w["system"]="5,16,24,27";
 w["systemctl"]="1,5,9,12,14,15,16,21,26";
+w["tabl"]="10";
 w["take"]="7";
 w["tell"]="5";
 w["temporari"]="5";
