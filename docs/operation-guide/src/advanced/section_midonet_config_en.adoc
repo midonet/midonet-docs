@@ -1,10 +1,10 @@
 [[midonet_config]]
-= MidoNet Configuration: mn-conf(1)
+= MidoNet Configuration: mn-conf
 
 MidoNet stores its configuration in the same ZooKeeper cluster that it uses
 to store network topology data.
 
-Configuration can be read and managed via the +mn-conf(1)+ command line tool.
+Configuration can be read and managed via the +mn-conf+ command line tool.
 Refer to its manpage for its full documentation, and to the next paragraphs
 for a light introduction.
 
@@ -63,3 +63,267 @@ documentation:
 
 [source,bash]
 $ mn-conf dump -s
+
+== mn-conf man page
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+=== OPTIONS LIST
+
+-----------------------------------------------------------------------
+$ mn-conf dump  [-h HOST_ID | -t TEMPLATE_NAME -s] [-H]
+$ mn-conf get   [-h HOST_ID | -t TEMPLATE_NAME -s] [-H] CONFIG_KEY
+$ mn-conf set   [-h HOST_ID | -t TEMPLATE_NAME] [-c] < CONFIG_FILE
+$ mn-conf unset [-h HOST_ID | -t TEMPLATE_NAME] CONFIG_KEY
+$ mn-conf template-get [-a | -h HOST_ID]
+$ mn-conf template-set -h HOST_ID -t TEMPLATE_NAME
+$ mn-conf template-clear -h HOST_ID
+$ mn-conf template-list
+$ mn-conf hosts
+$ mn-conf doc CONFIG_KEY
+$ mn-conf import [-h HOST_ID | -t TEMPLATE_NAME] [--all] -f CONFIG_FILE
+-----------------------------------------------------------------------
+
+=== DESCRIPTION
+
+MidoNet stores the configuration for all of its nodes in a central
+repository. *mn-conf* is a command line tool for the inspection and
+manipulation of this configuration.
+
+The configuration for a particular MidoNet node is composed of several
+different sources that can be managed using `mn-conf`. By order of
+priority, it's composed of the following pieces of configuration:
+
+* _The node-specific configuration_ assigned to the node based on its
+UUID. Options found here apply to no other MidoNet nodes. This is useful
+while troubleshooting the behaviour of an individual node or when there
+is reason for a node to have a different value on a specific
+configuration key.
+* __The configuration template assigned to this node__. Configuration
+templates allow applying sets of configuration values to groups of
+MidoNet nodes. For instance, one might like to assign all MidoNet agents
+running on the gateway hosts of a cloud the same configuration template,
+so they can be sized differently than agents running on hosts dedicated
+to compute services.
+* __The "default" configuration template__. This template is applied,
+with less priority, to all nodes regardless of whether they are assigned
+to a different template. This is the best place to store cloud-wide
+configuration settings. MidoNet does not touch this template, even
+across upgrades, settings written here by operators remain in place
+until they are removed or unless they are overridden by a
+higher-priority configuration source.
+* __The configuration schema__. The schema is managed by MidoNet and
+changes across upgrades. Thus, operators may not edit the schema. It
+contains the default values for all existing configuration options.
+Also, many configuration keys are annotated with documentation. This
+documentation can be found by appending the *_description* suffix to a
+configuration option.
+
+Note that, at runtime, MidoNet nodes will read legacy configuration
+files too, and they will take precedence over central repository
+configuration. Thus MidoNet agent will give priority to any values it
+finds in `/etc/midolman/midolman.conf` over the configuration sources
+described above. This cannot be managed with `mn-conf`, because it
+doesn't know if its running on the same host.
+
+`mn-conf` is capable of importing the non-default values in a legacy
+configuation file into one of the central repository config sources
+described above. While the `mn-conf` configuration system is fully
+backwards compatible with legacy configuration files, the `import`
+command is a seamless mechanism to transition to the new configuration
+system. See below, under `import`, for a description of this feature.
+
+=== CONFIGURATION FORMAT
+
+MidoNet uses the
+https://github.com/typesafehub/config/blob/master/HOCON.md[HOCON]
+configuration file format. While it's a super set of JSON, it's is much
+more compact and forgiving and, among other things, allows comments.
+
+Please refer to the HOCON documentation for a complete reference. But,
+rest assured that using plain JSON will just work.
+
+Here are a two examples of equivalent pieces of configuration that will
+be understood by MidoNet:
+
+JSON:
+
+---------------------------
+foo {
+    bar {
+        baz : 42
+        aString : "value"
+        aDuration : "100ms"
+    }
+}
+---------------------------
+
+Flat:
+
+--------------------------
+ foo.bar.baz : 42
+ foo.bar.aString : "value"
+ foo.bar.aDuration : 100ms
+--------------------------
+
+Although both examples will yield the same results, the second example
+shows what configuration keys look like when queried. Either in code or
+in `mn-conf` commands keys should be referred to using the dotted
+notation.
+
+=== SUBCOMMANDS
+
+`dump [-h` HOST_ID `| -t` TEMPLATE_NAME `| -s] [-H]`
+
+Dumps the entire selected configuration.
+
+* `--host` HOST_ID, `-h` HOST_ID: Selects a host id for which to dump
+configuration. The special value `local` will resolve to the local host
+id.
+* `--template` TEMPLATE, `-t` TEMPLATE: Asks for a dump of a particular
+configuration template.
+* `--schema`, `-s`: Asks for a dump of the configuration schema.
+* `--host-only`, `-H`: If `-h` was given, print only the node-specific
+configuration for the given host. Otherwise `mn-conf` will print the
+configuration the host would have at runtime, combining the
+node-specific config with its template, the defaults and the schema.
+
+`get [-h` HOST_ID `| -t` TEMPLATE_NAME `| -s] [-H]` CONFIG_KEY
+
+Print the value assigned to a particular configuration key. See the
+above, in `dump`, the options for selecting the configuration source(s)
+to read from.
+
+`set [-h` HOST_ID `| -t` TEMPLATE_NAME`] [-c] <var>`
+
+Reads configuration from STDIN and stores it in the selected
+configuration source. The input will be merged on top of the existing
+configuration, unless `--clear` is given, in that case the input will
+replace the existing configuration. See above, in `dump`, the options
+for selecting the configuration source to write to.
+
+* `-c`, `--clear`: Clear the configuration before storing the values
+read from standard input.
+
+`unset [-h` HOST_ID `| -t` TEMPLATE_NAME`]` CONFIG_KEY
+
+Clears the value of a configuration key in a selected configuration
+source. See above, in `dump`, the options for selecting the
+configuration source to write to.
+
+`template-get [-a | -h` HOST_ID`]`
+
+Queries the assignments of configuration templates to MidoNet node IDs.
+
+* `-a`, `--all`: Prints all template assignments.
+* `-h` HOST_ID, `--host` HOST_ID: Prints the template assignment for the
+given host id. The special value `local` will resolve to the local host
+id.
+
+`template-set -h` HOST_ID `-t` TEMPLATE_NAME
+
+Assigns a configuration template to a host id.
+
+`template-clear -h` HOST_ID
+
+Clears the template assignment for a host id
+
+`template-list`
+
+Lists existing templates and the hosts that use them.
+
+`hosts`
+
+Displays information about hosts that have custom configurations or
+non-default templates assigned to them.
+
+`import [-h` HOST_ID `| -t` TEMPLATE_NAME`] [-a] -f` CONFIG_FILE
+
+Imports values from a legacy configuration file into the centralized
+configuration repository. The default behavior is to import values that
+differ from the configuration schema only, but the `-a` option will make
+`mn-conf` import all values. `import` will automatically handle keys
+that have changed name, path or type. See above, in `dump`, the options
+for selecting the configuration source where `mn-conf` will write the
+imported values.
+
+* `-a`, `--all`: Import all values, instead of just those that differ
+from the configuration schema.
+* `-f` CONFIG_FILE, `--file` CONFIG_FILE: Path to the file were
+`mn-conf` will find the legacy configuration.
+
+=== MISCELLANEOUS OPTIONS
+
+* `-h`, `--help`: Print a brief help message.
+
+=== EXAMPLES
+
+Set a configuration key in the default agent template:
+
+---------------------------------------------------
+$ echo "a.config.key : 42" | mn-conf set -t default
+---------------------------------------------------
+
+Dump the runtime configuration (minus local configuration files) of a
+MidoNet agent:
+
+------------------------------------------------------
+$ mn-conf dump -h a5ff1460-d00c-11e4-8830-0800200c9a66
+------------------------------------------------------
+
+Create a configuration template and assign it to a particular agent:
+
+----------------------------------------------------------------------------------
+$ echo "a.config.key : 42" | mn-conf set -t "new_template"
+$ mn-conf template-set -h a5ff1460-d00c-11e4-8830-0800200c9a66 -t     new_template
+----------------------------------------------------------------------------------
+
+Importing non-default values from a legacy configuration file:
+
+----------------------------------------------------------
+$ mn-conf import -t default -f /etc/midolman/midolman.conf
+
+Importing legacy configuration:
+agent {
+    midolman {
+        "bgp_holdtime"="120s"
+    }
+}
+zookeeper {
+    "session_gracetime"="30000ms"
+}
+----------------------------------------------------------
+
+Notice how `mn-conf` will automatically handle keys that have been moved
+or renamed.
+
+=== FILES
+
+While all configuration is stored in ZooKeeper and both `mn-conf` and
+MidoNet processes that will make use of it, they all need to bootstrap
+their connection to ZooKeeper before they can access configuration.
+
+Both `mn-conf` and MidoNet nodes will read bootstrap configuration from
+these sources, in order of preference:
+
+* Environment variables. See **ENVIRONMENT**, below.
+* `~/.midonetrc`
+* `/etc/midonet/midonet.conf`
+* `/etc/midolman/midolman.conf`
+
+These files are expected to be in .ini format, and contain the following
+keys:
+
+--------------------------------
+[zookeeper]
+zookeeper_hosts = 127.0.0.1:2181
+root_key = /midonet/v1
+--------------------------------
+
+=== ENVIRONMENT
+
+* `MIDO_ZOOKEEPER_HOSTS`: The ZooKeeper connect string.
+* `MIDO_ZOOKEEPER_ROOT_KEY`: Root path in the ZooKeeper server where
+configuation is stored.
