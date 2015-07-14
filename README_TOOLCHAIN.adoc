@@ -76,7 +76,7 @@ will be replaced with their actual values at build time.
 <releaseinfo>{buildVersion}</releaseinfo>
 <pubdate>{buildTimestamp}</pubdate>
 
-These are passed as document attributes to the AsciiDoc processer and are being
+These are passed as document attributes to the AsciiDoc processor and are being
 defined globally for all documents in the Maven parent POM.
 
 [source]
@@ -94,23 +94,20 @@ different command line examples depending on the operating system or OpenStack
 version).
 
 An example for this mechanism is the Quick Start Guide which has different
-versions for Ubuntu and RHEL.
+versions for Ubuntu and RHEL as well as several Openstack versions.
 
 The attributes to be passed to the AsciiDoc processor are defined in the
 document's Maven POM:
 
 [source]
-<attributes>
-    <ubuntu-1404/>
-</attributes>
+<operating_system>rhel-7</operating_system>
+<openstack_version>kilo-rdo</openstack_version>
 
-Depending on the existence of these attributes, different source fragments can
-be included or excluded from processing:
+Depending on the values of these attributes, different source files are being
+included during the build process:
 
 [source]
-\ifdef::ubuntu-1404[]
-\include::some_file_specific_to_ubuntu-1404.adoc[]
-\endif::ubuntu-1404[]
+include::{sourcedir}/{operating_system}/{openstack_version}/book_title_{lang}.adoc[]
 
 = DRAFT Documents
 
@@ -129,4 +126,7 @@ the following warning, but nevertheless the build will succeed.
 asciidoctor: WARNING: file.adoc: line x: include file not found
 
 Currently there is no easy way to programmatically catch this warning (which is
-just printed to stderr) and make the build fail.
+just printed to stderr) and make the build fail from within Maven.
+
+The main build script `build.sh` tries to detect those warnings by searching the
+build logs for known error conditions and will fail the automated Jenkins build.

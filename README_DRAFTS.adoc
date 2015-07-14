@@ -55,7 +55,7 @@ which automatically replaces them inside the book's abstract (DocBook's
 
 Examples:
 
-.`docs/troubleshooting-guide/src/abstract_en.xml`
+.`docs/troubleshooting-guide/src/docinfo_abstract_en.xml`
 [source]
 ----
 <abstract [...]>
@@ -66,7 +66,7 @@ Examples:
 [...]
 ----
 
-.`docs/troubleshooting-guide/src/abstract_ja.xml`
+.`docs/troubleshooting-guide/src/docinfo_abstract_ja.xml`
 [source]
 ----
 <abstract [...]>

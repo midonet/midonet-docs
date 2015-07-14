@@ -5,6 +5,7 @@ documentation:
 
 * MidoNet Operation Guide
 * MidoNet Quick Start Guide for RHEL 7 / Icehouse (OSP)
+* MidoNet Quick Start Guide for RHEL 7 / Juno (OSP)
 * MidoNet Quick Start Guide for RHEL 7 / Juno (RDO)
 * MidoNet Quick Start Guide for RHEL 7 / Kilo (RDO)
 * MidoNet Quick Start Guide for Ubuntu 14.04 / Icehouse
@@ -20,7 +21,7 @@ http://wiki.midonet.org/[MidoNet Wiki] for instructions on how to contribute.
 
 == Build Instructions
 
-To build the whole project, run `mvn clean install` from the base directory.
+To build the whole project, run `build.sh` from the base directory.
 
 See the link:README_TOOLCHAIN.adoc[Toolchain README] for technical details and
 how to build the docs.
