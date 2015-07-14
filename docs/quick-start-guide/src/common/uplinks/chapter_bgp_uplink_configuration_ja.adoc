@@ -12,19 +12,19 @@ Operations Guide for details.
 The following instructions assume below sample environment:
 
 * One floating IP network
-** *_192.0.2.0/24/24_*
+** _192.0.2.0/24_
 
 * Two MidoNet gateway nodes
-** *_gateway1_*, connecting to *_bgp1_* via *_eth1_*
-** *_gateway2_*, connecting to *_bgp2_* via *_eth1_*
+** _gateway1_, connecting to _bgp1_ via _eth1_
+** _gateway2_, connecting to _bgp2_ via _eth1_
 
 * Two remote BGP peers
-** *_bgp1_*, *_198.51.100.1_*, AS *_64513_*
-** *_bgp2_*, *_203.0.113.1_*, AS *_64513_*
+** _bgp1_, _198.51.100.1_, AS _64513_
+** _bgp2_, _203.0.113.1_, AS _64513_
 
 * Corresponding MidoNet BGP peers
-** *_198.51.100.2_*, AS *_64512_*
-** *_203.0.113.2_*, AS *_64512_*
+** _198.51.100.2_, AS _64512_
+** _203.0.113.2_, AS _64512_
 
 Follow these steps to configure the BGP uplinks.
 
