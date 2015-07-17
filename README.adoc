@@ -51,6 +51,11 @@ The `www` directory contains an archive of the document versions that have been
 published to the MidoNet Documentation web site. The web site links to the
 "latest" subdirectory, which symlinks to the latest available document versions.
 
+The `www` directory contains the MidoNet Documentation web site's landing page
+files, as well as and archive of the document versions that have been published
+in the `docs` sub directory. This includes a `latest` symlink that points to the
+latest released MidoNet version's documentation.
+
 === Output Files
 
 After a successful build, the outputs for a document can be found in the
