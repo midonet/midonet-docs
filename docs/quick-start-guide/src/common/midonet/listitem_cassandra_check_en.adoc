@@ -3,6 +3,12 @@
 After installation of all nodes has been completed, verify that Cassandra is
 operating properly.
 +
+[IMPORTANT]
+If Cassandra fails to start and prints a "buffer overflow" error message in its
+log file, you may try associating `127.0.0.1` with the hostname in `etc/hosts`
+(so that `hostname -i` will show `127.0.0.1`). This may solve the Cassandra
+start problem.
++
 A basic check can be done by executing the `nodetool status` command. This will
 reply with `UN` (Up / Normal) in the first column if the servers are running in
 a non-error state:
