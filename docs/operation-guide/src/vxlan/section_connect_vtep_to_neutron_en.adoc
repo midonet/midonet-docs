@@ -51,7 +51,7 @@ the UUID of 765cf657-3cf4-4d79-9621-7d71af38a298 as you can see in the output of
 the command.
 
 . For the hosts on the Neutron network to be able to communicate with the VTEP,
-their IP addressed have to be in the same tunnel zone as the VTEP.
+their IP addresses have to be in the same tunnel zone as the VTEP.
 +
 ====
 .. To find out their addresses, use these commands:
