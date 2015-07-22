@@ -39,85 +39,46 @@
 .users .wrapper > div:last-child {
 	margin-right: 0;
 }
-.header {
-	height: 426px;
-	width: 100%;
-	background: white url(i/header.jpg) no-repeat center center;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	padding-top: 70px;
+header.pageheader {
+  display: block;
+  box-sizing: border-box;
+  height: 200px;
+  width: 100%;
+  line-height: 1;
+  font-family: 'Open Sans', sans-serif;
+  background: white url(http://www.midonet.org/i/header.jpg) no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 50px;
 }
-
-.alt-header {
-	width: 100%;
-	background: white;
-	padding: 30px 0px 30px 0px;
-	margin: 0px auto 0px auto;
-	border:1px solid #e6e4e4;
-	position:fixed;
-	top:0;
-	z-index:99;
-	background: white url(i/header.jpg) no-repeat center -200px;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
+@media (min-width: 992px) {
+  header.pageheader {
+    padding-top: 70px;
+  }
 }
-
-
-.header h1,.alt-header h1 {
-	height: 58px;
-	width: 238px;
-	text-indent: -999em;
-	background: url(i/logo.png) no-repeat;
-	margin-left: 70px;
+header.pageheader h1 {
+  position: relative;
+  margin: 0 auto;
+  height: 58px;
+  width: 201px;
+  text-indent: -999em;
+  background: url('http://www.midonet.org/i/logo.png') no-repeat;
 }
-.header h2 {
-	color: #fff;
-	font-weight: 600;
-	font-size: 40px;
-	letter-spacing: -1px;
-	margin: 55px 0 25px 70px;
-}
-.header h3 {
-	width: 540px;
-	font-size: 20px;
-	color: #fff;
-	font-weight: 300;
-	line-height: 31px;
-	margin-left: 70px;
-}
-.header .download-button {
-	background: #21bde4;
-	color: #fff;
-	font-size: 16px;
-	font-weight: 600;
-	text-decoration: none;
-	border: 3px solid #fff;
-	border-radius: 30px;
-	margin: 45px 0 0 70px;
-	padding: 14px 45px 16px 45px;
-	display: moz-inline-stack;
-	display: inline-block;
-	zoom: 1;
-	*display: inline;
-	-webkit-transition: all 400ms;
-	-moz-transition: all 400ms;
-	-ms-transition: all 400ms;
-	-o-transition: all 400ms;
-	transition: all 400ms;
-}
-.header .download-button:hover {
-	background: #189bbc;
-}
-topbutton {
-	position: fixed;
-	top: 5px;
-	right: 5px;
-	z-index: 999;
-	text-align: center;
-	padding: 6px 10px 9px;
+@media (min-width: 992px) {
+  header.pageheader h1 {
+    width: 238px;
+    margin: 0;
+    margin-left: 70px;
+  }
+.topbutton {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  z-index: 999;
+  text-align: center;
+  padding: 6px 10px 9px;
 }
 nav {
 	background: rgba(0,0,0,.3);
@@ -460,7 +421,7 @@ H1.section-heading::after {
 #trademark,#policies {
 	text-align:left;
 	max-width:860px;
-	margin: 155px auto 25px auto;
+	margin: 35px auto 25px auto;
 }
 #trademark h2,h3,h4,#policies h2,h3,h4 {
 	margin:16px 0px 8px 0px;
@@ -635,12 +596,12 @@ H1.section-heading::after {
 .align-center {
 	text-align:center;
 }
-a {
+section a {
 	text-decoration:underline;
 	color:#111;
 	margin: 0 5px 0 5px;
 }
-a.document {
+section a.document {
 	background: url(i/icon_doc.png) no-repeat 0px 0px;;
 	padding-left:56px;
 	height:50px;
