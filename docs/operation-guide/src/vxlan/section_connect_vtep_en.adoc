@@ -53,23 +53,11 @@ This just verified that the OVSDB server that holds the configuration of
 this VTEP is active and handling connections. If you did not get a
 similar reply, please review the configuration of the VTEP.
 
-. Enable VXLAN service in Midonet, by modifying the midonet-api config file
-/usr/share/midonet-api/WEB-INF/web.xml.
-
-.. Locate this snippet in the midonet-api config file
-/usr/share/midonet-api/WEB-INF/web.xml:
+. To enable VXLAN service in Midonet, you need to type the following command:
 +
 [source]
-<!-- VXLAN gateway configuration -->
-<context-param>
-    <param-name>midobrain-vxgw_enabled</param-name>
-    <param-value>false</param-value>
-</context-param>
+$ echo "cluster.vxgw.enabled=true" | mn-conf set -t default
 +
-and change the value of the <param-value> tag to 'true'.
-
-.. Restart Tomcat to apply the change.
-
 . Having ensured that the VTEP has been properly configured, now you're
 ready to add the VTEP to the MidoNet configuration.
 +
