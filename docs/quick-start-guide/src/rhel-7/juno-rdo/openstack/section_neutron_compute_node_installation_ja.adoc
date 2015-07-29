@@ -16,13 +16,6 @@ http://docs.openstack.org/juno/install-guide/install/yum/content/neutron-compute
 +
 ====
 適用*しないで*ください。
-
-代わりに、次のパッケージをインストールします。
-
-[source]
-----
-# yum install openstack-neutron
-----
 ====
 
 . *ネットワーキング共通のコンポーネントを構成する場合*

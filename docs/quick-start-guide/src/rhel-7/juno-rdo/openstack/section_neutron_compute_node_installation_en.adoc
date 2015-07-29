@@ -16,13 +16,6 @@ Apply as is.
 +
 ====
 Do *not* apply.
-
-Instead, install the following package:
-
-[source]
-----
-# yum install openstack-neutron
-----
 ====
 
 . *To configure the Networking common components*
