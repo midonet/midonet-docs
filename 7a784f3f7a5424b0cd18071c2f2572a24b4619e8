@@ -46,6 +46,30 @@
       "revId": "7a784f3f7a5424b0cd18071c2f2572a24b4619e8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad9bd40_10fe326b",
+        "filename": "docs/operation-guide/src/l4lb/section_sticky_source_ip_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002743
+      },
+      "writtenOn": "2015-07-31T02:08:04Z",
+      "side": 1,
+      "message": "Ah, it seems if it\u0027s not listed in this \"mappings\", it returns None.\nhttps://github.com/midonet/midonet/blob/master/python-midonetclient/src/bin/midonet-cli#L447-L451",
+      "parentUuid": "9ad9bd40_5562713e",
+      "range": {
+        "startLine": 23,
+        "startChar": 58,
+        "endLine": 23,
+        "endChar": 66
+      },
+      "revId": "7a784f3f7a5424b0cd18071c2f2572a24b4619e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
