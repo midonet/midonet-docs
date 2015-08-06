@@ -113,7 +113,21 @@ midonet> router *_router0_* port *_port1_* list bgp
 bgp bgp0 local-AS 64512 peer-AS 64513 peer 203.0.113.1
 ----
 
-. Advertise routes
+. Add routes to the remote BGP peers
++
+In order to be able to establish connections to the remote BGP peers,
+corresponding routes have to be added.
++
+[literal,subs="quotes"]
+----
+midonet> router *_router0_* route add src 0.0.0.0/0 dst *_198.51.100.0/30_* port *_router0:port0_* type normal
+router0:route0
+
+midonet> router *_router0_* route add src 0.0.0.0/0 dst *_203.0.113.0/30_* port *_router0:port1_* type normal
+router0:route1
+----
+
+. Advertise BGP routes
 +
 In order to provide external connectivity for hosted virtual machines, the
 floating IP network has to be advertised to the BGP peers.
