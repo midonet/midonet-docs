@@ -4,8 +4,7 @@
 [source]
 ----
 # apt-get install openjdk-7-jre-headless
-# apt-get install dsc20=2.0.10-1 cassandra=2.0.10
-# apt-mark hold dsc20 cassandra
+# apt-get install dsc20
 ----
 ====
 
