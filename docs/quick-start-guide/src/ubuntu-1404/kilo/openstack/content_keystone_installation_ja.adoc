@@ -1,5 +1,15 @@
 [IMPORTANT]
 OpenStackの文書の
 http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_keystone.html[Chapter 3. Add the Identity service]
-指示に従います。ただし、*次の追加点に注意してください*。
+指示に従います。ただし、*次の相違事項と追加事項に注意してください。*。
 
+. *Verify operation*
++
+====
+Do *not* apply step '1. For security reasons, disable the temporary
+authentication token mechanism'.
+
+The MidoNet API uses the Keystone admin token for authentication purposes,
+therefore *admin_token_auth* has to be kept in the corresponding configuration
+sections.
+====
