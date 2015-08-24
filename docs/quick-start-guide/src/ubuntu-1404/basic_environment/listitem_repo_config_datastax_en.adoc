@@ -17,6 +17,6 @@ Download and install the repository's key:
 
 [source]
 ----
-# curl -L http://debian.datastax.com/debian/repo_key | apt-key add -
+# curl -L https://debian.datastax.com/debian/repo_key | apt-key add -
 ----
 ====
