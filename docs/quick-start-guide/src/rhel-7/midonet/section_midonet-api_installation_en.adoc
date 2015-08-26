@@ -49,7 +49,7 @@ Edit the `/usr/share/midonet-api/WEB-INF/web.xml` file to contain the following:
 [literal,subs="verbatim,quotes"]
 ----
 <context-param>
-    <param-name>midobrain-properties_file</param-name>
+    <param-name>midocluster-properties_file</param-name>
     <param-value>/var/lib/tomcat/webapps/host_uuid.properties</param-value>
 </context-param>
 ----
