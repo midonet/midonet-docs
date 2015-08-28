@@ -3,13 +3,20 @@
 
 [IMPORTANT]
 Follow the OpenStack documentation's
-http://docs.openstack.org/admin-guide-cloud/content/install_neutron-lbaas-agent.html[Configure Load-Balancer-as-a-Service (LBaaS)]
+http://docs.openstack.org/admin-guide-cloud/networking_config-agents.html#configure-load-balancer-as-a-service-lbaas[Configure Load-Balancer-as-a-Service (LBaaS)]
 instructions, but *note the following differences*.
 
 . *Install the agent*
 +
 ====
 Do *not* apply.
+
+Instead install the package python-neutron-lbaas
+
+[source]
+----
+# yum install python-neutron-lbaas
+----
 ====
 
 . *Enable the HAProxy plug-in by using the service_provider option in the /etc/neutron/neutron.conf file:*
@@ -28,7 +35,13 @@ service_provider = LOADBALANCER:Midonet:midonet.neutron.services.loadbalancer.dr
 . *Enable the load-balancing plug-in by using the service_plugins option in the /etc/neutron/neutron.conf file:*
 +
 ====
-Apply as is.
+Do *not* apply.
+
+Instead, disable (comment out) the `service_plugins` entry:
+[source]
+----
+#service_plugins =
+----
 ====
 
 . *Enable the HAProxy load balancer in the /etc/neutron/lbaas_agent.ini file:*
