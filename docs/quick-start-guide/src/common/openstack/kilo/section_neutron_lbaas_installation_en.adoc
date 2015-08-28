@@ -10,6 +10,13 @@ instructions, but *note the following differences*.
 +
 ====
 Do *not* apply.
+
+Instead install the package python-neutron-lbaas
+
+[source]
+----
+# yum install python-neutron-lbaas
+----
 ====
 
 . *Enable the HAProxy plug-in by using the service_provider option in the /etc/neutron/neutron.conf file:*
