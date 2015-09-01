@@ -16,6 +16,24 @@
       "revId": "30e3865dbb675a84d1150d9c0b733708609ead4f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad9bd40_9d0f3be1",
+        "filename": "docs/quick-start-guide/src/common/openstack/kilo/section_neutron_lbaas_installation_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002743
+      },
+      "writtenOn": "2015-09-01T05:36:28Z",
+      "side": 1,
+      "message": "It seems the following URL is a new one. Probably we can change it in another patch.\n\nhttp://docs.openstack.org/admin-guide-cloud/networking_config-agents.html#configure-load-balancer-as-a-service-lbaas",
+      "parentUuid": "9ad9bd40_fd6cc79f",
+      "revId": "30e3865dbb675a84d1150d9c0b733708609ead4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
