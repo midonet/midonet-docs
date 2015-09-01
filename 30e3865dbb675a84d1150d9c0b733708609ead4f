@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad9bd40_fd6cc79f",
+        "filename": "docs/quick-start-guide/src/common/openstack/kilo/section_neutron_lbaas_installation_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002897
+      },
+      "writtenOn": "2015-09-01T05:21:40Z",
+      "side": 1,
+      "message": "although not a fault of this patch, these url seems stale.\nso saying \"Instead\" doesn\u0027t make much sense.",
+      "revId": "30e3865dbb675a84d1150d9c0b733708609ead4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
