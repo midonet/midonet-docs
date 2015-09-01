@@ -34,6 +34,24 @@
       "revId": "30e3865dbb675a84d1150d9c0b733708609ead4f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad9bd40_5da133a8",
+        "filename": "docs/quick-start-guide/src/common/openstack/kilo/section_neutron_lbaas_installation_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-01T06:17:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ad9bd40_9d0f3be1",
+      "revId": "30e3865dbb675a84d1150d9c0b733708609ead4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
