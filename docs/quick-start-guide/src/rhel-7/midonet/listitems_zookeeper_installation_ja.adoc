@@ -12,7 +12,7 @@
 ====
 .. *共通の構成*
 +
-`/etc/zookeeper/zoo.cfg` ファイルを変更して以下を含めます。
+`/etc/zookeeper/zoo.cfg` ファイルを編集して、次のものを含めます。
 +
 [literal,subs="quotes"]
 ----
@@ -21,7 +21,7 @@ server.*2*=*_nsdb2_*:2888:3888
 server.*3*=*_nsdb3_*:2888:3888
 ----
 +
-データのディレクトリを作成する。
+データのディレクトリを作成します。
 +
 [source]
 ----
@@ -30,9 +30,8 @@ server.*3*=*_nsdb3_*:2888:3888
 ----
 +
 [IMPORTANT]
-For production deployments it is recommended to configure the storage of
-snapshots in a different disk than the commit log. This can be set by changing
-the parameter `dataDir` in `zoo.cfg` to a different disk.
+実稼動展開では、スナップショットのストレージをコミットログとは別のディスクに構成することをお勧めします。このように設定するには、`zoo.cfg`
+のパラメータ `dataDir` を別のディスクに変更します。
 
 
 .. *ノード固有の構成*
@@ -75,7 +74,7 @@ the parameter `dataDir` in `zoo.cfg` to a different disk.
 ----
 ====
 
-. *ZooKeeperを有効にて開始する*
+. *ZooKeeperを有効にして開始する*
 +
 ====
 [source]

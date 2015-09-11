@@ -1,36 +1,34 @@
 [[bgp_uplink_configuration]]
-= BGP Uplink Configuration
+= BGP アップリンク構成
 
-MidoNet utilizes the Border Gateway Protocol (BGP) for external connectivity.
+MidoNet では、外部接続にボーダーゲートウェイプロトコル（BGP）を利用します。
 
-For production deployments it is strongly recommended to use BGP due to it's
-scalability and redundancy.
+BGP にはスケーラビリティと冗長性があるため、実稼動環境では BGP を使用することを強くお勧めします。
 
-For demo or POC environments, alternatively static routing can be used. See the
-Operations Guide for details.
+デモ環境や POC 環境では、代わりに静的ルーティングを使用できます。詳しくは、操作ガイドを参照してください。
 
-The following instructions assume below sample environment:
+こちらの手順では、次のサンプル環境を想定しています。
 
-* One floating IP network
-** _192.0.2.0/24_
+* フローティング IP ネットワーク 1 個
+** _192.0.2.0/24/24_
 
-* Two MidoNet gateway nodes
-** _gateway1_, connecting to _bgp1_ via _eth1_
-** _gateway2_, connecting to _bgp2_ via _eth1_
+* MidoNet ゲートウェイノード 2 個
+** _gateway1_、_bgp1_ に _eth1_ で接続
+** _gateway2_、_bgp2_ に _eth1_ で接続
 
-* Two remote BGP peers
-** _bgp1_, _198.51.100.1_, AS _64513_
-** _bgp2_, _203.0.113.1_, AS _64513_
+* リモート BGP ピア 2 個
+** _bgp1_、_198.51.100.1_、AS _64513_
+** _bgp2_、_203.0.113.1_、AS _64513_
 
-* Corresponding MidoNet BGP peers
-** _198.51.100.2_, AS _64512_
-** _203.0.113.2_, AS _64512_
+* 対応する MidoNet BGP ピア
+** _198.51.100.2_、AS _64512_
+** _203.0.113.2_、AS _64512_
 
-Follow these steps to configure the BGP uplinks.
+次の手順に従って、GBP アップリンクを構成してください。
 
-. Determine the Keystone `admin` tenant ID
+. Keystone `admin` テナント ID を特定する
 +
-Use the `keystone` command to determine the Keystone `admin` tenant's ID:
+`keystone` コマンドを使用して、Keystone `admin` テナント ID を特定します。
 +
 [literal,subs="quotes"]
 ----
@@ -42,7 +40,7 @@ $ keystone tenant-list
 +----------------------------------+----------+---------+
 ----
 
-. Launch the MidoNet CLI and find the MidoNet Provider Router
+. MidoNet CLI を起動し、MidoNet プロバイダルーターを検索する
 +
 [literal,subs="quotes"]
 ----
@@ -50,8 +48,7 @@ $ midonet-cli
 midonet-cli> 
 ----
 +
-Because the MidoNet Provider Router is not associated with a tenant, the active
-tenant has to be cleared (`cleart`) first.
+MidoNet プロバイダルーターはテナントと関連付けられていないため、最初にアクティブテナントをクリア（`cleart`）する必要があります。
 +
 [literal,subs="quotes"]
 ----
@@ -62,12 +59,12 @@ router *_router0_* name *MidoNet Provider Router* state up
 router router1 name Tenant Router state up infilter chain0 outfilter chain1
 ----
 +
-In this example the MidoNet Provider Router is *_router0_*.
+この例の場合、MidoNet プロバイダルーターは *_router0_* です。
 
-. Load the `admin` tenant
+. `admin` テナントをロードする
 +
-Before continuing with further configuration, the `admin` tenant has to be set
-(`sett`). Use the ID you got from Keystone above.
+構成をさらに続ける前に、`admin` テナントを設定（`sett`）する必要があります。上記の Keystone から取得した ID
+を使用してください。
 +
 [literal,subs="quotes"]
 ----
@@ -75,10 +72,9 @@ midonet-cli> sett *_12345678901234567890123456789012_*
 tenant_id: 12345678901234567890123456789012
 ----
 
-. Create virtual ports for the BGP sessions
+. BGP セッション用の仮想ポートを作成する
 +
-For each remote BGP peer, create a port on the MidoNet Provider Router that is
-going to be used for BGP communication.
+リモート BGP ピアごとに、BGP 通信に使用するポートを MidoNet プロバイダルーター上に作成します。
 +
 [literal,subs="quotes"]
 ----
@@ -94,9 +90,9 @@ port *_port1_* device router0 state up mac ac:ca:ba:22:22:22 address *_203.0.113
 [...]
 ----
 +
-In this example the created ports are *_port0_* and *_port1_*.
+この例で作成されたポートは、*_port0_* と *_port1_* です。
 
-. Configure BGP on the virtual ports
+. 仮想ポートで BGP を構成する
 +
 [literal,subs="quotes"]
 ----
@@ -127,10 +123,9 @@ midonet> router *_router0_* route add src 0.0.0.0/0 dst *_203.0.113.0/30_* port 
 router0:route1
 ----
 
-. Advertise BGP routes
+. BGPルートをアドバタイズする
 +
-In order to provide external connectivity for hosted virtual machines, the
-floating IP network has to be advertised to the BGP peers.
+ホストされている仮想マシンが外部接続できるようにするため、フローティング IP ネットワークを BGP ピアにアドバタイズする必要があります。
 +
 [literal,subs="quotes"]
 ----
@@ -147,16 +142,14 @@ midonet> router router0 port port1 bgp bgp0 list route
 ad-route ad-route0 net 192.0.2.0/24
 ----
 
-. Bind virtual ports to physical network interfaces
+. 仮想ポートを物理ネットワークインターフェースにバインドする
 +
-Bind the MidoNet Provider Router's virtual ports to the physical network
-interfaces on the Gateway Nodes.
+MidoNet プロバイダルーターの仮想ポートをゲートウェイノードの物理ネットワークインターフェースにバインドします。
 +
 [IMPORTANT]
-Ensure that physical interfaces are in state `UP` and do not have an IP address
-assigned.
+物理インターフェースの状態が `UP` になっていて、IP アドレスが割り当てられていないことを確認してください。
 
-.. List the MidoNet hosts and find the Gateway Nodes:
+.. MidoNet ホストをリストし、ゲートウェイノードを検索します。
 +
 [literal,subs="quotes"]
 ----
@@ -166,9 +159,9 @@ host *_host1_* name *_gateway2_* alive true
 [...]
 ----
 +
-In this example the hosts are *_host0_* and *_host1_*.
+この例のホストは *_host0_* と *_host1_* です。
 
-.. List the Gateway Nodes' physical interfaces:
+.. ゲートウェイノードの物理インターフェースをリストします。
 +
 [literal,subs="quotes"]
 ----
@@ -183,8 +176,7 @@ iface *_eth1_* host_id host0 status 3 addresses [] mac 06:05:04:03:02:01 mtu 150
 [...]
 ----
 
-.. Bind the physical host interfaces to the MidoNet Provider Router's virtual
-ports:
+.. 物理ホストインターフェースを MidoNet プロバイダルーターの仮想ポートにバインドします。
 +
 [literal,subs="quotes"]
 ----
@@ -195,7 +187,7 @@ midonet> host *_host1_* add binding port *_router0:port1_* interface *_eth1_*
 host host1 interface eth1 port router0:port1
 ----
 
-.. Configure a stateful port group:
+.. ステートフルポートグループを構成します。
 +
 [literal,subs="quotes"]
 ----
@@ -203,7 +195,7 @@ midonet-cli> port-group create name uplink-spg stateful true
 *_pgroup0_*
 ----
 
-.. Add the ports to the port group:
+.. ポートをポートグループに追加します。
 +
 [literal,subs="quotes"]
 ----

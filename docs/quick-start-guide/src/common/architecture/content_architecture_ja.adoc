@@ -1,48 +1,47 @@
-This guide assumes the following example system architecture.
+このガイドでは、次のシステムアーキテクチャ例を想定しています。
 
-OpenStack Controller Node:
+OpenStack コントローラノード：
 
-* Controller Node (*_controller_*)
+* コントローラノード（*_controller_*）
 
-Compute Node:
+コンピューティングノード：
 
-* Compute Node (*_compute1_*)
+* コンピューティングノード（*_compute1_*）
 
-Since MidoNet is a distributed system, it does not have the concept of a Network
-Node as being used with the default OpenStack networking plugin. Instead it uses
-two or more Gateway Nodes that utilize http://www.quagga.net/[Quagga] to provide
-connectivity to external networks via the Border Gateway Protocol (BGP).
+MidoNet は分散システムであるため、デフォルトの OpenStack
+ネットワークプラグインで使用されるようなネットワークノードの概念がありません。その代わりに、
+http://www.quagga.net/[Quagga]
+を利用する複数のゲートウェイノードを使用して、ボーダーゲートウェイプロトコル（BGP）を介して外部ネットワークに接続します。
 
-* Gateway Node 1 (*_gateway1_*)
-* Gateway Node 2 (*_gateway2_*)
+* ゲートウェイノード 1（*_gateway1_*）
+* ゲートウェイノード 2（*_gateway2_*）
 
-Three or more hosts are being used for the MidoNet Network State Database (NSDB)
-cluster which utilizes https://zookeeper.apache.org/[ZooKeeper] and
+https://zookeeper.apache.org/[ZooKeeper] と
 http://www.datastax.com/documentation/cassandra/2.0/cassandra/gettingStartedCassandraIntro.html[Cassandra]
-to store virtual network topology and connection state information:
+を利用する 3 個以上のホストを MidoNet Network State
+Database（NSDB）クラスタに使用して、仮想ネットワークトポロジと接続状態情報を保存します。
 
-* NSDB Node 1 (*_nsdb1_*)
-* NSDB Node 2 (*_nsdb2_*)
-* NSDB Node 3 (*_nsdb3_*)
+* NSDB ノード 1（*_nsdb1_*）
+* NSDB ノード 2（*_nsdb2_*）
+* NSDB ノード 3（*_nsdb3_*）
 
 [IMPORTANT]
-Ideally, both the ZooKeeper transaction log and Cassandra data files need
-their own dedicated disks, with additional disks for other services on the
-host. However, for small POCs and small deployments, it is ok to share the
-Cassandra disk with other services and just leave the ZooKeeper transaction
-log on its own.
+理想としては、ZooKeeper トランザクションログと Cassandra
+データファイルの両方に独自の専用ディスクを使用し、ホストのその他のサービスには別のディスクを使用すべきです。ただし、小規模な POC
+と小規模展開の場合は、Cassandra ディスクをその他のサービスと共有しても問題ありませんが、Zookeeper
+トランザクションログは独自のディスクに記録してください。
 
-The _MidoNet Agent (Midolman)_ has to be installed on all nodes where traffic
-enters or leaves the virtual topology. In this guide this are the
-*_controller_*, *_gateway1_*, *_gateway2_* and *_compute1_* hosts.
+仮想トポロジへのトラフィックの出入り口となるすべてのノードには、_MidoNet Agent (Midolman)_
+をインストールする必要があります。このガイドでは、*_controller_*、*_gateway1_*、*_gateway2_*、*_compute1_*
+の各ホストがこのノードに相当します。
 
-The _Midonet API_ can be installed on a separate host, but this guide assumes it
-to be installed on the *_controller_* host.
+_Midonet API_ は別のホストにインストールできますが、このガイドでは *_controller_*
+ホストにインストールすることを想定しています。
 
-The _Midonet Command Line Interface (CLI)_ can be installed on any host that has
-connectivity to the MidoNet API. This guide assumes it to be installed on the
-*_controller_* host.
+_Midonet Command Line Interface (CLI)_ は、MidoNet API
+に接続している、いずれのホストにもインストールできます。このガイドでは、*_controller_*
+ホストにインストールされていることを想定しています。
 
-The _Midonet Neutron Plugin_ replaces the ML2 Plugin and has to be installed on
-the *_controller_*.
+_Midonet Neutron Plugin_ は ML2 プラグインを置き換えるものであり、*_controller_*
+にインストールする必要があります。
 
