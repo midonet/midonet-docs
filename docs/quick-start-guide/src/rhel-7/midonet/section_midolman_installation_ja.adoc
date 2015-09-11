@@ -1,10 +1,10 @@
-= Midolman Installation
+= Midolman のインストール
 
-The _MidoNet Agent (Midolman)_ has to be installed on all nodes where traffic
-enters or leaves the virtual topology, in this guide this are the
-*_controller_*, *_gateway1_*, *_gateway2_* and *_compute1_* nodes.
+仮想トポロジへのトラフィックの出入り口となるすべてのノードには、_MidoNet Agent (Midolman)_
+をインストールする必要があります。このガイドでは、*_controller_*、*_gateway1_*、*_gateway2_*、*_compute1_*
+の各ノードがこれに相当します。
 
-. *Install Midolman package*
+. *Midolman パッケージをインストールする*
 +
 ====
 [source]
@@ -13,10 +13,10 @@ enters or leaves the virtual topology, in this guide this are the
 ----
 ====
 
-. *Set up mn-conf*
+. *mn-conf をセットアップする*
 +
 ====
-Edit `/etc/midolman/midolman.conf` to point mn-conf to the ZooKeeper cluster:
+`/etc/midolman/midolman.conf` を編集し、mn-conf を ZooKeeper クラスタにポイントします。
 
 [source,subs="quotes"]
 ----
@@ -25,14 +25,12 @@ zookeeper_hosts = *_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181
 ----
 ====
 
-. *Configure access to the NSDB for all agents*
+. *すべてのエージェントで NSDB へのアクセスを構成する*
 +
 ====
-This step needs to happen only once, it will set up access to the NSDB for
-all MidoNet Agent nodes.
+この手順は 1 回だけ実行してください。1 回実行すれば、すべての MidoNet Agent ノードで NSDB へのアクセスがセットアップされます。
 
-Run the following command to set the cloud-wide values for the ZooKeeper and
-Cassandra server addresses:
+次のコマンドを実行して、Zookeeper と Cassandra のサーバーアドレスにクラウド全体の値を設定します。
 
 [source,subs="specialcharacters,quotes"]
 ----
@@ -47,7 +45,7 @@ cassandra {
 EOF
 ----
 
-Run the following command to set the Cassandra replication factor:
+次のコマンドを実行して、Cassandra レプリケーション係数を設定します。
 
 [source,subs="specialcharacters,quotes"]
 ----
@@ -55,7 +53,7 @@ $ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
 ----
 ====
 
-. *Start Midolman*
+. *Midolman を起動する*
 +
 ====
 [source]

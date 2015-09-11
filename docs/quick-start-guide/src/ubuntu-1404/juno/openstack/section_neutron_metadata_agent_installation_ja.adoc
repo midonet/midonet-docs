@@ -1,11 +1,10 @@
-= Metadata Agent
+= Metadata エージェント
 
 [NOTE]
-Since MidoNet does not have the concept of a Network Node like with the default
-OpenStack networking plugin, the Metadata Agent is going to be installed on the
-Controller Node.
+MidoNet には、デフォルトの OpenStack ネットワークプラグインのようなネットワークノードの概念がないため、Metadata
+エージェントをコントローラノードにインストールします。
 
-. *Install the Metadata agent*
+. *Metadata エージェントをインストールする*
 +
 ====
 [source]
@@ -14,16 +13,16 @@ Controller Node.
 ----
 ====
 
-. *Configure the Metadata Agent*
+. *Metadata エージェントを構成する*
 +
 ====
-Configure the agent according to the *"To configure the metadata agent"*
-section in the OpenStack documentation's
-http://docs.openstack.org/juno/install-guide/install/apt/content/neutron-network-node.html[Install and configure network node]
-instructions.
+OpenStack ドキュメント
+http://docs.openstack.org/juno/install-guide/install/apt/content/neutron-network-node.html[Install
+and configure network node] の *"To configure the metadata agent"*
+セクションに従って、エージェントを構成します。
 ====
 
-. *Restart the services*
+. *サービスを再起動する*
 +
 ====
 [source]

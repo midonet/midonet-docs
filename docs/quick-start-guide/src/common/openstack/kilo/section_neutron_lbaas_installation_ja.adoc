@@ -1,17 +1,17 @@
 [[configure_lbaas]]
-= Configure Load-Balancer-as-a-Service (LBaaS)
+= Load-Balancer-as-a-Service（LBaaS）を構成する
 
 [IMPORTANT]
-Follow the OpenStack documentation's
+OpenStack ドキュメント
 http://docs.openstack.org/admin-guide-cloud/networking_config-agents.html#configure-load-balancer-as-a-service-lbaas[Configure Load-Balancer-as-a-Service (LBaaS)]
-instructions, but *note the following differences*.
+の指示に従ってください。ただし、*次の違いに注意してください*。
 
-. *Install the agent*
+. *エージェントをインストールする*
 +
 ====
-Do *not* apply.
+適用*しないでください*。
 
-Instead install the package python-neutron-lbaas
+その代わりに python-neutron-lbaas のパッケージをインストールします。
 
 [source]
 ----
@@ -19,12 +19,12 @@ Instead install the package python-neutron-lbaas
 ----
 ====
 
-. *Enable the HAProxy plug-in by using the service_provider option in the /etc/neutron/neutron.conf file:*
+. */etc/neutron/neutron.conf ファイルで service_provider オプションを使用し、HAProxy プラグインを有効にします。*
 +
 ====
-Do *not* apply.
+適用*しないでください*。
 
-Instead, set `service_provider` as follows:
+その代わりに `service_provider` を次のように設定します。
 [source]
 ----
 [service_providers]
@@ -32,45 +32,45 @@ service_provider = LOADBALANCER:Midonet:midonet.neutron.services.loadbalancer.dr
 ----
 ====
 
-. *Enable the load-balancing plug-in by using the service_plugins option in the /etc/neutron/neutron.conf file:*
+. */etc/neutron/neutron.conf ファイルで service_plugins オプションを使用し、負荷分散プラグインを有効にします。*
 +
 ====
-Apply as is.
+現状のまま適用します。
 ====
 
-. *Enable the HAProxy load balancer in the /etc/neutron/lbaas_agent.ini file:*
+. */etc/neutron/lbaas_agent.ini ファイルで HAProxy ロードバランサーを有効にします。*
 +
 ====
-Do *not* apply.
+適用*しないでください*。
 ====
 
-. *Select the required driver in the /etc/neutron/lbaas_agent.ini file:*
+. *必要なドライバーを /etc/neutron/lbaas_agent.ini ファイルで選択します。*
 +
 ====
-Do *not* apply.
+適用*しないでください*。
 ====
 
-. *Create the required tables in the database:*
+. *必要なテーブルをデータベースに作成します。*
 +
 ====
-Do *not* apply.
+適用*しないでください*。
 ====
 
-. *Apply the settings by restarting the neutron-server and neutron-lbaas-agent services.*
+. *neutron-server サービスと neutron-lbaas-agent サービスを再起動し、設定を適用します。*
 +
 ====
-Do *not* apply.
+適用*しないでください*。
 ====
 
-. *Enable load balancing in the Project section of the dashboard.*
+. *ダッシュボードの Project セクションで負荷分散を有効にします。*
 +
 ====
-Apply as is.
+現状のまま適用します。
 ====
 
-. *To finalize installation*
+. *インストールをファイナライズするには*
 +
 ====
-Finalize the installation as described in
-xref:neutron_controller_node_installation_finalize[Neutron Controller Node Installation].
+xref:neutron_controller_node_installation_finalize[Neutron Controller Node
+Installation] の説明に従って、インストールをファイナライズします。
 ====
