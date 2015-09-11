@@ -13,7 +13,7 @@
 
 .. *共通の構成*
 +
-Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
+`/etc/cassandra/conf/cassandra.yaml` ファイルを編集して、次のものを含めます。
 +
 [literal,subs="quotes"]
 ----
@@ -34,7 +34,7 @@ seed_provider:
 
 ... *NSDB ノード 1*
 +
-`/etc/cassandra/conf/cassandra.yaml` ファイルを変更して以下を含めます。
+`/etc/cassandra/conf/cassandra.yaml` ファイルを編集して、次のものを含めます。
 +
 [literal,subs="quotes"]
 ----
@@ -49,7 +49,7 @@ rpc_address: *_nsdb1_*
 
 ... *NSDB ノード 2*
 +
-`/etc/cassandra/conf/cassandra.yaml` ファイルを変更して以下を含めます。
+`/etc/cassandra/conf/cassandra.yaml` ファイルを編集して、次のものを含めます。
 +
 [literal,subs="quotes"]
 ----
@@ -64,7 +64,7 @@ rpc_address: *_nsdb2_*
 
 ... *NSDB ノード 3*
 +
-`/etc/cassandra/conf/cassandra.yaml` ファイルを変更して以下を含めます。
+`/etc/cassandra/conf/cassandra.yaml` ファイルを編集して、次のものを含めます。
 +
 [literal,subs="quotes"]
 ----
@@ -78,14 +78,14 @@ rpc_address: *_nsdb3_*
 ----
 ====
 
-. *Edit the service's init script*
+. *サービスの init スクリプトを編集する*
 +
-On installation, the `/var/run/cassandra` directory is created, but because it
-is located on a temporary file system it will be lost after system reboot. As a
-result it is not possible to stop or restart the Cassandra service anymore.
+インストール時に `/var/run/cassandra` ディレクトリが作成されますが、
+一時的なファイルシステムに配置されるため、システムのリブート後に消失
+します。その結果、Cassandra サービスの停止や再開ができなくなります。
 +
-To avoid this, edit the `/etc/init.d/cassandra` file to create the directory on
-service start:
+これを回避するには、`/etc/init.d/cassandra` ファイルを編集して、サービス
+の開始時にディレクトリを作成します。
 +
 ====
 [literal,subs="verbatim,quotes"]
@@ -103,7 +103,7 @@ case "$1" in
 ----
 ====
 
-. *Cassandraを有効にて開始する*
+. *Cassandraを有効にして開始する*
 +
 ====
 [source]
