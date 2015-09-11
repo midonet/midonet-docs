@@ -1,11 +1,10 @@
-= DHCP Agent
+= DHCP エージェント
 
 [NOTE]
-Since MidoNet does not have the concept of a Network Node like with the default
-OpenStack networking plugin, the DHCP Agent is going to be installed on the
-Controller Node.
+MidoNet には、デフォルトの OpenStack ネットワークプラグインのようなネットワークノードの概念がないため、DHCP
+エージェントをコントローラノードにインストールします。
 
-. *Install the DHCP agent*
+. *DHCP エージェントをインストールする*
 +
 ====
 [source]
@@ -14,10 +13,10 @@ Controller Node.
 ----
 ====
 
-. *Configure the DHCP agent*
+. *DHCP エージェントを構成する*
 +
 ====
-Edit the `/etc/neutron/dhcp_agent.ini` file to contain the following:
+`/etc/neutron/dhcp_agent.ini` ファイルを編集して、次のものを含めます。
 
 [literal,subs="quotes"]
 ----
@@ -38,7 +37,7 @@ project_id = service
 ----
 ====
 
-. *Restart the service*
+. *サービスを再起動する*
 +
 ====
 [source]
