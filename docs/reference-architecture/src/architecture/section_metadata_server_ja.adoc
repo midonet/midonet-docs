@@ -5,3 +5,7 @@
 
 メタデータサーバーにはVMの構成の値のテーブルが保存されます。
 
+OpenStack 環境では、メタデータは Nova Metadata Api に保持されます。
+v2015.09 リリース以降、 MidoNet は VM からのメタデータ要求を
+Neutron Metadata Proxy に似た方法で Nova Metadata Api に転送する
+Metadata Proxy 実装を提供しています。
