@@ -12,5 +12,8 @@
 |OpenStack|libvirtd|TCP|16509|x|x|
 |MidoNet|midolman|TCP|7200|x| |
     もし健全性をモニターする為にこのポートを使っているなら、JMXモニターポートは  モニターサーバーからのコミュニケーションを可能にします。
+|MidoNet|midolman|TCP|9697|x| |
+    有効になっている場合、 MidoNet Metadata Proxy は
+    メタデータ要求を受けつけるために 169.254.169.254:9697 で Listen します。
 |===============
 
