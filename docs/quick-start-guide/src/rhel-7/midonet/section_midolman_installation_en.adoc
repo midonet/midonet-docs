@@ -55,6 +55,36 @@ $ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
 ----
 ====
 
+. *Configure MidoNet Metadata Proxy for all agents*
++
+====
+This step needs to happen only once, it will set up MidoNet Metadata Proxy
+for all MidoNet Agent nodes.
+
+Run the following command to set the cloud-wide values for the MidoNet
+Metadata Proxy:
+
+[source,subs="specialcharacters,quotes"]
+----
+$ echo agent.openstack.metadata.nova_metadata_url : "http://${nova_metadata_host}:${nova_metadata_port}" | mn-conf set
+$ echo agent.openstack.metadata.shared_secret : ${shared_secret} | mn-conf set
+$ echo agent.openstack.metadata.enabled : true | mn-conf set
+----
+
+"nova_metadata_host", "nova_metadata_port", and "shared_secret" should be
+replaced with appropriate values.  They need to match with the corresponding
+Nova Metadata API configuration.
+"nova_metadata_host" and "nova_metadata_port" specify the address on which
+Nova Metadata API accepts requests.  "shared_secret" should be the same
+string specified for "metadata_proxy_shared_secret" field in "neutron"
+section of nova.conf.
+
+The Nova side of configuration for the metadata service is same as when
+using Neutron Metadata Proxy.  See OpenStack documentation for details.
+http://docs.openstack.org/admin-guide-cloud/networking_config-identity.html#configure-metadata[Cloud Administrator Guide: Configure Metadata]
+
+====
+
 . *Start Midolman*
 +
 ====
