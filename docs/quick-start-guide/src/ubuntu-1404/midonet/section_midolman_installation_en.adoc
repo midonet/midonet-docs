@@ -1,8 +1,8 @@
 = Midolman Installation
 
 The _MidoNet Agent (Midolman)_ has to be installed on all nodes where traffic
-enters or leaves the virtual topology, in this guide this are the
-*_controller_*, *_gateway1_*, *_gateway2_* and *_compute1_* nodes.
+enters or leaves the virtual topology, in this guide this are the *_gateway1_*,
+*_gateway2_* and *_compute1_* nodes.
 
 . *Install Midolman package*
 +
@@ -53,6 +53,37 @@ Run the following command to set the Cassandra replication factor:
 ----
 $ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
 ----
+====
+
+. *Configure MidoNet Metadata Proxy for all agents*
++
+====
+This step needs to happen only once, it will set up MidoNet Metadata Proxy
+for all MidoNet Agent nodes.
+
+Run the following commands to set the cloud-wide values for the MidoNet
+Metadata Proxy:
+
+[source,subs="specialcharacters,quotes"]
+----
+$ echo "agent.openstack.metadata.nova_metadata_url : \"http://**_nova_metadata_host_**:**_nova_metadata_port_**\"" | mn-conf set
+$ echo "agent.openstack.metadata.shared_secret : *_shared_secret_*" | mn-conf set
+$ echo "agent.openstack.metadata.enabled : true" | mn-conf set
+----
+
+*_nova_metadata_host_*, *_nova_metadata_port_*, and *_shared_secret_* should be
+replaced with appropriate values. They need to match with the corresponding Nova
+Metadata API configuration.
+
+*_nova_metadata_host_* and *_nova_metadata_port_* specify the address on which
+Nova accepts Metadata API requests. *_shared_secret_* has to be the same as
+specified by the "metadata_proxy_shared_secret" field in the "neutron" section
+of nova.conf.
+
+The Nova side of the configuration for the metadata service is same as when
+using Neutron Metadata Proxy. See the OpenStack documentation for details:
+
+http://docs.openstack.org/admin-guide-cloud/networking_config-identity.html#configure-metadata[Cloud Administrator Guide: Configure Metadata]
 ====
 
 . *Start Midolman*

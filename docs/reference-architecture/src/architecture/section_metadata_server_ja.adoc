@@ -3,5 +3,6 @@
 
 メタデータサーバーはインスタンスVMの構成情報、たとえば、認証情報やVMのカスタマイズスクリプトなどを保存するのに使用されます。
 
-メタデータサーバーにはVMの構成の値のテーブルが保存されます。
-
+OpenStack 環境では、メタデータは Nova Metadata API に保持されます。
+MidoNet は VM からのメタデータ要求を Neutron Metadata Proxy に似た方法で
+Nova Metadata API に転送する Metadata Proxy 実装を提供しています。

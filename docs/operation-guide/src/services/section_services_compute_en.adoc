@@ -14,4 +14,7 @@ This section lists the TCP/UDP ports used by the services on the Compute nodes.
 |MidoNet|midolman|TCP|7200|x| |
     JMX monitoring port If you're using this port to monitor health, enable
     communication from the monitoring server.
+|MidoNet|midolman|TCP|9697|x| |
+    If enabled, MidoNet Metadata Proxy listens on 169.254.169.254:9697
+    to accept metadata requests.
 |===============

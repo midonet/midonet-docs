@@ -53,7 +53,9 @@ to the gateway to the destination is shown (next hop gateway).
 the 172.16.3.0/24 network (that is, traffic from the private network), with the
 destination, 169.254.169.254, which is the link-local address to the metadata
 service, forward this traffic to the gateway port, 172.16.3.2, which is the
-tenant router's interface to the metadata service.
+tenant router's interface to the metadata service.  This kind of routes
+exist only when the network is served by Neutron DHCP Agent, typically
+to provide instance metadata service.
 
 ** route4 says: for traffic from any network (0.0.0.0/0) with the destination of
 the tenant router's interface (172.16.3.1), which is the tenant router's
