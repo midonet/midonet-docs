@@ -1,5 +1,8 @@
 = Metadata Agent
 
+[IMPORTANT]
+This section is not appropriate if MidoNet Metadata Proxy is enabled.
+
 [NOTE]
 Since MidoNet does not have the concept of a Network Node like with the default
 OpenStack networking plugin, the Metadata Agent is going to be installed on the
