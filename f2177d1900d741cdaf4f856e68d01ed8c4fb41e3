@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1ae5cdf2_405b1e87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002897
+      },
+      "writtenOn": "2015-09-18T05:16:38Z",
+      "side": 1,
+      "message": "how these variants are usually synced?\njust manually?",
+      "revId": "f2177d1900d741cdaf4f856e68d01ed8c4fb41e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ae5cdf2_8169b58d",
         "filename": "docs/quick-start-guide/src/ubuntu-1404/kilo/openstack/section_neutron_dhcp_agent_installation_en.adoc",
         "patchSetId": 5
