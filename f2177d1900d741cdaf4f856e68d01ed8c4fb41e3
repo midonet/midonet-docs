@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ae5cdf2_e0e26a9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-18T05:54:57Z",
+      "side": 1,
+      "message": "Manually. We do not (yet) a defined process for the translation.\nThe JA docs aren\u0027t yet published and parts of them still being translated.\nIn your case you may do it yourself, but if e.g. non Japanese speakers change/add to the docs, either someone Japanese will have to translate it, or we may hire a professional translater if it\u0027s too time consuming for someone here to just do it.",
+      "parentUuid": "1ae5cdf2_405b1e87",
+      "revId": "f2177d1900d741cdaf4f856e68d01ed8c4fb41e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ae5cdf2_8169b58d",
         "filename": "docs/quick-start-guide/src/ubuntu-1404/kilo/openstack/section_neutron_dhcp_agent_installation_en.adoc",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2015-09-16T02:08:04Z",
       "side": 1,
       "message": "a question; should these \"old way\" be removed from doc completely?",
+      "revId": "f2177d1900d741cdaf4f856e68d01ed8c4fb41e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_00ef5688",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/kilo/openstack/section_neutron_dhcp_agent_installation_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-18T05:54:57Z",
+      "side": 1,
+      "message": "I\u0027m not sure, discussing with JF.",
+      "parentUuid": "1ae5cdf2_8169b58d",
       "revId": "f2177d1900d741cdaf4f856e68d01ed8c4fb41e3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
