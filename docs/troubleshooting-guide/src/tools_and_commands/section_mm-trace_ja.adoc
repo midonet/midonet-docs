@@ -1,9 +1,9 @@
 [[mm_trace]]
 = mm-trace
 
-a `mm-trace` コマンドは、MidolManエージェントがある特定のトラフィックフローをキャプチャして、シュミレーションの各ステージのログを取ることを可能にします。
+a `mm-trace` コマンドは、MidolManエージェントがある特定のトラフィックフローをキャプチャして、シュミレーションの各ステージのログを取ることができます。
 
-この設定は、再起動するMidolManにおいて、一貫して同じものではありません。
+この設定は、MidolMan再起動の際に、常に同じではありません。
 
 アウトプットは　`/var/log/midolman/mm-trace.log` ファイルに書き込まれます。
 
@@ -16,38 +16,38 @@ $ mm-trace --help
   -p, --port  <arg>   JMX port (default = 7200)
       --help          ヘルプメッセージを表示
 
-Subcommand: add - トレーシングマッチのパケットを追加します 
+Subcommand: add - トレーシングマッチのパケットを追加
   -d, --debug                デバグレベルでのログ
-      --dst-port  <arg>      TCP/UDP 送信先ポートをマッチします
-      --ethertype  <arg>     イーサータイプをマッチします
-      --ip-dst  <arg>        送信先ipアドレスをマッチします
-      --ip-protocol  <arg>   ipプロトコルフィールドをマッチします
-      --ip-src  <arg>        ipソースアドレスをマッチします
-  -l, --limit  <arg>         このトレースを無効化する前のマッチするパケットの数です
-      --mac-dst  <arg>       送信先MACアドレスをマッチします
-      --mac-src  <arg>       送信元MACアドレスをマッチします
-      --src-port  <arg>      TCP/UDPソースポートをマッチします
+      --dst-port  <arg>      TCP/UDP 送信先ポートをマッチ
+      --ethertype  <arg>     イーサータイプをマッチ
+      --ip-dst  <arg>        送信先ipアドレスをマッチ
+      --ip-protocol  <arg>   ipプロトコルフィールドをマッチ
+      --ip-src  <arg>        ipソースアドレスをマッチ
+  -l, --limit  <arg>         このトレースを無効化する前のマッチするパケット数
+      --mac-dst  <arg>       送信先MACアドレスをマッチ
+      --mac-src  <arg>       送信元MACアドレスをマッチ
+      --src-port  <arg>      TCP/UDPソースポートをマッチ
   -t, --trace                トレースレベルでのログ
-      --help                 ヘルプメッセージを表示します
-Subcommand: remove - トレーシングマッチのパケットを取り除きます
+      --help                 ヘルプメッセージを表示
+Subcommand: remove - トレーシングマッチのパケットを除去
   -d, --debug                デバグレベルのログ
-      --dst-port  <arg>      TCP/UDP 送信先ポートをマッチします
-      --ethertype  <arg>     イーサータイプをマッチします
-      --ip-dst  <arg>        送信先ipアドレスをマッチします
-      --ip-protocol  <arg>   ipプロトコルフィールドをマッチします
-      --ip-src  <arg>        ipソースアドレスをマッチします
-  -l, --limit  <arg>         このトレースを無効化する前のマッチするパケットの数です
-      --mac-dst  <arg>       送信先MACアドレスをマッチします
-      --mac-src  <arg>       送信元MACアドレスをマッチします
-      --src-port  <arg>    　TCP/UDPソースポートをマッチします
+      --dst-port  <arg>      TCP/UDP 送信先ポートをマッチ
+      --ethertype  <arg>     イーサータイプをマッチ
+      --ip-dst  <arg>        送信先ipアドレスをマッチ
+      --ip-protocol  <arg>   ipプロトコルフィールドをマッチ
+      --ip-src  <arg>        ipソースアドレスをマッチ
+  -l, --limit  <arg>         このトレースを無効化する前のマッチするパケットの数
+      --mac-dst  <arg>       送信先MACアドレスをマッチ
+      --mac-src  <arg>       送信元MACアドレスをマッチ
+      --src-port  <arg>    　TCP/UDPソースポートをマッチ
   -t, --trace                トレースレベルでのログ
-      --help                 ヘルプメッセージを表示します
-Subcommand: flush - トレーシングがマッチしているリストをクリアします
-  -D, --dead-only   期限切れのトレーサーのみをフラッシュします
-      --help        ヘルプメッセージを表示します
-Subcommand: list -  アクティブなトレーシングマッチをリスト化します
-  -L, --live-only   アクティブなトレーサーのみをリスト化します
-      --help        ヘルプメッセージを表示します
+      --help                 ヘルプメッセージを表示
+Subcommand: flush - トレーシングがマッチしているリストをクリア
+  -D, --dead-only   期限切れのトレーサーのみをフラッシュ
+      --help        ヘルプメッセージを表示
+Subcommand: list -  アクティブなトレーシングマッチをリスト化
+  -L, --live-only   アクティブなトレーサーのみをリスト化
+      --help        ヘルプメッセージを表示
 ----
 
 Examples:
