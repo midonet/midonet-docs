@@ -1,8 +1,0 @@
-. *Enable Red Hat OSP repository*
-+
-====
-[source]
-----
-# subscription-manager repos --enable=rhel-7-server-openstack-6.0-rpms
-----
-====

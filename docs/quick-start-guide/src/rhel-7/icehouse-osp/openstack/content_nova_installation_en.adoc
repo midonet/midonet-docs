@@ -1,5 +1,0 @@
-[IMPORTANT]
-Follow the Red Hat documentation's
-https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Installation_and_Configuration_Guide/chap-OpenStack_Compute_Service_Installation.html[Chapter 8. OpenStack Compute Service Installation]
-instructions, but *note the following differences*.
-

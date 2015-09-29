@@ -1,3 +1,0 @@
-////
-OpenStack Juno では不要
-////

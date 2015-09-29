@@ -1,3 +1,0 @@
-////
-Not used on RHEL 7 / Juno (OSP)
-////

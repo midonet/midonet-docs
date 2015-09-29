@@ -1,5 +1,0 @@
-[IMPORTANT]
-Follow the OpenStack documentation's
-http://docs.openstack.org/juno/install-guide/install/apt/content/ch_nova.html[Chapter 5. Add the Compute service]
-instructions, but *note the following differences*.
-

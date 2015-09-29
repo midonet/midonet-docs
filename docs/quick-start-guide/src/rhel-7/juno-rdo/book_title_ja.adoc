@@ -1,1 +1,0 @@
-= MidoNet クイック スタート ガイド RHEL 7 / Juno (RDO)

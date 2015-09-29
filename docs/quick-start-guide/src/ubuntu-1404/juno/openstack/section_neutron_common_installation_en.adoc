@@ -1,3 +1,0 @@
-////
-Not used on Ubuntu 14.04 / Juno
-////

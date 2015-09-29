@@ -1,5 +1,0 @@
-[IMPORTANT]
-OpenStackの文書の
-http://docs.openstack.org/juno/install-guide/install/yum/content/section_neutron-networking.html[Chapter 6. OpenStack Networking (neutron)]
-の指示に従います。ただし、*次の相違点に注意してください。*
-
