@@ -1,7 +1,7 @@
 [[cli_delete_vtep]]
-= VTEPを削除します
+= VTEPの削除
 
-このコマンドはVTEPを削除する時に使ってください。
+このコマンドはVTEPを削除する時に使用してください。
 
 *シンタックス*
 
@@ -12,7 +12,7 @@ vtep management-ip vtep-ip-address delete
 
 このコマンドを発行すると、MidoNetがリスト化しており認知されているVTEPからVTEPを完全に削除します。
 
-このコマンドは、VTEPのポートVLANペアのいずれかがニュートロンネットワークのいずれかにバインドしている場合には成功しません。
+このコマンドは、VTEPのポートVLANペアのいずれかがニュートロンネットワークのいずれかにバインドしている場合は成功しません。
 
 *事例*
 
@@ -20,4 +20,4 @@ vtep management-ip vtep-ip-address delete
 midonet> vtep management-ip 119.15.120.123 delete
 
 [NOTE]
-別の方法としては、VTEPのポートVLANペア全てをニュートロンネットワークから切り離すためには、vxlanポートを削除するというやり方があります。
+別の方法としては、VTEPのポートVLANペア全てをニュートロンネットワークから切り離すためには、vxlanポートを削除するという方法があります。

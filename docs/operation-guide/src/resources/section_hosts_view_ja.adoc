@@ -1,9 +1,9 @@
 [[viewing_host_information]]
-= ホストの情報を閲覧することを指します。
+= ホスト情報の閲覧
 
-ホストに関する情報を閲覧する際、この方法で行います。
+ホストに関する情報を閲覧する際は、下記の方法で行います。
 
-* 下記のソース例にあるように、ホストをリストアップするコマンドを入力します:
+* 下記のソース例にあるように、ホストをリストアップするコマンドを入力します。
 +
 [source]
 midonet> list host
@@ -12,7 +12,7 @@ host host2 name compute1 alive true
 host host3 name compute3 alive false
 host host1 name compute2 alive false
 
-* 下記のソース例にあるように、特定のホスト上のインターフェイスをリストアップするコマンドを入力します:
+* 下記のソース例にあるように、特定のホスト上のインターフェイスをリストアップするコマンドを入力します。
 +
 [source]
 midonet> host host0 list interface
@@ -21,11 +21,11 @@ iface lo host_id host0 status 3 addresses [u'127.0.0.1', u'0:0:0:0:0:0:0:1'] mac
 iface tapbf954474-ef host_id host0 status 3 addresses [u'fe80:0:0:0:dc40:9aff:feef:7b5e'] mac de:40:9a:ef:7b:5e mtu 1500 type Virtual endpoint DATAPATH
 iface eth0 host_id host0 status 3 addresses [u'192.168.0.3', u'fe80:0:0:0:f816:3eff:febe:590'] mac fa:16:3e:be:05:90 mtu 8842 type Physical endpoint PHYSICAL
 
-* 下記のソース例にあるように、特定のホストに紐づくポートを閲覧するコマンドを入力します:
+* 下記のソース例にあるように、特定のホストにポートを閲覧するコマンドを入力します。
 +
 [source]
 midonet> host host0 list binding
 host host0 interface tapbf954474-ef port bridge0:port0
 +
-上記のアウトプットされたソースは、host0上のデバイス tapbf954474-efは、bridge0上のport0に現在接続されていることをあらわしています。
+上記のアウトプットされたソースは、host0上のデバイス tapbf954474-efは、bridge0上のport0に現在接続されていることを示しています。
 

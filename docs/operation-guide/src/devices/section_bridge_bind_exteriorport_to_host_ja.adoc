@@ -1,16 +1,16 @@
 [[binding_an_exterior_port_to_a_host]]
-= 外部ポートをホストにバインディングします。
+= 外部ポートをホストにバインディング
 
 MidoNetが利用可能になったクラウドを外部ネットワークに接続する為に、ホストに外部ポートをバインドする必要があります。例えば、ネットワークインターフェースカード（NIC）とeth0のIDなどです。
 
-. ホストをリスト化するためのコマンドを入力します：
+. ホストをリスト化するためのコマンドを入力します。
 +
 [source]
 midonet> list host
 host host0 name compute-1 alive true
 host host1 name compute-2 alive true
 
-. 現在のテナントのブリッジをリスト化するためのコマンドを入力します。:
+. 現在のテナントのブリッジをリスト化するためのコマンドを入力します。
 +
 [source]
 midonet> list bridge
@@ -18,7 +18,7 @@ bridge bridge0 name External state up
 bridge bridge1 name Management state up
 bridge bridge2 name Internal state up
 
-. 適切なブリッジにポートをリスト化するためのコマンドを入力します:
+. 適切なブリッジにポートをリスト化するためのコマンドを入力します。
 +
 [source]
 midonet> bridge bridge0 list port
@@ -26,7 +26,7 @@ port port0 device bridge0 state up
 port port1 device bridge0 state up
 port port2 device bridge0 state up
 
-. ある特定のホスト向けのインターフェースをリスト化するコマンドを入力します:
+. ある特定のホスト向けのインターフェースをリスト化するコマンドを入力します。
 +
 [source]
 midonet> host host0 list interface
@@ -35,13 +35,13 @@ iface midonet host_id host0 status 0 addresses [] mac 8e:4d:60:c1:70:d7 mtu 1500
 iface eth1 host_id host0 status 3 addresses [u'fe80:0:0:0:250:56ff:fe93:7c35'] mac 00:50:56:93:7c:35 mtu 1500 type Physical endpoint PHYSICAL
 iface eth0 host_id host0 status 3 addresses [u'10.1.2.200', u'fe80:0:0:0:250:56ff:fe93:c9a4'] mac 00:50:56:93:c9:a4 mtu 1500 type Physical endpoint PHYSICAL
 
-. あるホストを仮想ポートにバインドする為のコマンドを入力します:
+. あるホストを仮想ポートにバインドする為のコマンドを入力します。
 +
 [source]
 midonet> host host0 add binding
 host interface port
 
-. ホストの物理インターフェースとブリッジの仮想ポートをバインドするためのコマンドを入力します:
+. ホストの物理インターフェースとブリッジの仮想ポートをバインドするためのコマンドを入力します。
 +
 [source]
 midonet> host host0 add binding port bridge0:port0 interface eth1

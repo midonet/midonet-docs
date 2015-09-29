@@ -1,5 +1,5 @@
 [[connect_vtep_to_neutron]]
-=あるVTEPとあるニュートロンネットワークとの間の接続を設定します
+=VTEPとニュートロンネットワークの接続設定
 
 MidoNetの中で、VTEPとニュートロンネットワークとの間の接続を設定する時にはこの手順を踏みます。
 
@@ -9,7 +9,7 @@ MidoNetの中で、VTEPとニュートロンネットワークとの間の接続
 +
 VXLANトンネルを使ってVTEPと通信しようとするホストは全て、VTEP種別のトンネルゾーンに所属する必要があります。この時、どのホストも、各々のホストがVXLANトンネルエンドポイントとして使用するIPを使わなければなりません。
 +
-トンネルゾーンを作成するためには、MidoNet CLIの中で、次のコマンドを発行します：
+トンネルゾーンを作成するためには、MidoNet CLIの中で、次のコマンドを発行します。
 +
 [source]
 midonet> tunnel-zone create name vtep_zone1 type vtep
@@ -26,7 +26,7 @@ name vtep1 description OVS VTEP Emulator management-ip 192.168.2.11 management-p
 VTEPが上手く追加されると次のようなメッセージが表示されます。
 'connection-state CONNECTED'.
 
-. MidoNetブリッジの背後で、VTEPとニュートロンネットワークとの間のバインディングを作成します。そのためには、ニュートロンネットワークのUUIDがそのブリッジの背後になければなりません。UUIDを見つけるには以下のコマンドを使用します：
+. MidoNetブリッジの背後で、VTEPとニュートロンネットワークとの間のバインディングを作成します。そのためには、ニュートロンネットワークのUUIDがそのブリッジの背後になければなりません。UUIDを見つけるには以下のコマンドを使用します。
 +
 [source]
 midonet> list bridge
@@ -39,7 +39,7 @@ VTEPにバインディングしようとしているニュートロンネット�
 . ニュートロンネットワーク上にある各種ホストがVTEPと通信できるようにするには、各々のホストのIPアドレスがVTEPと同じトンネルゾーンにある必要があります。
 +
 ====
-..それぞれのアドレスをみつけるには、次のコマンドを使用します：
+..それぞれのアドレスをみつけるには、次のコマンドを使用します。
 +
 [source]
 midonet> host list
@@ -48,7 +48,7 @@ midonet> host host0 list interface
 iface veth1 host_id host0 status 3 addresses [u'172.16.0.2', u'fe80:0:0:0:fc2a:9eff:fef2:aa6c'] mac fe:2a:9e:f2:aa:6c mtu 1500 type Virtual endpoint DATAPATH
 ...
 
-..VTEPと同じトンネルゾーンにホストのIPアドレスを追加します：
+..VTEPと同じトンネルゾーンにホストのIPアドレスを追加します。
 +
 [source]
 midonet> tunnel-zone tzone1 add member host host0 address 172.16.0.1
@@ -61,12 +61,12 @@ midonet> tunnel-zone tzone1 add member host host0 address 172.16.0.1
 
 .VTEPのvlan10とニュートロンネットワークとの間のバインディングをbridge0の背後に作成します。
 +
-この事例では、bridge0の背後にvlan10上のホスト各種をニューロンネットワーク765cf657-3cf4-4d79-9621-7d71af38a298と接続しています：
+この事例では、bridge0の背後にvlan10上のホスト各種をニューロンネットワーク765cf657-3cf4-4d79-9621-7d71af38a298と接続しています。
 +
 [source]
 midonet> vtep management-ip 192.168.2.11 binding add network-id 765cf657-3cf4-4d79-9621-7d71af38a298 physical-port swp1s2 vlan 10
 
-おめでとうございます。今、MidoNetの中で、VTEPのvlan10物理ポートswp1s2の背後にあるネットワークとUUIDが765cf657-3cf4-4d79-9621-7d71af38a298のニュートロンネットワークとの間にバインディングを作成することができました。
+MidoNetの中で、VTEPのvlan10物理ポートswp1s2の背後にあるネットワークと、UUIDが765cf657-3cf4-4d79-9621-7d71af38a298のニュートロンネットワークとの間にバインディングを作成に成功しました。
 
 [TIP]
 VTEPとMidoNetとの間の接続をテストする(つまりVTEP上のホストからMidoNetを”ping”すること）ためには、MidoNetにホストのIPアドレスを追加することによって、進入セキュリティールールを修正する必要があります。(MidoNetからホストをpingするために別途なにかを追加で設定する必要はありません。）さらに詳しいことにつきましてはref:connect_vtep_to_midonet[]を参照してください。

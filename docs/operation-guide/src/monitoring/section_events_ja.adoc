@@ -9,15 +9,15 @@
 
 *イベントメッセージのカテゴリ*
 
-MidoNetシステム内に定義されるイベントタイプは以下になります:
+MidoNetシステム内に定義されるイベントタイプは以下になります。
 
 * 仮想トポロジーの変更
 
-* MidoNet APIサーバーについてのイベント（下記を含みます）：
+* MidoNet APIサーバーについてのイベント（下記を含みます）
 
 ** Network State Databaseへの接続ステータスの変更
 
-* MidoNet Agentsに関するイベント（下記を含みます）:
+* MidoNet Agentsに関するイベント（下記を含みます）
 
 ** Network State Databaseへの接続ステータスの変更
 

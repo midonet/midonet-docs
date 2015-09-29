@@ -1,11 +1,11 @@
 [[cli_list_vtep_bindings]]
-= VTEPバインディングについての説明を入手します
+= VTEPバインディング
 
 MidoNet CLIは、与えられているVTEP上の全てのバインディングについての説明を入手するためのコマンドを提供しています。また、MidoNet CLIは、特定のニュートロンネットワークがバインドしているVTEP全てについての説明を入手するためのコマンドも提供しています。
 
 * VTEPの中にある全てのバインディング*
 
-はじめに、VTEP全てをリスト化して、適切なマネージメントIPが特定できるようにします：
+はじめに、VTEP全てをリスト化して、適切なマネージメントIPが特定できるようにします。
 
 [source]
 midonet> vtep list
@@ -13,7 +13,7 @@ name vtep0 description Vtep1 management-ip 192.168.2.13 management-port 6632 tun
 
 *結果*
 
-コマンドが成功しますと、プログラムは、選択したVTEP上にある全てのVXLANポートに関する説明およびそれらVXLANポートとニュートロンネットワークとのバインディング情報を返信します：
+コマンドが成功しますと、プログラムは、選択したVTEP上にある全てのVXLANポートに関する説明およびそれらVXLANポートとニュートロンネットワークとのバインディング情報を返信します。
 
 [source]
 vtep management-ip 192.168.2.13 list binding
@@ -21,7 +21,7 @@ binding binding0 management-ip 192.168.2.13 physical-port Te 0/2 vlan 908 networ
 binding binding1 management-ip 192.168.2.13 physical-port Te 0/2 vlan 439 network-id 1d475afc-d892-4dc7-af72-9bd88e565dde
 binding binding4 management-ip 192.168.2.13 physical-port in1 vlan 119 network-id bc3afc36-6274-4603-9109-c29f1c12ba33
 
-出力した内容結果を見ると、与えられたVTEPに適用したポート-vlanペア全てをリストで見ることができます。以下の情報が表示されています(一行目は事例として使用しています)：
+出力した内容結果を見ると、与えられたVTEPに適用したポート-vlanペア全てをリストで見ることができます。以下の情報が表示されています(一行目は事例として使用しています)。
 * バインディングのアリア (たとえば binding0).
 
 * VTEPのマネージメントIP ( たとえば192.15.112.22)
@@ -32,19 +32,19 @@ binding binding4 management-ip 192.168.2.13 physical-port in1 vlan 119 network-i
 
 *ニュートロンネットワークの中でバインドしているVTEP*
 
-はじめに、適切なニュートロンネットワークに対応するMidoNetブリッジを選びます：
+はじめに、適切なニュートロンネットワークに対応するMidoNetブリッジを選びます。
 
 [source]
 midonet> bridge list
 bridge bridge0 name my_network state up
 
-このブリッジのidは検証することができます。このidはニュートロンネットワークと同じidです：
+このブリッジのidは検証することができます。このidはニュートロンネットワークと同じidです。
 
 [source]
 midonet> bridge bridge0 show id
 bc3afc36-6274-4603-9109-c29f1c12ba33
 
-ブリッジ上のポートをリスト化します：
+ブリッジ上のポートをリスト化します。
 
 [source]
 midonet> bridge bridge0 port list

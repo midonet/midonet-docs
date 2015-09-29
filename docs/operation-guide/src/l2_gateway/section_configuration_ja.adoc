@@ -1,10 +1,10 @@
 [[l2_gateway_configuration]]
-= L2 gatewayの設定を指します。
+= L2 gatewayの設定
 
 L2 gatewayの設定をする際、この方法で行います。
 
 下記では、MidoNet CLIを使ってxref:l2_gateway_topology[]にあるようなトポロジーを複製する設定方法の例をあらわしています。
-. VABと適切なVLAN IDで設定された二つのポートを作成します:
+. VABと適切なVLAN IDで設定された二つのポートを作成します。
 +
 [source]
 midonet> bridge create name vab
@@ -13,7 +13,7 @@ bridge0:port0
 midonet> bridge bridge0 port add vlan 5
 bridge0:port1
 
-. 二つのVUBとそのバーチャルポートを作成します:
+. 二つのVUBとそのバーチャルポートを作成します。
 +
 [source]
 midonet> bridge add name vub-8
@@ -25,13 +25,13 @@ bridge1:port0
 midonet> bridge bridge2 port add
 bridge2:port0
 
-. ポートをリンクさせます:
+. ポートをリンクさせます。
 +
 [source]
 midonet> bridge bridge0 port port0 set peer bridge1:port0
 midonet> bridge bridge0 port port1 set peer bridge2:port0
 
-. VABのトランスポートを追加します:
+. VABのトランスポートを追加します。
 +
 [source]
 midonet> bridge bridge0 port add
@@ -39,7 +39,7 @@ bridge0:port2
 midonet> bridge bridge0 port add
 bridge0:port3
 
-. ”host0:eth0”と”host1:eth1”の二つのインターフェイスがフィジカルスイッチのトランクに接続されていると仮定し、それらのインターフェイスをVABのトランスポートに紐づけます:
+. ”host0:eth0”と”host1:eth1”の二つのインターフェイスがフィジカルスイッチのトランクに接続されていると仮定し、それらのインターフェイスをVABのトランスポートに紐づけます。
 +
 [source]
 midonet> host host0 binding add interface eth0 port bridge0:port2

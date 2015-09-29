@@ -1,39 +1,39 @@
 [[concept_cpk_t4d_q4]]
 
-= 二つのルーターを接続します
+= 二つのルーターの接続
 
 各ルーターの仮想ポートを通じて、二つの仮想ルーターを簡単に繋げることができます。
 
 二つのルーターにルーターポートを作成して、同じサブネットにポートを割り当てることを確認してください。ルーターの作成とルータポートの追加に関する情報はxref:device_abstractions[]を参照ください。
 
-二つのルーターを繋げるには:
+二つのルーターを繋げるには、
 
-. 現在のテナントのルーターをリスト化するためのコマンドを入力ください：
+. 現在のテナントのルーターをリスト化するためのコマンドを入力してください。
  +
 [source]
 midonet> list router
 router router3 name test-router2 state up
 router router1 name test-router state up
 
-. 接続したいルーターの一つのポートをリスト化するコマンドを入力ください:
+. 接続したいルーターの一つのポートをリスト化するコマンドを入力してください。
 +
 [source]
 midonet> router router1 list port
 port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24 peer bridge1:port0
 port port1 device router1 state up mac 02:fa:5f:87:bb:d2 address 10.100.1.2 net 10.0.0.0/24
 
-. 接続したいルーターの一つのポートをリスト化するコマンドを入力ください:
+. 接続したいルーターの一つのポートをリスト化するコマンドを入力してください。
 +
 [source]
 midonet> router router3 list port
 port port0 device router3 state up mac 02:df:24:5b:19:9b address 10.100.1.128 net 10.0.0.0/24
 
-. あるルーターのポート（例えば、router1のport1）から別のルーターのポート（例えば、router3のport0）にバインドする為のコマンドを入力ください：
+. あるルーターのポート（例えば、router1のport1）から、別のルーターのポート（例えば、router3のport0）にバインドする為のコマンドを入力してください。
 +
 [source]
 midonet> router router1 port port1 set peer router3:port0
 
-. ルーターの一つのポートをリスト化するコマンを入力ください：
+. ルーターの一つのポートをリスト化するコマンを入力してください。
  +
 [source]
 midonet> router router1 list port

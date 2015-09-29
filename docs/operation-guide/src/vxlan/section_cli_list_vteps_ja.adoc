@@ -1,5 +1,5 @@
 [[cli_list_vteps]]
-= 各種VTEPのリストを入手します
+= 各種VTEPのリスト入手
 
 このコマンドは、MidoNetが認知しているハードウェアVTEP各種のリストを入手するために用います。
 
@@ -10,7 +10,7 @@ list vtep
 
 *結果*
 
-コマンドは、VTEPそれぞれにたいしてこの情報を返信します：
+コマンドは、VTEPそれぞれにたいしてこの情報を返信します。
 
 * 名前
 
@@ -24,7 +24,7 @@ list vtep
 
 * 接続状況(次のいずれかである：接続中、切断中、エラー。エンドポイントがVXLAN End Pointではない時にはエラーステータスになります。)
 
-* 各種ポート　?　これは三種類の情報(port_name, port_description, port_bindings)のリストであり、このうちのport_bindingsとは(vlan, neutronNetworkId, logicalSwitchName)
+* 各種ポート -　これは三種類の情報(port_name, port_description, port_bindings)のリストであり、このうちのport_bindingsとは(vlan, neutronNetworkId, logicalSwitchName)
 のリストの事を指します。
 
 *事例*
