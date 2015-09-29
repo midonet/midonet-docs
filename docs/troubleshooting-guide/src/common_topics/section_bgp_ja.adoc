@@ -3,7 +3,7 @@
 
 このセクションはBGPに関連する一般的なトピックをいくつかカバーしています。
 
-BGP名前空間を見つけてください:
+BGPネームスペースを見つけてください。
 
 [source]
 ----
@@ -11,35 +11,35 @@ BGP名前空間を見つけてください:
 mbgpX_ns
 ----
 
-BGP名前空間のインターフェースをみる：
+BGPネームスペースのインターフェースをみる。
 
 [source]
 ----
 # ip netns exec <mbgpX_ns> ip link show
 ----
 
-BGPピアが遠端でもリーチできることを確認ください：
+BGPピアがエンドにある場合でもリーチできることを確認ください。
 
 [source]
 ----
 # ip netns exec <mbgpX_ns> ip neigh show
 ----
 
-BGPピアリングにおけるスニッフ:
+BGPピアリングにおけるスニッフ
 
 [source]
 ----
 # ip netns exec <mbgpX_ns> tcpdump -i <ns_itf>
 ----
 
-Quagga's VTYシェルを入力ください：
+Quagga's VTYシェルを入力ください。
 
 [source]
 ----
 # ip netns exec <mbgpX_ns> vtysh
 ----
 
-QuaggaのVTYシェル中の既存の設定を見せます：
+QuaggaのVTYシェル中の既存の設定を見ます。
 
 [source]
 ----
@@ -65,7 +65,7 @@ line vty
 end
 ----
 
-QuaggaのVTYシェル中のBGPサマリーを見せます：
+QuaggaのVTYシェル中のBGPサマリーを見ます。
 
 [source]
 ----
@@ -78,7 +78,7 @@ Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 192.168.107.30  4 65534    5512    5523        0    0    0 07:40:09       10
 ----
 
-Quagga's VTYシェル中のBGPルーティング情報を見せます：
+Quagga's VTYシェル中のBGPルーティング情報を見ます。
 
 [source]
 ----

@@ -9,10 +9,10 @@
 
 トラブルシューティングの期間に、`mn-conf(1)` ツールを通じて、ログレベルを増やすことができます。
 
-ログレベルを以下の値に変更できます：
+ログレベルを以下の値に変更できます。
 DEBUG, INFO, WARN, ERROR
 
-現在設定されたレベルをチェックするため、下記のコマンドを実行して下さい：
+現在設定されたレベルをチェックするため、下記のコマンドを実行して下さい。
 
 [literal,subs="verbatim,quotes"]
 ----
@@ -20,11 +20,11 @@ $ mn-conf get agent.loggers.root
 agent.loggers.root = *INFO*
 ----
 
-レベルを増やすため、下記のコマンドを実行して下さい：
+レベルを増やすため、下記のコマンドを実行して下さい。
 
 [literal,subs="verbatim,quotes"]
 ----
 $ echo "agent.loggers.root : *DEBUG*" | mn-conf set -t default
 ----
 
-この変更を行う為に、エージェントの再起動は必要ありません。
+この変更を行うために、エージェントの再起動は必要ありません。

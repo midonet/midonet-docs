@@ -9,7 +9,7 @@
 
 トラブルシューティングの期間に、`/usr/share/midonet-api/WEB-INF/classes/logback.xml` ファイルを通じて、ログレベルを増やすことができます。
 
-これをするには、ルートのロガーレベルを以下の値に変更してください：
+これをするには、ルートのロガーレベルを以下の値に変更してください。
 DEBUG, INFO, WARN, ERROR
 
 [literal,subs="verbatim,quotes"]
@@ -24,4 +24,4 @@ DEBUG, INFO, WARN, ERROR
 </root>
 ----
 
-この変更を行う為に、Tomcatの再起動は必要です。
+この変更を行うために、Tomcatの再起動が必要です。

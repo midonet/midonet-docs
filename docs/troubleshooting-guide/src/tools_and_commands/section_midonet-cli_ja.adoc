@@ -1,4 +1,4 @@
 [[midonet_cli]]
 = midonet-cli
 
-`midonet-cli` コマンドは、MidoNet APIに接続性がって、`python-midonet-client` パッケージをインストールしているホスト上であれば走らせることができます。
+`midonet-cli` コマンドは、MidoNet APIに接続し、`python-midonet-client` パッケージをインストールしているホスト上で走らせることができます。
