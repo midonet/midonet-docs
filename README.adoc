@@ -4,11 +4,9 @@ This repository includes the following http://www.midonet.org/[MidoNet]
 documentation:
 
 * MidoNet Operation Guide
-* MidoNet Quick Start Guide for RHEL 7 / Icehouse (OSP)
 * MidoNet Quick Start Guide for RHEL 7 / Juno (OSP)
 * MidoNet Quick Start Guide for RHEL 7 / Juno (RDO)
 * MidoNet Quick Start Guide for RHEL 7 / Kilo (RDO)
-* MidoNet Quick Start Guide for Ubuntu 14.04 / Icehouse
 * MidoNet Quick Start Guide for Ubuntu 14.04 / Juno
 * MidoNet Quick Start Guide for Ubuntu 14.04 / Kilo
 * MidoNet Reference Architecture
@@ -64,24 +62,24 @@ directory.
 
 ==== Examples
 
-Quick Start Guide for Ubuntu 14.04 / Icehouse:
+Quick Start Guide for Ubuntu 14.04 / Kilo:
 
 [width="100%",cols="1,3",options="header"]
 |===========================================================================================
 | Purpose             | Directory
 | Document sources    | `docs/quick-start-guide/src`
-| Maven project file  | `build/quick-start-guide_ubuntu-1404_icehouse/pom.xml`
-| Outputs (HTML, PDF) | `build/quick-start-guide_ubuntu-1404_icehouse/target/docbkx/webhelp`
+| Maven project file  | `build/quick-start-guide_ubuntu-1404_kilo/pom.xml`
+| Outputs (HTML, PDF) | `build/quick-start-guide_ubuntu-1404_kilo/target/docbkx/webhelp`
 |===========================================================================================
 
-Quick Start Guide for RHEL 7 / Icehouse:
+Quick Start Guide for RHEL 7 / Kilo (RDO):
 
 [width="100%",cols="1,3",options="header"]
 |===========================================================================================
 | Purpose             | Directory
 | Document sources    | `docs/quick-start-guide/src`
-| Maven project file  | `build/quick-start-guide_rhel-7_icehouse/pom.xml`
-| Outputs (HTML, PDF) | `build/quick-start-guide_rhel-7_icehouse/target/docbkx/webhelp`
+| Maven project file  | `build/quick-start-guide_rhel-7_kilo-rdo/pom.xml`
+| Outputs (HTML, PDF) | `build/quick-start-guide_rhel-7_kilo-rdo/target/docbkx/webhelp`
 |===========================================================================================
 
 Operation Guide:

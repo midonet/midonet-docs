@@ -1,3 +1,0 @@
-[IMPORTANT]
-Refer to the OpenStack installation steps in the RDO Quickstart guide:
-https://openstack.redhat.com/Quickstart.

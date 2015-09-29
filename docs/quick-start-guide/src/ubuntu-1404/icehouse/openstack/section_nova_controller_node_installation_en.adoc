@@ -1,6 +1,0 @@
-= Controller Node
-
-[NOTE]
-Follow the OpenStack documentation's
-http://docs.openstack.org/icehouse/install-guide/install/apt/content/nova-controller.html[Install Compute controller services]
-instructions as is.

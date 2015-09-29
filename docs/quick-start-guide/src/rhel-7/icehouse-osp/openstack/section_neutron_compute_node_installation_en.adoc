@@ -1,3 +1,0 @@
-////
-Not used for RHEL 7  / Icehouse (OSP)
-////
