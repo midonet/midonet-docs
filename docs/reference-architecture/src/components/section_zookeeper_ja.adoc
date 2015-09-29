@@ -9,15 +9,15 @@ MidoNetではApache ZooKeeperを使用して、仮想および物理ネットワ
 <?dbhtml stop-chunking?>
 ++++
 
-== Necessary software
+== 必要なソフトウェア
 
 MidoNetにはZooKeeperバージョン3.4.5が必要です（MidoNetレポジトリで提供されます）。
 
 また、ZooKeeperはApacheソフトウェア財団からも入手できます。
 
-ZooKeeperソフトウェアに加え、Java? Runtime Environmentも必要です。 多くのLinuxディストリビューションで提供されるOpenJDK? 7をお勧めします。
+ZooKeeperソフトウェアに加え、Java® Runtime Environmentも必要です。 多くのLinuxディストリビューションで提供されるOpenJDK™ 7をお勧めします。
 
-== Fault-tolerant configuration guidelines
+== 耐障害性の構成ガイドライン
 
 また、ZooKeeperのインスタンスは3つ以上実行することを強くお勧めします。
 
@@ -25,11 +25,11 @@ ZooKeeperソフトウェアに加え、Java? Runtime Environmentも必要です�
 
 大規模な環境では（ゲートウェイノードを含め、数十のMidoNetエージェントを実行）、ワークロードに最適化された別々のノードにCassandraとZooKeeperをインストールすることをお勧めします。また、負荷を削減し、クラスタの残りの部分により多くのリソースを提供するために、ZooKeeperとCassandraのインスタンスは5つか7つ実行することをお勧めします。
 
-ZooKeeperとCassandraのノードはインスタンスを奇数（3、7、9など）にします。この定足数はノードに障害が発生したときに確保されます。 クラスタが耐えられるノードの障害数は、3ノードのクラスタは1つ、5ノードのクラスタは2つ、7ノードのクラスタは3つと、ノード数に合わせて増えます。
+ZooKeeperとCassandraのノードはインスタンスを奇数（3、7、9など）にしてください。この定足数はノードに障害が発生したときに確保されます。 クラスタが耐えられるノードの障害数は、3ノードのクラスタは1つ、5ノードのクラスタは2つ、7ノードのクラスタは3つと、ノード数に合わせて増加します。
 
 ZooKeeperクラスタの管理を簡略化するため、ZooKeeperにはExhibitor Supervisor Systemを使用することをお勧めします。
 
-== Accessibility considerations
+== アクセスに関する注意事項
 
 ZooKeeperクラスタは通常、 TCP/2181、TCP/2888、TCP/3888の3つのポートを使用します。
 

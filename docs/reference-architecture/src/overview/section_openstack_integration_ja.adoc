@@ -1,18 +1,18 @@
 [[openstack_integration]]
 = OpenStackの統合
 
-MidoNetはOpenStackとの連係に優れ、レイヤ2のネットワーク隔離、レイヤ3のルーティング、セキュリティグループ、浮動IPなど、OpenStackの現在のネットワーク機能のほとんどすべてに対応しています。
+MidoNetはOpenStackとの連係に優れ、レイヤー2のネットワーク隔離、レイヤー3のルーティング、セキュリティグループ、フオローティングIPなど、OpenStackの現在のネットワーク機能のほとんどすべてに対応しています。
 
-MidoNetは、OpenStack NetworkingプラグインとOpenStack NetworkingドライバによってOpenStackと統合できます。 エンドユーザーは同じOpenStack API、GUI、CLIコマンドを使用できます。MidoNetでは既存のAPIコールを使用して、すべてのネットワークコールをシームレスに処理できます。 
+MidoNetは、OpenStack ネットワークプラグインとOpenStack ネットワークドライバによってOpenStackと統合できます。 エンドユーザーは同じOpenStack API、GUI、CLIコマンドを使用できます。MidoNetでは既存のAPIコールを使用して、すべてのネットワークコールをシームレスに処理できます。 
 
 また、OpenStackとMidoNetのソフトウェアをホストするすべてのサーバーを接続して、管理ネットワークを構成できます。 このネットワークでは、クラウドソフトウェアのアウトオブバンドを管理できます。
 
-OpenStackは*コントローラノード*と*コンピュートノードの2種類のノードに導入できます。*
+OpenStackは*コントローラノード*と*コンピュートノード*の2種類のノードに導入できます。
 
 * コントローラノードは通常、nova-api、nova-cert、nova-conductor、nova-scheduler、nova-consoleauth、neutronなどのサービスをホストします。
 
 * コンピュートノードは通常、nova-computeとハイパーバイザサービスをホストします。 nova-computeはコントローラノードにインストールしないでください。
 
 [NOTE]
-RHELディストリビューションでは、OpenStackパッケージ名の前に「openstack」が付いていることがあります（*openstack-nova-apiなど）。*"
+RHELディストリビューションでは、OpenStackパッケージ名の前に「openstack」が付いていることがあります（*openstack-nova-apiなど）。*
 
