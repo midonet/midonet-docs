@@ -32,11 +32,6 @@
         <module>build/troubleshooting-guide_en</module>
         <module>build/troubleshooting-guide_ja</module>
         <module>tools/midonet-docs-maven-plugin</module>
-
-        <!-- Icehouse not supported in MOSS 2015.06
-        <module>build/quick-start-guide_rhel-7_icehouse-osp_en</module>
-        <module>build/quick-start-guide_ubuntu-1404_icehouse_en</module>
-        -->
     </modules>
 
     <properties>

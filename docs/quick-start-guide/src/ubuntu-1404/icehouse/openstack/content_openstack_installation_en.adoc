@@ -1,4 +1,0 @@
-[IMPORTANT]
-Follow the
-http://docs.openstack.org/icehouse/install-guide/install/apt/content/[OpenStack Icehouse Installation Guide for Ubuntu 12.04/14.04 (LTS)]
-, but *note the following differences*.

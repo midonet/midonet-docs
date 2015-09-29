@@ -1,3 +1,0 @@
-////
-No special repository configuration needed for Icehouse on Ubuntu 14.04.
-////
