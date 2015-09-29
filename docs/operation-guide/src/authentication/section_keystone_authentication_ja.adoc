@@ -1,4 +1,4 @@
 [[keystone_authentication]]
 = Keystone認証サービスの使用
 
-このセクションではMidoNetでKeystone認証サービスをどのように使用するかを説明します。
+このセクションでは、MidoNetでのKeystone認証サービスの使用方法を説明します。

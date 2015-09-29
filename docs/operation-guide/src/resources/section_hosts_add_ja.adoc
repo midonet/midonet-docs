@@ -1,23 +1,23 @@
 [[admitting_a_host]]
 
-= ホストを認証することを指します。
+= ホストの認証
 
-新しいホストをトンネルゾーンへ追加します。トンネルゾーンへホストを認証する場合、この方法で行います。
+新しいホストをトンネルゾーンへ追加します。トンネルゾーンへホストを認証する場合、下記の方法で行います。
 
-. 全てのトンネルゾーンを閲覧するには、`list tunnel-zone`というコマンドを入力します。例としては下記のようなソースが挙げられます：
+. 全てのトンネルゾーンを閲覧するには、`list tunnel-zone`というコマンドを入力します。例としては下記のようなソースが挙げられます。
 +
 [source]
 midonet> list tunnel-zone
 tzone tzone0 name gre type gre
 
-. 全てのホストを閲覧するには、`list host`というコマンドを入力します。例としては下記のようなソースが挙げられます：
+. 全てのホストを閲覧するには、`list host`というコマンドを入力します。例としては下記のようなソースが挙げられます。
 +
 [source]
 midonet> list host
 host host0 name compute-1 alive true
 host host1 name compute-2 alive true
 
-. ホスト上の全てのインターフェイスをリストアップするには、`host hostX list interface`というコマンドを入力します。（コマンド内のXは適切なホストエイリアスへダイナミックにアサインされる数字をあらわします。）
+. ホスト上の全てのインターフェイスをリストアップするには、`host hostX list interface`というコマンドを入力します。（コマンド内のXは適切なホストエイリアスへダイナミックにアサインされる数字を示しています。）
 +
 [source]
 midonet> host host0 list interface
@@ -27,20 +27,20 @@ iface eth1 host_id host0 status 3 addresses [u'fe80:0:0:0:250:56ff:fe93:7c35'] m
 iface eth0 host_id host0 status 3 addresses [u'10.1.2.200', u'fe80:0:0:0:250:56ff:fe93:c9a4'] mac 00:50:56:93:c9:a4 mtu 1500 type Physical endpoint PHYSICAL
 +
 インターフェイス内のIPアドレスはトンネル作成のために使用されます。
-. トンネルゾーンへ新たなホストを追加するには、`tunnel-zone tzone add member host host`というコマンドを入力します。例としては下記のようなソースが挙げられます：
+. トンネルゾーンへ新たなホストを追加するには、`tunnel-zone tzone add member host host`というコマンドを入力します。例としては下記のようなソースが挙げられます。
 +
 [source]
 midonet> tunnel-zone tzone0 add member host host0
 address host zone
 
-. 新たに追加されたホストのIPアドレスを特定するには、`tunnel-zone tzone add member host host address ip-address`というコマンドを入力します。例としては下記のようなソースが挙げられます：
+. 新たに追加されたホストのIPアドレスを特定するには、`tunnel-zone tzone add member host host address ip-address`というコマンドを入力します。例としては下記のようなソースが挙げられます。
 +
 [source]
 midonet> tunnel-zone tzone0 add member host host0 address 10.1.2.200
 +
-上記にあるソース内の注釈を下記に明記してあります:
+上記にあるソース内の注釈を下記に明記してあります。
 +
-* tzone0 = 新たにホストを追加したいトンネルゾーンのことを指します。
-* host0 = 追加したいホストのエイリアスのことを指します。
-* 10.1.2.200 = 追加したいホストのIPアドレスのことを指します。
+* tzone0 = 新たにホストを追加したいトンネルゾーンを指します。
+* host0 = 追加したいホストのエイリアスを指します。
+* 10.1.2.200 = 追加したいホストのIPアドレスを指します。
 

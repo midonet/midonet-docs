@@ -6,32 +6,32 @@
 <?dbhtml stop-chunking?>
 ++++
 
-MidoNet APIには2種類の認証モードがあります: KeystoneAuthServiceとMockAuthServiceです。
+MidoNet APIには、KeystoneAuthServiceとMockAuthServiceの2種類の認証モードがあります。
 
-このセクションは、Keystoneの認証サービスについて、模擬認証について、そしてweb.xmlファイルを使いどのようにして必要なサービスを選択するのかについてを説明します。
+このセクションでは、Keystoneの認証サービスと模擬認証、そしてweb.xmlファイルを使いどのようにして必要なサービスを選択するのかについて説明します。
 
 == Keystone特有の設定
 
-OpenStack Keystone認証サービスをMidoNetと使うため、web.xmlファイルを設定する必要があります。
+OpenStack Keystone認証サービスをMidoNetで使用するために、web.xmlファイルを設定する必要があります。
 
-これは、どのようにして認証サービスのためにKeystoneを規定をするか、ということになります。設定要素の名前: keystone-service_protocolとなり、認められた値: http, httpsとなります。プレーンテキストのHTTPを使い、httpを使ってKeystoneにアクセスすることが可能になります。しかし、もしhttpsを規定すると、MidoNet APIサーバーとKeystone認証サーバーの接続は暗号化されます。httpsが推奨されます。下記の例は、Keystoneを使って暗号化されたコミュニケーションの設定に使われた、XML内でエンコードされた名前と値キーのペアになります。
+認証サービスのためにKeystoneを規定についての説明です。設定要素の名前: keystone-service_protocolとなり、認められた値: http, httpsとなります。プレーンテキストのHTTPを使い、httpを使ってKeystoneにアクセスすることが可能になります。httpsを規定した場合、MidoNet APIサーバーとKeystone認証サーバーの接続は暗号化され、httpsが推奨されます。下記の例は、Keystoneを使って暗号化されたコミュニケーションの設定に使われた、XML内でエンコードされた名前と値キーのペアです。
 
 .Keystone Service Protocols
 [options="header"]
 |===============
 | Parameter Name | Value | Description
-| 2*|keystone-service_protocol | http | Keystoneサーバーと通信するため通常のHTTPを使ってください。
-| | https | Keystoneサーバーと通信するため暗号化されたHTTPSを使ってください。
+| 2*|keystone-service_protocol | http | Keystoneサーバーと通信するため通常のHTTPを使用
+| | https | Keystoneサーバーと通信するため暗号化されたHTTPSを使用
 |===============
 |====
 | Parameter Name | Value | Description
 .2+| keystone-service_protocol
-| http | Keystoneサーバーと通信するため通常のHTTPを使う。
-| https | Keystoneサーバーと通信するため暗号化されたHTTPSを使う。
+| http | Keystoneサーバーと通信するため通常のHTTPを使用
+| https | Keystoneサーバーと通信するため暗号化されたHTTPSを使用
 |====
 
 
-必要なサービスプロトコルを含むため、`/usr/share/midonet-api/WEB-INF/web.xml` ファイルを編集してください:
+必要なサービスプロトコルを含むため、`/usr/share/midonet-api/WEB-INF/web.xml` ファイルを編集してください。
 
 [source]
 <context-param>
@@ -41,7 +41,7 @@ OpenStack Keystone認証サービスをMidoNetと使うため、web.xmlファイ
 
 == 模擬認証について
 
-模擬認証は、`web.xml`の設定ファイル内にある全てのロールに偽のトークンをマッピングすることにより認証システムをまねるものです。もし、アドミンロールにマッピングされたトークンがAPIリクエストに使われると、認証と承認はきちんと無効にされます。
+模擬認証は、`web.xml`の設定ファイル内にある全てのロールにトークンをマッピングすることにより、認証システムをまねるものです。もし、アドミンロールにマッピングされたトークンがAPIリクエストに使われると、認証と承認は無効にされます。
 
 [WARNING]
-このモードはテスト目的で使われますが、プロダクションでは使われるべきではありません。
+このモードはテスト目的で使用するもので、プロダクションでは使用できません。

@@ -1,7 +1,7 @@
 [[enabling_keystone_authentication]]
 = Keystone認証の有効化
 
-MidoNetでOpenStack Keystone認証サービスを使うためには、web.xmlファイル内にいくつもの設定をする必要があります。
+MidoNetでOpenStack Keystone認証サービスを使うためには、web.xmlファイル内にいくつかの設定をする必要があります。
 
 ++++
 <?dbhtml stop-chunking?>
@@ -9,7 +9,7 @@ MidoNetでOpenStack Keystone認証サービスを使うためには、web.xmlフ
 
 == auth-auth_provider
 
-認証サービスを提供するJavaクラスの完全修飾パスをリスト化します。
+認証サービスを提供するJavaクラスの、完全修飾パスをリスト化します。
 
 [source]
 <context-param>
@@ -51,7 +51,7 @@ Keystoneサービスのポートナンバーを特定します。
 
 == keystone-admin_token
 
-APIがKeystoneにリクエストを作るのに使う、Keystone内のアドミンユーザーのトークンを特定します。
+APIが、Keystoneにリクエストを作るために使用するKeystone内のアドミンユーザーのトークンを特定します。
 
 [source]
 <context-param>
@@ -61,7 +61,7 @@ APIがKeystoneにリクエストを作るのに使う、Keystone内のアドミ�
 
 == auth-admin_role
 
-MidoNet内のアドミンユーザーの名前を特定します。アドミンは全てのリソースにリードアクセスとライトアクセスを持っています。OpenStackの”アドミン”ロールを再利用することを推奨します。MidoNet向けに別途アドミンロールを作成することも選択可能です。
+MidoNet内のアドミンユーザー名を特定します。アドミンは、全てのリソースにリードおよびライトアクセスを持っています。OpenStackの”アドミン”ロールを再利用することを推奨します。MidoNet向けに別途アドミンロールを作成することも選択可能です。
 
 [source]
 <context-param>
@@ -71,7 +71,7 @@ MidoNet内のアドミンユーザーの名前を特定します。アドミン�
 
 == keystone-tenant_name
 
-Keystoneにログインする際に使われたテナントの名前を規定します。Keystoneへのログイン認証にはユーザーネーム、パスワードそしてユーザーのテナントネームが必要です。ここでテナントネームを規定することにより、MidoNet API経由でKeystoneにログインする際にアプリケーションがテナントネームを提供する必要を避けることができます。
+Keystoneにログインする際に使われたテナント名を規定します。Keystoneへのログイン認証には、ユーザーネーム、パスワードそおよびユーザーのテナント名が必要です。ここでテナント名を規定することにより、MidoNet API経由でKeystoneにログインする際にアプリケーションがテナント名を提供する必要を避けることができます。
 
 [source]
 <context-param>

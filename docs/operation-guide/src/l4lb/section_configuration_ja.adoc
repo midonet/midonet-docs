@@ -3,14 +3,14 @@
 
 この手続きは、MidoNet内でロードバランサーを作成して設定する為に必要なステップを提供しています。それを行う為の、CLIコマンドの事例を示しています。
 
-MidoNetデプロイメントで利用可能なルーターのリストを決定することから始めましょう：
+MidoNetデプロイメントで利用可能なルーターのリストを決定することから始めてください。
 
 [source]
 midonet> list router
 router router0 name TenantRouter state up infilter chain0 outfilter chain1
 router router1 name MidoNet Provider Router state up
 
-見て分かるように、ロードバランサーを作成するテナントルーターはrouter0です。
+ロードバランサーを作成するテナントルーターはrouter0です。
 
 [IMPORTANT]
 MidoNetの中で、ルーターにはインバウンドとアウトバウンドのフィルターがあります。もし、ルーターの中のロードバランサーが、トラフィックのバランスを取るならば、これらのフィルターはスキップされます。OpenStackと一緒にMidoNetを使うならば、これらのフィルターは、ロードバランサーとは関連のないNATルールのみを通常含むことになります。しかし、ルーターのフィルターにたいして、カスタマイズしたルールを追加するならば、上記を考慮する価値はあります。
@@ -32,7 +32,7 @@ lb0:pool0
 midonet> load-balancer lb0 pool pool0 show
 pool pool0 load-balancer lb0 lb-method ROUND_ROBIN state up
 
-. 次に、たった今作成したターゲットのバックエンドサーバーを追加します。
+. 次に、作成したターゲットのバックエンドサーバーを追加します。
 +
 [source]
 midonet> load-balancer lb0 pool pool0 create member address 192.168.100.1 protocol-port 80
@@ -52,14 +52,14 @@ midonet> load-balancer lb0 pool pool0 vip vip0 show
 vip vip0 load-balancer lb0 address 203.0.113.2 protocol-port 8080 persistence SOURCE_IP state up
 +
 [NOTE]
-ポート8080はただ単なる事例です。ロードバランシングトラフィックのためのポートを使うには、最初に、それが他で使われていないことを確認する必要があります。
+ポート8080は参考例です。ロードバランシングトラフィックのためのポートを使うには、最初にそれが他で使われていないことを確認してください。
 
 .最後に、プロバイダールーター(router1)に適切なルーティングルールを挿入する必要があります。そうすることで、外部ネットワークからVIPに送られたパケットは、テナントルーターに対するパスを見つけることができます。
 Lastly, you must insert an appropriate routing rule on the provider router
 (router1) so that a packet sent from an external network to the VIP is able to
 find its way to the tenant router.
 
-.. 最初に、router router1 list portのようなコマンドを使って、プロバイダールーターのポートを識別します:
+.. 最初に、router router1 list portのようなコマンドを使って、プロバイダールーターのポートを識別します。
 +
 [source]
 midonet> router router1 list port

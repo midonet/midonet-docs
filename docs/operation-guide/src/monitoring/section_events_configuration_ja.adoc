@@ -13,4 +13,4 @@
 |MidoNet API server    |/usr/share/midonet-api/WEB-INF/classes/logback.xml
 |===============
 
-以下は、MidoNetのリリース時にデフォルト設定されているビヘイビアですが、好きなようにビヘイビアを設定することが可能です。logback.xmlファイルの設定方法についての説明はhttp://logback.qos.ch/manual/index.htmlをご参照ください。
+以下は、MidoNetのリリース時にデフォルト設定されていますが、好きなようにビヘイビアを設定することが可能です。logback.xmlファイルの設定方法についての説明はhttp://logback.qos.ch/manual/index.htmlをご参照ください。
