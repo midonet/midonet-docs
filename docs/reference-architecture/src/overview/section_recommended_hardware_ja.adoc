@@ -7,7 +7,7 @@
 [options="header"]
 |===============
 |ハードウェア|要件
-|Network State Database、APIおよびエージェントノード|
+|ネットワークステイトデータベース、APIおよびエージェントノード|
     CPU： 64-ビット x86、クアッドコア以上
 
     メモリ： 32GB以上（RAM）
@@ -24,14 +24,10 @@
 
     ネットワーク： 1Gbit以上x 3
 |NICカード：|
-    For a high-performance data network: 複数のキューとMSI‐XをサポートするNICを使用
-|Top of Rackスイッチ|
-    ジャンプフレームをサポートするノンブロッキングマルチレイヤスイッチ（L2/L3）
-|Hard Disks|
-    Ideally, both the ZooKeeper transaction log and Cassandra data files need
-    their own dedicated disks, with additional disks for other services on the
-    host. However, for small POCs and small deployments, it is ok to share the
-    Cassandra disk with other services and just leave the Zookeeper transaction
-    log on its own.
+    高性能データネットワーク: 複数のキューとMSI‐XをサポートするNICを使用
+|トップオブラックスイッチ|
+    ジャンプフレームをサポートするノンブロッキングマルチレイヤースイッチ（L2/L3）
+|ハードィスク|
+     理想的には、ZooKeeperのトランザクションログとCassandraデータファイルは、ホスト上の他のサービスの追加が可能な専用ディスクが必要です。ただし、小規模なPOCSやデプロイメントの場合は、Cassandraディスクを他のサービスと共有し、ZooKeeperのトランザクションログを専用にするだけでも構いません。
 |===============
 

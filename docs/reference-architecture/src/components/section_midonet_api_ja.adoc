@@ -1,7 +1,7 @@
 [[midonet_api]]
 = MidoNet API
 
-MidoNet APIはHTTP（Hypertext Transfer Protocol）で実行するRESTful APIです。外部のアプリケーション（クラウドコントローラを含む）と内部のMidoNetの構成の間に統合ポイントを提供します。
+MidoNet APIはHTTP（Hypertext Transfer Protocol）で実行するレスとフルAPIです。外部のアプリケーション（クラウドコントローラを含む）と内部のMidoNetの構成の間に統合ポイントを提供します。
 
 REST APIはステートレスなため、RESTサーバーを追加するだけでそのサービスを拡張できます。 REST APIには状態管理サーバー（Apache ZookeeperおよびCassandra）への接続が必要です。 REST APIで認証を使用する場合、OpenStack Keystoneのアイデンティティサービスを利用できます。
 
@@ -21,7 +21,7 @@ MidoNet APIサーバーはサーブレットコンテナでホストできます
 
 特別なロードバランス機能は不要なため、任意のロードバランサーを使用できます。
 
-== アクセス可能性に関する注意事項
+== アクセスに関する注意事項
 
 Apache TomcatサーバーはデフォルトでポートTCP/8080を使用します。
 
