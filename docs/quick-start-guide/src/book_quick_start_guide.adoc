@@ -21,6 +21,7 @@ include::{sourcedir}/common/basic_environment/section_repository_configuration_{
 include::{sourcedir}/{operating_system}/basic_environment/listitem_repo_config_operating_system_{lang}.adoc[]
 include::{sourcedir}/{operating_system}/{openstack_version}/basic_environment/listitem_repo_config_openstack_{lang}.adoc[]
 include::{sourcedir}/{operating_system}/basic_environment/listitem_repo_config_datastax_{lang}.adoc[]
+include::{sourcedir}/{operating_system}/basic_environment/listitem_repo_config_java8_{lang}.adoc[]
 include::{sourcedir}/{operating_system}/{openstack_version}/basic_environment/listitem_repo_config_midonet_{lang}.adoc[]
 include::{sourcedir}/{operating_system}/basic_environment/listitem_install_updates_{lang}.adoc[]
 include::{sourcedir}/common/basic_environment/listitem_reboot_system_{lang}.adoc[]

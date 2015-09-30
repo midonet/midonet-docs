@@ -1,0 +1,27 @@
+. *Configure Java 8 repository*
++
+Since Ubuntu 14.04 does not provide a Java 8 runtime environment in its
+repositories, we are going to use Zulu, the OpenJDK implementation from
+http://www.azulsystems.com/products/zulu[Azul Systems].
+
++
+====
+Create the `/etc/apt/sources.list.d/azulsystems.list` file and edit it to
+contain the following:
+
+[source]
+----
+# Azul Systems (Zulu)
+deb http://repos.azulsystems.com/ubuntu stable main
+----
+====
+
++
+====
+Download and install the repository's key:
+
+[source]
+----
+# apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x219BD9C9
+----
+====

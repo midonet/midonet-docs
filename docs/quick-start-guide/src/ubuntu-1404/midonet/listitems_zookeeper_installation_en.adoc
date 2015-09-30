@@ -3,6 +3,7 @@
 ====
 [source]
 ----
+# apt-get install openjdk-7-jre-headless
 # apt-get install zookeeper zookeeperd zkdump
 ----
 ====

@@ -1,0 +1,26 @@
+. *Java 8 のレポジトリを構成する*
++
+Ubuntu 14.04のリポジトリではJava 8ランタイム環境が提供されていないので、
+http://www.azulsystems.com/products/zulu[Azul Systems]
+のZuluというOpenJDKの実装を使用します。
+
++
+====
+`/etc/apt/sources.list.d/azulsystems.list` ファイルを作成し、修正して次を含めます。
+
+[source]
+----
+# Azul Systems (Zulu)
+deb http://repos.azulsystems.com/ubuntu stable main
+----
+====
+
++
+====
+レポジトリのキーをダウンロードしてインストールする。
+
+[source]
+----
+# apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x219BD9C9
+----
+====

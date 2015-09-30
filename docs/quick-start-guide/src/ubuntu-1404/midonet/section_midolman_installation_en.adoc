@@ -9,6 +9,7 @@ enters or leaves the virtual topology, in this guide this are the
 ====
 [source]
 ----
+# apt-get install zulu-8
 # apt-get install midolman
 ----
 ====

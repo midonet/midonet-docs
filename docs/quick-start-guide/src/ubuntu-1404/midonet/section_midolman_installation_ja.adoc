@@ -9,6 +9,7 @@
 ====
 [source]
 ----
+# apt-get install zulu-8
 # apt-get install midolman
 ----
 ====
