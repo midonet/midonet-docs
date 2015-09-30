@@ -1,0 +1,395 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_0b4f496c",
+        "filename": "docs/operation-guide/src/services/section_services_compute_ja.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "midolman",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_8bb0b944",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "uppercase",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_ababb5d4",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "uppercase",
+      "range": {
+        "startLine": 78,
+        "startChar": 14,
+        "endLine": 78,
+        "endChar": 17
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_0b84a95c",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "\"The Nova side\"",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 9
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_4b7eb16c",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "See the OpenStack documentation for details.",
+      "range": {
+        "startLine": 83,
+        "startChar": 28,
+        "endLine": 83,
+        "endChar": 65
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_2b87a562",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "as when using Neutron",
+      "range": {
+        "startLine": 82,
+        "startChar": 60,
+        "endLine": 83,
+        "endChar": 10
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_2beec522",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midolman_installation_ja.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "uppercase",
+      "range": {
+        "startLine": 70,
+        "startChar": 35,
+        "endLine": 70,
+        "endChar": 38
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_4bf5d1ec",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midolman_installation_ja.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "uppercase",
+      "range": {
+        "startLine": 72,
+        "startChar": 61,
+        "endLine": 72,
+        "endChar": 64
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_2ba085f3",
+        "filename": "docs/reference-architecture/src/architecture/section_metadata_server_en.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "Would remove that, content already said in the previous sentence.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 64
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_2b796593",
+        "filename": "docs/reference-architecture/src/architecture/section_metadata_server_en.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "Make it \"In an OpenStack environment\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_4b7071a5",
+        "filename": "docs/reference-architecture/src/architecture/section_metadata_server_en.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "Make \"API\" all uppercase for consistency.",
+      "range": {
+        "startLine": 9,
+        "startChar": 66,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_8b6999c0",
+        "filename": "docs/reference-architecture/src/architecture/section_metadata_server_en.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_6b736db1",
+        "filename": "docs/reference-architecture/src/architecture/section_metadata_server_en.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "Make \"API\" all uppercase for consistency.",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_4ba7910c",
+        "filename": "docs/reference-architecture/src/architecture/section_metadata_server_ja.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "Would remove that, content already said in the previous sentence.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 31
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_eb477d49",
+        "filename": "docs/reference-architecture/src/architecture/section_metadata_server_ja.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "Make \"API\" all uppercase for consistency.",
+      "range": {
+        "startLine": 8,
+        "startChar": 36,
+        "endLine": 8,
+        "endChar": 39
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_8b42793c",
+        "filename": "docs/reference-architecture/src/architecture/section_metadata_server_ja.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "I\u0027d remove this. The version has been changed to v5.0, and this patch will only go into the v5.0 docs only anyway, so no need to explicitly mention it.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 16
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_0b7669a4",
+        "filename": "docs/reference-architecture/src/architecture/section_metadata_server_ja.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-09-30T01:04:39Z",
+      "side": 1,
+      "message": "Make \"API\" all uppercase for consistency.",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "df180b598f3ecc1035209facf989cad458acfaf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
