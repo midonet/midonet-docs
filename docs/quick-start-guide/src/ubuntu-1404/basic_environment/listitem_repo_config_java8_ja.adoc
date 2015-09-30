@@ -1,0 +1,26 @@
+. *Java 8 のレポジトリを構成する*
++
+Ubuntu 14.04のリポジトリではJava 8ランタイム環境が提供されていないので、
+https://launchpad.net/~openjdk-r/[Launchpad PPA for OpenJDK]
+を使用します。
+
++
+====
+`/etc/apt/sources.list.d/openjdk-8.list` ファイルを作成し、修正して次を含めます。
+
+[source]
+----
+# OpenJDK 8
+deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main
+----
+====
+
++
+====
+レポジトリのキーをダウンロードしてインストールする。
+
+[source]
+----
+# apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x86F44E2A
+----
+====

@@ -9,6 +9,7 @@ enters or leaves the virtual topology, in this guide this are the
 ====
 [source]
 ----
+# apt-get install openjdk-8-jre-headless
 # apt-get install midolman
 ----
 ====

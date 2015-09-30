@@ -9,6 +9,7 @@ enters or leaves the virtual topology, in this guide this are the
 ====
 [source]
 ----
+# yum install java-1.8.0-openjdk-headless
 # yum install midolman
 ----
 ====
