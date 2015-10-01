@@ -1,53 +1,47 @@
 [[vm_interconnectivity]]
-= VM Interconnectivity
+= VM の相互接続
 
 ++++
 <?dbhtml stop-chunking?>
 ++++
 
-== Scenario
+== 状況
 
-VM1 can not send TCP traffic to VM2.
+VM1 が TCP トラフィックを VM2 に送信できません。
+パケットがどこまで到達してから失われたかを特定する必要があります。
 
-We want to determine how far the packet is reaching before being lost.
 
-== Determine physical compute hosts
+== 物理コンピューティングホストを特定する
 
-To find out on which physical compute hosts these VMs live on, log into Horizon
-as administrative user and navigate to the instances page.
+どの物理コンピューティングホストに VM が配置されているかを調べるには、Horizon に管理ユーザーとしてログインして、インスタンスページに移動します。
 
-Find the VMs in the list and note the down the compute hosts, Internal IPs and
-Floating IPs:
+VM をリスト内で検索し、コンピューティングホスト、内部 IP、フローティング IP を書き留めておきます。
 
 VM1: compute1, 192.168.0.1, 172.16.0.1
 
 VM2: compute2, 192.168.0.2, 172.16.0.2
 
-== Determine TAP interfaces
+== インターフェースを特定する
 
-TAP interface names consists of the string "tap", followed by the first 11
-characters of the VM's port UUID.
+TAP インターフェース名は、文字列「tap」で始まり、VM のポート UUID の最初の 11 文字が続きます。
 
-To determine the VM's port UUID, navigate to the VM's network in Horizon and
-search the port list for the VM's internal IP. Construct the TAP interface name
-from it like in the following example:
+VM のポート UUID を特定するには、Horizon で VM のネットワークに移動し、ポートリストで VM の内部 IP
+を検索します。そこから、次の例のように TAP インターフェース名を作成します。
 
-Port UUID: **7aa08012-d0**6c-4c78-aee8-1fff7c063fed
+ポート UUID: **7aa08012-d0**6c-4c78-aee8-1fff7c063fed
 
-TAP interface: *tap7aa08012-d0*
+TAP インターフェース: *tap7aa08012-d0*
 
-== Examine the traffic on the TAP interfaces
+== インターフェースでトラフィックを検証する
 
-In order to verify if the traffic is being seen on a VM's virtual NIC without
-logging into the guest host, you can use `tcpdump` on the VM's TAP interface on
-the compute host.
+コンピューティングホストの VM の TAP インターフェースで tcpdump を使用すれば、ゲストホストにログインせずに VM の仮想 NIC でトラフィックが確認されているかどうかを検証できます。
 
 [literal,subs="quotes"]
 ----
 # tcpdump -n -i *tap7aa08012-d0*
 ----
 
-Watch packet counters on the TAP interface:
+TAP インターフェースでパケットカウンターを監視します。
 
 [literal,subs="quotes"]
 ----
