@@ -1,24 +1,19 @@
 [[midonet_config]]
-= MidoNet Configuration: mn-conf(1)
+= MidoNet 構成：mn-conf(1)
 
-MidoNet stores its configuration in the same ZooKeeper cluster that it uses
-to store network topology data.
+MidoNet は、ネットワークトポロジデータの保存に使用するものと同じ ZooKeeper クラスタに構成を保存します。
 
-Configuration can be read and managed via the +mn-conf(1)+ command line tool.
-Refer to its manpage for its full documentation, and to the next paragraphs
-for a light introduction.
+構成の読み取りと管理は、mn-conf(1) コマンドラインツールで行えます。
+詳細については、マニュアルページを参照してください。概要については、次の段落を参照してください。
 
-== Bootstrapping
+== ブートストラップ 
 
-The entire configuration of MidoNet is stored in ZooKeeper, however operators
-need to point mn-conf itself to the ZooKeeper cluster. The same is true
-for any MidoNet processes, such as its agent. They will fetch configuration
-from ZooKeeper but need its address to bootstrap that process.
+MidoNet の構成全体は ZooKeeper に保存されますが、オペレーターは mn-conf 自体を Zookeeper クラスタにポイントする必要があります。
+エージェントなどの MidoNet プロセスにも同じことが当てはまります。構成は ZooKeeper から取得しますが、そのプロセスをブートストラップするにはアドレスが必要です。
 
-Bootstrap configuration is read, in order of preference, from these sources:
+ブートストラップ構成は、設定の順序で次のソースから読み取られます。
 
-* The +MIDO_ZOOKEEPER_HOSTS+ and +MIDO_ZOOKEEPER_ROOT_KEY+ environment
-variables.
+* 環境変数 MIDO_ZOOKEEPER_HOSTS と MIDO_ZOOKEEPER_ROOT_KEY
 
 * +~/.midonetrc+
 
@@ -26,7 +21,7 @@ variables.
 
 * +/etc/midolman/midolman.conf+ (for backwards compatibility).
 
-These files should have .ini format, and look like this:
+これらのファイルは .ini 形式になっている必要があり、次のようになります。
 
 [source]
 ----
@@ -36,30 +31,21 @@ root_key = /midonet/v1
 ----
 
 [WARNING]
-Do not modify the root key unless you know what you are doing.
+自分が行っている操作がどのような結果になるかわからない場合は、ルートキーを変更しないでください。
 
-== Configuration sources
+== 構成ソース
 
-+mn-conf+ can store and manage a few different configuration documents:
+mn-conf では、少数のさまざまな構成ドキュメントを保存して管理できます。
 
-* Node specific configuration. These contain configuration keys that will
-apply only to a particular MidoNet node, identified by its UUID.
+* ノード固有の構成。 UUID で識別される、特定の MidoNet ノードのみに適用される構成キーが含まれます。
 
-* Configuration templates. These are chunks of configuration, stored by
-a user-given name that can be assigned to a set of MidoNet nodes.
+* 構成テンプレート。 構成チャンクであり、ユーザーが指定した名前で保存され、一連の MidoNet ノードに割り当てることができます。
 
-* The "default" configuration template. Configuration keys found here
-will be used by every MidoNet node in the system. But only if
-the first two sources don't override their values.
+* "default" 構成テンプレート。 これに含まれる構成キーは、システムのすべての MidoNet ノードによって使用されます。ただし、最初の 2 つのソースが値を無効にしない場合に限られます。
 
-* The configuration schemas. These are read only and contain default values
-and _documentation_ strings for every configuration key in MidoNet. The
-defaults found in these schemas will only apply if they are not overriden
-by one of the higher priority sources.
+* 構成スキーマ。読み取り専用であり、MidoNet のすべての構成キーのデフォルト値とドキュメンテーション文字列が含まれます。このスキーマに含まれるデフォルトは、優先順位の高いソースのいずれかによって無効にされない場合に限って適用されます。
 
-A single mn-conf command will dump the schemas, effectively getting the full
-list of all existing MidoNet configuration keys, their default values and their
-documentation:
+mn-conf コマンドを 1 回実行するだけでスキーマがダンプされ、既存のすべての MidoNet 構成キー、デフォルト値、ドキュメンテーションの完全なリストを効率的に取得できます。
 
 [source,bash]
 $ mn-conf dump -s
