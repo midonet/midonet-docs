@@ -55,6 +55,44 @@ $ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
 ----
 ====
 
+. *Configure node roles*
++
+====
+Run these steps in *each host* in order to set midolman conf and JVM settings.
+
+
+* Midolman config:
+[source,subs="specialcharacters,quotes"]
+----
+$ mn-conf template-set -h local -t TEMPLATE_NAME
+----
+
+Available templates:
+[source,subs="specialcharacters,quotes"]
+agent-compute-medium
+agent-compute-large
+agent-gateway-medium
+agent-gateway-large
+default (small)
+
+
+[NOTE]
+Large templates are recommended for production. DHCP/Metadata nodes can keep the default template.
+
+* Midolman JVM:
+
+For the JVM replace `/etc/midolman/midolman-env.sh` with one of these:
+
+[source,subs="specialcharacters,quotes"]
+----
+/etc/midolman/midolman-env.sh.compute.large
+/etc/midolman/midolman-env.sh.compute.medium
+/etc/midolman/midolman-env.sh.gateway.large
+/etc/midolman/midolman-env.sh.gateway.medium
+----
+====
+
+
 . *Start Midolman*
 +
 ====

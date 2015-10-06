@@ -21,7 +21,7 @@ Edit `/etc/midolman/midolman.conf` to point mn-conf to the ZooKeeper cluster:
 [source,subs="quotes"]
 ----
 [zookeeper]
-zookeeper_hosts = *_nsdb1_*:2181,*_nsdb1_*:2181,*_nsdb1_*:2181
+zookeeper_hosts = *_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181
 ----
 ====
 
@@ -42,7 +42,7 @@ zookeeper {
 }
 
 cassandra {
-    servers = "*_nsdb1_*,*_nsdb1_*,*_nsdb3_*"
+    servers = "*_nsdb1_*,*_nsdb2_*,*_nsdb3_*"
 }
 EOF
 ----
@@ -54,6 +54,44 @@ Run the following command to set the Cassandra replication factor:
 $ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
 ----
 ====
+
+. *Configure node roles*
++
+====
+Run these steps in *each host* in order to set midolman conf and JVM settings.
+
+
+* Midolman config:
+[source,subs="specialcharacters,quotes"]
+----
+$ mn-conf template-set -h local -t TEMPLATE_NAME
+----
+
+Available templates:
+[source,subs="specialcharacters,quotes"]
+agent-compute-medium
+agent-compute-large
+agent-gateway-medium
+agent-gateway-large
+default (small)
+
+
+[NOTE]
+Large templates are recommended for production. DHCP/Metadata nodes can keep the default template.
+
+* Midolman JVM:
+
+For the JVM replace `/etc/midolman/midolman-env.sh` with one of these:
+
+[source,subs="specialcharacters,quotes"]
+----
+/etc/midolman/midolman-env.sh.compute.large
+/etc/midolman/midolman-env.sh.compute.medium
+/etc/midolman/midolman-env.sh.gateway.large
+/etc/midolman/midolman-env.sh.gateway.medium
+----
+====
+
 
 . *Start Midolman*
 +
