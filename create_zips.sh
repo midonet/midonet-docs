@@ -12,6 +12,7 @@ BUILD_DIRS=(
     'quick-start-guide_rhel-7_juno-osp_ja'
     'quick-start-guide_rhel-7_juno-rdo_en'
     'quick-start-guide_rhel-7_juno-rdo_ja'
+    'quick-start-guide_rhel-7_kilo-osp_en'
     'quick-start-guide_rhel-7_kilo-rdo_en'
     'quick-start-guide_rhel-7_kilo-rdo_ja'
     'quick-start-guide_ubuntu-1404_juno_en'

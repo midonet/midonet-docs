@@ -1,0 +1,76 @@
+[[metadata_agent]]
+= Metadata Agent
+
+[NOTE]
+Since MidoNet does not have the concept of a Network Node like with the default
+OpenStack networking plugin, the Metadata Agent is going to be installed on the
+Controller Node.
+
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/version-7/red-hat-enterprise-linux-openstack-platform-7-installation-reference/76-configure-the-l3-agent/[7.6. Configuring the L3 Agent]
+instructions, but *note the following differences*.
+
+. *Configuring Authentication*
++
+====
+Apply as is.
+====
+
+. *Configuring the Interface Driver*
++
+====
+Do *not* apply.
+====
+
+. *Configuring External Network Access*
++
+====
+Do *not* apply.
+====
+
+. *Starting the L3 Agent*
++
+====
+Do *not* apply.
+====
+
+. *Starting the Metadata Agent*
++
+====
+Apply as is.
+====
+
+. *Enable leastrouter scheduling*
++
+====
+Do *not* apply.
+====
+
+{empty} +
+
+[[neutron_metadata_proxy]]
+. *Additional changes*
++
+====
+Edit the `/etc/neutron/metadata_agent.ini` file to contain the following:
+
+[literal,subs="quotes"]
+----
+[DEFAULT]
+[...]
+nova_metadata_ip = *_controller_*
+metadata_proxy_shared_secret = *_METADATA_SECRET_*
+----
+
+[NOTE]
+Use the same *_METADATA_SECRET_* as in the
+xref:nova_metadata_proxy[Nova configuration].
+
+Restart the Metadata Agent:
+
+[source]
+----
+# systemctl restart neutron-metadata-agent.service
+----
+====
