@@ -55,6 +55,48 @@ $ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
 ----
 ====
 
+. *Configure resource usage*
++
+====
+Run these steps on *each agent host* in order to configure resource usage.
+
+[IMPORTANT]
+For production environments the *large* templates are strongly recommended.
+
+.. *Midolman resource template*
++
+Run the following command to configure the Midolman resource template:
++
+[source,subs="specialcharacters,quotes"]
+----
+$ mn-conf template-set -h local -t *_TEMPLATE_NAME_*
+----
++
+Replace *_TEMPLATE_NAME_* with one of the following templates:
++
+[source,subs="specialcharacters,quotes"]
+----
+agent-compute-large
+agent-compute-medium
+agent-gateway-large
+agent-gateway-medium
+default
+----
+
+.. *Java Virtual Machine (JVM) resource template*
++
+Replace the default `/etc/midolman/midolman-env.sh` file with one of the below
+to configure the JVM resource template:
++
+[source,subs="specialcharacters,quotes"]
+----
+/etc/midolman/midolman-env.sh.compute.large
+/etc/midolman/midolman-env.sh.compute.medium
+/etc/midolman/midolman-env.sh.gateway.large
+/etc/midolman/midolman-env.sh.gateway.medium
+----
+====
+
 . *Configure MidoNet Metadata Proxy for all agents*
 +
 ====
