@@ -1,0 +1,64 @@
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/version-7/red-hat-enterprise-linux-openstack-platform-7-installation-reference/chapter-7-install-openstack-networking/[Chapter 7. Install OpenStack Networking]
+instructions, but *note the following differences*.
+
+
+. *7.1. Install the OpenStack Networking Packages*
++
+====
+Do *not* apply as is.
+
+Instead, install the following packages:
+
+[source]
+----
+# yum install openstack-neutron openstack-utils openstack-selinux python-neutron-plugin-midonet
+----
+
+
+====
+
+
+. *7.3. Common Networking Configuration*
++
+====
+Do *not* apply as is. Note the differences described in the following sections.
+====
+
+. *7.4. Configure the Networking Service*
++
+====
+Do *not* apply as is. Note the differences described in the following sections.
+====
+
+. *7.5. Configure the DHCP Agent*
++
+====
+Do *not* apply as is. Note the differences described in the following sections.
+====
+
+. *7.6. Create an External Network*
++
+====
+Do *not* apply.
+====
+
+. *7.7. Configuring the Plug-in Agent*
++
+====
+Do *not* apply.
+====
+
+. *7.8. Configure the L3 Agent*
++
+====
+Do *not* apply as is. Note the differences described in the following sections.
+====
+
+. *7.9. Validate the OpenStack Networking Installation*
++
+====
+Do *not* apply.
+====
+
