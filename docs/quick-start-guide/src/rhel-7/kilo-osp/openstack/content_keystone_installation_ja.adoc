@@ -1,0 +1,5 @@
+[IMPORTANT]
+Red Hatの文書の
+https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/version-7/red-hat-enterprise-linux-openstack-platform-7-installation-reference/chapter-3-install-the-identity-service/[Chapter 3. Install The Identity Service]
+の指示に従います。ただし、*次の追加事項に注意してください。*
+
