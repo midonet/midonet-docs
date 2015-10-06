@@ -53,6 +53,48 @@ $ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
 ----
 ====
 
+. *リソース使用の設定*
++
+====
+リソース使用を設定するために　*各エージェントホスト*　で下記の手順を実行します。
+
+[IMPORTANT]
+本番環境では *large* （大）テンプレートを強くお勧めします。
+
+.. *Midolman リソーステンプレート*
++
+Midolmanリソーステンプレートを設定するためには、次のコマンドを実行します。
++
+[source,subs="specialcharacters,quotes"]
+----
+$ mn-conf template-set -h local -t *_TEMPLATE_NAME_*
+----
++
+*_TEMPLATE_NAME_* を以下のいずれかのテンプレートに置き換えます。
++
+[source,subs="specialcharacters,quotes"]
+----
+agent-compute-large
+agent-compute-medium
+agent-gateway-large
+agent-gateway-medium
+default
+----
+
+.. *Java Virtual Machine (JVM) リソーステンプレート*
++
+JVMリソーステンプレートを設定するためには、デフォルトの `/etc/midolman/midolman-env.sh`
+ファイルを以下のいずれかに置き換えます。
++
+[source,subs="specialcharacters,quotes"]
+----
+/etc/midolman/midolman-env.sh.compute.large
+/etc/midolman/midolman-env.sh.compute.medium
+/etc/midolman/midolman-env.sh.gateway.large
+/etc/midolman/midolman-env.sh.gateway.medium
+----
+====
+
 . *Midolman を起動する*
 +
 ====
