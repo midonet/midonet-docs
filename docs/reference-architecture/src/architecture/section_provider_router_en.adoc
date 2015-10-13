@@ -23,5 +23,14 @@ Like other virtual ports with connections outside of MidoNet, each port is bound
 to a device (Ethernet interface) and a host. The host is a Gateway Node that is
 physically connected to the upstream router that goes out to a service provider.
 
-For more information on creating external networks, refer to
-http://docs.openstack.org/havana/install-guide/install/apt/content/install-neutron.configure-networks.html
+For more information on creating external networks, refer to OpenStack Documentation Install Guides,
+latest version is Kilo.
+
+Red Hat Enterprise Linux 7, CentOS 7, and Fedora 21:
+http://docs.openstack.org/kilo/install-guide/install/yum/content/neutron_initial-external-network.html
+
+Ubuntu 14.04:
+http://docs.openstack.org/kilo/install-guide/install/apt/content/neutron_initial-external-network.html
+
+openSUSE 13.2 and SUSE Linux Enterprise Server 12:
+http://docs.openstack.org/kilo/install-guide/install/zypper/content/neutron_initial-external-network.html
