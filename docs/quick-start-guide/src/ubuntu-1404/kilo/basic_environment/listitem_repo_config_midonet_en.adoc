@@ -8,7 +8,7 @@ the following:
 [source]
 ----
 # MidoNet
-deb http://repo.midonet.org/midonet/v2015.06 stable main
+deb http://repo.midonet.org/midonet/v5.0 stable main
 
 # MidoNet OpenStack Integration
 deb http://repo.midonet.org/openstack-kilo stable main
