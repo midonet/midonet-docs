@@ -727,4 +727,10 @@ padding-bottom:8px;
 border-bottom:1px solid #ccc;
 }
 
+tbody {
+    border-top: 15px solid transparent;
+}
 
+td {
+  padding: 10px;
+}

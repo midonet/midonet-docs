@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<products xmlns:xlink="http://www.w3.org/1999/xlink">
+   <latestpdf>MidoNet_Reference_Architecture_JA_2015.06-SNAPSHOT-latest.pdf</latestpdf>
+   <pdfoutname>MidoNet_Reference_Architecture_JA_2015.06-SNAPSHOT.pdf</pdfoutname>
+   <docname>MidoNet リファレンスアーキテクチャ</docname>
+   <productname>MidoNet リファレンス アーキテクチャ</productname>
+   <webappname>reference-architecture_ja</webappname>
+   <pominfo>
+      <groupid>org.midonet</groupid>
+      <artifactid>midonet-docs-reference-architecture-ja</artifactid>
+      <version>2015.06-SNAPSHOT</version>
+      <pomname>midonet-docs-reference-architecture-ja v2015.06-SNAPSHOT</pomname>
+   </pominfo>
+</products>

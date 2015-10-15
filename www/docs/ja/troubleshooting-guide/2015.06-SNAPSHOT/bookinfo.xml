@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<products xmlns:xlink="http://www.w3.org/1999/xlink">
+   <latestpdf>MidoNet_Troubleshooting_Guide_JA_2015.06-SNAPSHOT-latest.pdf</latestpdf>
+   <pdfoutname>MidoNet_Troubleshooting_Guide_JA_2015.06-SNAPSHOT.pdf</pdfoutname>
+   <docname>MidoNet トラブルシューティング ガイド</docname>
+   <productname>MidoNet トラブルシューティング ガイド</productname>
+   <webappname>troubleshooting-guide_ja</webappname>
+   <pominfo>
+      <groupid>org.midonet</groupid>
+      <artifactid>midonet-docs-troubleshooting-guide-ja</artifactid>
+      <version>2015.06-SNAPSHOT</version>
+      <pomname>midonet-docs-troubleshooting-guide-ja v2015.06-SNAPSHOT</pomname>
+   </pominfo>
+</products>
