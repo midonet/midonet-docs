@@ -46,7 +46,7 @@ header.pageheader {
   width: 100%;
   line-height: 1;
   font-family: 'Open Sans', sans-serif;
-  background: white url(http://www.midonet.org/i/header.jpg) no-repeat center center;
+  background: white url(https://www.midonet.org/i/header.jpg) no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -64,7 +64,7 @@ header.pageheader h1 {
   height: 58px;
   width: 201px;
   text-indent: -999em;
-  background: url('http://www.midonet.org/i/logo.png') no-repeat;
+  background: url('https://www.midonet.org/i/logo.png') no-repeat;
 }
 @media (min-width: 992px) {
   header.pageheader h1 {
