@@ -45,6 +45,30 @@
       "revId": "8a3c4121503d9f32ba0812183c34d443a05227ac",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_e0a9b825",
+        "filename": "docs/quick-start-guide/src/rhel-7/midonet/section_midolman_installation_en.adoc",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-10-16T06:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ab29df4_00906ceb",
+      "range": {
+        "startLine": 69,
+        "startChar": 60,
+        "endLine": 69,
+        "endChar": 103
+      },
+      "revId": "8a3c4121503d9f32ba0812183c34d443a05227ac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
