@@ -9,28 +9,19 @@ instructions, but *note the following differences*.
 . *To configure prerequisites*
 +
 ====
-Apply as is.
+Do *not* apply.
 ====
 
 . *To install the Networking components*
 +
 ====
 Do *not* apply.
-
-.. Instead, install the following package:
-+
-[source]
-----
-# apt-get install neutron-common
-----
-+
 ====
 
 . *To configure the Networking common components*
 +
 ====
-Do *not* apply step 'd. Enable the Modular Layer 2 (ML2) plug-in, router
-service, and overlapping IP addresses'.
+Do *not* apply.
 ====
 
 . *To configure the Modular Layer 2 (ML2) plug-in*
