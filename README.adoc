@@ -1,6 +1,6 @@
 = MidoNet Documentation
 
-This repository includes the following http://www.midonet.org/[MidoNet]
+This repository includes the following https://www.midonet.org/[MidoNet]
 documentation:
 
 * MidoNet Operation Guide
@@ -17,7 +17,7 @@ documentation:
 
 The documentation is written in
 https://en.wikipedia.org/wiki/AsciiDoc[AsciiDoc]. Consult the
-http://wiki.midonet.org/[MidoNet Wiki] for instructions on how to contribute.
+https://wiki.midonet.org/[MidoNet Wiki] for instructions on how to contribute.
 
 == Build Instructions
 
