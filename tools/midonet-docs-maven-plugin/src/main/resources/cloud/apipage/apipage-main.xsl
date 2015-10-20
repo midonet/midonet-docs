@@ -209,15 +209,15 @@
                   id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
                     <li>
-                      <a href="http://www.midonet.org"
+                      <a href="https://www.midonet.org"
                         title="Go to the Home page">Home</a>
                     </li>
                     <li>
-                      <a href="http://wiki.midonet.org/"
+                      <a href="https://wiki.midonet.org/"
                         title="Go to the MidoNet Wiki">Wiki</a>
                     </li>
                     <li class="active">
-                      <a href="http://docs.midonet.org/"
+                      <a href="https://docs.midonet.org/"
                         title="Go to MidoNet Documentation"
                         >Documentation</a>
                     </li>
