@@ -8,6 +8,7 @@ set -e
 BUILD_DIRS=(
     'operation-guide_en'
     'operation-guide_ja'
+    'quick-start-guide_rhel-7_kilo-osp_en'
     'quick-start-guide_rhel-7_kilo-rdo_en'
     'quick-start-guide_rhel-7_kilo-rdo_ja'
     'quick-start-guide_ubuntu-1404_kilo_en'

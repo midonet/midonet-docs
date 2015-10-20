@@ -1,0 +1,31 @@
+. *Enable MidoNet repositories*
++
+====
+
+Create the `/etc/yum.repos.d/midonet.repo` file and edit it to contain the
+following:
+
+[source]
+----
+[midonet]
+name=MidoNet
+baseurl=http://repo.midonet.org/midonet/v5.0/RHEL/7/stable/
+enabled=1
+gpgcheck=1
+gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
+
+[midonet-openstack-integration]
+name=MidoNet OpenStack Integration
+baseurl=http://repo.midonet.org/openstack-kilo/RHEL/7/stable/
+enabled=1
+gpgcheck=1
+gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
+
+[midonet-misc]
+name=MidoNet 3rd Party Tools and Libraries
+baseurl=http://repo.midonet.org/misc/RHEL/7/misc/
+enabled=1
+gpgcheck=1
+gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
+----
+====
