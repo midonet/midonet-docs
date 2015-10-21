@@ -1,0 +1,168 @@
+[[port_mirroring]]
+= Port mirroring
+
+Port mirroring lets operators monitor arbitrary subsets of traffic
+in the overlay in specified vports. This can be useful for passive
+monitoring or for active troubleshooting.
+
+MidoNet v5.0 introduces port mirroring based on these concepts:
+
+. A new type of virtual device: *mirror*.
+. Each mirror is associated with a destination virtual port, through
+its *to-port* attribute. This is where mirror traffic will be copied
+to.
+. Each mirror has a list of *matches*. Matches are conditions that match
+traffic exactly like conditions in rule chains do, they have the same
+attributes. These *matches* select which traffic will be captured by the mirror.
+. Ports, bridges and routers contain two lists of mirrors: inbound and
+outbound. These are the points at which mirrors may capture traffic.
+
+Operators can create mirrors, configure them to match the desired traffic
+and apply them at one or several points in the virtual topology.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Mirroring example
+
+Let's assume a simple overlay topology:
+
+. A virtual bridge with three virtual ports
+. A virtual router with:
+  .. One virtual port connected to an upstream physical router
+  .. One virtual port connected to the bridge
+. Two VMs connected to the remaining two ports in the bridge
+and addresses 192.168.1.10 and 192.168.1.11.
+
+If we inspect it with the CLI, it looks like this:
+
+[source]
+midonet> bridge list
+bridge bridge0 name a-tenant state up
+midonet> router list
+router router0 name gateway state up asn 0
+midonet> bridge bridge0 list port
+port port0 device bridge0 state up plugged no vlan 0 peer router0:port0
+port port1 device bridge0 state up plugged no vlan 0
+port port2 device bridge0 state up plugged no vlan 0
+midonet> router router0 list port
+port port0 device router0 state up plugged no mac ac:ca:ba:73:9c:05 address 192.168.1.1 net 192.168.1.0/24 peer bridge0:port0
+port port1 device router0 state up plugged no mac ac:ca:ba:a0:6b:43 address 10.0.0.1 net 10.0.0.0/24
+midonet>
+
+An operator wants to see/monitor some of the traffic in this overlay. Logging
+into the appropriate hypervisor where a VM may be running and executing tcpdump
+on the tap device where that VM is connected could work. However it's a
+cumbersome and error prone: one needs to find the particular hypervisor and
+tap. And it's not very flexible: one may want to monitor traffic that belongs
+to several VMs, or traffic as it looks like when it traverses a virtual router
+in the middle of the topology.
+
+.Preparing a monitoring namespace
+
+To get started with port mirroring, we need a port to mirror to. For this
+purpose, lets create an isolated monitoring bridge, add a port to it and
+hook up a Linux network namespace to the port, where we can run tcpdump
+or any other passive network monitoring tool.
+
+First, let's create the bridge and port:
+
+[source]
+midonet> bridge create name "Monitoring bridge"
+bridge1
+midonet> list bridge
+bridge bridge0 name a-tenant state up
+bridge bridge1 name Monitoring bridge state up
+midonet> bridge bridge1 add port
+bridge1:port0
+midonet>
+
+Now let's log into a hypervisor, which will be the monitoring machine, its
+hostname is *hypervisor01*. Let's create a network namespace in it and a veth
+pair we can bind to a MidoNet vport:
+
+[source]
+$ sudo ip netns add mon
+$ sudo ip link add name mondp type veth peer name monns
+$ sudo ip link set mondp up
+$ sudo ip link set monns netns mon
+$ sudo ip netns exec mon ip link set monns up
+$ sudo ip netns exec mon ip link set dev lo up
+
+Now we have a namespace named *mon*, which contains a network interface named
+*monns*. On the other side of the veth pair, *mondp* is ready to be bound to
+a midonet vport.
+
+Let's go on with that step, in *midonet-cli*. First, let's identify the
+monitoring host, we can use its host name, *hypervisor01* to filter the list of
+hosts:
+
+[source]
+midonet> host list name hypervisor01
+host host0 name hypervisor01 alive true addresses 10.1.0.1,127.0.0.1
+midonet>
+
+Now we can bind the "physical" monitoring namespace in the monitoring port in
+the virtual topology:
+
+[source]
+midonet> host host0 add binding port bridge1:port0 interface mondp
+host host0 interface mondp port bridge1:port0
+
+At this point, the monitoring network namespace is connected to MidoNet, albeit
+to a virtual bridge that has no other ports. However this is not a problem,
+because we are going to use it to mirror packets from other parts of the
+overlay.
+
+.Using port mirroring
+
+Once the monitoring namespace is ready, mirrors can be used to see copies of any
+subset of overlay traffic in the monitoring port. The operator just needs to
+create the mirrors with the appropriate matches and apply them to any point or
+points in the overlay topology.
+
+Let's see how an operator would monitor ip traffic within the tenant's bridge.
+In other words, the operator wants to see traffic that is local to the bridge
+and not traffic going towards or coming from the router.
+
+To achieve that, create a mirror that matches traffic in the 192.168.1.0/24
+network:
+
+[source]
+midonet> create mirror to-port bridge1:port0
+mirror0
+midonet> mirror mirror0 matches add dst 192.168.0.0/24 src 192.168.0.0/24
+src 192.168.0.0/24 dst 192.168.0.0/24
+midonet> mirror mirror0 list matches
+src 192.168.0.0/24 dst 192.168.0.0/24 fragment-policy any no-vlan false
+midonet>
+
+...and apply it to one of the two mirroring hooks in the bridge:
+
+[source]
+midonet> bridge bridge0 set in-mirrors mirror0
+midonet> bridge bridge0 show
+bridge bridge0 name a-tenant state up in-mirrors mirror0
+midonet>
+
+Now the operator can see all local traffic in that bridge by tcpdump'ing on
+the monitoring port:
+
+[source]
+hypervisor01$ sudo ip netns exec mon tcpdump -nei monns
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on monns, link-type EN10MB (Ethernet), capture size 65535 bytes
+
+By the same means, the operator could mirror any other slice of traffic and
+do so from any point in the virtual overlay. If a mirror is applied to the
+upstream facing port of the router, the mirror will see the MAC and IP
+addresses as that port sees them.
+
+Each mirror can be applied at any number of devices, and can hold several
+match conditions to capture different slices of traffic. Similarly, each
+mirroring hook in a device, can have several mirrors applied. Thus the
+operator has total freedom in selecting which traffic to monitor in his
+monitoring port, or, by creating different network interfaces and adding
+more vports to the monitoring bridge, he could also send different kinds
+of traffic to different monitoring ports.

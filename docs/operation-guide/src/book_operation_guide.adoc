@@ -110,6 +110,7 @@ include::{sourcedir}/monitoring/section_events_topology_{lang}.adoc[leveloffset=
 include::{sourcedir}/monitoring/section_events_api_{lang}.adoc[leveloffset=+4]
 include::{sourcedir}/monitoring/section_events_midolman_{lang}.adoc[leveloffset=+4]
 include::{sourcedir}/monitoring/section_packet_tracing_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/monitoring/section_port_mirroring_en.adoc[leveloffset=+2]
 
 // Chapter: VXLAN configuration
 include::{sourcedir}/vxlan/chapter_vxlan_{lang}.adoc[leveloffset=+1]
