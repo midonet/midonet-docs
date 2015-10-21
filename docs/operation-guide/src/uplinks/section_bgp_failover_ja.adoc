@@ -19,10 +19,13 @@ neighbor 192.0.2.1 timers connect 1
 
 [source]
 ----
-# bgpd
-bgp_connect_retry=1
-bgp_holdtime=3
-bgp_keepalive=1
+agent {
+    midolman {
+        bgp_connect_retry : 1s
+        bgp_holdtime : 3s
+        bgp_keepalive : 1s
+    }
+}
 ----
 
 

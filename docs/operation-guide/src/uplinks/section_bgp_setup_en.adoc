@@ -12,10 +12,6 @@ will distribute load between both Gateway Nodes hosts, as well as eliminate a
 single point of failure. The two ports must be configured as a stateful port
 pair, for details, refer to xref:stateful_port_groups[].
 
-[NOTE]
-One BGP session is associated with a virtual router port. MidoNet currently only
-supports one BGP session per port.
-
 MidoNet uses quagga‘s bgpd to terminate BGP sessions on behalf of a virtual
 router. The routes that bgpd learns from its peers are added to the virtual
 router in MidoNet's topology. The quagga package is provided in the MidoNet
