@@ -1,9 +1,10 @@
 [[midolman_configuration_options]]
 = MidoNet エージェント (Midolman)設定オプション
 
-このセクションは、/etc/midolman/midolman.confファイルの設定オプションすべてをカバーします。
+このセクションは、MidoNet エージェントの設定オプションすべてをカバーします。
 
-session_gracetime と buf_size_kbの設定値のみを除いて、デフォルトバリューの変更は推奨しません。
++zookeeper.session_gracetime+ と +agent.datapath.send_buffer_pool_buf_size_kb+
+の設定値のみを除いて、デフォルトバリューの変更は推奨しません。
 
 [WARNING]
 本当に必要が無い限り、ルートキー、クラスター名、キースーペースの変更を避けてください。
@@ -12,11 +13,11 @@ session_gracetime と buf_size_kbの設定値のみを除いて、デフォル�
 <?dbhtml stop-chunking?>
 ++++
 
-==ZooKeeperクラスターのフェイルの後のMidoNetビヘイビア
+== ZooKeeperクラスターのフェイルの後のMidoNetビヘイビア
 
 MidoNetエージェント、Midolmanで走っているノードは、バーチャルネットワークトポロジーオンデマンドのピースをロードするために、ライブのZooKeeperセッションに依拠しています。また仮想デバイスへのアップデートを監視しています。
 
-ZooKeeperにアクセスできなくなった時に、MidoNetエージェントのインスタンスは同じZooKeeperセッションをキープしている期間中に接続性をリカバリーする可能性がある時は、オペレーションが継続されます。midolman.conf.のthe zookeeper
+ZooKeeperにアクセスできなくなった時に、MidoNetエージェントのインスタンスは同じZooKeeperセッションをキープしている期間中に接続性をリカバリーする可能性がある時は、オペレーションが継続されます。mn-conf(1) のzookeeper
 session_gracetime設定を編集することで管理できるセッションタイムアウトによって、オペレーティングタイムの量は検知されます。
 
 一旦セッションが時間切れになったら、MidoNetエージェントは終了し、自らシャットダウンし、再ローンチするためのアップスタートのプロンプトを行います。
@@ -27,9 +28,10 @@ MidoNetエージェントがZooKeeperから切り離されて走っている時�
 
 * MidoNetエージェントは、仮想トポロジーへの更新は参照しません。したがって、
 session_gracetimeが経過しすぎているネットワークトポロジーのバージョンでパケットは処理されることがあります。
+
 * MidoNetエージェントは、ネットワークトポロジーの新しいピースのロードを行うことができません。ある特定のMidoNetエージェントにロードされたことのないデバイス上を通っていくパケットはエラーアウトされます。
 
-*MidoNetエージェントは、Address Resolution Protocol (ARP) テーブルや Media Access Control (MAC)ラーニングテーブル の更新を参照したり、処理をすることができません。
+* MidoNetエージェントは、Address Resolution Protocol (ARP) テーブルや Media Access Control (MAC)ラーニングテーブル の更新を参照したり、処理をすることができません。
 
 時間が経つに連れて、MidoNetエージェントはどんどん使えなくなってしまいます。上に示されているトレードオフ条件はセンシブルなsession_gracetimeバリューを選択する際のキーになります。このバリューのデフォルト値は30秒です。
 
@@ -37,21 +39,22 @@ ZooKeeperの接続性は、MidoNet APIサーバーにとって問題ではあり
 
 == ZooKeeper設定
 
-ZooKeeper 設定のセクションを使って、以下を調整します。
++mn-conf(1)+ の ZooKeeper 設定のセクションを使って、以下を調整します。
 
 * ZooKeeperセッションタイムアウトバリュー（ミリ秒単位） このバリューは、 ZooKeeper and と MidoNetエージェントの間の接続性に対して、システムがいつ介入するかを決定します。
 
-* セッショングレースタイムアウトバリュー (ミリ秒単位) このバリューはMidolmanがノードの停止を起こさずにZooKeeperに再接続できる期間を決定します。
+* セッショングレースタイムアウトバリュー (ミリ秒単位) このバリューはエージェントがノードの停止を起こさずにZooKeeperに再接続できる期間を決定します。
 
 * MidoNetデータのルートパス
 
 [source]
 ----
-[zookeeper]
-zookeeper_hosts = [see above]
-session_timeout = 30000
-midolman_root_key = /midonet/v1
-session_gracetime = 30000
+zookeeper {
+    zookeeper_hosts = <カンマ区切りのIPアドレス>
+    session_timeout = 30000
+    root_key = /midonet/v1
+    session_gracetime = 30000
+}
 ----
 
 == Cassandra 設定
@@ -62,120 +65,39 @@ session_gracetime = 30000
 
 * MidoNetクラスター名
 
-* MidoNetキースペース
-
 [source]
 ----
-[cassandra]
-servers = [see above]
-replication_factor = 1
-cluster = midonet
-keyspace = midolman
+cassandra {
+    servers = <カンマ区切りのIPアドレス>
+    replication_factor = 1
+    cluster = midonet
+}
 ----
 
-== ブリッジ設定
+== データパス設定
 
-仮想トポロジーでbridge-port-to-MAC-addressマッピングの使用期限を調整する為にブリッジ設定セクションを使うことができます。バリューはミリ秒で特定しましょう。下記が例です。
-    
-[source]
-----
-[bridge]
-mac_port_mapping_expire_millis=15000
-----
+The agent uses a pool of reusable buffers to send requests to the datapath. You
+may use the options in the +agent.datapath+ of mn-conf(1) to tune the pool's size
+and its buffers. One pool is created for each output channel, the settings
+defined here will apply to each of those pools.
 
-== ARP テーブル設定
-
-内部ARPテーブルトラッキングのタイムアウトバリューを調整する為にARPテーブルを活用することができます。
-
-* ARP リクエストのタイムアウト期間
-
-* ARPエントリーがいつ失効するか 
-
-* ARPエントリーがいつ期限切れになるか
-
-下記は事例です。
-
-[source]
-----
-[arptable]
-arp_retry_interval_seconds=10
-arp_timeout_seconds=60
-arp_stale_seconds=1800
-arp_expiration_seconds=3600
-----
-
-== Midolman設定
-
-Midolman設定セクションを使って、内部の MidoNet エージェント設定を管理することができます。ここで、特定できるのは
-
-* ネットワークステートデータベースのタイムアウト期間（この期間の後はMidoNetエージェントがシャットダウンする）
-* MidoNetエージェントステートのキャッシュタイプ
-
-* 期限切れになったオープンvSwitchフローをどれくらいの頻度でチェックするか 
-* メインプログラムのスレッドのクラッシュにいかに対応するか
-
-下記は事例です
-
-[source]
-----
-[midolman]
-disconnected_ttl_seconds=30
-cache_type=cassandra
-check_flow_expiration_interval=10000 # ミリ秒
-top_level_actor_supervisor=crash # 本番機を再開するために設定します
-----
-
-== ホスト設定
-/etc/midolman/host_uuid.propertiesファイルにUUIDバリューとして格納されています。MidoNetエージェントのアイデンティティを設定する為にホスト設定セクションを使うことができます。ここでは以下のものを調整できます。
-
-* アイデンティティファイルのロケーション
-
-* どのアイデンティティファイルが再スキャンされるかのインターバル期間
-
-下記が事例です
-
-[source]
-----
-[host]
-properties_file = /etc/midolman/host_uuid.properties
-wait_time_between_scans = 5000       # 5 * 1000 ミリ秒
-----
-
-== モニタリングの設定
-
-MidoNetエージェントによるメトリクスコレクションの設定と実現化のためにモニタリングセクションを活用することができます。集められた情報には以下のものがあります。
-
-* 定期的なJVM 統計情報
-
-* ZooKeeper コミュニケーション統計情報
-
-* MidoNetによってエクスポートされたメトリクス.
-
-仮想ポート統計情報をどれくらいの頻度（ミリ秒単位）でクエリするかを調整できます。
-
-[source]
-----
-[monitoring]
-enable_monitoring=false
-port_stats_request_time=1000
-----
-
-== データパス
-
-Midolmanはデータパスにリクエストを送る為の再利用可能なバファーのプールを使います。プールサイズとバファーのチューニングを行う為にこのセクションのオプションを使うことができます。ひとつのプールは各アウトプットチャネルのために作られます。ここで、定義される設定は、それらの各プールに適用できます。
+Midolmanはデータパスにリクエストを送る為の再利用可能なバファーのプールを使います。プールサイズとバファーのチューニングを行う為に mn-conf(1) の +agent.datapath+ セクションのオプションを使うことができます。ひとつのプールは各アウトプットチャネルのために作られます。ここで、定義される設定は、それらの各プールに適用できます。
 
 パケットサーズが、最大のバファーサイズを超えてしまったために、パフォーマンスが落ちてしまったことに気づいたときは、buf_size_kb設定の値を上げることができます。この設定はバファーサイズ（KB単位）をコントロールします。このバファーサイズはMidoNetエージェントが送ることができるパケットサイズの上限を規定します。Jumboフレームが横切るネットワークの中では、サイズを調整しましょう。そうすることで、一つのバファーが全体のフレームに乗っかることができ、フローアクションのために十分な余力も残すことできます。
 
 == BGP フェールオーバー設定
 
-デフォルトのBGPフェールオーバー時間は2,3分です。しかし、セッションの両端のいくつつかのパラメーターを変えることによってこの時間を減らすことができます：midolman.conf ファイル（MidoNet側）とBGPピア設定のリモート側です。下記の事例は、　MidoNet側でフェールオーバー時間を１分に減らすやり方を示している事例です。
+デフォルトのBGPフェールオーバー時間は2,3分です。しかし、セッションの両端のいくつつかのパラメーターを変えることによってこの時間を減らすことができます： +mn-conf(1)+（MidoNet側）とBGPピア設定のリモート側です。下記の事例は、　MidoNet側でフェールオーバー時間を１分に減らすやり方を示している事例です。
 
 [source]
 ----
-# bgpd
-bgp_connect_retry=1
-bgp_holdtime=3
-bgp_keepalive=1
+agent {
+    midolman {
+        bgp_connect_retry=1
+        bgp_holdtime=3
+        bgp_keepalive=1
+    }
+}
 ----
 
-ホストのmidolman.confファイルの設定は、BGPピア設定のリモートエンドのものとマッチしている必要があります。設定に関するより詳細な情報はxref:bgp_failover[]をご参照ください。
+ホストの mn-conf の設定は、BGPピア設定のリモートエンドのものとマッチしている必要があります。設定に関するより詳細な情報はxref:bgp_failover[]をご参照ください。
