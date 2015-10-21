@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ab29df4_381753ef",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1002763
+      },
+      "writtenOn": "2015-10-21T15:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ab29df4_5d7959fb",
+      "range": {
+        "startLine": 163,
+        "startChar": 32,
+        "endLine": 163,
+        "endChar": 35
+      },
+      "revId": "1b975c0272658f21321349beed02c3da12839c73",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab29df4_bd88b5e8",
         "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_en.adoc",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-21T14:49:21Z",
       "side": 1,
       "message": "first?",
+      "range": {
+        "startLine": 169,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 8
+      },
+      "revId": "1b975c0272658f21321349beed02c3da12839c73",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_181a8f17",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1002763
+      },
+      "writtenOn": "2015-10-21T15:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ab29df4_bd88b5e8",
       "range": {
         "startLine": 169,
         "startChar": 4,
