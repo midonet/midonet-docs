@@ -20,7 +20,7 @@ The following instructions assume below sample environment:
 
 * Two remote BGP peers
 ** _bgp1_, _198.51.100.1_, AS _64513_
-** _bgp2_, _203.0.113.1_, AS _64513_
+** _bgp2_, _203.0.113.1_, AS _64514_
 
 * Corresponding MidoNet BGP peers
 ** _198.51.100.2_, AS _64512_
@@ -100,17 +100,19 @@ In this example the created ports are *_port0_* and *_port1_*.
 +
 [literal,subs="quotes"]
 ----
-midonet> router *_router0_* port *_port0_* add bgp local-AS *_64512_* peer-AS *_64513_* peer *_198.51.100.1_*
-*_router0:port0:bgp0_*
+midonet> router *_router0_* set asn *_64512_*
+midonet> router *_router0_* add bgp-peer asn *_64513_* address *_198.51.100.1_*
+*_router0:peer0_*
 
-midonet> router *_router0_* port *_port0_* list bgp
-bgp bgp0 local-AS 64512 peer-AS 64513 peer 198.51.100.1
+midonet> router *_router0_* list bgp-peer
+peer peer0 asn 64513 address 198.51.100.1
 
-midonet> router *_router0_* port *_port1_* add bgp local-AS *_64512_* peer-AS *_64513_* peer *_203.0.113.1_*
-*_router0:port1:bgp0_*
+midonet> router *_router0_* add bgp-peer asn *_64514_* address *_203.0.113.1_*
+*_router0:peer1_*
 
-midonet> router *_router0_* port *_port1_* list bgp
-bgp bgp0 local-AS 64512 peer-AS 64513 peer 203.0.113.1
+midonet> router *_router0_* list bgp-peer
+peer peer0 asn 64513 address 198.51.100.1
+peer peer1 asn 64514 address 203.0.113.1
 ----
 
 . Add routes to the remote BGP peers
@@ -134,17 +136,11 @@ floating IP network has to be advertised to the BGP peers.
 +
 [literal,subs="quotes"]
 ----
-midonet> router *_router0_* port *_port0_* bgp *_bgp0_* add route net *_192.0.2.0/24_*
-router0:port0:bgp0:ad-route0
+midonet> router *_router0_* add bgp-network net *_192.0.2.0/24_*
+router0:net0
 
-midonet> router router0 port port0 bgp bgp0 list route
-ad-route ad-route0 net 192.0.2.0/24
-
-midonet> router *_router0_* port *_port1_* bgp *_bgp0_* add route net *_192.0.2.0/24_*
-router0:port0:bgp0:ad-route0
-
-midonet> router router0 port port1 bgp bgp0 list route
-ad-route ad-route0 net 192.0.2.0/24
+midonet> router router0 list bgp-network
+net net0 net 192.0.2.0/24
 ----
 
 . Bind virtual ports to physical network interfaces
