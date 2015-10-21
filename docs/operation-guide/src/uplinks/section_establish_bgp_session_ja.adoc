@@ -33,7 +33,7 @@ router router0 name MidoNet Provider Router
 +
 cleartコマンドは、CLIにロードされているテナントを取り除きます。プロバイダールーターにはテナントIDセットが無いので、テナントをまず最初に取り除く必要があります。
 
-.アドミンテナントをロードする為に以下のコマンドを発行します。
+. アドミンテナントをロードする為に以下のコマンドを発行します。
 +
 [literal,subs="quotes"]
 midonet> sett _admin_
