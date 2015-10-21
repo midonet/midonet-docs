@@ -50,7 +50,7 @@ Escape character is '^]'.
 +
 そして、<param-value>タグのバリューを’true’に変更してください。
 
-..変更を適用するためにTomcatを再起動します。
+.. 変更を適用するためにTomcatを再起動します。
 
 . VTEPが正しく設定できたことを確認できれば、VTEPをMidoNet設定に追加することができます。
 +

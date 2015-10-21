@@ -11,14 +11,9 @@
 
 *mn-conf(1) の +agent.midolman+ セクション*
 
-*midolman.conf*
-
-*[midolman]*
-
 simulation_threads - パケット処理に専属的に使われるスレッドの数
 
 output_channels - フロー作成とパケット実行に活用されるアウトプットチャネルの数。各チャネルには専属スレッドがあります。
-.
 
 input_channel_threading - 各データポートからパケットを受け取る為に、MidoNetエージェントは、専属のNetlinkチャネルを作成します。このオプションは、それらのチャネルにおける、読み込みのスレッドストラテジーをチューチングします。one_to_manyの場合は、全てのインプットチャネルに対して、エージェントは一つのスレッドを使います。one_to_oneの場合は、各インプットチャネルに対して、エージェントが一つのスレッドを使います。
 
@@ -44,7 +39,8 @@ HEAP_NEWSIZE - エデンのガベージコレクション生成に使われるJV
 
 == 推奨値
 
-.推奨される設定値 [options="header"]
+.推奨される設定値
+[options="header"]
 |===============
 |File|Section|Option|Compute|Gateway|L4 Gateway
 

@@ -98,7 +98,7 @@ cassandra {
 }
 ----
 
-== MidoNet Agent datapath configuration
+== Datapath configuration
 
 The agent uses a pool of reusable buffers to send requests to the datapath. You
 may use the options in the +agent.datapath+ of mn-conf(1) to tune the pool's size

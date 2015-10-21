@@ -25,8 +25,7 @@ tenant on which you want to create your port group. To this end, you can use
 keystone. Issue the following commands in the terminal on the MidoNet host:
 
 [source]
-[root@rhos5-allinone-jenkins ~]# source keystonerc_admin
-[root@rhos5-allinone-jenkins ~(keystone_admin)]# keystone tenant-list
+# keystone tenant-list
 +----------------------------------+----------+---------+
 |                id                |   name   | enabled |
 +----------------------------------+----------+---------+
