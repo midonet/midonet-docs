@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab29df4_d5261d68",
+        "filename": "docs/operation-guide/src/monitoring/section_port_mirroring_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002770
+      },
+      "writtenOn": "2015-10-22T14:41:59Z",
+      "side": 1,
+      "message": "flexible",
+      "range": {
+        "startLine": 54,
+        "startChar": 23,
+        "endLine": 54,
+        "endChar": 32
+      },
+      "revId": "fd508635c99f3935073a1cbb49be9f1acf59239f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_15ced583",
+        "filename": "docs/operation-guide/src/monitoring/section_port_mirroring_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1002770
+      },
+      "writtenOn": "2015-10-22T14:41:59Z",
+      "side": 1,
+      "message": "virtual",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 10
+      },
+      "revId": "fd508635c99f3935073a1cbb49be9f1acf59239f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_75c5515a",
+        "filename": "docs/operation-guide/src/monitoring/section_port_mirroring_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002770
+      },
+      "writtenOn": "2015-10-22T14:41:59Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 114,
+        "startChar": 60,
+        "endLine": 114,
+        "endChar": 68
+      },
+      "revId": "fd508635c99f3935073a1cbb49be9f1acf59239f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_559f6d5f",
+        "filename": "docs/operation-guide/src/monitoring/section_port_mirroring_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1002770
+      },
+      "writtenOn": "2015-10-22T14:41:59Z",
+      "side": 1,
+      "message": "mirroring",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 9
+      },
+      "revId": "fd508635c99f3935073a1cbb49be9f1acf59239f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
