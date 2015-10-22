@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ab29df4_f2409758",
+        "filename": "docs/operation-guide/src/monitoring/section_port_mirroring_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002763
+      },
+      "writtenOn": "2015-10-22T13:16:34Z",
+      "side": 1,
+      "message": "right, will change.",
+      "parentUuid": "9ab29df4_9263db19",
+      "range": {
+        "startLine": 5,
+        "startChar": 15,
+        "endLine": 5,
+        "endChar": 32
+      },
+      "revId": "5e3aec798764dad00f4876d690c07637c52d9894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab29df4_72a72750",
         "filename": "docs/operation-guide/src/monitoring/section_port_mirroring_en.adoc",
         "patchSetId": 2
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "9ab29df4_d23b93e9",
+        "filename": "docs/operation-guide/src/monitoring/section_port_mirroring_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002763
+      },
+      "writtenOn": "2015-10-22T13:16:34Z",
+      "side": 1,
+      "message": "i meant \"...like rule chains do\", but took the \"do\" as implicit. Does it read badly?",
+      "parentUuid": "9ab29df4_b268dff6",
+      "range": {
+        "startLine": 15,
+        "startChar": 21,
+        "endLine": 15,
+        "endChar": 25
+      },
+      "revId": "5e3aec798764dad00f4876d690c07637c52d9894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab29df4_f27257e4",
         "filename": "docs/operation-guide/src/monitoring/section_port_mirroring_en.adoc",
         "patchSetId": 2
@@ -82,6 +130,30 @@
       "writtenOn": "2015-10-22T13:08:53Z",
       "side": 1,
       "message": "Not really all. Maybe just say Ports, bridges and routers contain two lists of mirrors:",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 5
+      },
+      "revId": "5e3aec798764dad00f4876d690c07637c52d9894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_32220fba",
+        "filename": "docs/operation-guide/src/monitoring/section_port_mirroring_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002763
+      },
+      "writtenOn": "2015-10-22T13:16:34Z",
+      "side": 1,
+      "message": "right, will change.",
+      "parentUuid": "9ab29df4_f27257e4",
       "range": {
         "startLine": 17,
         "startChar": 2,
