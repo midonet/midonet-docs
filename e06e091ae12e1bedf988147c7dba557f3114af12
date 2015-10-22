@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab29df4_32868fba",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002754
+      },
+      "writtenOn": "2015-10-22T13:01:44Z",
+      "side": 1,
+      "message": "one or more",
+      "range": {
+        "startLine": 184,
+        "startChar": 24,
+        "endLine": 184,
+        "endChar": 30
+      },
+      "revId": "e06e091ae12e1bedf988147c7dba557f3114af12",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
