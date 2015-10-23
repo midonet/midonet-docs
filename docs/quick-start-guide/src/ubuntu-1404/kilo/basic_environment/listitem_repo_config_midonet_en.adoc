@@ -8,13 +8,13 @@ the following:
 [source]
 ----
 # MidoNet
-deb http://repo.midonet.org/midonet/v5.0 stable main
+deb http://builds.midonet.org/midonet-5 stable main
 
 # MidoNet OpenStack Integration
-deb http://repo.midonet.org/openstack-kilo stable main
+deb http://builds.midonet.org/openstack-kilo stable main
 
 # MidoNet 3rd Party Tools and Libraries
-deb http://repo.midonet.org/misc stable main
+deb http://builds.midonet.org/misc stable main
 ----
 ====
 
@@ -24,6 +24,6 @@ Download and install the repositories' key:
 
 [source]
 ----
-# curl -L http://repo.midonet.org/packages.midokura.key | apt-key add -
+# curl -L http://builds.midonet.org/midorepo.key | apt-key add -
 ----
 ====

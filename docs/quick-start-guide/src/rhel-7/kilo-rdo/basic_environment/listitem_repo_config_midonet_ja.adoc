@@ -8,24 +8,24 @@
 ----
 [midonet]
 name=MidoNet
-baseurl=http://repo.midonet.org/midonet/v5.0/RHEL/7/stable/
+baseurl=http://builds.midonet.org/midonet-5/stable/el7/
 enabled=1
 gpgcheck=1
-gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
+gpgkey=http://builds.midonet.org/midorepo.key
 
 [midonet-openstack-integration]
 name=MidoNet OpenStack Integration
-baseurl=http://repo.midonet.org/openstack-kilo/RHEL/7/stable/
+baseurl=http://builds.midonet.org/openstack-kilo/stable/el7/
 enabled=1
 gpgcheck=1
-gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
+gpgkey=http://builds.midonet.org/midorepo.key
 
 [midonet-misc]
 name=MidoNet 3rd Party Tools and Libraries
-baseurl=http://repo.midonet.org/misc/RHEL/7/misc/
+baseurl=http://builds.midonet.org/misc/stable/el7/
 enabled=1
 gpgcheck=1
-gpgkey=http://repo.midonet.org/RPM-GPG-KEY-midokura
+gpgkey=http://builds.midonet.org/midorepo.key
 ----
 ====
 
