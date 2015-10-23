@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "9ab29df4_e649b98c",
+        "filename": "docs/operation-guide/src/monitoring/section_port_mirroring_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1002754
+      },
+      "writtenOn": "2015-10-23T09:58:11Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 77,
+        "startChar": 71,
+        "endLine": 77,
+        "endChar": 75
+      },
+      "revId": "fd508635c99f3935073a1cbb49be9f1acf59239f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab29df4_15ced583",
         "filename": "docs/operation-guide/src/monitoring/section_port_mirroring_en.adoc",
         "patchSetId": 3
