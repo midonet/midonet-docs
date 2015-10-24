@@ -30,8 +30,11 @@ MidoNet end of the BGP session:
 
 [source]
 ----
-# bgpd
-bgp_connect_retry=1
-bgp_holdtime=3
-bgp_keepalive=1
+agent {
+    midolman {
+        bgp_connect_retry : 1s
+        bgp_holdtime : 3s
+        bgp_keepalive : 1s
+    }
+}
 ----
