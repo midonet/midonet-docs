@@ -7,25 +7,23 @@ LogicalSwitch.
 *Syntax*
 
 [source]
-vtep management-ip vtep-ip-address delete binding network-id neutron-network-id
+vtep <vtep-alias> delete binding physical-port <port-name>
 
 *Result*
 
 You can delete a single VTEP binding to a Neutron network. If that was the
 VTEP's last remaining port-VLAN pair bound to the network, then the Neutron
-network's vxlan port gets deleted.
+network's VXLAN port is also deleted.
 
 *Example*
 
 Examples of successfully run commands:
 
 [source]
-midonet> vtep management-ip 119.15.112.22 delete binding physical-port in1 vlan 143
+midonet> vtep vtep0 delete binding physical-port swp1
 
 An example of a unsuccessful command:
 
 [source]
-midonet> vtep management-ip 119.15.112.22 delete binding
+midonet> vtep vtep0 delete binding
 Syntax error at: ...binding
-midonet> vtep management-ip 119.15.112.22 delete binding physical-port in1
-Syntax error at: ...binding physical-port in1

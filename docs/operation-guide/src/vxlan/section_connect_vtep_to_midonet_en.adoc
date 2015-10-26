@@ -7,7 +7,7 @@ network.
 
 By binding a network to physical ports in a VTEP, we're effectively
 adding hosts to the L2 segment of this Neutron network that Neutron
-itself doesn't know about, and thus traffic addressed to these physical
+itself does not know about, and thus traffic addressed to these physical
 hosts will be dropped.
 
 The following procedure describes changes ton the default ingress

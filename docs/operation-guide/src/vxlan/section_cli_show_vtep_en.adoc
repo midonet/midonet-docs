@@ -6,7 +6,7 @@ Use this command to obtain information about a selected VTEP.
 *Syntax*
 
 [source]
-vtep management-ip vtep-ip-address show property
+vtep <vtep-alias> show <property>
 
 where _property_ is one of the following VTEP's attributes:
 
@@ -17,6 +17,10 @@ where _property_ is one of the following VTEP's attributes:
 * management-ip
 
 * management-port
+
+* connection-state
+
+* tunnel-zone
 
 *Result*
 
@@ -30,28 +34,21 @@ The command returns the following information about the VTEP:
 
 * mgmt_port (the same as the port values used by the command)
 
-* tunnel IPs
+* tunnel IP addresses
 
 * connection state (one of: connected, disconnected, error. The state is error
 if the endpoint is not a VXLAN End Point)
 
-* ports - a list of (port_name, port_description, port_bindings) triplets, where
-port_bindings is a list of (vlan, neutronNetworkId, logicalSwitchName).
+* the tunnel-zone to which this VTEP belongs.
 
 *Example*
 
 Successful command:
 
 [source]
-midonet> vtep management-ip 119.15.112.22 show name
-br0
+midonet> vtep vtep0 show id
+ba2739df-87cf-458f-9ad2-39885cab217d
 
 [source]
 midonet> vtep vtep0 show management-ip
-119.15.112.22
-
-Unsuccessful command:
-
-[source]
-midonet> vtep management-ip 119.15.112.22 show id
-Syntax error at: ...id
+192.168.2.10

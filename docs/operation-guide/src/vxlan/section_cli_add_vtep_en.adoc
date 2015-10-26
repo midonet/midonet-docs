@@ -6,11 +6,11 @@ Use this command to add a hardware VTEP to MidoNet.
 *Syntax*
 
 [source]
-vtep add management-ip vtep-ip-address management-port vtep-port tunnel-zone-id tunnel-zone-id
+vtep add management-ip <vtep-ip-address> management-port <vtep-port> tunnel-zone <tunnel-zone-alias>
 
 where _vtep-ip-address_ and _vtep-port_ are the VTEP's management IP address and
-port, and _tunnel-zone-id_ is used to determine the interface that will be used
-as the other end point of the VXLAN tunnel (in MidolMan).
+port, and _tunnel-zone-alias_ is used to determine the interface that will be used
+as the other end point of the VXLAN tunnel (in the MidoNet Agent).
 
 *Result*
 
@@ -23,11 +23,11 @@ parameters already exists.
 An example of a successful command:
 
 [source]
-midonet> vtep add management-ip 119.15.120.123 management-port 6633 tunnel-zone tzone0
-management-ip 119.15.120.123 management-port 6633 tunnel-zone tzone0 connection-state CONNECTED
+midonet> vtep add management-ip 192.168.2.10 management-port 6633 tunnel-zone tzone0
+vtep vtep0 name VTEP-NAME management-ip 192.168.2.10 management-port 6633 tunnel-zone tzone0 connection-state connected
 
-An example of a unsuccessful command:
+An example of an unsuccessful command:
 
 [source]
-midonet> vtep add management-ip 119.15.120.123 management-port 6633
+midonet> vtep add management-ip 192.168.2.10 management-port 6633
 Internal error: {"message":"Validation error(s) found","code":400,"violations":[{"message":"Tunnel zone ID is not valid.","property":"tunnelZoneId"}]}
