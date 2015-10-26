@@ -2,7 +2,7 @@
 = Connecting to the VTEP
 
 Use this procedure to connect MidoNet to a hardware VTEP.  This step is
-required before any Neutron networks can be bound to port/vlan pairs on
+required before any Neutron networks can be bound to port-VLAN pairs on
 that VTEP.
 
 . Refer to the documentation of your switch to enable VXLAN on it, then
@@ -21,15 +21,15 @@ Make sure that your VTEP also registers all the physical ports.  You can
 verify this by examining the Physical_Ports table in the VTEP.  Only
 ports present in this table will be available for binding to a Neutron
 network, Use the following command would display all physical ports,
-replacing <vtep-name> with the name assigned to the Physical_Switch (you
-can check this using the previous "vtep-ctl list Physical_Switch"
+replacing _<vtep-name>_ with the name assigned to the Physical_Switch (you
+can check this using the previous `vtep-ctl list Physical_Switch`
 command).
 +
 [source]
 vtep-ctl list-ports <vtep-name>
 
 . After setting up the VTEP you might need to test connectivity to both
-the tunnel and management interfaces. Both should be 'up'.
+the tunnel and management interfaces. Both should be _up_.
 +
 To test the connection to the management database, you can run:
 +
@@ -53,7 +53,10 @@ This just verified that the OVSDB server that holds the configuration of
 this VTEP is active and handling connections. If you did not get a
 similar reply, please review the configuration of the VTEP.
 
-. To enable VXLAN service in Midonet, you need to type the following command:
+. The VXLAN service is Midonet is enabled by default. However, if the service
+has been previously disabled, you can enable it by typing the following command
+and restarting at least one cluster instance in order to become the VXLAN
+coordinator:
 +
 [source]
 $ echo "cluster.vxgw.enabled=true" | mn-conf set -t default
@@ -66,7 +69,7 @@ For information, see xref:cli_add_vtep[].
 [IMPORTANT]
 Apart from the information on the VLAN-port assignment, and VTEP management
 interface IP and port, you will also need the identifier of a TunnelZone
-of type "VTEP". All the hosts running MidoNet Agent daemons that you
+of type _vtep_. All the hosts running MidoNet Agent daemons that you
 want to create VXLAN tunnels with the VTEP should be members of this
 tunnel zone, using the local IP that each host uses as a VXLAN tunnel
 endpoint.
