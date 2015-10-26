@@ -20,16 +20,13 @@ For each VTEP, the command returns this information:
 
 * management port
 
-* tunnel IPs
+* tunnel IP addresses
 
-* connection state (one of: connected, disconnected, error. The state is error
-if the endpoint is not a VXLAN End Point)
-
-* ports - a list of (port_name, port_description, port_bindings) triplets, where
-port_bindings is a list of (vlan, neutronNetworkId, logicalSwitchName).
+* connection state (one of: `connected`, `disconnected`, `error`. The state is
+  error if the endpoint is not a VXLAN end-point)
 
 *Example*
 
 [source]
 midonet> list vtep
-vtep vtep0 name br0 management-ip 119.15.112.22 management-port 6633 connection-state CONNECTED
+vtep vtep0 name vtep0 management-ip 192.168.0.10 management-port 6633 connection-state connected

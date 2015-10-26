@@ -42,7 +42,7 @@ with ports p1, p2, a Logical Switch can be formed by binding (p1, vlan
 to ports on a different VTEP, whereby both devices would tunnelling
 traffic on the Logical Switch.
 
-A port-vlan pair can only be bound to a single Logical Switch.  However,
+A port-VLAN pair can only be bound to a single Logical Switch.  However,
 a given port may be configured multiple Logical Switches as long as the
 binding combines different VLANs.
 
@@ -58,7 +58,7 @@ useful for two reasons: troubleshooting purposes, and making MidoNet
 usage of the VTEP compatible with non-MidoNet related ones.
 
 * MidoNet will create a single Logical Switch in the VTEP to group
-all port-vlan pairs bound to each Neutron network.
+all port-VLAN pairs bound to each Neutron network.
 
 * The Logical Switch name will be formed by prepending "mn-" to the
 Neutron network ID, being thus unique in a single MidoNet deployment.
@@ -69,7 +69,7 @@ should never create VTEPs with names prefixed with "mn-".
 MidoNet, monotonically increasing from 10000.  Operators are free to use
 VNIs from 1 to 9999 for their own purposes.
 
-* When a Neutron network is bound to port-vlan pairs on multiple VTEPs,
+* When a Neutron network is bound to port-VLAN pairs on multiple VTEPs,
 a Logical Switch will be created on each VTEP's database.  However, all
 will share the same name and VNID, following the conventions above.
 
