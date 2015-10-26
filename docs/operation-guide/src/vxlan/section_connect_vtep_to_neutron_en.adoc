@@ -10,7 +10,7 @@ which you are connecting, the UUID of the Neutron network which you want
 to connect to the VTEP, and the IP addresses of all the hosts on the
 Neutron network that you want to communicate with the VTEP.
 
-. Create a tunnel zone of type'vtep'.
+. Create a tunnel zone of type _vtep_.
 +
 All hosts that want to communicate with the VTEP using VXLAN tunnels are
 required to belong to a tunnel zone of type VTEP, using the IP that each
@@ -19,22 +19,30 @@ of them will use as VXLAN tunnel endpoint.
 To create a tunnel zone issue the following command in the MidoNet CLI:
 +
 [source]
-midonet> tunnel-zone create name vtep_zone1 type vtep
-tzone1
+midonet> tunnel-zone create name vtep_zone type vtep
+tzone0
 +
-As you can see you just created a 'vtep' type tunnel zone, tzone1.
 
-. Add a VTEP to MidoNet and assign it to the 'vtep' tunnel zone that you
+As you can see you just created a _vtep_ type tunnel zone, tzone1.
+
+. Add a VTEP to MidoNet and assign it to the _vtep_ tunnel zone that you
 created, using the local IP that this host it meant to use in VXLAN
 tunnels to the VTEP. Note that this IP may be the same that the host
 uses to communicate with other MidoNet hosts.
 +
 [source]
-midonet> vtep add management-ip 192.168.2.11 management-port 6632 tunnel-zone tzone1
-name vtep1 description OVS VTEP Emulator management-ip 192.168.2.11 management-port 6632 tunnel-zone tzone1 connection-state CONNECTED
+midonet> vtep add management-ip 192.168.2.10 management-port 6632 tunnel-zone tzone0
+vtep0
 +
+
+You can determine the state of the VTEP connection by listing the current VTEPs.
 If your VTEP had been added successfully you should see a similar message,
-saying 'connection-state CONNECTED'.
+saying `connection-state connected`.
+
++
+[source]
+vtep vtep0 name VTEP-NAME description OVS VTEP Emulator management-ip 192.168.2.10 management-port 6632 tunnel-zone tzone0 connection-state connected
++
 
 . Create a binding between the VTEP and a Neutron network behind a
 MidoNet bridge. For that, you will need the UUID of the Neutron network behind
@@ -66,33 +74,33 @@ iface veth1 host_id host0 status 3 addresses [u'172.16.0.2', u'fe80:0:0:0:fc2a:9
 .. Add the host's IP address to the same tunnel zone as the VTEP:
 +
 [source]
-midonet> tunnel-zone tzone1 add member host host0 address 172.16.0.1
+midonet> tunnel-zone tzone0 add member host host0 address 172.16.0.2
 ====
 +
 Repeat these steps for every host in the Neutron network that you want to
 communicate with the VTEP.
 +
 [IMPORTANT]
-Normally, a host may only be assigned to one tunnel zone, gre or vxlan
+Normally, a host may only be assigned to one tunnel zone, _gre_ or _vxlan_
 type. A host connecting to a VTEP is an exception because you may assign
-it to two tunnel zones, a gre/vxlan one and a vtep one. Note that a host
+it to two tunnel zones, a _gre_/_vxlan_ one and a _vtep_ one. Note that a host
 can still use the same IP for both tunnel zones.
 
-. Create a binding between the VTEP's vlan 10 and the Neutron network behind the
+. Create a binding between the VTEP's VLAN 10 and the Neutron network behind the
 bridge0.
 +
-In this example you are connecting the hosts on vlan 10 with the Neutron network
+In this example you are connecting the hosts on VLAN 10 with the Neutron network
 765cf657-3cf4-4d79-9621-7d71af38a298 behind the bridge0:
 +
 [source]
-midonet> vtep management-ip 192.168.2.11 binding add network-id 765cf657-3cf4-4d79-9621-7d71af38a298 physical-port swp1s2 vlan 10
+midonet> vtep vtep0 add binding network-id 765cf657-3cf4-4d79-9621-7d71af38a298 physical-port swp1 vlan 10
 
 Congratulations, you have just created a binding between the network behind the
-VTEP's vlan 10 physical port swp1s2 and the Neutron network with the UUID
-765cf657-3cf4-4d79-9621-7d71af38a298 in MidoNet.
+VTEP's VLAN `10` physical port `swp1` and the Neutron network with the UUID
+`765cf657-3cf4-4d79-9621-7d71af38a298` in MidoNet.
 
 [TIP]
-To be able to test the connection between the VTEP and MidoNet (i.e. to "ping"
+To be able to test the connection between the VTEP and MidoNet (i.e. to _ping_
 MidoNet from a host on the VTEP) you have to modify the default ingress security
 rule, by adding to it the IP address of the host (pinging the host from MidoNet
 should work without any additional configuration). For more information, see
