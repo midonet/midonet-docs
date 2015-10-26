@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab29df4_b6c7ea11",
+        "filename": "docs/operation-guide/src/advanced/section_api_configuration_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002731
+      },
+      "writtenOn": "2015-10-26T11:53:58Z",
+      "side": 1,
+      "message": "should we mention zk bootstrap here (the midonet.conf file) or is it mentioned elsewhere?",
+      "revId": "8947ace1c455ece500e95bf822b822459df31175",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
