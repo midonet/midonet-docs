@@ -147,7 +147,6 @@ include::{sourcedir}/advanced/section_api_configuration_{lang}.adoc[leveloffset=
 include::{sourcedir}/advanced/section_cassandra_cache_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/advanced/section_cassandra_midolman_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/advanced/section_cassandra_nsdb_{lang}.adoc[leveloffset=+3]
-include::{sourcedir}/advanced/section_tomcat_{lang}.adoc[leveloffset=+2]
 
 // Chapter: MidoNet and OpenStack TCP/UDP service ports
 include::{sourcedir}/services/chapter_services_{lang}.adoc[leveloffset=+1]
