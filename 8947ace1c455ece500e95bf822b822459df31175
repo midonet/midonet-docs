@@ -16,6 +16,24 @@
       "revId": "8947ace1c455ece500e95bf822b822459df31175",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_47541a54",
+        "filename": "docs/operation-guide/src/advanced/section_api_configuration_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2015-10-27T02:36:11Z",
+      "side": 1,
+      "message": "There is the MidoNet configuration doc:\nhttps://github.com/midonet/midonet-docs/blob/master/docs/operation-guide/src/advanced/section_midonet_config_en.adoc\n\nHowever, maybe we should link it here.",
+      "parentUuid": "9ab29df4_b6c7ea11",
+      "revId": "8947ace1c455ece500e95bf822b822459df31175",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
