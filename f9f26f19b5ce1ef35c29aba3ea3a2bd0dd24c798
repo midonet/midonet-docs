@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ab29df4_4725fac0",
+        "filename": "docs/operation-guide/src/vxlan/section_cli_add_vtep_binding_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2015-10-27T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ab29df4_96a7464f",
+      "range": {
+        "startLine": 12,
+        "startChar": 46,
+        "endLine": 12,
+        "endChar": 61
+      },
+      "revId": "f9f26f19b5ce1ef35c29aba3ea3a2bd0dd24c798",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab29df4_b6636a19",
         "filename": "docs/operation-guide/src/vxlan/section_cli_add_vtep_binding_en.adoc",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-26T13:07:06Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 17,
+        "startChar": 65,
+        "endLine": 18,
+        "endChar": 7
+      },
+      "revId": "f9f26f19b5ce1ef35c29aba3ea3a2bd0dd24c798",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_872f12a1",
+        "filename": "docs/operation-guide/src/vxlan/section_cli_add_vtep_binding_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2015-10-27T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ab29df4_b6636a19",
       "range": {
         "startLine": 17,
         "startChar": 65,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9ab29df4_a72c16ad",
+        "filename": "docs/operation-guide/src/vxlan/section_cli_add_vtep_binding_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2015-10-27T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ab29df4_d668def7",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 30
+      },
+      "revId": "f9f26f19b5ce1ef35c29aba3ea3a2bd0dd24c798",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab29df4_967e66ad",
         "filename": "docs/operation-guide/src/vxlan/section_cli_list_vteps_en.adoc",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2015-10-26T13:07:06Z",
       "side": 1,
       "message": "\"When the MidoNet cluster node managing that VTEP can\u0027t establish a connection to the VTEP\", or something like that, conveying that the status is that of the cluster  node.",
+      "range": {
+        "startLine": 27,
+        "startChar": 7,
+        "endLine": 27,
+        "endChar": 17
+      },
+      "revId": "f9f26f19b5ce1ef35c29aba3ea3a2bd0dd24c798",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_c7182a87",
+        "filename": "docs/operation-guide/src/vxlan/section_cli_list_vteps_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2015-10-27T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ab29df4_967e66ad",
       "range": {
         "startLine": 27,
         "startChar": 7,
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "9ab29df4_8706321f",
+        "filename": "docs/operation-guide/src/vxlan/section_cli_show_vtep_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2015-10-27T06:58:32Z",
+      "side": 1,
+      "message": "Added more details here.",
+      "parentUuid": "9ab29df4_9603c60e",
+      "revId": "f9f26f19b5ce1ef35c29aba3ea3a2bd0dd24c798",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab29df4_f909532d",
         "filename": "docs/operation-guide/src/vxlan/section_troubleshooting_en.adoc",
         "patchSetId": 1
@@ -122,6 +236,30 @@
       "writtenOn": "2015-10-26T13:07:06Z",
       "side": 1,
       "message": "s/d/ it/",
+      "range": {
+        "startLine": 99,
+        "startChar": 10,
+        "endLine": 99,
+        "endChar": 11
+      },
+      "revId": "f9f26f19b5ce1ef35c29aba3ea3a2bd0dd24c798",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_a703360e",
+        "filename": "docs/operation-guide/src/vxlan/section_troubleshooting_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2015-10-27T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ab29df4_f909532d",
       "range": {
         "startLine": 99,
         "startChar": 10,
