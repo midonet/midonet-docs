@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab29df4_6893aba3",
+        "filename": "docs/operation-guide/src/advanced/section_api_configuration_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002820
+      },
+      "writtenOn": "2015-10-27T16:20:07Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 4,
+        "startChar": 53,
+        "endLine": 4,
+        "endChar": 56
+      },
+      "revId": "e2df03bdec26ae6f71161b87fc64d87bf81af224",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_08f4eff0",
+        "filename": "docs/operation-guide/src/advanced/section_api_configuration_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002820
+      },
+      "writtenOn": "2015-10-27T16:20:07Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 36,
+        "startChar": 34,
+        "endLine": 36,
+        "endChar": 35
+      },
+      "revId": "e2df03bdec26ae6f71161b87fc64d87bf81af224",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
