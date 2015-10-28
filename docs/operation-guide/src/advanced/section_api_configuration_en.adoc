@@ -1,126 +1,61 @@
 [[api_configuration_options]]
-= Advanced MidoNet API configuration options
+= Advanced MidoNet REST API configuration options
 
-This section describes the configuration elements advanced users can employ.
+This section describes the configuration options for advanced users. The
+values for the following keys are modified using the MidoNet configuration
+tool, `mn-conf`. For more information on the MidoNet configuration, see
+xref:midonet_config[].
 
-You can use the configuration elements below to perform advanced MidoNet
-configuration operations. MidoNet API configuration is stored in the
-/usr/share/midonet-api/WEB-INF/web.xml file.
 
 ++++
 <?dbhtml stop-chunking?>
 ++++
 
-== rest_api-base_uri
+== Configuration options
 
-This value overrides the default base URI of each HTTP request. You typically
-set this if you configured a proxy server for the MidoNet API server and the
-base URI that the clients use to access the MidoNet API server is different from
-the actual server's base URI:
+.Admin Roles
+[options="header"]
+|===============
+|Configuration Key|Default Value|Description
+|`cluster.rest_api.enabled`|`true`|
+    Specifies whether the REST API service is enabled at the MidoNet cluster
+    instance where the configuration applies.
+|`cluster.rest_api.http_port`|8181|
+    Specifies the listening port for the HTTP end-point.
+|`cluster.rest_api.https_port`|8443|
+    Specifies the listening port for the HTTPS end-point.
+|===============
 
-[source]
-<context-param>
-    <param-name>rest_api-base_uri</param-name>
-    <param-value>http://example.com:8080/</param-value>
-</context-param>
 
-== cors-access_control_allow_origin
+== Specifying the private and public keys for HTTPS
 
-This value specifies the origin domains that the MidoNet API server grants
-access from. This information is required when accessing the MidoNet API server
-from client-side scripting whose origin domain is different from the MidoNet API
-server domain.
+To enable the HTTPS end-point of the MidoNet Cluster REST API service, you must
+configure a JKS key store containing the private and public key X.509
+certificate used for encrypting such connections.
 
-'*' means allow everything:
+The REST API service uses Jetty as the underlying HTTP server. We recommend to
+use the Jetty official documentation to create the key store, or add your
+private and public key certificate to an existing one:
+https://www.eclipse.org/jetty/documentation/current/configuring-ssl.html
 
-[source]
-<context-param>
-    <param-name>cors-access_control_allow_origin</param-name>
-    <param-value>*</param-value>
-</context-param>
+The location of the key store file and the password for the private key are
+specified as the following Java system properties.
 
-The example below shows how to allow access from 'http://example.com':
+.System Properties for the HTTPS Key Store
+[options="header"]
+|===============
+|Property Name|Default Value|Description
+|`midonet.keystore_path`|`/etc/midonet-cluster/ssl/midonet.jks`|
+    The name of the key store file.
+|`midonet.keystore_password`|_none_|
+    The password for the private key entry. If not set, the HTTPS end-point of
+    the REST API will be disabled (default).
+|===============
 
-[source]
-<context-param>
-    <param-name>cors-access_control_allow_origin</param-name>
-    <param-value>http://example.com</param-value>
-</context-param>
-
-== cors-access_control_allow_headers
-
-Indicates which HTTP headers can be used when making the API request for
-client-side scripting:
-
-[source]
-<context-param>
-    <param-name>cors-access_control_allow_headers</param-name>
-    <param-value>Origin, X-Auth-Token, Content-Type, Accept</param-value>
-</context-param>
-
-== cors-access_control_allow_methods
-
-Indicates which HTTP methods can be used when making the API request for
-client-side scripting:
+To change the previous properties, and enable HTTPS, you can add the
+corresponding property values to the environmental MidoNet Cluster
+script file found at `/etc/midonet-cluster/midonet-cluster-env.sh`:
 
 [source]
-<context-param>
-    <param-name>cors-access_control_allow_methods</param-name>
-    <param-value>GET, POST, PUT, DELETE, OPTIONS</param-value>
-</context-param>
-
-== cors-access_control_expose_headers
-
-Specifies a white list of header fields that the server exposes to the client:
-
-[source]
-<context-param>
-    <param-name>cors-access_control_expose_headers</param-name>
-    <param-value>Location</param-value>
-</context-param>
-
-== auth-tenant_admin_role
-
-Specifies the name of the tenant admin role in MidoNet. The tenant admin has
-read and write access to the resources owned by that tenant. You need to map the
-MidoNet tenant admin to the equivalent role in the external authentication
-service:
-
-[source]
-<context-param>
-    <param-name>auth-tenant_admin_role</param-name>
-    <param-value>mido_tenant_admin</param-value>
-</context-param>
-
-== auth-tenant_user_role
-
-Specifies the name of the tenant user role in MidoNet. The tenant user has
-read-only access to the resources owned by that tenant. You need to map the
-MidoNet tenant user to the equivalent role in the external authentication
-service:
-
-[source]
-<context-param>
-    <param-name>auth-tenant_user_role</param-name>
-    <param-value>mido_tenant_user</param-value>
-</context-param>
-
-== zookeeper-use_mock
-
-Indicates whether to mock ZooKeeper when running the API:
-
-[source]
-<context-param>
-    <param-name>zookeeper-use_mock</param-name>
-    <param-value>false</param-value>
-</context-param>
-
-== zookeeper-midolman_root_key
-
-Identifies the root directory in ZooKeeper:
-
-[source]
-<context-param>
-    <param-name>zookeeper-midolman_root_key</param-name>
-    <param-value>/midonet</param-value>
-</context-param>
+JVM_OPTS="$JVM_OPTS -Dmidonet.keystore_path=<key-store-file>"
+JVM_OPTS="$JVM_OPTS -Dmidonet.keystore_password=<key-entry-password>"
