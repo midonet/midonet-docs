@@ -9,7 +9,7 @@ http://docs.openstack.org/kilo/install-guide/install/yum/content/neutron-compute
 . *前提条件を設定する場合*
 +
 ====
-このまま適用します。
+適用*しないで*ください。
 ====
 
 . *ネットワーキングのコンポーネントをインストールする場合*
@@ -21,7 +21,7 @@ http://docs.openstack.org/kilo/install-guide/install/yum/content/neutron-compute
 . *ネットワーキング共通のコンポーネントを構成する場合*
 +
 ====
-ステップ 'dを適用 *しないで* ください。 モジュラーレイヤー2（ML2）プラグイン、ルーターサービスおよび重複するIPアドレスを有効にします。
+適用*しないで*ください。
 ====
 
 . *モジュラーレイヤー2（ML2）のプラグインを構成する場合*
