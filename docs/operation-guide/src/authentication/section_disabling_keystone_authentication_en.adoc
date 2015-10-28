@@ -5,61 +5,21 @@
 MidoNet lets you disable authentication by using a mock authentication service.
 
 Using this service has the effect that no outside authentication service is
-used. Instead, MidoNet will simply return tokens based on what is set in the
-web.xml file.
+used. Instead, MidoNet will return fake tokens to the authenticating clients.
+Likewise, the provider will ignore any tokens sent by the client when
+authorizing an API request.
 
 To use the mock authentication service, you must configure the following
-settings in your web.xml file.
+keys in the MidoNet configuration.
 
 ++++
 <?dbhtml stop-chunking?>
 ++++
 
-== auth-auth_provider
+== cluster.auth.provider_class
 
-Lists the fully qualified path of the Java class that provides the
+The fully qualified path of the Java class that provides the mock
 authentication service.
 
 [source]
-<context-param>
-  <param-name>auth-auth_provider</param-name>
-  <param-value>
-    org.midonet.api.auth.MockAuthService
-  </param-value>
-</context-param>
-
-== mock_auth-admin_token
-
-Identifies the fake token used to emulate admin role access. This is only
-applicable if you specify mock authentication (MockAuth) as the authentication
-service.
-
-[source]
-<context-param>
-  <param-name>mock_auth-admin_token</param-name>
-  <param-value>secret_token_XYZ</param-value>
-</context-param>
-
-== mock_auth-tenant_admin_token
-
-Identifies the fake token used to emulate tenant admin role access. This is only
-applicable if you specify mock authentication (MockAuth) as the authentication
-service.
-
-[source]
-<context-param>
-  <param-name>mock_auth-tenant_admin_token</param-name>
-  <param-value>secret_token_XYZ</param-value>
-</context-param>
-
-== mock_auth-tenant_user_token
-
-Identifies the fake token used to emulate tenant user role access. This is only
-applicable if you specify mock authentication (MockAuth) as the authentication
-service.
-
-[source]
-<context-param>
-  <param-name>mock_auth-tenant_user_token</param-name>
-  <param-value>secret_token_XYZ</param-value>
-</context-param>
+org.midonet.cluster.auth.MockAuthService
