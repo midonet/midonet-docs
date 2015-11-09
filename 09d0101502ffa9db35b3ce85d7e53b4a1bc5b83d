@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ac7a964_512b13eb",
+        "filename": "docs/operation-guide/src/vxlan/section_vxlan_flooding_proxy_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2015-11-09T19:21:36Z",
+      "side": 1,
+      "message": "Close parenthesis before traffic.",
+      "range": {
+        "startLine": 11,
+        "startChar": 57,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "09d0101502ffa9db35b3ce85d7e53b4a1bc5b83d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ac7a964_71300f57",
+        "filename": "docs/operation-guide/src/vxlan/section_vxlan_flooding_proxy_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2015-11-09T19:21:36Z",
+      "side": 1,
+      "message": "missing \"is\"?",
+      "range": {
+        "startLine": 17,
+        "startChar": 28,
+        "endLine": 17,
+        "endChar": 31
+      },
+      "revId": "09d0101502ffa9db35b3ce85d7e53b4a1bc5b83d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
