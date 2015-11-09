@@ -14,45 +14,6 @@
 ----
 ====
 
-. *mn-conf をセットアップする*
-+
-====
-`/etc/midolman/midolman.conf` を編集し、mn-conf を ZooKeeper クラスタにポイントします。
-
-[source,subs="quotes"]
-----
-[zookeeper]
-zookeeper_hosts = *_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181
-----
-====
-
-. *すべてのエージェントで NSDB へのアクセスを構成する*
-+
-====
-この手順は 1 回だけ実行してください。1 回実行すれば、すべての MidoNet Agent ノードで NSDB へのアクセスがセットアップされます。
-
-次のコマンドを実行して、Zookeeper と Cassandra のサーバーアドレスにクラウド全体の値を設定します。
-
-[source,subs="specialcharacters,quotes"]
-----
-$ cat << EOF | mn-conf set -t default
-zookeeper {
-    zookeeper_hosts = "*_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181"
-}
-cassandra {
-    servers = "*_nsdb1_*,*_nsdb2_*,*_nsdb3_*"
-}
-EOF
-----
-
-次のコマンドを実行して、Cassandra レプリケーション係数を設定します。
-
-[source,subs="specialcharacters,quotes"]
-----
-$ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
-----
-====
-
 . *リソース使用の設定*
 +
 ====
