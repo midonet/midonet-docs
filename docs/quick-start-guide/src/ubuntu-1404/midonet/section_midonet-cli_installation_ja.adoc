@@ -17,10 +17,9 @@
 [literal,subs="quotes"]
 ----
 [cli]
-api_url = http://*_controller_*:8080/midonet-api
+api_url = http://*_controller_*:8181/midonet-api
 username = admin
 password = *_ADMIN_PASS_*
 project_id = admin
 ----
 ====
-

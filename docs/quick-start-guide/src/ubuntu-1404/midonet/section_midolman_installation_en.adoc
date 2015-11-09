@@ -14,48 +14,6 @@ enters or leaves the virtual topology, in this guide this are the *_gateway1_*,
 ----
 ====
 
-. *Set up mn-conf*
-+
-====
-Edit `/etc/midolman/midolman.conf` to point mn-conf to the ZooKeeper cluster:
-
-[source,subs="quotes"]
-----
-[zookeeper]
-zookeeper_hosts = *_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181
-----
-====
-
-. *Configure access to the NSDB for all agents*
-+
-====
-This step needs to happen only once, it will set up access to the NSDB for
-all MidoNet Agent nodes.
-
-Run the following command to set the cloud-wide values for the ZooKeeper and
-Cassandra server addresses:
-
-[source,subs="specialcharacters,quotes"]
-----
-$ cat << EOF | mn-conf set -t default
-zookeeper {
-    zookeeper_hosts = "*_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181"
-}
-
-cassandra {
-    servers = "*_nsdb1_*,*_nsdb2_*,*_nsdb3_*"
-}
-EOF
-----
-
-Run the following command to set the Cassandra replication factor:
-
-[source,subs="specialcharacters,quotes"]
-----
-$ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
-----
-====
-
 . *Configure resource usage*
 +
 ====
