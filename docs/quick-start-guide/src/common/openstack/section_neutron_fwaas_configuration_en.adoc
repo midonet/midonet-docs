@@ -1,0 +1,16 @@
+[[configure_fwaas]]
+= Configure FireWall-as-a-Service (FWaaS)
+
+To configure FWaaS, add the `MidonetFirewallPlugin` to the `service_plugins`
+list in the `[DEFAULT]` section of /etc/neutron/neutron.conf:
+
+[source]
+----
+[DEFAULT]
+...
+service_plugins = lbaas,midonet.neutron.services.firewall.plugin.MidonetFirewallPlugin
+----
+
+[NOTE]
+It is not necessary to configure a Firewall Driver, because this plugin does not
+use the Neutron L3 agent.

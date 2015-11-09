@@ -33,14 +33,14 @@ Do *not* apply.
 Do *not* apply step 'd. Enable the Modular Layer 2 (ML2) plug-in, router
 service, and overlapping IP addresses'.
 
-.. Instead, edit the `/etc/neutron/neutron.conf` file and add the following key
-to the `[DEFAULT]` section:
+.. Instead, edit the `/etc/neutron/neutron.conf` file and configure the
+following key in the `[DEFAULT]` section:
 +
 [source]
 ----
 [DEFAULT]
 ...
-core_plugin = neutron.plugins.midonet.plugin.MidonetPluginV2
+core_plugin = midonet.neutron.plugin_v2.MidonetPluginV2
 ----
 +
 ====
@@ -115,6 +115,11 @@ Instead, perform the following steps.
 [source]
 ----
 # su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/midonet/midonet.ini upgrade head" neutron
+----
++
+[source]
+----
+# midonet-db-manage upgrade head
 ----
 +
 .. Restart the Compute service:
