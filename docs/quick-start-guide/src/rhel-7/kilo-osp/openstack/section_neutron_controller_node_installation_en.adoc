@@ -23,14 +23,14 @@ Instead, install the following packages:
 ====
 Do *not* apply. Instead, perform the following steps:
 
-.. Edit the `/etc/neutron/neutron.conf` file and add the following keys
-to the `[DEFAULT]` section:
+.. Edit the `/etc/neutron/neutron.conf` file and configure the following keys
+in the `[DEFAULT]` section:
 +
 [source]
 ----
 [DEFAULT]
 ...
-core_plugin = neutron.plugins.midonet.plugin.MidonetPluginV2
+core_plugin = midonet.neutron.plugin_v2.MidonetPluginV2
 allow_overlapping_ips = True
 ----
 
@@ -94,6 +94,13 @@ Afterwards, run the `neutron-db-manage` command:
   --config-file /etc/neutron/neutron.conf \
   --config-file /etc/neutron/plugin.ini \
   upgrade head
+----
+
+Followed by the `midonet-db-manage` command:
+
+[source]
+----
+# midonet-db-manage upgrade head
 ----
 ====
 
