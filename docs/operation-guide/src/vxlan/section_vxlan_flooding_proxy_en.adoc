@@ -1,0 +1,40 @@
+[[vxlan_flooding_proxy]]
+= VXLAN Flooding Proxy
+
+The VXLAN Gateway controller running in the MidoNet Cluster nodes will
+try to populate the MAC Remote tables in VTEPs so that the switch can
+tunnel traffic directly to the exact hypervisor that hosts the
+destination VM.
+
+Depending on the virtual topology, it may not always be possible to
+instruct the VTEP to tunnel to a specific physical location.  This will
+typically happen on BUM (Broadcast, Unknown and Multicast) traffic.  In
+these cases MidoNet will instruct the VTEP to tunnel the packet to a
+service node in order for it to be simulated and delivered to the right
+destination.  This node is called the "Flooding Proxy", and it has the
+same properties:
+
+  - The Flooding Proxy (FP) is one single node elected among all the
+    MidoNet hosts that belong to the same tunnel zone as the VTEP.
+  - The FP will be in charge of simulating BUM traffic, and tunnelling
+    the packet to their destination (typically a hypervisor).
+  - Upon failure of the currently elected Flooding Proxy, the MidoNet
+    cluster will use a weighted algorithm to elect a new "Flooding
+    Proxy" role, and instruct the VTEP to tunnel all BUM traffic to it
+    for simulation.
+
+The weight assigned to a MidoNet Agent defaults to 1, and can be
+altered issuing the following command on the MidoNet CLI:
+
+[source]
+host <host-alias> set flooding-proxy-weight <new-weight>
+
+Higher weights will imply a higher probability of the host being chosen
+as Flooding Proxy.
+
+To exclude an Agent from the candidate set for Flooding Proxy, assign a
+weight of 0.
+
+Note that the Flooding Proxy may potentially process a large volume of
+traffic.  In these circumstances it is recommended to assign a much
+higher weight to a dedicated host.
