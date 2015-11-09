@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7ac7a964_91992b71",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midonet-cluster_installation_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002754
+      },
+      "writtenOn": "2015-11-09T19:08:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ac7a964_51887322",
+      "range": {
+        "startLine": 58,
+        "startChar": 73,
+        "endLine": 58,
+        "endChar": 74
+      },
+      "revId": "eb26c618213f3de594ba2977eb6914636549b08a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ac7a964_91820bff",
         "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midonet-cluster_installation_en.adoc",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-09T19:06:20Z",
       "side": 1,
       "message": "Uh?",
+      "range": {
+        "startLine": 66,
+        "startChar": 48,
+        "endLine": 66,
+        "endChar": 71
+      },
+      "revId": "eb26c618213f3de594ba2977eb6914636549b08a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ac7a964_1176fb3e",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/midonet/section_midonet-cluster_installation_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002754
+      },
+      "writtenOn": "2015-11-09T19:08:46Z",
+      "side": 1,
+      "message": "oops, this was me trying to figure out line breaks :D",
+      "parentUuid": "7ac7a964_91820bff",
       "range": {
         "startLine": 66,
         "startChar": 48,
