@@ -61,7 +61,7 @@ The Exhibitor Supervisor typically also runs a web interface on TCP/8080.
 The ZooKeeper cluster needs to be directly accessible to the following MidoNet
 components without a proxy:
 
-* MidoNet API server
+* MidoNet Cluster server
 
 * MidoNet Agents (including the MidoNet Gateway Node(s))
 
