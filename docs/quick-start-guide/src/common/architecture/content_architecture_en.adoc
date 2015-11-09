@@ -36,12 +36,12 @@ The _MidoNet Agent (Midolman)_ has to be installed on all nodes where traffic
 enters or leaves the virtual topology. In this guide this are the
 *_controller_*, *_gateway1_*, *_gateway2_* and *_compute1_* hosts.
 
-The _Midonet API_ can be installed on a separate host, but this guide assumes it
-to be installed on the *_controller_* host.
+The _Midonet Cluster_ can be installed on a separate host, but this guide
+assumes it to be installed on the *_controller_* host.
 
 The _Midonet Command Line Interface (CLI)_ can be installed on any host that has
-connectivity to the MidoNet API. This guide assumes it to be installed on the
-*_controller_* host.
+connectivity to the MidoNet Cluster. This guide assumes it to be installed on
+the *_controller_* host.
 
 The _Midonet Neutron Plugin_ replaces the ML2 Plugin and has to be installed on
 the *_controller_*.

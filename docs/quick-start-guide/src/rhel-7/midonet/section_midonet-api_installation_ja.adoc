@@ -1,106 +1,78 @@
-= MidoNet APIのインストール
+= MidoNet Clusterのインストール
 
-. *MidoNet APIパッケージをインストールする*
+. *MidoNet Clusterパッケージをインストールする*
 +
 ====
 [source]
 ----
-# yum install midonet-api
+# yum install midonet-cluster
 ----
 ====
 
-. *MidoNet APIを構成する*
+. *mn-conf をセットアップする*
 +
 ====
-`/usr/share/midonet-api/WEB-INF/web.xml` ファイルを変更して以下を含めます。
+`/etc/midonet/midonet.conf` を編集し、mn-conf を ZooKeeper クラスタにポイントします。
 
-[literal,subs="verbatim,quotes"]
+[source,subs="quotes"]
 ----
-<context-param>
-    <param-name>rest_api-base_uri</param-name>
-    <param-value>http://*_controller_*:8080/midonet-api</param-value>
-</context-param>
-----
-
-[literal,subs="verbatim,quotes"]
-----
-<context-param>
-    <param-name>keystone-service_host</param-name>
-    <param-value>**_controller_**</param-value>
-</context-param>
-----
-
-[literal,subs="verbatim,quotes"]
-----
-<context-param>
-    <param-name>keystone-admin_token</param-name>
-    <param-value>**_ADMIN_TOKEN_**</param-value>
-</context-param>
-----
-
-[literal,subs="verbatim,quotes"]
-----
-<context-param>
-    <param-name>zookeeper-zookeeper_hosts</param-name>
-    <param-value>**_nsdb1_**:2181,*_nsdb2_*:2181,*_nsdb3_*:2181</param-value>
-</context-param>
-----
-
-[literal,subs="verbatim,quotes"]
-----
-<context-param>
-    <param-name>midocluster-properties_file</param-name>
-    <param-value>/var/lib/tomcat/webapps/host_uuid.properties</param-value>
-</context-param>
+[zookeeper]
+zookeeper_hosts = *_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181
 ----
 ====
 
-. *Tomcatパッケージをインストールする*
+. *NSDB へのアクセスを構成する*
 +
 ====
-[source]
+この手順は 1 回だけ実行してください。1 回実行すれば、MidoNet Cluster と Agent ノードで NSDB へのアクセスがセットアップされます。
+
+次のコマンドを実行して、Zookeeper と Cassandra のサーバーアドレスにクラウド全体の値を設定します。
+
+[source,subs="specialcharacters,quotes"]
 ----
-# yum install tomcat
+$ cat << EOF | mn-conf set -t default
+zookeeper {
+    zookeeper_hosts = "*_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181"
+}
+cassandra {
+    servers = "*_nsdb1_*,*_nsdb2_*,*_nsdb3_*"
+}
+EOF
+----
+
+次のコマンドを実行して、Cassandra レプリケーション係数を設定します。
+
+[source,subs="specialcharacters,quotes"]
+----
+$ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
 ----
 ====
 
-. *TomcatHTTPヘッダの最大サイズを構成する*
+. *Keystone へのアクセスを構成する*
 +
 ====
-`/etc/tomcat/server.xml` ファイルを変更して、HTTPコネクタの最大サイズを調整します。
+この手順は 1 回だけ実行してください。1 回実行すれば、MidoNet Cluster ノードで Keystone へのアクセスがセットアップされます。
 
 [literal,subs="verbatim,quotes"]
 ----
-<Connector port="8080" protocol="HTTP/1.1"
-           connectionTimeout="20000"
-           URIEncoding="UTF-8"
-           redirectPort="8443"
-           **maxHttpHeaderSize="65536"** />
+$ cat << EOF | mn-conf set -t default
+cluster.auth {
+    provider_class = "org.midonet.cluster.auth.keystone.v2_0.KeystoneService"
+    admin_role = "admin"
+    keystone.tenant_name = "admin"
+    keystone.admin_token = "*_ADMIN_TOKEN_*"
+    keystone.host = *_controller_*
+    keystone.port = 35357
+}
+EOF
 ----
 ====
 
-. *MidoNet APIのコンテキストを構成する*
-+
-====
-`/etc/tomcat/Catalina/localhost/midonet-api.xml` ファイルを作成し、修正して次を含めます。
-
-[source]
-----
-<Context
-    path="/midonet-api"
-    docBase="/usr/share/midonet-api"
-    antiResourceLocking="false"
-    privileged="true"
-/>
-----
-====
-
-. *Tomcatを開始する*
+. *MidoNet Cluster を起動する*
 +
 ====
 [source]
 ----
-# systemctl enable tomcat.service
-# systemctl start tomcat.service
+# systemctl start midonet-cluster.service
 ----
 ====

@@ -14,7 +14,7 @@
 *** Metadata Agent
 ** Dashboard (Horizon)
 * MidoNet
-** API
+** Cluster
 ** CLI
 ** Neutron Plugin
 
