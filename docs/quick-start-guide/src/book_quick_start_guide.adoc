@@ -62,7 +62,7 @@ include::{sourcedir}/common/midonet/section_cassandra_installation_{lang}.adoc[l
 include::{sourcedir}/{operating_system}/midonet/listitems_cassandra_installation_{lang}.adoc[]
 include::{sourcedir}/common/midonet/listitem_cassandra_check_{lang}.adoc[]
 include::{sourcedir}/common/midonet/section_midonet_controller_node_installation_{lang}.adoc[leveloffset=+2]
-include::{sourcedir}/{operating_system}/midonet/section_midonet-api_installation_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/{operating_system}/midonet/section_midonet-cluster_installation_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/{operating_system}/midonet/section_midonet-cli_installation_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/{operating_system}/midonet/section_midolman_installation_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/common/midonet/section_midonet_host_registration_{lang}.adoc[leveloffset=+2]
