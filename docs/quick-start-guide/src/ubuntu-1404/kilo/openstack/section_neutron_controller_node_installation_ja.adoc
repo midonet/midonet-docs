@@ -38,7 +38,7 @@ http://docs.openstack.org/kilo/install-guide/install/apt/content/neutron-control
 ----
 [DEFAULT]
 ...
-core_plugin = neutron.plugins.midonet.plugin.MidonetPluginV2
+core_plugin = midonet.neutron.plugin_v2.MidonetPluginV2
 ----
 +
 ====

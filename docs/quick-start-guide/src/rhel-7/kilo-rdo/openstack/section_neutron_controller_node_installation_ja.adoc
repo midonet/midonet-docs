@@ -37,7 +37,7 @@ step 'dを適用*しないで*ください。モジュラーレイヤー2（ML2�
 ----
 [DEFAULT]
 ...
-core_plugin = neutron.plugins.midonet.plugin.MidonetPluginV2
+core_plugin = midonet.neutron.plugin_v2.MidonetPluginV2
 ----
 ====
 
