@@ -38,7 +38,8 @@ http://docs.openstack.org/kilo/install-guide/install/apt/content/neutron-control
 ----
 [DEFAULT]
 ...
-core_plugin = neutron.plugins.midonet.plugin.MidonetPluginV2
+core_plugin = midonet.neutron.plugin_v2.MidonetPluginV2
+service_plugins = midonet.neutron.services.l3.l3_midonet.MidonetL3ServicePlugin
 ----
 +
 ====
@@ -104,6 +105,11 @@ Instead, perform the following steps.
 [source]
 ----
 # su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/midonet/midonet.ini upgrade head" neutron
+----
+
+[source]
+----
+# midonet-db-manage upgrade head
 ----
 +
 .. Restart the Compute service:
