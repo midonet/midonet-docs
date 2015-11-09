@@ -6,7 +6,6 @@ values for the following keys are modified using the MidoNet configuration
 tool, `mn-conf`. For more information on the MidoNet configuration, see
 xref:midonet_config[].
 
-
 ++++
 <?dbhtml stop-chunking?>
 ++++
@@ -26,17 +25,11 @@ xref:midonet_config[].
     Specifies the listening port for the HTTPS end-point.
 |===============
 
-
 == Specifying the private and public keys for HTTPS
 
 To enable the HTTPS end-point of the MidoNet Cluster REST API service, you must
 configure a JKS key store containing the private and public key X.509
 certificate used for encrypting such connections.
-
-The REST API service uses Jetty as the underlying HTTP server. We recommend to
-use the Jetty official documentation to create the key store, or add your
-private and public key certificate to an existing one:
-https://www.eclipse.org/jetty/documentation/current/configuring-ssl.html
 
 The location of the key store file and the password for the private key are
 specified as the following Java system properties.
@@ -59,3 +52,36 @@ script file found at `/etc/midonet-cluster/midonet-cluster-env.sh`:
 [source]
 JVM_OPTS="$JVM_OPTS -Dmidonet.keystore_path=<key-store-file>"
 JVM_OPTS="$JVM_OPTS -Dmidonet.keystore_password=<key-entry-password>"
+
+== Generating self-signed keys
+
+To generate a self-signed key, you can use the following procedure. Note that
+you will be prompted for passwords during this process, and need to keep the
+keystore password for later use.
+
+[source]
+openssl genrsa -des3 -out midonet.key 2048
+openssl rsa -in midonet.key -out midonet.key
+openssl req -sha256 -new -key midonet.key -out midonet.csr -subj '/CN=localhost'
+openssl x509 -req -days 365 -in midonet.csr -signkey midonet.key -out midonet.crt
+
+Now we will combine the private key into the cert, because we generated them
+separately:
+
+[source]
+openssl pkcs12 -inkey midonet.key -in midonet.crt -export -out midonet.pkcs12
+
+And load the certificate into the keystore:
+
+[source]
+keytool -importkeystore -srckeystore midonet.pkcs12 -srcstoretype PKCS12 -destkeystore midonet.jks
+
+Now place the keystore in the default location:
+
+[source]
+mv midonet.jks /etc/midonet-cluster/ssl
+
+For more advanced key management, including adding your own certificate
+to the keystore, please refer to the following documentation:
+
+https://www.eclipse.org/jetty/documentation/current/configuring-ssl.html
