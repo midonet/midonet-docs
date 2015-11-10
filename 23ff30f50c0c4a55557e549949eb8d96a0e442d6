@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ac7a964_44efccb0",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2015-11-10T14:24:16Z",
+      "side": 1,
+      "message": "im removing l2services, so it shouldn\u0027t be here.",
+      "revId": "23ff30f50c0c4a55557e549949eb8d96a0e442d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
