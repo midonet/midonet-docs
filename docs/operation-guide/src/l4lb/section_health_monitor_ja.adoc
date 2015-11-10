@@ -19,20 +19,38 @@ MidoNetのケースでは、TCPでの接続性のみをチェックします。�
 レイヤー４ロードバランサーを使う時は、バックエンドサーバーのチェックを行う為にヘルスモニターを設定します。
 
 一度に、一つのホストしか全てのヘルスモニターを走らせることしかできません。
-もし、ホストが何らかの理由でダウンしてしまったら、新しいホストが立ち上がって、必要なHAProxyインスタンスを生み出します。HAProxyインスタンスはMidoNetエージェント(Midolman)によって管理されており、設定は必要ありません。しかし、HAProxyインスタンスを潜在的に保持するホストを選択する必要があります。
+もし、ホストが何らかの理由でダウンしてしまったら、別のホストが選出され、HAProxyインスタンスを起動します。HAProxyインスタンスはMidoNetエージェントによって管理されており、設定は必要ありません。しかし、HAProxyインスタンスを潜在的に保持するホストを選択する必要があります。
 
-これを設定するには、適切なホストの mn-conf(1) の agent セクションに haproxy_health_monitor セクションを加えてください。そして、下記の例で示しているように、health_monitor_enableをtrueに設定してください。
+To enable a MidoNet Agent host for health monitoring, its
+`health_monitor_enable` property has to be set to `true`.
+
+ヘルスモニタリングのためのMidoNet Agentホストを有効にするには、そのホストの
+`health_monitor_enable` プロパティが `true` に設定する必要があります。
+
+ホストはヘルスモニタリングが有効になっているかどうかを確認するには、次のコマンドを実行します。
 
 [source]
 ----
-agent.haproxy_health_monitor.health_monitor_enable = true
+$ mn-conf get agent.haproxy_health_monitor.health_monitor_enable
+----
+
+特定のホストのヘルスモニタリングを切り替えるには、そのホスト上で次のコマンドを使用します：
+
+[source]
+----
+$ echo "agent.haproxy_health_monitor.health_monitor_enable : true" | mn-conf set -h local
+----
+
+[source]
+----
+$ echo "agent.haproxy_health_monitor.health_monitor_enable : false" | mn-conf set -h local
 ----
 
 それに加えて、HAProxyインスタンスを走らせているホストは、"nogroup"と呼ばれるグループと"nobody"と呼ばれるユーザーを持つ必要があります。そうでないなら、HAProxyは起動することはできません。これはUbuntuのデフォルトの設定ですが、Red Hadではこのユーザーとグループを作成する必要があります。
 
 * MidoNetエージェントの中で、ヘルスモニターがどのように機能するか*
 
-* MidoNetエージェント(midolman)は自分のヘルスモニターは実装しません。その変わりに、haproxyパッケージ(使われるhaproxy バージョンは 1.4です)の一部であるヘルスチェッカーを活用します。MidoNetエージェントは、以下のことをやりながら、HAProxyを活用します。
+* MidoNetエージェントは自分のヘルスモニターは実装しません。その変わりに、haproxyパッケージの一部であるヘルスチェッカーを活用します。
 
 ** ユーザーがプールにヘルスモニターをアタッチする時は、MidoNetエージェントはそのプールと関連しているHAProxyインスタンスを起動します。
 
@@ -42,7 +60,7 @@ agent.haproxy_health_monitor.health_monitor_enable = true
 
 * 以下のコンフィグ設定( +mn-conf(1)+ で)は、ヘルスモニタリングを考慮してどのようにアクトするかをMidoNetに伝えます。
 
-** health_monitor_enable: TrueはMidoNetエージェントが、ヘルスモニタリングのためにHAProxyを設定できることを示しています。デフォルト設定ではこれはfalseになっています。
+** health_monitor_enable: TrueはMidoNetエージェントが、ヘルスモニタリングのためにHAProxyを設定できることを示しています。
 
 ** namespace_cleanup: MidoNetエージェントがダウンして、HAProxyホストとして設定されなくなった後に、ホスト側で、HAProxy名前空間の残りがまだある時に、それをMidoNetエージェントのホストがクリンーアップしなければならないことをtrueは示しています。デフォルトではこれはfalseとして設定されています。
 
