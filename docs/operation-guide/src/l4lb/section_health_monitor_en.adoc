@@ -29,18 +29,32 @@ When using a Layer 4 load balancer, you can configure a health monitor to
 perform checks on the back-end servers.
 
 Only a single host runs all health monitor instances at a given time. If that
-host goes down for any reason, a new host will come up and spawn the necessary
-HAProxy instances. The HAProxy instances are managed by the MidoNet Agent
-(midolman) and do not require setup. However, you need to choose hosts that can
-potentially hold the HAProxy instances.
+host goes down for any reason, a different host will be elected and spawn the
+HAProxy instances. These instances are managed by the MidoNet Agent and do not
+require any special setup. However, hosts that can potentially hold the HAProxy
+instances have to be chosen.
 
-To configure this, add an haproxy_health_monitor section to the agent section
-in mn-conf(1) for the desired hosts, and set health_monitor_enable to true, as
-shown in the example below.
+To enable a MidoNet Agent host for health monitoring, its
+`health_monitor_enable` property has to be set to `true`.
+
+Run the following command to check if a host is enabled for health monitoring:
 
 [source]
 ----
-agent.haproxy_health_monitor.health_monitor_enable = true
+$ mn-conf get agent.haproxy_health_monitor.health_monitor_enable
+----
+
+To toggle health monitoring for a certain host, use the following commands on
+that host:
+
+[source]
+----
+$ echo "agent.haproxy_health_monitor.health_monitor_enable : true" | mn-conf set -h local
+----
+
+[source]
+----
+$ echo "agent.haproxy_health_monitor.health_monitor_enable : false" | mn-conf set -h local
 ----
 
 Additionally, the hosts running the HAProxy instances must have a group called
@@ -50,10 +64,8 @@ create this user and group.
 
 *How the Health Monitor works in the MidoNet Agent*
 
-* The MidoNet Agent (midolman) does not implement its own health monitor.
-Instead, it leverages the health checker that is a part of the haproxy package
-(the haproxy version used is 1.4). The MidoNet Agent leverages HAProxy by doing
-the following:
+* The MidoNet Agent does not implement its own health monitor. Instead, it
+leverages the health checker that is a part of HAProxy.
 
 ** Whenever a user attaches a health monitor to a pool, the MidoNet Agent starts
 up an HAProxy instance associated with that pool.
@@ -69,7 +81,7 @@ with the status information.
 MidoNet Agent how to act with respect to health monitoring:
 
 ** health_monitor_enable: true indicates the MidoNet Agent host is eligible to
-set up HAProxy for health monitoring. By default, this is set to false.
+set up HAProxy for health monitoring.
 
 ** namespace_cleanup: true indicates the MidoNet Agent host needs to clean up
 any left over HAProxy namespaces on the host that are still present after the
