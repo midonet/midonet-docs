@@ -35,10 +35,10 @@ Database（NSDB）クラスタに使用して、仮想ネットワークトポ�
 をインストールする必要があります。このガイドでは、*_controller_*、*_gateway1_*、*_gateway2_*、*_compute1_*
 の各ホストがこのノードに相当します。
 
-_Midonet API_ は別のホストにインストールできますが、このガイドでは *_controller_*
+_Midonet Cluster_ は別のホストにインストールできますが、このガイドでは *_controller_*
 ホストにインストールすることを想定しています。
 
-_Midonet Command Line Interface (CLI)_ は、MidoNet API
+_Midonet Command Line Interface (CLI)_ は、MidoNet Cluster
 に接続している、いずれのホストにもインストールできます。このガイドでは、*_controller_*
 ホストにインストールされていることを想定しています。
 
