@@ -21,9 +21,6 @@ MidoNetのケースでは、TCPでの接続性のみをチェックします。�
 一度に、一つのホストしか全てのヘルスモニターを走らせることしかできません。
 もし、ホストが何らかの理由でダウンしてしまったら、別のホストが選出され、HAProxyインスタンスを起動します。HAProxyインスタンスはMidoNetエージェントによって管理されており、設定は必要ありません。しかし、HAProxyインスタンスを潜在的に保持するホストを選択する必要があります。
 
-To enable a MidoNet Agent host for health monitoring, its
-`health_monitor_enable` property has to be set to `true`.
-
 ヘルスモニタリングのためのMidoNet Agentホストを有効にするには、そのホストの
 `health_monitor_enable` プロパティが `true` に設定する必要があります。
 
