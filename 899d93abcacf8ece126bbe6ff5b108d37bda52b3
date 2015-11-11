@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ac7a964_0d2257b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-11-11T04:57:23Z",
+      "side": 1,
+      "message": "Please change to MND-97, I\u0027ll assign the ticket to you.",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 11
+      },
+      "revId": "899d93abcacf8ece126bbe6ff5b108d37bda52b3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ac7a964_4de28fa0",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-11-11T04:57:23Z",
+      "side": 1,
+      "message": "must",
+      "range": {
+        "startLine": 111,
+        "startChar": 19,
+        "endLine": 111,
+        "endChar": 23
+      },
+      "revId": "899d93abcacf8ece126bbe6ff5b108d37bda52b3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ac7a964_6dee6b8d",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-11-11T04:57:23Z",
+      "side": 1,
+      "message": "responses",
+      "range": {
+        "startLine": 150,
+        "startChar": 3,
+        "endLine": 150,
+        "endChar": 11
+      },
+      "revId": "899d93abcacf8ece126bbe6ff5b108d37bda52b3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ac7a964_8df3c772",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-11-11T04:57:23Z",
+      "side": 1,
+      "message": "resources which are accessible",
+      "range": {
+        "startLine": 150,
+        "startChar": 40,
+        "endLine": 150,
+        "endChar": 60
+      },
+      "revId": "899d93abcacf8ece126bbe6ff5b108d37bda52b3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
