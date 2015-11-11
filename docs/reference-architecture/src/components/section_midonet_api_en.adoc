@@ -1,14 +1,10 @@
-[[midonet_api]]
-= MidoNet API
+[[midonet_cluster]]
+= MidoNet Cluster
 
-The MidoNet API is a RESTful API running over the Hypertext Transfer Protocol
-(HTTP) that provides the integration point between external applications
-(including the cloud controller) and the internal MidoNet configurations.
-
-The REST API is stateless, so you can scale out this service by simply adding
-more REST servers. The REST API requires connectivity to the State Management
-servers (Apache Zookeeper and Cassandra). To use authentication in the REST API,
-you could use the OpenStack Keystone identity service.
+The MidoNet Cluster is a new type of node introduced in MidoNet v5 that
+replaces the MidoNet API.  The MidoNet Cluster provides the REST API
+endpoint, and also hosts a number of management services such as VxLAN
+Gateway Controller.
 
 ++++
 <?dbhtml stop-chunking?>
@@ -16,25 +12,87 @@ you could use the OpenStack Keystone identity service.
 
 == Recommended installation nodes
 
-The MidoNet API server can be hosted by any servlet container.
+The MidoNet Cluster can be installed on any node with access to the
+ZooKeeper cluster (which typically uses three ports: TCP/2181, TCP/2888,
+and TCP/3888.
 
-One such servlet is the Apache Tomcat, which is relatively lightweight, so you
-may install the MidoNet API server along side the ZooKeeper instances or along
-side Neutron server instances.
+For test/evaluation purposes MidoNet Cluster, ZooKeeper and Cassandra
+can coexist on the same physical host.
+
+Note however that such configuration is discouraged for production
+deployments.  In this case, each of MidoNet Cluster, ZooKeeper and
+Casandra should be placed in dedicated nodes.
 
 == Fault-tolerant configuration guidelines
 
-In order to provide a fault-tolerant solution, we recommend running several
-instances of the MidoNet API server on different nodes and then exposing a
-common virtual IP (VIP) address using an external load balancer to distribute
-the API calls between the instances.
+In order to provide a fault-tolerant solution, we recommend running
+several instances of the MidoNet Cluster on different nodes and then
+exposing a common virtual IP (VIP) address using an external load
+balancer to distribute the API calls between the instances.
 
-No special load balancer features are needed, so any load balancer will work.
+No special load balancer features are needed, so any load balancer will
+work.
 
-== Accessibility considerations
+== MidoNet REST API HTTP endpoint
 
-The Apache Tomcat server runs on port TCP/8080 by default.
+The MidoNet Cluster exposes a RESTful API running over the Hypertext
+Transfer Protocol (HTTP) that provides the integration point between
+external applications (including the cloud controller) and the internal
+MidoNet configurations.  The REST API is stateless, so you can scale out
+this service by simply adding more Cluster nodes.
 
-The MidoNet API server itself needs access to all of the nodes in the ZooKeeper
-cluster. The ZooKeeper cluster typically uses three ports: TCP/2181, TCP/2888,
-and TCP/3888.
+The MidoNet REST API supports OpenStack Keystone authentication.
+
+The REST API will be exposed on port TCP/8181 by default.
+This port can be changed with the following mn-conf command:
+
+[source]
+echo "cluster.rest_api.http_port = $NEW_PORT" | mn-conf set -t default
+
+== MidoNet REST API HTTPS endpoint
+
+HTTPS is also available and exposed on port TCP/8443 by default. This
+port can be changed with the following mn-conf command:
+
+[source]
+echo "cluster.rest_api.https_port = $NEW_PORT" | mn-conf set -t default
+
+MidoNet Cluster will disable the HTTPS endpoint if the port is set to a
+value equal or less than 0, or if no keystore is accessible on the system.
+
+The MidoNet Cluster will expect to find a keystore containing the
+certificate in `/etc/midonet-cluster/ssl/midonet.jks`.
+
+This location can be overridden by setting the midonet.keystore_path
+system variable to a different path.
+
+To generate a self-signed key, you can use the following procedure. Note that
+you will be prompted for passwords during this process, and need to keep the
+keystore password for later use.
+
+[source]
+openssl genrsa -des3 -out midonet.key 2048
+openssl rsa -in midonet.key -out midonet.key
+openssl req -sha256 -new -key midonet.key -out midonet.csr -subj '/CN=localhost'
+openssl x509 -req -days 365 -in midonet.csr -signkey midonet.key -out midonet.crt
+
+Now we will combine the private key into the cert, because we generated them
+separately:
+
+[source]
+openssl pkcs12 -inkey midonet.key -in midonet.crt -export -out midonet.pkcs12
+
+And load the certificate into the keystore:
+
+[source]
+keytool -importkeystore -srckeystore midonet.pkcs12 -srcstoretype PKCS12 -destkeystore midonet.jks
+
+Now place the keystore in the default location:
+
+[source]
+mv midonet.jks /etc/midonet-cluster/ssl
+
+For more advanced key management, including adding your own certificate
+to the keystore, please refer to the following documentation:
+
+https://www.eclipse.org/jetty/documentation/current/configuring-ssl.html
