@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ac7a964_d90bc129",
+        "filename": "docs/quick-start-guide/src/rhel-7/kilo-rdo/openstack/section_neutron_controller_node_installation_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002897
+      },
+      "writtenOn": "2015-11-12T05:51:53Z",
+      "side": 1,
+      "message": "although not a fault of this patch,\nL31-32 seems mistranslation.\n\nprobably:\n\n「d. ....」を適用*しないで*ください。",
+      "revId": "a46e5bb0b0bae0f9e5290161078ecce9a95bec06",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
