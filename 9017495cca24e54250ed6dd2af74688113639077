@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ac7a964_39a75551",
+        "filename": "docs/quick-start-guide/src/rhel-7/kilo-rdo/openstack/section_neutron_controller_node_installation_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002897
+      },
+      "writtenOn": "2015-11-12T05:03:27Z",
+      "side": 1,
+      "message": "kilo doesn\u0027t have a separate L3 plugin.",
+      "revId": "9017495cca24e54250ed6dd2af74688113639077",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
