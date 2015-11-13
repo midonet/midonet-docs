@@ -76,12 +76,7 @@ cassandra {
 
 == データパス設定
 
-The agent uses a pool of reusable buffers to send requests to the datapath. You
-may use the options in the +agent.datapath+ of mn-conf(1) to tune the pool's size
-and its buffers. One pool is created for each output channel, the settings
-defined here will apply to each of those pools.
-
-Midolmanはデータパスにリクエストを送る為の再利用可能なバファーのプールを使います。プールサイズとバファーのチューニングを行う為に mn-conf(1) の +agent.datapath+ セクションのオプションを使うことができます。ひとつのプールは各アウトプットチャネルのために作られます。ここで、定義される設定は、それらの各プールに適用できます。
+エージェントは、データパスにリクエストを送信するために再利用可能なバッファのプールを使用しています。プールサイズとバッファを調整するために、 mn-conf(1) の +agent.datapath+ のオプションを使用することが可能です。各出力チャンネルにひとつのプールが作成され、それぞれに適用されます。
 
 パケットサーズが、最大のバファーサイズを超えてしまったために、パフォーマンスが落ちてしまったことに気づいたときは、buf_size_kb設定の値を上げることができます。この設定はバファーサイズ（KB単位）をコントロールします。このバファーサイズはMidoNetエージェントが送ることができるパケットサイズの上限を規定します。Jumboフレームが横切るネットワークの中では、サイズを調整しましょう。そうすることで、一つのバファーが全体のフレームに乗っかることができ、フローアクションのために十分な余力も残すことできます。
 

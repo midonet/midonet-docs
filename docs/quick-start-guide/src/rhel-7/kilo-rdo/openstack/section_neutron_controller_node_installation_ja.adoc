@@ -2,7 +2,7 @@
 = コントローラノード
 
 [IMPORTANT]
-OpenStackの文書の
+OpenStack文書の
 http://docs.openstack.org/kilo/install-guide/install/yum/content/neutron-controller-node.html[Install and configure controller node]
 指示に従います。ただし、 *次の相違事項と追加事項に注意してください。*
 
@@ -87,11 +87,10 @@ project_id = service
 このまま適用します。
 ====
 
-. *Configure Load-Balancer-as-a-Service (LBaaS)*
+. *Load-Balancer-as-a-Service (LBaaS) の設定*
 +
 ====
-Additionally to the OpenStack Installation Guide, configure
-Load-Balancer-as-a-Service (LBaaS) as described in xref:configure_lbaas[].
+OpenStackのインストールガイドとともに、xref:configure_lbaas[]に記載されている、Load-Balancer-as-a-Service (LBaaS) を設定してください。
 ====
 
 . *インストールを終了する場合* [[neutron_controller_node_installation_finalize]]

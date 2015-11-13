@@ -2,7 +2,7 @@
 = コントローラノード
 
 [IMPORTANT]
-OpenStackの文書の
+OpenStack文書の
 http://docs.openstack.org/kilo/install-guide/install/apt/content/neutron-controller-node.html[Install and configure controller node]
 の指示に従います。ただし、 *次の相違事項と追加事項に注意してください。*
 
@@ -90,6 +90,12 @@ NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/midonet/midonet.ini"
 +
 ====
 このまま適用します。
+====
+
+. *Load-Balancer-as-a-Service (LBaaS) の設定*
++
+====
+OpenStackのインストールガイドとともに、xref:configure_lbaas[]に記載されている、Load-Balancer-as-a-Service (LBaaS) を設定してください。
 ====
 
 . *インストールを終了する場合* [[neutron_controller_node_installation_finalize]]
