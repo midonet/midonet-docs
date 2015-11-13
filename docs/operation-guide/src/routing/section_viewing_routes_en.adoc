@@ -3,7 +3,7 @@
 
 You can view the routes defined on each virtual router in MidoNet. For example,
 you can view information about routes to virtual bridges and to other routers,
-including tenant routers and the MidoNet Provider Router.
+including tenant routers and Edge Routers.
 
 To display route information about the current tenant's routers:
 
@@ -33,14 +33,14 @@ network to match; 0.0.0.0/0 means match traffic from every network.
 interface.
 
 ** route0 shows an example of a route to a specific interface. This is the route
-to the link-local address, which, in this example, is peered with the MidoNet
-Provider Router.
+to the link-local address, which, in this example, is peered with an Edge
+Router.
 
 ** route2 shows a route to the 172.16.3.0/24 network, which is a private network.
 
 ** route1 says: for traffic that matches every network (0.0.0.0/0) with a
 destination of any network (0.0.0.0/0), forward this traffic to port0, which is
-peered with the MidoNet Provider Router. For traffic that matches the source IP
+peered with an Edge Router. For traffic that matches the source IP
 address, MidoNet finds the route whose destination prefix matches the packet's
 destination and has the longest mask (a.k.a. longest-prefix matching). If the
 router cannot find a destination with a longer prefix than 0.0.0.0, the router
@@ -60,5 +60,4 @@ to provide instance metadata service.
 ** route4 says: for traffic from any network (0.0.0.0/0) with the destination of
 the tenant router's interface (172.16.3.1), which is the tenant router's
 interface to the private network, forward this traffic to port1. port 1 on the
-tenant router is peered with port0 on router1, which is the MidoNet Provider
-Router.
+tenant router is peered with port0 on router1, which is the Edge Router.

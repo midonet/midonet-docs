@@ -22,7 +22,7 @@ To view this example, this section assumes you have configured:
 
 * A project
 
-* A MidoNet Provider Router
+* An Edge Router
 
 * An external network
 

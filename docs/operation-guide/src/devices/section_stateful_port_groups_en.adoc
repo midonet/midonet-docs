@@ -42,11 +42,11 @@ will use the 'admin' tenant, 7a4937fa604a425e867f085427cc351e.
 +
 [source]
 midonet> list router
-router router0 name MidoNet Provider Router state up
+router router0 name Edge Router state up
 router router1 name TenantRouter state up
 +
 Let's assume that the router whose ports you are going add to the port group is
-MidoNet Provider Router, router0.
+Edge Router, router0.
 
 . Now list the ports on router0.
 +
@@ -57,7 +57,8 @@ port port1 device router0 state up mac 02:cb:3d:85:89:2a address 172.168.0.1 net
 port port2 device router0 state up mac 02:46:87:89:49:41 address 200.200.200.1 net 200.200.200.0/24 peer bridge0:port0
 port port3 device router0 state up mac 02:6b:9f:0d:c4:a8 address 169.254.255.1 net 169.254.255.0/30
 +
-You want to add port0 and port1 on the router to load balance the BGP traffic on the provider router.
+You want to add port0 and port1 on the router to load balance the BGP traffic on
+the Edge Router.
 
 . Load your tenant using the 'sett' command.
 +
@@ -71,7 +72,7 @@ tenant_id: 7a4937fa604a425e867f085427cc351e
 midonet-cli> port-group create name SPG stateful true
 pgroup0
 
-. Add the two ports on the provider router that you want to participate in load
+. Add the two ports on the Edge Router that you want to participate in load
 balancing, to the port group you just created.
 +
 [source]

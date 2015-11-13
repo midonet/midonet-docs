@@ -1,0 +1,68 @@
+[[edge_router_setup]]
+= Edge Router Setup
+
+Prior to v5.0, with Neutron, you could set up the gateway in only one way, which
+was to have a special singleton gateway router called the Provider Router
+created implicitly when an external network was created in Neutron. The provider
+router sits at the edge of the cloud and interfaces with the uplink router. The
+Provider Router is where BGP was typically configured. The biggest limitation of
+this approach was that it took away the scenario in which you wanted to have an
+L2 network at the edge instead of a router. Another limitation was that only one
+such router could exist for the entire cloud.
+
+These limitations are removed in v5.0, where you could design your gateway to be
+either L2 network or router with as many routers as you wish, all using the
+Neutron API.
+
+There are two main changes:
+
+*Edge Router*
+
+The Provider Router is no longer implicitly created upon the external network
+creation. Instead, the edge gateway routers, called the Edge Routers, are
+created explicitly using standard Neutron API. With this approach, multiple Edge
+Routers can be created, and they are optional.
+
+*Gateway Virtual Topology*
+
+In the previous model, the Provider Router was connected directly to the tenant
+routers, with the external networks hanging off of the Provider Router.
+
+In the new model, the external networks exist between the edge and the tenant
+routers.
+
+To create the gateway topology issue the following Neutron commands.
+
+Create a standard neutron router:
+
+[source]
+neutron router-create <EDGE_ROUTER_NAME>
+
+Attach the edge router to an external network:
+
+[source]
+neutron router-interface-add <EDGE_ROUTER_ID> <EXT_SUBNET_ID>
+
+Create a special network called `uplink` network, representing the physical
+network outside of the cloud:
+
+[source]
+neutron net-create <UPLINK_NET_NAME> --tenant_id admin --provider:network_type uplink
+
+Create a subnet for the uplink network matching the CIDR used in the uplink
+network (could just be /30 if linked directly to another router):
+
+[source]
+neutron subnet-create --tenant_id admin --disable-dhcp --name <UPLINK_SUBNET_NAME> <UPLINK_NET_NAME> <CIDR>
+
+Create a port on the uplink network with a specific IP that you want to use and
+the binding details so that this virtual port gets bound to a specific NIC on
+the gateway host:
+
+[source]
+neutron port-create <UPLINK_NET_ID> --binding:host_id <HOST_NAME> --binding:profile type=dict interface_name=<INTERFACE_NAME> --fixed-ip ip_address=<IP_ADDR>
+
+Attach the uplink port to the Edge Router:
+
+[source]
+neutron router-interface-add <EDGE_ROUTER_ID> port=<UPLINK_PORT_ID>

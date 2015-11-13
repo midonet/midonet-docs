@@ -33,7 +33,7 @@ networks:
                172.19.0.2/30 | veth1
           +------------------+----------------+        OVERLAY
           |                                   |
-          |    MidonetProviderRouter          |
+          |            Edge Router            |
           |                                   |
           +------------------+----------------+
                              |  200.200.200.0/24
@@ -66,13 +66,13 @@ networks:
 [source]
 # ip route add 200.200.200.0/24 via 172.19.0.2
 
-. Create a port on the MidoNet Provider Router and bind it to the veth:
+. Create a port on the Edge Router and bind it to the veth:
 +
 [source]
 ----
 $ midonet-cli
 midonet> router list
-router router0 name MidoNet Provider Router state up 
+router router0 name Edge Router state up 
 midonet> router router0 add port address 172.19.0.2 net 172.19.0.0/30
 router0:port0
 midonet> router router0 add route src 0.0.0.0/0 dst 0.0.0.0/0 type normal port router router0 port port0 gw 172.19.0.1

@@ -14,7 +14,7 @@ inconsistencies between OpenStack and MidoNet virtual topologies.
 With that warning in mind, there are certain tasks for which the CLI can be
 particularly useful:
 
-* Creating a MidoNet's provider router
+* Creating an Edge Router
 
 * Setting up the cloud's up-link using the Border Gateway Protocol (BGP)
 

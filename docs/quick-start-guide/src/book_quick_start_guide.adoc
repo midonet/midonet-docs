@@ -68,6 +68,7 @@ include::{sourcedir}/{operating_system}/midonet/section_midolman_installation_{l
 include::{sourcedir}/common/midonet/section_midonet_host_registration_{lang}.adoc[leveloffset=+2]
 
 // Chapter: BGP Uplink Configuration
+include::{sourcedir}/common/uplinks/section_edge_router_setup_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/common/uplinks/chapter_bgp_uplink_configuration_{lang}.adoc[leveloffset=+1]
 
 // Chapter: Further Steps

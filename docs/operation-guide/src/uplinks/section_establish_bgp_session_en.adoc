@@ -5,9 +5,8 @@ This section walks you through the process of setting up a BGP session.
 
 Make sure you have the following information before setting up the BGP:
 
-* The tenant ID that owns the virtual router that will establish the BGP
-session. Typically this router is the "MidoNet Provider Router" and the tenant
-ID to use is "admin".
+* The tenant ID that owns the Edge Router that will establish the BGP session.
+Typically this router is owner by the "admin" tenant.
 
 * Local and peer Autonomous System (AS) Numbers for the BGP session. In our
 example, we will use 64512 and 64513.
@@ -16,11 +15,11 @@ example, we will use 64512 and 64513.
 
 * A list of routes to advertise to the BGP peer.
 
-* The UUID of the "MidoNet Provider Router".
+* The UUID of the Edge Router.
 
 Our sample virtual topology contains one router with one port.
 
-. Start the midonet-cli and find the provider router.
+. Start the midonet-cli and find the Edge Router.
 +
 To start the midonet-cli, at the system prompt, enter:
 +
@@ -32,7 +31,7 @@ The midonet> prompt appears, type the following commands:
 [source]
 midonet> cleart
 midonet> router list
-router router0 name MidoNet Provider Router
+router router0 name Edge Router
 +
 The cleart command removes the tenant that is loaded in CLI. Because the
 provider router does not have tenant ID set, you need to remove the tenant
@@ -70,7 +69,7 @@ port port0 device router0 state up mac 02:47:98:a1:e5:f8 address 10.12.12.1 net 
 [source]
 midonet> router router0 set asn 64512
 midonet> router router0 show
-router router0 name MidoNet Provider Router state up asn 64512
+router router0 name Edge Router state up asn 64512
 midonet>
 +
 . Now, continue by listing the BGP peers on the router:
