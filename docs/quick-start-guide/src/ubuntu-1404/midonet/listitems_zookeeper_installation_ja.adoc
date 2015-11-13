@@ -23,9 +23,7 @@ server.*3*=*_nsdb3_*:2888:3888
 ----
 +
 [IMPORTANT]
-For production deployments it is recommended to configure the storage of
-snapshots in a different disk than the commit log. This can be set by changing
-the parameter `dataDir` in `zoo.cfg` to a different disk.
+プロダクションには、コミットログとは別のディスクにスナップショットの保存を設定することを推奨します。これは、別のディスクにzoo.cfgのパラメータdetaDirを変更することによって設定することができます。
 
 .. *ノード固有の構成*
 

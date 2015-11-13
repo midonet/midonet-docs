@@ -2,7 +2,7 @@
 = コンピュートノード
 
 [IMPORTANT]
-OpenStackの文書の
+OpenStack文書の
 http://docs.openstack.org/kilo/install-guide/install/yum/content/neutron-compute-node.html[Install and configure compute node]
 の指示に従います。ただし、*次の相違点に注意してください。*
 
