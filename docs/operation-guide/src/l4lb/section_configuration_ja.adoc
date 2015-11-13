@@ -15,7 +15,7 @@ router router1 name MidoNet Provider Router state up
 [IMPORTANT]
 MidoNetの中で、ルーターにはインバウンドとアウトバウンドのフィルターがあります。もし、ルーターの中のロードバランサーが、トラフィックのバランスを取るならば、これらのフィルターはスキップされます。OpenStackと一緒にMidoNetを使うならば、これらのフィルターは、ロードバランサーとは関連のないNATルールのみを通常含むことになります。しかし、ルーターのフィルターにたいして、カスタマイズしたルールを追加するならば、上記を考慮する価値はあります。
 
-.ロードバランサーを作成して、テナントルーターに割り当てます。
+. ロードバランサーを作成して、テナントルーターに割り当てます。
 +
 [source]
 midonet> load-balancer create
@@ -54,10 +54,7 @@ vip vip0 load-balancer lb0 address 203.0.113.2 protocol-port 8080 persistence SO
 [NOTE]
 ポート8080は参考例です。ロードバランシングトラフィックのためのポートを使うには、最初にそれが他で使われていないことを確認してください。
 
-.最後に、プロバイダールーター(router1)に適切なルーティングルールを挿入する必要があります。そうすることで、外部ネットワークからVIPに送られたパケットは、テナントルーターに対するパスを見つけることができます。
-Lastly, you must insert an appropriate routing rule on the provider router
-(router1) so that a packet sent from an external network to the VIP is able to
-find its way to the tenant router.
+. 最後に、プロバイダールーター(router1)に適切なルーティングルールを挿入する必要があります。そうすることで、外部ネットワークからVIPに送られたパケットは、テナントルーターに対するパスを見つけることができます。
 
 .. 最初に、router router1 list portのようなコマンドを使って、プロバイダールーターのポートを識別します。
 +

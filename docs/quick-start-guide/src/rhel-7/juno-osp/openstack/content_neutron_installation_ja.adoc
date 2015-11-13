@@ -1,7 +1,7 @@
 [IMPORTANT]
 Red Hatの文書の
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/6/html/Deploying_OpenStack_Learning_Environments/chap-OpenStack_Networking_Service_Installation.html[Chapter 7. OpenStack Networking Service Installation]
-の指示に従います。ただし、*次の相違点に注意してください。*
+の指示に従ってください。ただし、*次の相違点に注意してください。*
 
 . *7.3. 共通のネットワークの構成*
 +

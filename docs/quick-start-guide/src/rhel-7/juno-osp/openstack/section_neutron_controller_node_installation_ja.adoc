@@ -3,7 +3,7 @@
 [IMPORTANT]
 Red Hatの文書の
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/6/html/Deploying_OpenStack_Learning_Environments/sect-Configure_the_Networking_Service.html[7.4. Configure the Networking Service]
-の指示に従います。ただし、*次の相違点に注意してください。*
+の指示に従ってください。ただし、*次の相違点に注意してください。*
 
 . *7.4.1. OpenStack Networking Serviceの認証を構成する*
 +

@@ -1,7 +1,7 @@
 = コントローラノード
 
 [IMPORTANT]
-OpenStackの文書の
+OpenStack文書の
 http://docs.openstack.org/juno/install-guide/install/yum/content/neutron-controller-node.html[Install and configure controller node]
 指示に従います。ただし、*次の相違点に注意してください*。
 

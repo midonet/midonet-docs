@@ -3,7 +3,7 @@
 [IMPORTANT]
 Red Hatの文書の
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/6/html/Deploying_OpenStack_Learning_Environments/sect-Install_a_Compute_Node.html[8.3. Install a Compute Node]
-の指示に従います。ただし、*次の追加事項と追加事項に注意してください。*
+の指示に従ってください。ただし、*次の追加事項と追加事項に注意してください。*
 
 . *8.3.1. Compute Service Databaseを作成する*
 +

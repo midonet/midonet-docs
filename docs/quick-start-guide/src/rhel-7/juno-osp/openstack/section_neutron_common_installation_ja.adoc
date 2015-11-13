@@ -1,9 +1,9 @@
 = 共通
 
 [IMPORTANT]
-OpenStackの文書の
+OpenStack文書の
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/6/html/Deploying_OpenStack_Learning_Environments/sect-Common_Networking_Configuration.html[7.3 Common Networking Configuration]
-の指示に従います。ただし、*次の相違点に注意してください。*
+の指示に従ってください。ただし、*次の相違点に注意してください。*
 
 . *7.3.1. Network Managerを無効にする*
 +
