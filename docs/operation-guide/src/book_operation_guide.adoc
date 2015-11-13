@@ -51,7 +51,6 @@ include::{sourcedir}/devices/section_connecting_router_to_router_{lang}.adoc[lev
 include::{sourcedir}/routing/chapter_routing_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/routing/section_routing_overview_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/routing/section_viewing_routes_{lang}.adoc[leveloffset=+2]
-include::{sourcedir}/routing/section_provider_router_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/routing/section_add_route_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/routing/section_delete_route_{lang}.adoc[leveloffset=+2]
 
