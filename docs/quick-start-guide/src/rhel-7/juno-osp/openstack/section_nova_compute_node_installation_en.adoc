@@ -49,16 +49,6 @@ Do *not* apply.
 .. *8.3.5.6.4. Configure Virtual Interface Plugging*
 +
 Do *not* apply.
-
-Additionally, edit the `/etc/nova/nova.conf` file and add the following key to
-the `[glance]` section:
-
-[literal,subs="quotes"]
-----
-[glance]
-...
-host = *_controller_*
-----
 ====
 
 . *8.3.6. Populate the Compute Service Database*

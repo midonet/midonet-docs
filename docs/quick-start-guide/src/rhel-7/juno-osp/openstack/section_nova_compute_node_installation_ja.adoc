@@ -49,15 +49,6 @@ https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack
 .. *8.3.5.6.4. 仮想インターフェイスのプラグインを構成する*
 +
 適用*しないで*ください。
-
-さらに、`/etc/nova/nova.conf` ファイルを変更して、次のキーを`[glance]`セクションに追加します。
-
-[literal,subs="quotes"]
-----
-[glance]
-...
-host = *_controller_*
-----
 ====
 
 . *8.3.6. Compute Service Databaseを追加する*
