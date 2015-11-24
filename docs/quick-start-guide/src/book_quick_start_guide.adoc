@@ -68,6 +68,9 @@ include::{sourcedir}/{operating_system}/midonet/section_midonet-cli_installation
 include::{sourcedir}/{operating_system}/midonet/section_midolman_installation_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/common/midonet/section_midonet_host_registration_{lang}.adoc[leveloffset=+2]
 
+// Chapter: Initial Network Configuration
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/chapter_initial_network_configuration_{lang}.adoc[leveloffset=+1]
+
 // Chapter: BGP Uplink Configuration
 include::{sourcedir}/common/uplinks/chapter_bgp_uplink_configuration_{lang}.adoc[leveloffset=+1]
 

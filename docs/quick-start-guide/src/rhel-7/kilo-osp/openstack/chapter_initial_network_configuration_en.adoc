@@ -1,0 +1,24 @@
+[[initial_network_configuration]]
+= Initial Network Configuration
+
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/7/installation-reference/74-create-an-external-network[Create an external network]
+instructions, but *note the following differences*.
+
+. *Creating and Configuring an External Network*
++
+====
+Use the following command to create the external network:
+
+[source]
+----
+$ neutron net-create ext-net --router:external
+----
+====
+
+[NOTE]
+MidoNet will automatically create the `MidoNet Provider Router` when you create
+an external network in OpenStack. This is an internal router in MidoNet that
+acts as the gateway router of the cloud. There is always only one Provider
+Router, even if there are multiple external networks.

@@ -1,0 +1,24 @@
+[[initial_network_configuration]]
+= Initial Network Configuration
+
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/kilo/install-guide/install/yum/content/neutron-initial-networks.html[Create initial networks]
+instructions, but *note the following differences*.
+
+. *To create the external network*
++
+====
+Use the following command to create the external network:
+
+[source]
+----
+$ neutron net-create ext-net --router:external
+----
+====
+
+[NOTE]
+MidoNet will automatically create the `MidoNet Provider Router` when you create
+an external network in OpenStack. This is an internal router in MidoNet that
+acts as the gateway router of the cloud. There is always only one Provider
+Router, even if there are multiple external networks.

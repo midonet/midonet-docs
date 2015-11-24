@@ -1,0 +1,23 @@
+[[initial_network_configuration]]
+= ネットワークの初期設定
+
+[IMPORTANT]
+OpenStack文書の
+http://docs.openstack.org/juno/install-guide/install/apt/content/neutron-initial-networks.html[Create initial networks]
+指示に従います。ただし、*次の相違点に注意してください*。
+
+. *外部ネットワークの作成*
++
+====
+外部ネットワークは下記のコマンドで作成します。
+
+[source]
+----
+$ neutron net-create ext-net --router:external
+----
+====
+
+[NOTE]
+OpenStackの外部ネットワークが作成したとき、MidoNetは自動的に `Midonet Provider Router`
+を作成します。これはMidoNet内部ルータであり、クラウドのゲートウェイルータとして機能します。
+複数の外部ネットワークが含まれている場合でも、常に1台のルータのみがあります。
