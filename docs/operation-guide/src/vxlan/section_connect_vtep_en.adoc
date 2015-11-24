@@ -53,7 +53,7 @@ This just verified that the OVSDB server that holds the configuration of
 this VTEP is active and handling connections. If you did not get a
 similar reply, please review the configuration of the VTEP.
 
-. The VXLAN service is Midonet is enabled by default. However, if the service
+. The VXLAN service in Midonet is enabled by default. However, if the service
 has been previously disabled, you can enable it by typing the following command
 and restarting at least one cluster instance in order to become the VXLAN
 coordinator:
