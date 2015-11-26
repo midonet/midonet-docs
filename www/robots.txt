@@ -1,2 +1,10 @@
 User-agent: *
-Disallow: /
+Disallow: /docs/en/
+Disallow: /docs/ja/
+Disallow: /docs/*/en/
+Disallow: /docs/*/ja/
+# The lines below are actually redundant since there's no Disallow rule and
+# Allow is the default. But they're included for clarity's sake.
+Allow:    /docs/latest/
+Allow:    /docs/latest-en/
+Allow:    /docs/latest-ja/
