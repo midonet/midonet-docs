@@ -2,7 +2,5 @@
 
 MidoNet installation and integration into OpenStack is completed.
 
-You can now continue with the creation of initial networks in Neutron.
-
 [NOTE]
 Consult the *Operations Guide* for further instructions on operating MidoNet.
