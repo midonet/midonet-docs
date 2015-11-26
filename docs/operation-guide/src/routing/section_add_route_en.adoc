@@ -4,9 +4,9 @@
 Below are some examples of when you might want to add a route:
 
 * You notice that a specific IP address or range is attacking your network. To
-prevent such attacks, you add a route to the MidoNet Provider Router; this
+prevent such attacks, you add a route to the Edge Router; this
 route's source IP matches the attacking IP address or range. You specify the
-type as a Blackhole to configure the MidoNet Provider Router to drop packets
+type as a Blackhole to configure the Edge Router to drop packets
 from this source.
 
 * If BGP dynamic routing is not available, you may configure static routes to

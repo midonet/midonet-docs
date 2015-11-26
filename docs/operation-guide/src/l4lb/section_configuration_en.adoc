@@ -12,7 +12,7 @@ deployment:
 
 [source]
 midonet> list router
-router router0 name MidoNet Provider Router state up
+router router0 name Edge Router state up
 router router1 name Tenant Router state up infilter chain0 outfilter chain1
 
 As you can see, your Tenant Router where you are going to create a load balancer
@@ -70,11 +70,11 @@ vip vip0 load-balancer lb0 address 203.0.113.2 protocol-port 8080 persistence SO
 Above example uses sticky source IP address persistence, read more about it in
 xref:sticky_source_ip[].
 
-. Lastly, you must add a routing rule on the MidoNet Provider Router (`router0`)
+. Lastly, you must add a routing rule on the Edge Router (`router0`)
 so that a packet sent to the VIP is able to find its way to the Tenant Router
 where the LB is defined.
 
-.. First, identify the ports on the Provider Router, using the `router router0
+.. First, identify the ports on the Edge Router, using the `router router0
 list port` command, like so:
 +
 [source]
@@ -85,20 +85,20 @@ port port2 device router0 state up mac 02:46:87:89:49:41 address 200.200.200.1 n
 port port3 device router0 state up mac 02:6b:9f:0d:c4:a8 address 169.254.255.1 net 169.254.255.0/30 peer router1:port0
 ...
 +
-Identify the port on the Provider Router that is used to route traffic to the
+Identify the port on the Edge Router that is used to route traffic to the
 Tenant Router (`router1`). In this example, we see `port3` on device `router0`
 is peered to the Tenant Router port (`router1:port0`).
 
-.. Next, add the route to the Provider Router to send traffic to `router0:port3`
-(local port on Provider Router).
+.. Next, add the route to the Edge Router to send traffic to `router0:port3`
+(local port on Edge Router).
 +
 [source]
 midonet> router router0 add route dst 203.0.113.2/32 src 0.0.0.0/0 type normal port router0:port3
 router0:route11
 +
-This rule matches any incoming traffic (`src 0.0.0.0/0`) to the Provider Router
+This rule matches any incoming traffic (`src 0.0.0.0/0`) to the Edge Router
 that is sent to the VIP (`dst 203.0.113.2/32`) and sends it out the desired
-Provider Router port (`router0:port3`).
+Edge Router port (`router0:port3`).
 
 To delete an existing load balancer, run the following command:
 
