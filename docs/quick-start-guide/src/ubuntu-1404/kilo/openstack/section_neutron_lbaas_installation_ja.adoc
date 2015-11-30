@@ -53,6 +53,6 @@ OPENSTACK_NEUTRON_NETWORK = {
 . *インストールをファイナライズするには*
 +
 ====
-xref:neutron_controller_node_installation_finalize[Neutron Controller Node
-Installation] の説明に従って、インストールをファイナライズします。
+xref:neutron_controller_node_installation_finalize[Neutron
+コントローラノードのインストール] の説明に従って、インストールをファイナライズします。
 ====
