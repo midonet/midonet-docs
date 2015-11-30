@@ -46,7 +46,7 @@ include::{sourcedir}/common/openstack/section_neutron_installation_{lang}.adoc[l
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/content_neutron_installation_{lang}.adoc[]
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_common_installation_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_controller_node_installation_{lang}.adoc[leveloffset=+3]
-include::{sourcedir}/common/openstack/{openstack_version}/section_neutron_lbaas_installation_{lang}.adoc[leveloffset=+4]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_lbaas_installation_{lang}.adoc[leveloffset=+4]
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_dhcp_agent_installation_{lang}.adoc[leveloffset=+4]
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_metadata_agent_installation_{lang}.adoc[leveloffset=+4]
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_compute_node_installation_{lang}.adoc[leveloffset=+3]
