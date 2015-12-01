@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac4a560_d812c861",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-01T14:51:22Z",
+      "side": 1,
+      "message": "Please limit 1st line of commit message to 50 chars.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 117
+      },
+      "revId": "592de083509900a2dfe60802c436c23304aeb7a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_782c54ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-01T14:51:22Z",
+      "side": 1,
+      "message": "Please add JIRA ref to commit message.",
+      "revId": "592de083509900a2dfe60802c436c23304aeb7a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_98185086",
+        "filename": "docs/operation-guide/src/monitoring/section_events_configuration_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-01T14:51:22Z",
+      "side": 1,
+      "message": "Please align table columns (|).",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 60
+      },
+      "revId": "592de083509900a2dfe60802c436c23304aeb7a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
