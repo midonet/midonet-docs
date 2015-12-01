@@ -9,9 +9,9 @@ type of the node.
 .Configuration Files/Locations
 [options="header"]
 |===============
-|Type of Node          |Location of the Configuration File
-|MidoNet Network Agent |/etc/midolman/logback.xml
-|MidoNet API server    |/usr/share/midonet-api/WEB-INF/classes/logback.xml
+|Type of Node              |Location of the Configuration File
+|MidoNet Network Agent     |/etc/midolman/logback.xml
+|MidoNet Cluster server    |/etc/midonet-cluster/logback.xml
 |===============
 
 Below are the behaviors with the default configuration shipped with the MidoNet
