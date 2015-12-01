@@ -21,6 +21,11 @@ cd $(dirname "${BASH_SOURCE[0]}") || exit
 find build -type d -name "target" | xargs rm -rfv
 
 #
+# Force UTC timestamps.
+#
+export TZ="Etc/UTC"
+
+#
 # Clean and build.
 #
 mvn clean install 2>&1 | tee build.log
