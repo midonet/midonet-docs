@@ -88,6 +88,11 @@ midonet> router router0 list bgp-peer
 peer peer0 asn 64513 address 10.12.12.2
 midonet>
 +
+If you need to add MD5 authentication:
+[source]
+midonet> router router0 bgp-peer peer0 set password BGPPASSWORD
+midonet>
++
 We can also give this session custom timers that will take precedence over the
 default timers defined in MidoNet configuration:
 [source]
