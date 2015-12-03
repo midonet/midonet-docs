@@ -28,8 +28,8 @@ http://docs.openstack.org/kilo/install-guide/install/yum/content/neutron-control
 . *ネットワーキングのサーバーコンポーネントを構成する場合*
 +
 ====
-step 'dを適用*しないで*ください。モジュラーレイヤー2（ML2）プラグイン、ルーター
-サービスおよび重複するIPアドレスを有効にします。
+ステップ 「d. モジュラーレイヤー2（ML2）プラグイン、ルーターサービスおよび重複するIPアドレスを有効する」
+を適用*しないで*ください。
 
 代わりに、`/etc/neutron/neutron.conf` ファイルを変更して、次のキーを `[DEFAULT]` セクションに追加します。
 
@@ -41,7 +41,7 @@ core_plugin = neutron.plugins.midonet.plugin.MidonetPluginV2
 ----
 ====
 
-. *モジュラーレイヤー2（ML2）のプラグインを構成する場合*
+. *モジュラーレイヤー2（ML2）のプラグインを構成する*
 +
 ====
 適用*しないで*ください。
