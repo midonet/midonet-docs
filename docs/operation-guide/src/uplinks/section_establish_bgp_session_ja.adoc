@@ -24,7 +24,7 @@ midonet-cliを開始するために、システムのプロンプトに以下を
 [source]
 $ midonet-cli
 +
-出てくるmidonet>プロンプトに、以下のコマンドをタイプしてください。
+出てくる midonet> プロンプトに、以下のコマンドをタイプしてください。
 +
 [source]
 midonet> cleart
@@ -57,31 +57,49 @@ router0:port0
 midonet> router router0 list port
 port port0 device router0 state up mac 02:47:98:a1:e5:f8 address 10.12.12.1 net 10.12.12.0/24
 
-.  BGPセッションを作成する為に、ポートのBGPリンクのリスト化から開始します。
+. BGPセッションを作成する前に、ルータにAS番号を割り当てます。
 +
 [source]
-midonet> router router0 port port0 list bgp
+midonet> router router0 set asn 64512
+midonet> router router0 show
+router router0 name MidoNet Provider Router state up asn 64512
+midonet>
 +
-このコマンドのアウトプットはBGPリンクを戻すべきではありません。MidoNethは各ポートに一つのBGPセッションしかサポートしていないからです。
-+
-次に、BGPセッションをポートに加えます。
+. ルータのBGPピアを一覧表示することで続行します。
 +
 [source]
-midonet> router router0 port port0 add bgp local-AS 64512 peer-AS 64513 peer 10.12.12.2
-router0:port0:bgp0
-midonet> router router0 port port0 list bgp
-bgp bgp0 local-AS 64512 peer-AS 64513 peer 10.12.12.2
+midonet> router router0 list bgp-peer
+midonet>
++
+まだを追加しませんでしたので、このコマンドの出力はどのBGPピアを返すべきではありません。
+下記のコマンドを使用し、BGPピアを追加します：
++
+[source]
+midonet> router router0 add bgp-peer asn 64513 address 10.12.12.2
+router0:peer0
+midonet> router router0 list bgp-peer
+peer peer0 asn 64513 address 10.12.12.2
+midonet>
++
+MidoNetの構成で定義されたデフォルトタイマーより優先されるために、このセッションにカスタムタイマー
+を与えることができます。
+[source]
+midonet> router router0 bgp-peer peer0 set connect-retry 10
+midonet> router router0 bgp-peer peer0 set hold-time 5
+midonet> router router0 bgp-peer peer0 set keep-alive 5
+midonet> router router0 list bgp-peer
+peer peer0 asn 64513 address 10.12.12.2 keep-alive 5 hold-time 5 connect-retry 10
+midonet>
 
 . ルートをアドバタイズします。
 +
 この時点で、BGPセッション上でルートをアドバタイズできます。OpenStackの環境で、ホストになった仮想マシンに外部接続性を提供するために、BGP上のパブリックフローティングIPレンジをアドバタイズする必要があります。
-
 +
 [source]
-midonet> router router0 port port0 bgp bgp0 add route net 192.168.12.0/24
-router0:port0:bgp0:ad-route0
-midonet> router router0 port port0 bgp bgp0 list route
-ad-route ad-route0 net 192.168.12.0/24
+midonet> router router0 add bgp-network net 192.168.12.0/24
+router0:net0
+midonet> router router0 list bgp-network
+net net0 net 192.168.12.0/24
 
 . ルーターのポートと物理ネットワークのインターフェースをバインドします。
 +
