@@ -42,9 +42,8 @@ first.
 [literal,subs="quotes"]
 midonet> sett _admin_
 +
-where _admin_ is your admin tenant UUID in OpenStack, for example:
-12345678-90123456-123456789012. You can obtain this identifier by calling
-OpenStack identity service (keystone):
+Replace _admin_ with your OpenStack admin tenant ID. You can obtain this
+identifier from the OpenStack Identity service (Keystone):
 +
 [source]
 $ keystone tenant-list
