@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_632d6e46",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-07T09:16:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_c08718d6",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "4150e68197262c6da6f0883b8cfbb152282ba5e2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_2078ccf1",
         "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_8330ca9f",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-07T09:16:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_2078ccf1",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "4150e68197262c6da6f0883b8cfbb152282ba5e2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_6061e438",
         "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2015-12-07T06:35:35Z",
       "side": 1,
       "message": "\"かつ送信先のプレフィックス長とウェイト値が同じ場合\" could be better.",
+      "range": {
+        "startLine": 41,
+        "startChar": 16,
+        "endLine": 41,
+        "endChar": 35
+      },
+      "revId": "4150e68197262c6da6f0883b8cfbb152282ba5e2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_c32ac22b",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-07T09:16:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_6061e438",
       "range": {
         "startLine": 41,
         "startChar": 16,
@@ -105,6 +177,30 @@
       "writtenOn": "2015-12-07T06:35:35Z",
       "side": 1,
       "message": "\"のAD値が\" could be better.\nJapanese network engineers are used to use the term \"AD値\".",
+      "range": {
+        "startLine": 85,
+        "startChar": 13,
+        "endLine": 85,
+        "endChar": 18
+      },
+      "revId": "4150e68197262c6da6f0883b8cfbb152282ba5e2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_e3209e4b",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-07T09:16:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_e0541456",
       "range": {
         "startLine": 85,
         "startChar": 13,
