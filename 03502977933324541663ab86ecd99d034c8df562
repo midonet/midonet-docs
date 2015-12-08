@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac4a560_17915452",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002897
+      },
+      "writtenOn": "2015-12-08T03:50:29Z",
+      "side": 1,
+      "message": "Identity (not ID) is better for consistency with openstack docs.\n\neg. http://docs.openstack.org/ja/api/quick-start/content/",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 16
+      },
+      "revId": "03502977933324541663ab86ecd99d034c8df562",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_37a0109f",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002897
+      },
+      "writtenOn": "2015-12-08T03:50:29Z",
+      "side": 1,
+      "message": "ルーター if we want to follow openstack translation conventions. [1]\nor, do we have our own rules?\n\n[1] https://wiki.openstack.org/wiki/I18nTeam/team/ja/convention",
+      "range": {
+        "startLine": 61,
+        "startChar": 18,
+        "endLine": 61,
+        "endChar": 21
+      },
+      "revId": "03502977933324541663ab86ecd99d034c8df562",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
