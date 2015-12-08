@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac4a560_973004a0",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006904
+      },
+      "writtenOn": "2015-12-08T03:21:12Z",
+      "side": 1,
+      "message": "\"のIDに置換\"",
+      "range": {
+        "startLine": 41,
+        "startChar": 31,
+        "endLine": 41,
+        "endChar": 36
+      },
+      "revId": "5ad7ef5a07292b792ecef235a9dd8d948e521f3c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_d72a7c2b",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006904
+      },
+      "writtenOn": "2015-12-08T03:21:12Z",
+      "side": 1,
+      "message": "\"からこのIDを\"",
+      "range": {
+        "startLine": 42,
+        "startChar": 26,
+        "endLine": 42,
+        "endChar": 28
+      },
+      "revId": "5ad7ef5a07292b792ecef235a9dd8d948e521f3c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
