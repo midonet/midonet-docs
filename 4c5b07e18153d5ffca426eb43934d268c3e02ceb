@@ -25,6 +25,75 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_52d75aed",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002897
+      },
+      "writtenOn": "2015-12-08T08:59:54Z",
+      "side": 1,
+      "message": "midonet\u003e プロンプトが表示されますので、",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_12cde25d",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002897
+      },
+      "writtenOn": "2015-12-08T08:59:54Z",
+      "side": 1,
+      "message": "入力",
+      "range": {
+        "startLine": 27,
+        "startChar": 29,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_92081293",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002897
+      },
+      "writtenOn": "2015-12-08T08:59:54Z",
+      "side": 1,
+      "message": "次に、ルーターのBGPピアを一覧表示します。",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 28
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_72a296af",
         "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
         "patchSetId": 7
@@ -64,6 +133,29 @@
         "startChar": 31,
         "endLine": 172,
         "endChar": 39
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_3221fefb",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1002897
+      },
+      "writtenOn": "2015-12-08T08:59:54Z",
+      "side": 1,
+      "message": "と",
+      "range": {
+        "startLine": 207,
+        "startChar": 54,
+        "endLine": 207,
+        "endChar": 55
       },
       "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
