@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_175a3450",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-08T06:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_374f30bf",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_77c8c822",
         "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
         "patchSetId": 3
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_3759f05a",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-08T06:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_77c8c822",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 11
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_b7d260d0",
         "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
         "patchSetId": 3
@@ -82,6 +130,30 @@
       "writtenOn": "2015-12-08T05:11:45Z",
       "side": 1,
       "message": "I think it\u0027s better to move this to after \"留意してください。\".",
+      "range": {
+        "startLine": 70,
+        "startChar": 41,
+        "endLine": 71,
+        "endChar": 37
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_d73fdcd4",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-08T06:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_b7d260d0",
       "range": {
         "startLine": 70,
         "startChar": 41,
@@ -140,6 +212,54 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_77328811",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-08T06:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_57e10c99",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 7
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_b73c20e4",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-08T06:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_77efe887",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 37
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_f7dbf8ea",
         "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
         "patchSetId": 3
@@ -151,6 +271,30 @@
       "writtenOn": "2015-12-08T05:11:45Z",
       "side": 1,
       "message": "Here and elsewhere. Please never mix 全角 and 半角 parentheses.",
+      "range": {
+        "startLine": 74,
+        "startChar": 24,
+        "endLine": 74,
+        "endChar": 25
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_321e5e64",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-08T06:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_f7dbf8ea",
       "range": {
         "startLine": 74,
         "startChar": 24,
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_37301001",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-08T06:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_b7e98082",
+      "range": {
+        "startLine": 74,
+        "startChar": 25,
+        "endLine": 75,
+        "endChar": 14
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_d7ec3c92",
         "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
         "patchSetId": 3
@@ -197,6 +365,30 @@
       "writtenOn": "2015-12-08T05:11:45Z",
       "side": 1,
       "message": "\"宛先” or \"送信先”? You should make the terminology consistent.",
+      "range": {
+        "startLine": 83,
+        "startChar": 8,
+        "endLine": 83,
+        "endChar": 17
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_52475a4b",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-08T06:20:15Z",
+      "side": 1,
+      "message": "We have a mix of 宛先, 送信先, デスティネーション all over the place (and there are other terms which have similar issues).\n\nFor better clarity I created a separate JIRA (MND-129) to check the consistency across all docs.",
+      "parentUuid": "5ac4a560_d7ec3c92",
       "range": {
         "startLine": 83,
         "startChar": 8,
@@ -232,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_b7134065",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-08T06:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_578f4ccc",
+      "range": {
+        "startLine": 83,
+        "startChar": 34,
+        "endLine": 84,
+        "endChar": 19
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_17feb438",
         "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
         "patchSetId": 3
@@ -243,6 +459,30 @@
       "writtenOn": "2015-12-08T05:11:45Z",
       "side": 1,
       "message": "”ソース”の項目",
+      "range": {
+        "startLine": 85,
+        "startChar": 33,
+        "endLine": 85,
+        "endChar": 42
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_971c8479",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-08T06:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_17feb438",
       "range": {
         "startLine": 85,
         "startChar": 33,
