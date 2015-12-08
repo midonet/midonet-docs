@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac4a560_c3864213",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006904
+      },
+      "writtenOn": "2015-12-08T01:32:00Z",
+      "side": 1,
+      "message": "s/まだを追加しませんでした/まだ何も追加していません/\nor\n\"まだBGPピアを追加していないため、このコマンドは何も出力しません。\"\ncould be better.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 45
+      },
+      "revId": "5bb2c8aee5a9394f6d8246b2e6d30801abb6b8d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_43a9527a",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006904
+      },
+      "writtenOn": "2015-12-08T01:32:00Z",
+      "side": 1,
+      "message": "\"カスタムタイマーをこのセッションに\"",
+      "range": {
+        "startLine": 89,
+        "startChar": 32,
+        "endLine": 90,
+        "endChar": 1
+      },
+      "revId": "5bb2c8aee5a9394f6d8246b2e6d30801abb6b8d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_23dc5612",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1006904
+      },
+      "writtenOn": "2015-12-08T01:32:00Z",
+      "side": 1,
+      "message": "\"第二の\"",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 2
+      },
+      "revId": "5bb2c8aee5a9394f6d8246b2e6d30801abb6b8d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_43d792ed",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1006904
+      },
+      "writtenOn": "2015-12-08T01:32:00Z",
+      "side": 1,
+      "message": "\"事が\"",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 3
+      },
+      "revId": "5bb2c8aee5a9394f6d8246b2e6d30801abb6b8d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_a3ff8666",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006904
+      },
+      "writtenOn": "2015-12-08T01:32:00Z",
+      "side": 1,
+      "message": "\"一方のみ\"",
+      "range": {
+        "startLine": 152,
+        "startChar": 44,
+        "endLine": 152,
+        "endChar": 46
+      },
+      "revId": "5bb2c8aee5a9394f6d8246b2e6d30801abb6b8d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_0322fa00",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1006904
+      },
+      "writtenOn": "2015-12-08T01:32:00Z",
+      "side": 1,
+      "message": "が",
+      "range": {
+        "startLine": 170,
+        "startChar": 9,
+        "endLine": 170,
+        "endChar": 10
+      },
+      "revId": "5bb2c8aee5a9394f6d8246b2e6d30801abb6b8d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_431cf2c1",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1006904
+      },
+      "writtenOn": "2015-12-08T01:32:00Z",
+      "side": 1,
+      "message": "Can\u0027t come up with a good translation for \"deployment\",\nbut \"展開\" is not the most instinctive word for me.\nSomething like \"環境\" or even \"デプロイメント\" could be better.",
+      "range": {
+        "startLine": 171,
+        "startChar": 28,
+        "endLine": 171,
+        "endChar": 30
+      },
+      "revId": "5bb2c8aee5a9394f6d8246b2e6d30801abb6b8d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_8c1c7779",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1006904
+      },
+      "writtenOn": "2015-12-08T01:32:00Z",
+      "side": 1,
+      "message": "\"同じく\"",
+      "range": {
+        "startLine": 209,
+        "startChar": 8,
+        "endLine": 209,
+        "endChar": 10
+      },
+      "revId": "5bb2c8aee5a9394f6d8246b2e6d30801abb6b8d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
