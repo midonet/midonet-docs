@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac4a560_52c4ba5e",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004283
+      },
+      "writtenOn": "2015-12-08T08:06:46Z",
+      "side": 1,
+      "message": "参照します",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_72a296af",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1004283
+      },
+      "writtenOn": "2015-12-08T08:06:46Z",
+      "side": 1,
+      "message": "起動します",
+      "range": {
+        "startLine": 144,
+        "startChar": 37,
+        "endLine": 144,
+        "endChar": 41
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_928c9237",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1004283
+      },
+      "writtenOn": "2015-12-08T08:06:46Z",
+      "side": 1,
+      "message": "North-Southトラフィック",
+      "range": {
+        "startLine": 172,
+        "startChar": 31,
+        "endLine": 172,
+        "endChar": 39
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
