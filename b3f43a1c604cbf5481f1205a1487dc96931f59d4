@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac4a560_b7a0a044",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-08T05:11:45Z",
+      "side": 1,
+      "message": "\"ウェイト値\" sounds redundant. Can we make it just \"ウェイト” or \"重み” ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_374f30bf",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-08T05:11:45Z",
+      "side": 1,
+      "message": "\"該当する送信元と宛先とを\" will make it even clearer.",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_77c8c822",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-08T05:11:45Z",
+      "side": 1,
+      "message": "\"すなわち” may be better. And you don\u0027t need \"、\" after \"つまり/すなわち\"",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 11
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_b7d260d0",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-08T05:11:45Z",
+      "side": 1,
+      "message": "I think it\u0027s better to move this to after \"留意してください。\".",
+      "range": {
+        "startLine": 70,
+        "startChar": 41,
+        "endLine": 71,
+        "endChar": 37
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_77efe887",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-08T05:11:45Z",
+      "side": 1,
+      "message": "\"パケット送信ポートを決定するのに”",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 37
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_57e10c99",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-08T05:11:45Z",
+      "side": 1,
+      "message": "s/通常のルーター/物理ルーター/",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 7
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_f7dbf8ea",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-08T05:11:45Z",
+      "side": 1,
+      "message": "Here and elsewhere. Please never mix 全角 and 半角 parentheses.",
+      "range": {
+        "startLine": 74,
+        "startChar": 24,
+        "endLine": 74,
+        "endChar": 25
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_b7e98082",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-08T05:11:45Z",
+      "side": 1,
+      "message": "ネクストホップゲートウェイIPアドレスにマッチするIPアドレスを持つポートが選択されます。",
+      "range": {
+        "startLine": 74,
+        "startChar": 25,
+        "endLine": 75,
+        "endChar": 14
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_d7ec3c92",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-08T05:11:45Z",
+      "side": 1,
+      "message": "\"宛先” or \"送信先”? You should make the terminology consistent.",
+      "range": {
+        "startLine": 83,
+        "startChar": 8,
+        "endLine": 83,
+        "endChar": 17
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_578f4ccc",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-08T05:11:45Z",
+      "side": 1,
+      "message": "より低いウェイトを持つパスが優先されるパスとみなされます（例えば高帯域幅のパス）。",
+      "range": {
+        "startLine": 83,
+        "startChar": 34,
+        "endLine": 84,
+        "endChar": 19
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_17feb438",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-08T05:11:45Z",
+      "side": 1,
+      "message": "”ソース”の項目",
+      "range": {
+        "startLine": 85,
+        "startChar": 33,
+        "endLine": 85,
+        "endChar": 42
+      },
+      "revId": "b3f43a1c604cbf5481f1205a1487dc96931f59d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
