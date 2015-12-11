@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5ac4a560_c5aab4d1",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "In general, we should keep consistent terminology for translation. Do we keep, say, \"ソース” as katakana, or prefer \"送信元\" depending on the case?",
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_72bb76e5",
         "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
         "patchSetId": 4
@@ -18,6 +35,29 @@
         "startChar": 29,
         "endLine": 4,
         "endChar": 36
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_35d9e383",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "Just \"パケットと\" should be sufficient. I re-read the original English sentence and the original sentence seems redundant.",
+      "range": {
+        "startLine": 6,
+        "startChar": 24,
+        "endLine": 6,
+        "endChar": 41
       },
       "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
@@ -71,6 +111,190 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_f513eb0a",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "I think the orignal sentence and thus this translation is awfully verbose: Just \"パケット送信元IPアドレス・プレフィックスをフィルターします\" or something like that.",
+      "range": {
+        "startLine": 16,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 46
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_656f20c6",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "ルーティングに用いられる送信元IPプレフィックスを表示します。",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 38
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_c56394db",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "ルート選択のアルゴリズムは以下の通りです。",
+      "range": {
+        "startLine": 35,
+        "startChar": 38,
+        "endLine": 36,
+        "endChar": 35
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_e56250d7",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "送信元アドレス",
+      "range": {
+        "startLine": 38,
+        "startChar": 18,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_055e6c12",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "Delete.",
+      "range": {
+        "startLine": 38,
+        "startChar": 28,
+        "endLine": 38,
+        "endChar": 31
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_259c48c0",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "You can delete this whole sentence of put it inside parentheses.",
+      "range": {
+        "startLine": 39,
+        "startChar": 24,
+        "endLine": 40,
+        "endChar": 19
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_a5af78e2",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "送信先",
+      "range": {
+        "startLine": 42,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 33
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_85a99ce1",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "送信先IPアドレスのプレフィックス",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 18
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_f2cea682",
         "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
         "patchSetId": 4
@@ -87,6 +311,98 @@
         "startChar": 16,
         "endLine": 43,
         "endChar": 18
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_e5b9702f",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "送信先IPアドレスプレフィックスのマスク長であるような",
+      "range": {
+        "startLine": 45,
+        "startChar": 7,
+        "endLine": 45,
+        "endChar": 32
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_65a64012",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "Just \"ウェイト\" for consistency.",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 13
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_05b58c30",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "サブネットのマスク長 or マスク長",
+      "range": {
+        "startLine": 48,
+        "startChar": 22,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_25836857",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2015-12-11T07:53:59Z",
+      "side": 1,
+      "message": "フローの最初のパケットの受信時、あるいはフロー再計算時のみ",
+      "range": {
+        "startLine": 63,
+        "startChar": 14,
+        "endLine": 63,
+        "endChar": 49
       },
       "revId": "0598b749425e256e5110f9f4c342e7475c9aac05",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
