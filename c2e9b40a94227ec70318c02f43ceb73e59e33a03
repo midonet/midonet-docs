@@ -45,6 +45,54 @@
       "revId": "c2e9b40a94227ec70318c02f43ceb73e59e33a03",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_27652245",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-15T08:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_c74aaec4",
+      "range": {
+        "startLine": 34,
+        "startChar": 48,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "c2e9b40a94227ec70318c02f43ceb73e59e33a03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_c778eef4",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-15T08:41:46Z",
+      "side": 1,
+      "message": "Yes. But it\u0027s to be addressed in a separate JIRA / patch set:\nhttps://midonet.atlassian.net/browse/MND-125",
+      "parentUuid": "5ac4a560_e745eab3",
+      "range": {
+        "startLine": 34,
+        "startChar": 36,
+        "endLine": 34,
+        "endChar": 46
+      },
+      "revId": "c2e9b40a94227ec70318c02f43ceb73e59e33a03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
