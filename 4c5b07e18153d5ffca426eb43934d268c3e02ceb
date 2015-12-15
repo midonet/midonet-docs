@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_a7c69247",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-15T08:03:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_52c4ba5e",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_52d75aed",
         "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
         "patchSetId": 7
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_07df460e",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-15T08:03:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_12cde25d",
+      "range": {
+        "startLine": 27,
+        "startChar": 29,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_27e282d5",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-15T08:03:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_52d75aed",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_92081293",
         "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2015-12-08T08:59:54Z",
       "side": 1,
       "message": "次に、ルーターのBGPピアを一覧表示します。",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 28
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_47e93eb7",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-15T08:03:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_92081293",
       "range": {
         "startLine": 69,
         "startChar": 2,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_c7c54e3d",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-15T08:03:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_72a296af",
+      "range": {
+        "startLine": 144,
+        "startChar": 37,
+        "endLine": 144,
+        "endChar": 41
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_928c9237",
         "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
         "patchSetId": 7
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "5ac4a560_e7c08a2c",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-15T08:03:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_928c9237",
+      "range": {
+        "startLine": 172,
+        "startChar": 31,
+        "endLine": 172,
+        "endChar": 39
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac4a560_3221fefb",
         "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
         "patchSetId": 7
@@ -151,6 +295,30 @@
       "writtenOn": "2015-12-08T08:59:54Z",
       "side": 1,
       "message": "と",
+      "range": {
+        "startLine": 207,
+        "startChar": 54,
+        "endLine": 207,
+        "endChar": 55
+      },
+      "revId": "4c5b07e18153d5ffca426eb43934d268c3e02ceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac4a560_67ec7ac8",
+        "filename": "docs/operation-guide/src/uplinks/section_establish_bgp_session_ja.adoc",
+        "patchSetId": 7
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2015-12-15T08:03:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4a560_3221fefb",
       "range": {
         "startLine": 207,
         "startChar": 54,
