@@ -17,7 +17,6 @@ include::{sourcedir}/uplinks/section_static_setup_{lang}.adoc[leveloffset=+2]
 // Chapter: Authentication and authorization
 include::{sourcedir}/authentication/chapter_authentication_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/authentication/section_authentication_services_{lang}.adoc[leveloffset=+2]
-include::{sourcedir}/authentication/section_authentication_roles_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/authentication/section_keystone_authentication_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/authentication/section_enabling_keystone_authentication_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/authentication/section_disabling_keystone_authentication_{lang}.adoc[leveloffset=+3]
