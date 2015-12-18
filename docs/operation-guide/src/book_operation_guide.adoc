@@ -94,8 +94,6 @@ include::{sourcedir}/resource_protection/chapter_resource_protection_{lang}.adoc
 // Chapter: MidoNet monitoring
 include::{sourcedir}/monitoring/chapter_monitoring_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/monitoring/section_metering_{lang}.adoc[leveloffset=+2]
-include::{sourcedir}/monitoring/section_munin_{lang}.adoc[leveloffset=+2]
-include::{sourcedir}/monitoring/section_zabbix_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/monitoring/section_nsdb_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/monitoring/section_nsdb_cassandra_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/monitoring/section_nsdb_zookeeper_{lang}.adoc[leveloffset=+3]
