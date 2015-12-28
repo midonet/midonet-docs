@@ -4,11 +4,11 @@
 For traffic that ingresses a router port, the router does the following:
 
 * Attempts to match a given packet's destination with a route in its routing
-table based on the packet's source and destination, prefering the route with
+table based on the packet's source and destination, preferring the route with
 the lower weight value.
 
 * For packets with more than one matching route, uses per-agent round robin
-selection among those routes. 
+selection among those routes.
 
 * Drops packets that don't match routes with matching sources and destinations.
 
@@ -97,10 +97,10 @@ re-write the packet's destination MAC address before emitting it towards the
 intermediate router.
 
 Note that routes in normal (that is, physical) routers differ from MidoNet's
-virtual routers in that they don't have a target/destination virtual port (the
-'Normal' route in MidoNet has this; see "Type"). Therefore, normal routers use
-the Next Hop Gateway IP address to determine which port should be used to emit
-the packet (the port whose prefix matches the next hop gateway's IP address).
+virtual routers in that they don't have a destination virtual port (the 'Normal'
+route in MidoNet has this; see "Type"). Therefore, normal routers use the Next
+Hop Gateway IP address to determine which port should be used to emit the packet
+(the port whose prefix matches the next hop gateway's IP address).
 
 == Next Hop Port
 
