@@ -1,0 +1,66 @@
+[[bgp_multisession]]
+= Adding a second session on the same router port
+
+It may be useful or a good idea to add a second BGP session to this router port if
+there is a second uplink router available. That has two upsides as the host that
+owns the port binding for this router port will be able to load balance among
+both upstream routers and it will not be disconnected if only one of them fails.
+
+To add a second peer to the same router port, you use the same command as for
+the first peer, adjusting its AS number and IP address. The router port on which
+MidoNet establishes the BGP session is chosen automatically based on the peer's
+IP address.
+
+This will add a second peer to the example above:
+[source]
+midonet> router router0 add bgp-peer asn 64514 address 10.12.12.3
+router0:peer1
+midonet> router router0 list bgp-peer
+peer peer0 asn 64513 address 10.12.12.2 keep-alive 5 hold-time 5 connect-retry 10
+peer peer1 asn 64514 address 10.12.12.3
+midonet>
+
+= Adding BGP sessions to a second router port
+
+It's also wise to add one or more hosts that will handle North-South traffic for
+the MidoNet deployment. After all, a single router port routing to upstream is a
+single point of failure and could also be a performance bottleneck.
+
+The solution is to add a second virtual port to the router and to bind it to a
+different physical host. With the proper routing setup, MidoNet will balance
+outgoing traffic among the two ports/hosts and so will upstream routers when
+routing traffic towards MidoNet.
+
+The first step is to add a second router port:
+[source]
+midonet> router router0 add port address 10.22.22.1 net 10.22.22.0/24
+router0:port1
+midonet>
+midonet> router router0 list port
+port port0 device router0 state up plugged no mac ac:ca:ba:ab:ed:b8 address 10.12.12.1 net 10.12.12.0/24
+port port1 device router0 state up plugged no mac ac:ca:ba:5e:0a:02 address 10.22.22.1 net 10.22.22.0/24
+
+Now you can add a BGP peer that is reachable through the new port:
+
+[source]
+midonet> router router0 add bgp-peer asn 64515 address 10.22.22.2
+router0:peer2
+midonet> router router0 list bgp-peer
+peer peer0 asn 64513 address 10.12.12.2 keep-alive 5 hold-time 5 connect-retry 10
+peer peer1 asn 64514 address 10.12.12.3
+peer peer2 asn 64515 address 10.22.22.2
+midonet>
+
+And bind the new port to a NIC in a different physical host:
+
+[source]
+midonet> host host1 add binding port router0:port1 interface eth0
+host host1 interface eth0 port router0:port1
+midonet>
+
+At this point the MidoNet agent in host1 will bring up the new router port and
+set up bgpd to talk to the peer in 10.22.22.2.
+
+As with the first port, adding a second BGP peer on the 10.22.22.0/24 network
+would enable host1 to load balance across two upstream routers and to keep
+functioning as a gateway even if one of its two BGP peers fails.
