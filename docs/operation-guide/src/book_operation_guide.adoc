@@ -11,6 +11,7 @@ include::{sourcedir}/uplinks/chapter_configuring_uplinks_{lang}.adoc[leveloffset
 include::{sourcedir}/uplinks/section_edge_router_setup_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/uplinks/section_bgp_setup_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/uplinks/section_establish_bgp_session_{lang}.adoc[leveloffset=+3]
+include::{sourcedir}/uplinks/section_bgp_multisession_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/uplinks/section_bgp_failover_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/uplinks/section_static_setup_{lang}.adoc[leveloffset=+2]
 

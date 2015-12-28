@@ -1,0 +1,65 @@
+[[bgp_multisession]]
+= 同じルーターポート上の第2のセッションを追加する場合
+
+第二のアップリンクルーターが利用可能である場合は、このルーターのポートに第二のBGPセッションを
+追加する事が有用であり得ます。そうしますと、2つのメリットがあります。ルーターポートのバインディング
+を所有しているホストは、両方のアップストリームルーター間で負荷を分散することができて、そのうちの
+一方のみが故障した場合には切断されません。
+
+同じルーターポートに第2のピアを追加するには、AS番号とIPアドレスを調整して、一つのピアの場合と同じ
+コマンドを使用します。BGPセッションが確立されるルーターのポートは自動的にピアのIPアドレスに基づいて
+選択されます。
+
+上記の例に第2のピアを追加します：
+[source]
+midonet> router router0 add bgp-peer asn 64514 address 10.12.12.3
+router0:peer1
+midonet> router router0 list bgp-peer
+peer peer0 asn 64513 address 10.12.12.2 keep-alive 5 hold-time 5 connect-retry 10
+peer peer1 asn 64514 address 10.12.12.3
+midonet>
+
+= 第2のルーターポートにBGPセッションを追加する場合
+
+アップストリーム側が単一のルーターポートのルーティングは、単一障害点であり、また、パフォーマンスの
+ボトルネックである可能性がありますので、MidoNetの環境にNorth-Southトラフィックを処理する1つ以上
+のホストを追加するのが賢明です。
+
+解決策は、ルーターに2つ目の仮想ポートを追加し、別の物理ホストにバインドすることです。適切な
+ルーティング設定で、MidoNetは2つのポート/ホスト間で送信トラフィックを分散し、
+アップストリームルーターもMidoNetに向けたトラフィックを分散します。
+
+最初のステップは、第2のルーターのポートを追加することです：
+
+[source]
+midonet> router router0 add port address 10.22.22.1 net 10.22.22.0/24
+router0:port1
+midonet>
+midonet> router router0 list port
+port port0 device router0 state up plugged no mac ac:ca:ba:ab:ed:b8 address 10.12.12.1 net 10.12.12.0/24
+port port1 device router0 state up plugged no mac ac:ca:ba:5e:0a:02 address 10.22.22.1 net 10.22.22.0/24
+
+新しいポートを介して到達可能であるBGPピアを追加することができます：
+
+[source]
+midonet> router router0 add bgp-peer asn 64515 address 10.22.22.2
+router0:peer2
+midonet> router router0 list bgp-peer
+peer peer0 asn 64513 address 10.12.12.2 keep-alive 5 hold-time 5 connect-retry 10
+peer peer1 asn 64514 address 10.12.12.3
+peer peer2 asn 64515 address 10.22.22.2
+midonet>
+
+そして、別の物理ホストのNICに新しいポートをバインドします：
+
+[source]
+midonet> host host1 add binding port router0:port1 interface eth0
+host host1 interface eth0 port router0:port1
+midonet>
+
+この時点で、host1のMidoNetエージェントが新しいルーターポートを起動し、10.22.22.2のピアと
+通信するbgpdを設定します。
+
+1つめのポートと同じく、10.22.22.0/24ネットワーク上の第二のBGPピアを追加すると、host1は2つの
+アップストリームルーターの間でロードバランシングし、その2つのBGPピアの1つが故障した場合でも
+ゲートウェイとして機能できます。

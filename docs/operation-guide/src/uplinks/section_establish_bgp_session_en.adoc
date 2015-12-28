@@ -1,228 +1,214 @@
 [[establish_bgp_session]]
-= Establishing BGP sessions
+= BGP Uplink Configuration
 
-This section walks you through the process of setting up a BGP session.
+MidoNet utilizes the Border Gateway Protocol (BGP) for external connectivity.
 
-Make sure you have the following information before setting up the BGP:
+For production deployments it is strongly recommended to use BGP due to it's
+scalability and redundancy.
 
-* The tenant ID that owns the Edge Router that will establish the BGP session.
-Typically this router is owner by the "admin" tenant.
+For demo or POC environments, alternatively static routing can be used.
 
-* Local and peer Autonomous System (AS) Numbers for the BGP session. In our
-example, we will use 64512 and 64513.
+The following instructions assume below sample environment:
 
-* The IP address of the BGP peer.
+* One floating IP network
+** _192.0.2.0/24_
 
-* A list of routes to advertise to the BGP peer.
+* Two MidoNet gateway nodes
+** _gateway1_, connecting to _bgp1_ via _eth1_
+** _gateway2_, connecting to _bgp2_ via _eth1_
 
-* The UUID of the Edge Router.
+* Two remote BGP peers
+** _bgp1_, _198.51.100.1_, AS _64513_
+** _bgp2_, _203.0.113.1_, AS _64514_
 
-Our sample virtual topology contains one router with one port.
+* Corresponding MidoNet BGP peers
+** _198.51.100.2_, AS _64512_
+** _203.0.113.2_, AS _64512_
 
-. Start the midonet-cli and find the Edge Router.
+Follow these steps to configure the BGP uplinks.
+
+. Determine the Keystone `admin` tenant ID
 +
-To start the midonet-cli, at the system prompt, enter:
-+
-[source]
-$ midonet-cli
-+
-The midonet> prompt appears, type the following commands:
-+
-[source]
-midonet> cleart
-midonet> router list
-router router0 name Edge Router
-+
-The cleart command removes the tenant that is loaded in CLI. Because the
-provider router does not have tenant ID set, you need to remove the tenant
-first.
-
-. Issue the following command to load the admin tenant:
+Use the `keystone` command to determine the Keystone `admin` tenant's ID:
 +
 [literal,subs="quotes"]
-midonet> sett _admin_
-+
-Replace _admin_ with your OpenStack admin tenant ID. You can obtain this
-identifier from the OpenStack Identity service (Keystone):
-+
-[source]
+----
 $ keystone tenant-list
++----------------------------------+----------+---------+
+|                id                |   name   | enabled |
++----------------------------------+----------+---------+
+| *_12345678901234567890123456789012_* |  admin   |   True  |
++----------------------------------+----------+---------+
+----
 
-. Create a virtual port for the BGP session.
+. Launch the MidoNet CLI and find the Edge Router
 +
-You need to create the virtual port to be used for BGP communication with the
-remote router. To create a new virtual port, enter:
+[literal,subs="quotes"]
+----
+$ midonet-cli
+midonet-cli> 
+----
 +
-[source]
-midonet> router router0 add port address 10.12.12.1 net 10.12.12.0/24
-router0:port0
+Because the Edge Router is not associated with a tenant, the active
+tenant has to be cleared (`cleart`) first.
 +
-To verify the created port, enter:
-+
-[source]
-midonet> router router0 list port
-port port0 device router0 state up mac 02:47:98:a1:e5:f8 address 10.12.12.1 net 10.12.12.0/24
+[literal,subs="quotes"]
+----
+midonet-cli> cleart
 
-. Before creating a BGP session, assign an AS number to the router:
+midonet-cli> router list
+router *_router0_* name *Edge Router* state up
+router router1 name Tenant Router state up infilter chain0 outfilter chain1
+----
 +
-[source]
-midonet> router router0 set asn 64512
-midonet> router router0 show
-router router0 name Edge Router state up asn 64512
-midonet>
-+
-. Now, continue by listing the BGP peers on the router:
-+
-[source]
-midonet> router router0 list bgp-peer
-midonet>
-+
-The output of this command should not return any BGP peers, since we didn't add
-any yet. To add a BGP peer use this command:
-+
-[source]
-midonet> router router0 add bgp-peer asn 64513 address 10.12.12.2
-router0:peer0
-midonet> router router0 list bgp-peer
-peer peer0 asn 64513 address 10.12.12.2
-midonet>
-+
-If you need to add MD5 authentication:
-[source]
-midonet> router router0 bgp-peer peer0 set password BGPPASSWORD
-midonet>
-+
-We can also give this session custom timers that will take precedence over the
-default timers defined in MidoNet configuration:
-[source]
-midonet> router router0 bgp-peer peer0 set connect-retry 10
-midonet> router router0 bgp-peer peer0 set hold-time 5
-midonet> router router0 bgp-peer peer0 set keep-alive 5
-midonet> router router0 list bgp-peer
-peer peer0 asn 64513 address 10.12.12.2 keep-alive 5 hold-time 5 connect-retry 10
-midonet>
+In this example the Edge Router is *_router0_*.
 
-. Advertise a route.
+. Load the `admin` tenant
 +
-At this point, you can advertise routes over the BGP session. In an OpenStack
-environment, you must advertise public floating IP ranges over BGP in order to
-provide external connectivity for hosted virtual machines.
+Before continuing with further configuration, the `admin` tenant has to be set
+(`sett`). Use the ID you got from Keystone above.
 +
-[source]
-midonet> router router0 add bgp-network net 192.168.12.0/24
+[literal,subs="quotes"]
+----
+midonet-cli> sett *_12345678901234567890123456789012_*
+tenant_id: 12345678901234567890123456789012
+----
+
+. Create virtual ports for the BGP sessions
++
+For each remote BGP peer, create a port on the Edge Router that is
+going to be used for BGP communication.
++
+[literal,subs="quotes"]
+----
+midonet> router *_router0_* add port address *_198.51.100.2_* net 198.51.100.0/30
+*_router0:port0_*
+
+midonet> router *_router0_* add port address *_203.0.113.2_* net 203.0.113.0/30
+*_router0:port1_*
+
+midonet> router *_router0_* port list
+port *_port0_* device router0 state up mac ac:ca:ba:11:11:11 address *_198.51.100.2_* net 198.51.100.0/30
+port *_port1_* device router0 state up mac ac:ca:ba:22:22:22 address *_203.0.113.1_* net 203.0.113.0/30
+[...]
+----
++
+In this example the created ports are *_port0_* and *_port1_*.
+
+. Configure BGP on the virtual ports
++
+[literal,subs="quotes"]
+----
+midonet> router *_router0_* set asn *_64512_*
+midonet> router *_router0_* add bgp-peer asn *_64513_* address *_198.51.100.1_*
+*_router0:peer0_*
+
+midonet> router *_router0_* list bgp-peer
+peer peer0 asn 64513 address 198.51.100.1
+
+midonet> router *_router0_* add bgp-peer asn *_64514_* address *_203.0.113.1_*
+*_router0:peer1_*
+
+midonet> router *_router0_* list bgp-peer
+peer peer0 asn 64513 address 198.51.100.1
+peer peer1 asn 64514 address 203.0.113.1
+----
+
+. Add routes to the remote BGP peers
++
+In order to be able to establish connections to the remote BGP peers,
+corresponding routes have to be added.
++
+[literal,subs="quotes"]
+----
+midonet> router *_router0_* route add src 0.0.0.0/0 dst *_198.51.100.0/30_* port *_router0:port0_* type normal
+router0:route0
+
+midonet> router *_router0_* route add src 0.0.0.0/0 dst *_203.0.113.0/30_* port *_router0:port1_* type normal
+router0:route1
+----
+
+. Advertise BGP routes
++
+In order to provide external connectivity for hosted virtual machines, the
+floating IP network has to be advertised to the BGP peers.
++
+[literal,subs="quotes"]
+----
+midonet> router *_router0_* add bgp-network net *_192.0.2.0/24_*
 router0:net0
+
 midonet> router router0 list bgp-network
-net net0 net 192.168.12.0/24
+net net0 net 192.0.2.0/24
+----
 
-. Bind the router's port to a physical network interface.
+. Bind virtual ports to physical network interfaces
 +
-If you just created the router port to connect to the BGP peer, the port might
-not be bound to any network interface. You need to bind the port to an active
-physical network interface to enable the port (and its BGP sessions).
+Bind the Edge Router's virtual ports to the physical network
+interfaces on the Gateway Nodes.
 +
-To create that binding, you need to know the host and network interface. With
-that information, you can use the following commands to bind the port to the
-physical network interface and activate the BGP session.
+[IMPORTANT]
+Ensure that physical interfaces are in state `UP` and do not have an IP address
+assigned.
+
+.. List the MidoNet hosts and find the Gateway Nodes:
 +
-[NOTE]
-Make sure that no IP address is present on the interface you want to bind to a
-virtual port, and that the interface is UP.
-+
-First, list the hosts:
-+
-[source]
+[literal,subs="quotes"]
+----
 midonet> host list
-host host0 name ip-10-152-161-111 alive true
-host host1 name ip-10-164-23-206 alive true
+host *_host0_* name *_gateway1_* alive true
+host *_host1_* name *_gateway2_* alive true
+[...]
+----
 +
-After finding the host, you can list its network interfaces:
+In this example the hosts are *_host0_* and *_host1_*.
+
+.. List the Gateway Nodes' physical interfaces:
 +
-[source]
-midonet> host host0 list interface
-iface midonet host_id host0 mac 6a:07:42:e2:6c:88 mtu 1500 type Virtual endpoint DATAPATH
-iface lo host_id host0 addresses [u'127.0.0.1', u'0:0:0:0:0:0:0:1'] mac 00:00:00:00:00:00 mtu 16436 type Physical endpoint LOCALHOST
-iface virbr0 host_id host0 addresses [u'192.168.122.1'] mac 46:0b:df:a4:91:65 mtu 1500 type Virtual endpoint UNKNOWN
-iface osvm-ef97-16fc host_id host0 addresses [u'fe80:0:0:0:7cf9:8ff:fe60:54ff'] mac 7e:f9:08:60:54:ff mtu 1500 type Virtual endpoint DATAPATH
-iface osvm-38d0-266a host_id host0 addresses [u'fe80:0:0:0:2034:f5ff:fe89:1b89'] mac 22:34:f5:89:1b:89 mtu 1500 type Virtual endpoint DATAPATH
-iface eth0 host_id host0 addresses [u'10.152.161.111', u'fe80:0:0:0:2000:aff:fe98:a16f'] mac 22:00:0a:98:a1:6f mtu 1500 type Physical endpoint PHYSICAL
-iface eth1 host_id host0 mac 22:00:0a:7a:b3:4e mtu 1500 type Physical endpoint PHYSICAL
+[literal,subs="quotes"]
+----
+midonet> host *_host0_* list interface
+[...]
+iface *_eth1_* host_id host0 status 3 addresses [] mac 01:02:03:04:05:06 mtu 1500 type Physical endpoint PHYSICAL
+[...]
+
+midonet> host *_host1_* list interface
+[...]
+iface *_eth1_* host_id host0 status 3 addresses [] mac 06:05:04:03:02:01 mtu 1500 type Physical endpoint PHYSICAL
+[...]
+----
+
+.. Bind the physical host interfaces to the Edge Router's virtual
+ports:
 +
-In this case, we will bind router0:port0 to interface eth1 on host0:
-+
-[source]
-midonet> host host0 add binding port router0:port0 interface eth1
+[literal,subs="quotes"]
+----
+midonet> host *_host0_* add binding port *_router0:port0_* interface *_eth1_*
 host host0 interface eth1 port router0:port0
+
+midonet> host *_host1_* add binding port *_router0:port1_* interface *_eth1_*
+host host1 interface eth1 port router0:port1
+----
+
+.. Configure a stateful port group:
 +
-At this point, the router port is activated in host0 and bgpd starts running.
+[literal,subs="quotes"]
+----
+midonet-cli> port-group create name uplink-spg stateful true
+*_pgroup0_*
+----
+
+.. Add the ports to the port group:
 +
-[NOTE]
-The router0 and port0 aliases are auto-generated on demand in each midonet-cli
-session. Therefore, if you want to create the binding using those aliases
-(instead of UUIDs), midonet-cli must have "seen" those objects in the current
-session. To accomplish this, you can list them.
+[literal,subs="quotes"]
+----
+midonet> port-group *_pgroup0_* add member port *_router0:port0_*
+port-group pgroup0 port router0:port0
 
-= Adding a second session on the same router port
+midonet> port-group *_pgroup0_* add member port *_router0:port1_*
+port-group pgroup0 port router0:port1
 
-It may be useful or a good idea to add a second BGP session to this router port if
-there is a second uplink router available. That has two upsides as the host that
-owns the port binding for this router port will be able to load balance among
-both upstream routers and it will not be disconnected if only one of them fails.
-
-To add a second peer to the same router port, you use the same command as for
-the first peer, adjusting its AS number and IP address. The router port on which
-MidoNet establishes the BGP session is chosen automatically based on the peer's
-IP address.
-
-This will add a second peer to the example above:
-[source]
-midonet> router router0 add bgp-peer asn 64514 address 10.12.12.3
-router0:peer1
-midonet> router router0 list bgp-peer
-peer peer0 asn 64513 address 10.12.12.2 keep-alive 5 hold-time 5 connect-retry 10
-peer peer1 asn 64514 address 10.12.12.3
-midonet>
-
-= Adding BGP sessions to a second router port
-
-It's also wise to add one or more hosts that will handle North-South traffic for
-the MidoNet deployment. After all, a single router port routing to upstream is a
-single point of failure and could also be a performance bottleneck.
-
-The solution is to add a second virtual port to the router and to bind it to a
-different physical host. With the proper routing setup, MidoNet will balance
-outgoing traffic among the two ports/hosts and so will upstream routers when
-routing traffic towards MidoNet.
-
-The first step is to add a second router port:
-[source]
-midonet> router router0 add port address 10.22.22.1 net 10.22.22.0/24
-router0:port1
-midonet>
-midonet> router router0 list port
-port port0 device router0 state up plugged no mac ac:ca:ba:ab:ed:b8 address 10.12.12.1 net 10.12.12.0/24
-port port1 device router0 state up plugged no mac ac:ca:ba:5e:0a:02 address 10.22.22.1 net 10.22.22.0/24
-
-Now you can add a BGP peer that is reachable through the new port:
-
-[source]
-midonet> router router0 add bgp-peer asn 64515 address 10.22.22.2
-router0:peer2
-midonet> router router0 list bgp-peer
-peer peer0 asn 64513 address 10.12.12.2 keep-alive 5 hold-time 5 connect-retry 10
-peer peer1 asn 64514 address 10.12.12.3
-peer peer2 asn 64515 address 10.22.22.2
-midonet>
-
-And bind the new port to a NIC in a different physical host:
-
-[source]
-midonet> host host1 add binding port router0:port1 interface eth0
-host host1 interface eth0 port router0:port1
-midonet>
-
-At this point the MidoNet agent in host1 will bring up the new router port and
-set up bgpd to talk to the peer in 10.22.22.2.
-
-As with the first port, adding a second BGP peer on the 10.22.22.0/24 network
-would enable host1 to load balance across two upstream routers and to keep
-functioning as a gateway even if one of its two BGP peers fails.
+midonet> port-group pgroup0 list member
+port-group pgroup0 port router0:port0
+port-group pgroup0 port router0:port1
+----
