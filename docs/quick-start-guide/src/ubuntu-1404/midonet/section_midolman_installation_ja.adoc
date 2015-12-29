@@ -65,9 +65,9 @@ JVMリソーステンプレートを設定するためには、デフォルト�
 
 [source,subs="specialcharacters,quotes"]
 ----
-$ echo "agent.openstack.metadata.nova_metadata_url : \"http://**_nova_metadata_host_**:**_nova_metadata_port_**\"" | mn-conf set
-$ echo "agent.openstack.metadata.shared_secret : *_shared_secret_*" | mn-conf set
-$ echo "agent.openstack.metadata.enabled : true" | mn-conf set
+$ echo "agent.openstack.metadata.nova_metadata_url : \"http://**_nova_metadata_host_**:**_nova_metadata_port_**\"" | mn-conf set -t default
+$ echo "agent.openstack.metadata.shared_secret : *_shared_secret_*" | mn-conf set -t default
+$ echo "agent.openstack.metadata.enabled : true" | mn-conf set -t default
 ----
 
 *_nova_metadata_host_*、*_nova_metadata_port_*、*_shared_secret_* は適切な値に
