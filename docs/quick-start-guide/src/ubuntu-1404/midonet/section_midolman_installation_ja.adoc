@@ -14,6 +14,18 @@
 ----
 ====
 
+. *mn-conf をセットアップする*
++
+====
+`/etc/midolman/midolman.conf` を編集し、mn-conf を ZooKeeper クラスタにポイントします。
+
+[source,subs="quotes"]
+----
+[zookeeper]
+zookeeper_hosts = *_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181
+----
+====
+
 . *リソース使用の設定*
 +
 ====

@@ -14,6 +14,18 @@ enters or leaves the virtual topology, in this guide this are the *_gateway1_*,
 ----
 ====
 
+. *Set up mn-conf*
++
+====
+Edit `/etc/midolman/midolman.conf` to point mn-conf to the ZooKeeper cluster:
+
+[source,subs="quotes"]
+----
+[zookeeper]
+zookeeper_hosts = *_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181
+----
+====
+
 . *Configure resource usage*
 +
 ====
