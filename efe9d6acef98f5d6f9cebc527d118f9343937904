@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa81d914_9be8517e",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-05T05:34:50Z",
+      "side": 1,
+      "message": "These two bullets read a bit contradicting. Is it that we first pick a matching route per routing table / agent, preferring one with a lower weight, then we do per-agent round-robin?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "efe9d6acef98f5d6f9cebc527d118f9343937904",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_1be541a8",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-05T05:34:50Z",
+      "side": 1,
+      "message": "\"一つ”",
+      "range": {
+        "startLine": 42,
+        "startChar": 41,
+        "endLine": 42,
+        "endChar": 44
+      },
+      "revId": "efe9d6acef98f5d6f9cebc527d118f9343937904",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_3be205a0",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-05T05:34:50Z",
+      "side": 1,
+      "message": "\"同じ送信先IPアドレスプレフィックスのマスク長であるような\" --\u003e\n\"送信先IPアドレスプレフィックスのマスク長が同じであるような\"",
+      "range": {
+        "startLine": 42,
+        "startChar": 5,
+        "endLine": 42,
+        "endChar": 34
+      },
+      "revId": "efe9d6acef98f5d6f9cebc527d118f9343937904",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_db01e93a",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-05T05:34:50Z",
+      "side": 1,
+      "message": "”送信先IPアドレス”",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 9
+      },
+      "revId": "efe9d6acef98f5d6f9cebc527d118f9343937904",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_fbfead37",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-05T05:34:50Z",
+      "side": 1,
+      "message": "\"送信先\"",
+      "range": {
+        "startLine": 72,
+        "startChar": 3,
+        "endLine": 72,
+        "endChar": 12
+      },
+      "revId": "efe9d6acef98f5d6f9cebc527d118f9343937904",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_3bf9254e",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-05T05:34:50Z",
+      "side": 1,
+      "message": "\"内”",
+      "range": {
+        "startLine": 80,
+        "startChar": 41,
+        "endLine": 80,
+        "endChar": 43
+      },
+      "revId": "efe9d6acef98f5d6f9cebc527d118f9343937904",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_1bfc613e",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-05T05:34:50Z",
+      "side": 1,
+      "message": "\"送信先”",
+      "range": {
+        "startLine": 80,
+        "startChar": 22,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "efe9d6acef98f5d6f9cebc527d118f9343937904",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_5b95f9e2",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-05T05:34:50Z",
+      "side": 1,
+      "message": "\"一つ\"",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "efe9d6acef98f5d6f9cebc527d118f9343937904",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_7b9abd15",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-05T05:34:50Z",
+      "side": 1,
+      "message": "”送信先”",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 9
+      },
+      "revId": "efe9d6acef98f5d6f9cebc527d118f9343937904",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
