@@ -1,0 +1,12 @@
+[IMPORTANT]
+OpenStack文書の
+http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_keystone.html[Chapter 3. Add the Identity service]
+指示に従います。ただし、*次の相違事項と追加事項に注意してください。*。
+
+. *動作の確認*
++
+====
+ステップ1の「セキュリティ上の理由で、一時的な認証トークンメカニズムを無効にする」を適用しないでください。  
+
+MidoNet APIは、認証のためにキーストーン管理トークンを使用しますので、admin_token_authは対応する構成セクション内に保持する必要があります。
+====
