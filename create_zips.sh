@@ -13,6 +13,8 @@ BUILD_DIRS=(
     'quick-start-guide_rhel-7_kilo-rdo_ja'
     'quick-start-guide_ubuntu-1404_kilo_en'
     'quick-start-guide_ubuntu-1404_kilo_ja'
+    'quick-start-guide_ubuntu-1404_liberty_en'
+    'quick-start-guide_ubuntu-1404_liberty_ja'
     'reference-architecture_en'
     'reference-architecture_ja'
     'rest-api_en'

@@ -1,0 +1,165 @@
+[[neutron_controller_node_installation]]
+= Controller Node
+
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/liberty/install-guide-ubuntu/neutron-controller-install.html[Install and configure controller node]
+instructions, but *note the following differences and additions*.
+
+. *Prerequisites*
++
+====
+Apply as is.
+====
+
+. *Configure networking options*
++
+====
+Do *not* apply.
+
+.. Instead, install the following packages:
++
+[source]
+----
+# apt-get install neutron-server python-networking-midonet python-neutronclient
+# apt-get purge neutron-plugin-ml2
+----
++
+.. Configure the server component:
++
+Edit the `/etc/neutron/neutron.conf` file and configure the following keys:
++
+[literal,subs="quotes"]
+----
+[DEFAULT]
+...
+core_plugin = *midonet.neutron.plugin_v2.MidonetPluginV2*
+service_plugins = *midonet.neutron.services.l3.l3_midonet.MidonetL3ServicePlugin*
+...
+rpc_backend = rabbit
+...
+auth_strategy = keystone
+...
+notify_nova_on_port_status_changes = True
+notify_nova_on_port_data_changes = True
+nova_url = http://**_controller_**:8774/v2
+
+[database]
+...
+connection = mysql+pymysql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
+
+[oslo_messaging_rabbit]
+...
+rabbit_host = *_controller_*
+rabbit_userid = openstack
+rabbit_password = *_RABBIT_PASS_*
+
+[keystone_authtoken]
+...
+auth_uri = http://**_controller_**:5000
+auth_url = http://**_controller_**:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = neutron
+password = *_NEUTRON_PASS_*
+
+[nova]
+...
+auth_url = http://**_controller_**:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+region_name = RegionOne
+project_name = service
+username = nova
+password = *_NOVA_PASS_*
+----
+====
+
+. *Configure the MidoNet plug-in*
++
+====
+.. Create the directory for the MidoNet plugin:
++
+[source]
+----
+mkdir /etc/neutron/plugins/midonet
+----
++
+.. Create the `/etc/neutron/plugins/midonet/midonet.ini` file and edit it to
+contain the following:
++
+[literal,subs="quotes"]
+----
+[DATABASE]
+sql_connection = mysql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
+
+[MIDONET]
+# MidoNet API URL
+midonet_uri = http://*_controller_*:8181/midonet-api
+# MidoNet administrative user in Keystone
+username = *_midonet_*
+password = *_MIDONET_PASS_*
+# MidoNet administrative user's tenant
+project_id = service
+----
++
+.. Edit the `/etc/default/neutron-server` file to contain the following:
++
+[source]
+----
+NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/midonet/midonet.ini"
+----
++
+====
+
+. *Configure the metadata agent*
++
+====
+Do *not* apply.
+====
+
+. *To configure Compute to use Networking*
++
+====
+Apply as is.
+====
+
+. *Configure Load-Balancer-as-a-Service (LBaaS)*
++
+====
+Additionally to the OpenStack Installation Guide, configure
+Load-Balancer-as-a-Service (LBaaS) as described in xref:configure_lbaas[].
+====
+
+. *To finalize installation* [[neutron_controller_node_installation_finalize]]
++
+====
+Do *not* apply.
+
+Instead, perform the following steps.
+
+.. Populate the database:
++
+[source]
+----
+# su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/midonet/midonet.ini upgrade head" neutron
+# su -s /bin/sh -c "neutron-db-manage --subproject networking-midonet upgrade head" neutron
+----
++
+.. Restart the Compute service:
++
+[source]
+----
+# service nova-api restart
+----
++
+.. Restart the Networking service:
++
+[source]
+----
+# service neutron-server restart
+----
+====

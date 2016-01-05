@@ -1,0 +1,58 @@
+[[configure_lbaas]]
+= Load-Balancer-as-a-Service（LBaaS）を構成する
+
+. *Neutron Load-Balancing-as-a-Service をインストールします*
++
+====
+[source]
+----
+# apt-get install python-neutron-lbaas
+----
+====
+
+. *MidoNet ドライバーを有効します*
++
+====
+`/etc/neutron/neutron.conf` ファイルの `service_provider` オプションで MidoNet
+ドライバーを有効します。
+
+[source]
+----
+[service_providers]
+service_provider = LOADBALANCER:Midonet:midonet.neutron.services.loadbalancer.driver.MidonetLoadbalancerDriver:default
+----
+====
+
+. *LBaaS プラグインを有効にします*
++
+====
+`/etc/neutron/neutron.conf` ファイルの `service_plugins` オプションで LBaaS
+プラグインを有効にします。
+
+[source]
+----
+service_plugins = lbaas
+----
+====
+
+. *ダッシュボードで負荷分散を有効にします。*
++
+====
+`/etc/openstack-dashboard/local_settings.py` ファイルで `enable_lb` オプションを
+`True` に設定します。
+
+[source]
+----
+OPENSTACK_NEUTRON_NETWORK = {
+   'enable_lb': True,
+   ...
+}
+----
+====
+
+. *インストールをファイナライズするには*
++
+====
+xref:neutron_controller_node_installation_finalize[Neutron
+コントローラノードのインストール] の説明に従って、インストールをファイナライズします。
+====
