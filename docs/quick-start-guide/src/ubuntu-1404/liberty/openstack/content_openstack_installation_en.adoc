@@ -1,0 +1,4 @@
+[IMPORTANT]
+Follow the
+http://docs.openstack.org/liberty/install-guide-ubuntu/index.html[OpenStack Liberty Installation Guide for Ubuntu]
+, but *note the following differences*.
