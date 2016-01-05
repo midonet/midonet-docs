@@ -1,0 +1,5 @@
+[IMPORTANT]
+OpenStack文書の
+http://docs.openstack.org/liberty/install-guide-ubuntu/keystone.html[Add the Identity service]
+指示に従います。ただし、*次の追加事項に注意してください。*。
+
