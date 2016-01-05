@@ -1,0 +1,12 @@
+. *MidoNet管理ユーザーを作成する*
++
+====
+Keystoneの +admin+ として、以下のコマンドを実行します。
+
+[literal,subs="quotes"]
+----
+$ openstack user create --domain default --password-prompt midonet
+$ openstack role add --project service --user midonet admin
+----
+====
+

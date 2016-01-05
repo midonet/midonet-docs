@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/liberty/install-guide-ubuntu/nova.html[Add the Compute service]
+instructions, but *note the following differences*.
+
