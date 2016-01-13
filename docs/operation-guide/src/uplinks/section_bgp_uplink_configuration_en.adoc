@@ -1,32 +1,40 @@
-[[establish_bgp_session]]
-= BGP アップリンク構成
+////
+// Note:
+// This file is shared between the Operations Guide and the Quick Start Guides.
+// It is located underneath the Operations Guide sources, the Quick Start Guide
+// sources only contain a symbolic link to this file.
+// Ref: https://midonet.atlassian.net/browse/MND-148
+////
+[[bgp_uplink_configuration]]
+= BGP Uplink Configuration
 
-MidoNet では、外部接続にボーダーゲートウェイプロトコル（BGP）を利用します。
+MidoNet utilizes the Border Gateway Protocol (BGP) for external connectivity.
 
-BGP にはスケーラビリティと冗長性があるため、実稼動環境では BGP を使用することを強くお勧めします。
+For production deployments it is strongly recommended to use BGP due to it's
+scalability and redundancy.
 
-デモ環境や POC 環境では、代わりに静的ルーティングを使用できます。
+For demo or POC environments, alternatively static routing can be used.
 
-こちらの手順では、次のサンプル環境を想定しています。
+The following instructions assume below sample environment:
 
-* フローティング IP ネットワーク 1 個
-** _192.0.2.0/24/24_
+* One floating IP network
+** _192.0.2.0/24_
 
-* MidoNet ゲートウェイノード 2 個
-** _gateway1_、_bgp1_ に _eth1_ で接続
-** _gateway2_、_bgp2_ に _eth1_ で接続
+* Two MidoNet gateway nodes
+** _gateway1_, connecting to _bgp1_ via _eth1_
+** _gateway2_, connecting to _bgp2_ via _eth1_
 
-* リモート BGP ピア 2 個
-** _bgp1_、_198.51.100.1_、AS _64513_
-** _bgp2_、_203.0.113.1_、AS _64514_
+* Two remote BGP peers
+** _bgp1_, _198.51.100.1_, AS _64513_
+** _bgp2_, _203.0.113.1_, AS _64514_
 
-* 対応する MidoNet BGP ピア
-** _198.51.100.2_、AS _64512_
-** _203.0.113.2_、AS _64512_
+* Corresponding MidoNet BGP peers
+** _198.51.100.2_, AS _64512_
+** _203.0.113.2_, AS _64512_
 
-次の手順に従って、GBP アップリンクを構成してください。
+Follow these steps to configure the BGP uplinks.
 
-. MidoNet CLI を起動し、Edge ルーターを検索する
+. Launch the MidoNet CLI and find the Edge Router
 +
 [literal,subs="quotes"]
 ----
@@ -35,11 +43,12 @@ router *_router0_* name *Edge Router* state up
 router router1 name Tenant Router state up infilter chain0 outfilter chain1
 ----
 +
-この例の場合、Edge ルーターは *_router0_* です。
+In this example the Edge Router is *_router0_*.
 
-. BGP セッション用の仮想ポートを作成する
+. Create virtual ports for the BGP sessions
 +
-リモート BGP ピアごとに、BGP 通信に使用するポートを Edge ルーター上に作成します。
+For each remote BGP peer, create a port on the Edge Router that is
+going to be used for BGP communication.
 +
 [literal,subs="quotes"]
 ----
@@ -55,9 +64,9 @@ port *_port1_* device router0 state up mac ac:ca:ba:22:22:22 address *_203.0.113
 [...]
 ----
 +
-この例で作成されたポートは、*_port0_* と *_port1_* です。
+In this example the created ports are *_port0_* and *_port1_*.
 
-. 仮想ポートで BGP を構成する
+. Configure BGP on the virtual ports
 +
 [literal,subs="quotes"]
 ----
@@ -76,7 +85,7 @@ peer peer0 asn 64513 address 198.51.100.1
 peer peer1 asn 64514 address 203.0.113.1
 ----
 
-. MD5認証を追加する必要がある場合：
+. If needed, configure MD5 authentication:
 +
 [literal,subs="quotes"]
 ----
@@ -84,8 +93,8 @@ midonet> router *_router0_* bgp-peer *_peer0_* set password *_BGP_PASSWORD_*
 midonet> router *_router0_* bgp-peer *_peer1_* set password *_BGP_PASSWORD_*
 ----
 
-. MidoNetの構成で定義されたデフォルトタイマーより優先されるカスタムタイマーをこのセッションに
-与えることができます。
+. If needed, configure custom timers that will take precedence over the default
+ones defined in the MidoNet configuration:
 +
 [literal,subs="quotes"]
 midonet> router *_router0_* bgp-peer *_peer0_* set connect-retry 10
@@ -112,9 +121,10 @@ midonet> router *_router0_* route add src 0.0.0.0/0 dst *_203.0.113.0/30_* port 
 router0:route1
 ----
 
-. BGPルートをアドバタイズする
+. Advertise BGP routes
 +
-ホストされている仮想マシンが外部接続できるようにするため、フローティング IP ネットワークを BGP ピアにアドバタイズする必要があります。
+In order to provide external connectivity for hosted virtual machines, the
+floating IP network has to be advertised to the BGP peers.
 +
 [literal,subs="quotes"]
 ----
@@ -125,14 +135,16 @@ midonet> router router0 list bgp-network
 net net0 net 192.0.2.0/24
 ----
 
-. 仮想ポートを物理ネットワークインターフェースにバインドする
+. Bind virtual ports to physical network interfaces
 +
-Edge ルーターの仮想ポートをゲートウェイノードの物理ネットワークインターフェースにバインドします。
+Bind the Edge Router's virtual ports to the physical network
+interfaces on the Gateway Nodes.
 +
 [IMPORTANT]
-物理インターフェースの状態が `UP` になっていて、IP アドレスが割り当てられていないことを確認してください。
+Ensure that physical interfaces are in state `UP` and do not have an IP address
+assigned.
 
-.. MidoNet ホストをリストし、ゲートウェイノードを検索します。
+.. List the MidoNet hosts and find the Gateway Nodes:
 +
 [literal,subs="quotes"]
 ----
@@ -142,9 +154,9 @@ host *_host1_* name *_gateway2_* alive true
 [...]
 ----
 +
-この例のホストは *_host0_* と *_host1_* です。
+In this example the hosts are *_host0_* and *_host1_*.
 
-.. ゲートウェイノードの物理インターフェースをリストします。
+.. List the Gateway Nodes' physical interfaces:
 +
 [literal,subs="quotes"]
 ----
@@ -159,7 +171,8 @@ iface *_eth1_* host_id host0 status 3 addresses [] mac 06:05:04:03:02:01 mtu 150
 [...]
 ----
 
-.. 物理ホストインターフェースを Edge ルーターの仮想ポートにバインドします。
+.. Bind the physical host interfaces to the Edge Router's virtual
+ports:
 +
 [literal,subs="quotes"]
 ----
@@ -170,7 +183,7 @@ midonet> host *_host1_* add binding port *_router0:port1_* interface *_eth1_*
 host host1 interface eth1 port router0:port1
 ----
 
-.. ステートフルポートグループを構成します。
+.. Configure a stateful port group:
 +
 [literal,subs="quotes"]
 ----
@@ -178,7 +191,7 @@ midonet-cli> port-group create name uplink-spg stateful true
 *_pgroup0_*
 ----
 
-.. ポートをポートグループに追加します。
+.. Add the ports to the port group:
 +
 [literal,subs="quotes"]
 ----
