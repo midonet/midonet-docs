@@ -26,55 +26,20 @@ BGP にはスケーラビリティと冗長性があるため、実稼動環境�
 
 次の手順に従って、GBP アップリンクを構成してください。
 
-. Keystone `admin` テナント ID を特定する
-+
-`keystone` コマンドを使用して、Keystone `admin` テナント ID を特定します。
+. MidoNet CLI を起動し、Edge ルーターを検索する
 +
 [literal,subs="quotes"]
 ----
-$ keystone tenant-list
-+----------------------------------+----------+---------+
-|                id                |   name   | enabled |
-+----------------------------------+----------+---------+
-| *_12345678901234567890123456789012_* |  admin   |   True  |
-+----------------------------------+----------+---------+
-----
-
-. MidoNet CLI を起動し、MidoNet プロバイダルーターを検索する
-+
-[literal,subs="quotes"]
-----
-$ midonet-cli
-midonet-cli> 
-----
-+
-MidoNet プロバイダルーターはテナントと関連付けられていないため、最初にアクティブテナントをクリア（`cleart`）する必要があります。
-+
-[literal,subs="quotes"]
-----
-midonet-cli> cleart
-
 midonet-cli> router list
-router *_router0_* name *MidoNet Provider Router* state up
+router *_router0_* name *Edge Router* state up
 router router1 name Tenant Router state up infilter chain0 outfilter chain1
 ----
 +
-この例の場合、MidoNet プロバイダルーターは *_router0_* です。
-
-. `admin` テナントをロードする
-+
-構成をさらに続ける前に、`admin` テナントを設定（`sett`）する必要があります。上記の Keystone から取得した ID
-を使用してください。
-+
-[literal,subs="quotes"]
-----
-midonet-cli> sett *_12345678901234567890123456789012_*
-tenant_id: 12345678901234567890123456789012
-----
+この例の場合、Edge ルーターは *_router0_* です。
 
 . BGP セッション用の仮想ポートを作成する
 +
-リモート BGP ピアごとに、BGP 通信に使用するポートを MidoNet プロバイダルーター上に作成します。
+リモート BGP ピアごとに、BGP 通信に使用するポートを Edge ルーター上に作成します。
 +
 [literal,subs="quotes"]
 ----
@@ -140,7 +105,7 @@ net net0 net 192.0.2.0/24
 
 . 仮想ポートを物理ネットワークインターフェースにバインドする
 +
-MidoNet プロバイダルーターの仮想ポートをゲートウェイノードの物理ネットワークインターフェースにバインドします。
+Edge ルーターの仮想ポートをゲートウェイノードの物理ネットワークインターフェースにバインドします。
 +
 [IMPORTANT]
 物理インターフェースの状態が `UP` になっていて、IP アドレスが割り当てられていないことを確認してください。
@@ -172,7 +137,7 @@ iface *_eth1_* host_id host0 status 3 addresses [] mac 06:05:04:03:02:01 mtu 150
 [...]
 ----
 
-.. 物理ホストインターフェースを MidoNet プロバイダルーターの仮想ポートにバインドします。
+.. 物理ホストインターフェースを Edge ルーターの仮想ポートにバインドします。
 +
 [literal,subs="quotes"]
 ----

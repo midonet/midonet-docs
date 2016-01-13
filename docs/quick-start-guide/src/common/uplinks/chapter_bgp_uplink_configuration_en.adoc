@@ -28,52 +28,16 @@ The following instructions assume below sample environment:
 
 Follow these steps to configure the BGP uplinks.
 
-. Determine the Keystone `admin` tenant ID
-+
-Use the `keystone` command to determine the Keystone `admin` tenant's ID:
-+
-[literal,subs="quotes"]
-----
-$ keystone tenant-list
-+----------------------------------+----------+---------+
-|                id                |   name   | enabled |
-+----------------------------------+----------+---------+
-| *_12345678901234567890123456789012_* |  admin   |   True  |
-+----------------------------------+----------+---------+
-----
-
 . Launch the MidoNet CLI and find the Edge Router
 +
 [literal,subs="quotes"]
 ----
-$ midonet-cli
-midonet-cli> 
-----
-+
-Because the Edge Router is not associated with a tenant, the active
-tenant has to be cleared (`cleart`) first.
-+
-[literal,subs="quotes"]
-----
-midonet-cli> cleart
-
 midonet-cli> router list
 router *_router0_* name *Edge Router* state up
 router router1 name Tenant Router state up infilter chain0 outfilter chain1
 ----
 +
 In this example the Edge Router is *_router0_*.
-
-. Load the `admin` tenant
-+
-Before continuing with further configuration, the `admin` tenant has to be set
-(`sett`). Use the ID you got from Keystone above.
-+
-[literal,subs="quotes"]
-----
-midonet-cli> sett *_12345678901234567890123456789012_*
-tenant_id: 12345678901234567890123456789012
-----
 
 . Create virtual ports for the BGP sessions
 +
