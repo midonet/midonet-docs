@@ -76,6 +76,28 @@ peer peer0 asn 64513 address 198.51.100.1
 peer peer1 asn 64514 address 203.0.113.1
 ----
 
+. MD5認証を追加する必要がある場合：
++
+[literal,subs="quotes"]
+----
+midonet> router *_router0_* bgp-peer *_peer0_* set password *_BGP_PASSWORD_*
+midonet> router *_router0_* bgp-peer *_peer1_* set password *_BGP_PASSWORD_*
+----
+
+. MidoNetの構成で定義されたデフォルトタイマーより優先されるカスタムタイマーをこのセッションに
+与えることができます。
++
+[literal,subs="quotes"]
+midonet> router *_router0_* bgp-peer *_peer0_* set connect-retry 10
+midonet> router *_router0_* bgp-peer *_peer0_* set hold-time 5
+midonet> router *_router0_* bgp-peer *_peer0_* set keep-alive 5
+midonet> router *_router0_* bgp-peer *_peer1_* set connect-retry 10
+midonet> router *_router0_* bgp-peer *_peer1_* set hold-time 5
+midonet> router *_router0_* bgp-peer *_peer1_* set keep-alive 5
+midonet> router *_router0_* list bgp-peer
+peer peer0 asn 64513 address 198.51.100.1 keep-alive 5 hold-time 5 connect-retry 10
+peer peer1 asn 64514 address 203.0.113.1 keep-alive 5 hold-time 5 connect-retry 10
+
 . Add routes to the remote BGP peers
 +
 In order to be able to establish connections to the remote BGP peers,
