@@ -23,7 +23,7 @@ deb http://builds.midonet.org/misc stable main
 
 [source]
 ----
-# curl -L http://builds.midonet.org/midorepo.key | apt-key add -
+# curl -L https://builds.midonet.org/midorepo.key | apt-key add -
 ----
 ====
 
