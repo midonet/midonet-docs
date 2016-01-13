@@ -182,26 +182,3 @@ host host0 interface eth1 port router0:port0
 midonet> host *_host1_* add binding port *_router0:port1_* interface *_eth1_*
 host host1 interface eth1 port router0:port1
 ----
-
-.. Configure a stateful port group:
-+
-[literal,subs="quotes"]
-----
-midonet-cli> port-group create name uplink-spg stateful true
-*_pgroup0_*
-----
-
-.. Add the ports to the port group:
-+
-[literal,subs="quotes"]
-----
-midonet> port-group *_pgroup0_* add member port *_router0:port0_*
-port-group pgroup0 port router0:port0
-
-midonet> port-group *_pgroup0_* add member port *_router0:port1_*
-port-group pgroup0 port router0:port1
-
-midonet> port-group pgroup0 list member
-port-group pgroup0 port router0:port0
-port-group pgroup0 port router0:port1
-----
