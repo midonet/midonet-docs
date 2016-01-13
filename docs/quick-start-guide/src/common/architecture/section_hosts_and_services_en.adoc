@@ -10,8 +10,6 @@
 ** Compute (Nova)
 ** Networking (Neutron)
 *** Neutron Server
-*** DHCP Agent
-*** Metadata Agent
 ** Dashboard (Horizon)
 * MidoNet
 ** Cluster
