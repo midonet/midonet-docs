@@ -10,8 +10,6 @@
 ** コンピュート（Nova）
 ** ネットワーキング（Neutron）
 *** Neutron Server
-*** DHCP Agent
-*** Metadata Agent
 ** ダッシュボード（Horizon）
 * MidoNet
 ** Cluster
