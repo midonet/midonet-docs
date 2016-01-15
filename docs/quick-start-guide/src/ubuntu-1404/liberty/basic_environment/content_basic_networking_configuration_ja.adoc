@@ -1,0 +1,4 @@
+このガイドはOpenStack文書の
+http://docs.openstack.org/liberty/install-guide-ubuntu/environment-networking.html[Host networking]
+に基づいた次のシステムアーキテクチャを前提としています。
+

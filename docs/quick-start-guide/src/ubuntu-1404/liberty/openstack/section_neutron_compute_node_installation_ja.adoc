@@ -1,0 +1,47 @@
+[[neutron_compute_node]]
+= コンピュートノード
+
+[IMPORTANT]
+OpenStack文書の
+http://docs.openstack.org/liberty/install-guide-ubuntu/neutron-compute-install.html[Install and configure compute node]
+指示に従います。ただし、*次の相違点に注意してください*。
+
+
+. *コンポーネントをインストールする*
++
+====
+適用*しないで*ください。
+====
+
+. *共通のコンポーネントを構成する*
++
+====
+適用*しないで*ください。
+====
+
+. *ネットワークオプションの設定*
++
+====
+適用*しないで*ください。
+====
+
+. *コンピュートでネットワーキングの使用を構成する場合*
++
+====
+このまま適用します。
+====
+
+. *インストールを終了する場合*
++
+====
+適用*しないで*ください。
+
+.. 代わりに、次のサービスを再開します。
++
+[source]
+----
+# service nova-compute restart
+----
++
+====
+

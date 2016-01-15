@@ -1,0 +1,5 @@
+[IMPORTANT]
+OpenStack文書の
+http://docs.openstack.org/liberty/install-guide-ubuntu/neutron.html[Add the Networking service]
+の指示に従います。ただし、*次の相違点に注意してください。*
+
