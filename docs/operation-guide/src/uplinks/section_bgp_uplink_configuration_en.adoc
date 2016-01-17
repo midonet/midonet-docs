@@ -45,37 +45,30 @@ router router1 name Tenant Router state up infilter chain0 outfilter chain1
 +
 In this example the Edge Router is *_router0_*.
 
-. Create virtual ports for the BGP sessions
+. Create and bind virtual ports for the BGP sessions
 +
-For each remote BGP peer, create a port on the Edge Router that is
-going to be used for BGP communication.
+Refer to xref:edge_router_setup[] for instructions on how to create the
+necessary ports and bind them to the Gateway hosts' physical network interfaces.
++
+You can confirm the port configuration within MidoNet CLI by listing the Edge
+Router's ports:
 +
 [literal,subs="quotes"]
 ----
-midonet> router *_router0_* add port address *_198.51.100.2_* net 198.51.100.0/30
-*_router0:port0_*
-
-midonet> router *_router0_* add port address *_203.0.113.2_* net 203.0.113.0/30
-*_router0:port1_*
-
 midonet> router *_router0_* port list
-port *_port0_* device router0 state up mac ac:ca:ba:11:11:11 address *_198.51.100.2_* net 198.51.100.0/30
-port *_port1_* device router0 state up mac ac:ca:ba:22:22:22 address *_203.0.113.1_* net 203.0.113.0/30
+port port0 device router0 state up mac fa:16:3e:11:11:11 address *_198.51.100.2_* net 198.51.100.0/30
+port port1 device router0 state up mac fa:16:3e:22:22:22 address *_203.0.113.2_* net 203.0.113.0/30
 [...]
 ----
-+
-In this example the created ports are *_port0_* and *_port1_*.
 
-. Configure BGP on the virtual ports
+. Configure basic BGP settings
 +
 [literal,subs="quotes"]
 ----
 midonet> router *_router0_* set asn *_64512_*
+
 midonet> router *_router0_* add bgp-peer asn *_64513_* address *_198.51.100.1_*
 *_router0:peer0_*
-
-midonet> router *_router0_* list bgp-peer
-peer peer0 asn 64513 address 198.51.100.1
 
 midonet> router *_router0_* add bgp-peer asn *_64514_* address *_203.0.113.1_*
 *_router0:peer1_*
@@ -133,52 +126,4 @@ router0:net0
 
 midonet> router router0 list bgp-network
 net net0 net 192.0.2.0/24
-----
-
-. Bind virtual ports to physical network interfaces
-+
-Bind the Edge Router's virtual ports to the physical network
-interfaces on the Gateway Nodes.
-+
-[IMPORTANT]
-Ensure that physical interfaces are in state `UP` and do not have an IP address
-assigned.
-
-.. List the MidoNet hosts and find the Gateway Nodes:
-+
-[literal,subs="quotes"]
-----
-midonet> host list
-host *_host0_* name *_gateway1_* alive true
-host *_host1_* name *_gateway2_* alive true
-[...]
-----
-+
-In this example the hosts are *_host0_* and *_host1_*.
-
-.. List the Gateway Nodes' physical interfaces:
-+
-[literal,subs="quotes"]
-----
-midonet> host *_host0_* list interface
-[...]
-iface *_eth1_* host_id host0 status 3 addresses [] mac 01:02:03:04:05:06 mtu 1500 type Physical endpoint PHYSICAL
-[...]
-
-midonet> host *_host1_* list interface
-[...]
-iface *_eth1_* host_id host0 status 3 addresses [] mac 06:05:04:03:02:01 mtu 1500 type Physical endpoint PHYSICAL
-[...]
-----
-
-.. Bind the physical host interfaces to the Edge Router's virtual
-ports:
-+
-[literal,subs="quotes"]
-----
-midonet> host *_host0_* add binding port *_router0:port0_* interface *_eth1_*
-host host0 interface eth1 port router0:port0
-
-midonet> host *_host1_* add binding port *_router0:port1_* interface *_eth1_*
-host host1 interface eth1 port router0:port1
 ----
