@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa81d914_340f4b32",
+        "filename": "docs/operation-guide/src/uplinks/section_bgp_uplink_configuration_en.adoc",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1002803
+      },
+      "writtenOn": "2016-01-18T10:22:18Z",
+      "side": 0,
+      "message": "I think we should move this warning to the QSG at the time of binding the ext interface through neutron cli",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 9
+      },
+      "revId": "72a6abc6b4ba9eacd494a90d9e4ed8a39da0b445",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
