@@ -99,6 +99,18 @@ using Neutron Metadata Proxy. See the OpenStack documentation for details:
 http://docs.openstack.org/admin-guide-cloud/networking_config-identity.html#configure-metadata[Cloud Administrator Guide: Configure Metadata]
 ====
 
+[IMPORTANT]
+====
+The Metadata Proxy creates an interface on the hypervisor hosts, named
+"metadata".
+
+When using `iptables` it may be necessary to add a rule to accept traffic on
+that interface:
+
+[source]
+iptables -I INPUT 1 -i metadata -j ACCEPT
+====
+
 . *Start Midolman*
 +
 ====

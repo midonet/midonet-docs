@@ -8,3 +8,15 @@ In an OpenStack environment, the metadata is stored in Nova Metadata API.
 MidoNet provides a Metadata Proxy implementation, which forwards metadata
 requests from VMs to the Nova Metadata API, in a similar way Neutron Metadata
 Proxy does.
+
+[IMPORTANT]
+====
+The Metadata Proxy creates an interface on the hypervisor hosts, named
+"metadata".
+
+When using `iptables` it may be necessary to add a rule to accept traffic on
+that interface:
+
+[source]
+iptables -I INPUT 1 -i metadata -j ACCEPT
+====
