@@ -1,0 +1,320 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa81d914_1b042fbf",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "\"場合\"",
+      "range": {
+        "startLine": 55,
+        "startChar": 27,
+        "endLine": 55,
+        "endChar": 30
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_3bff33ac",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "Drop \"に\".",
+      "range": {
+        "startLine": 56,
+        "startChar": 45,
+        "endLine": 56,
+        "endChar": 46
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_5b2dc745",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "s/トラフィック/パケット/",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 6
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_bb13230c",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "Insert \"に\" for clarification as \"同様に”.",
+      "range": {
+        "startLine": 59,
+        "startChar": 38,
+        "endLine": 59,
+        "endChar": 40
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_fbf4bbd0",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "\"送信先\"",
+      "range": {
+        "startLine": 61,
+        "startChar": 17,
+        "endLine": 61,
+        "endChar": 26
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_dbf9b7c9",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "\"送信先\"",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 64,
+        "endChar": 15
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_db20d74b",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "Explaining a behaviour with the term before providing the term\u0027s definition seems bad to me.",
+      "range": {
+        "startLine": 78,
+        "startChar": 24,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_5b5f87e5",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "Replace \"ルーターのポートの内\" with\n\n- \"ルーター内のポートの\",\n- \"ルータのポートの\", or\n- \"ルータに属するポートの\"",
+      "range": {
+        "startLine": 80,
+        "startChar": 26,
+        "endLine": 80,
+        "endChar": 36
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_9b101f03",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "\"このルーターと中継ルーターとを接続する中継ルータのポート\"",
+      "range": {
+        "startLine": 88,
+        "startChar": 15,
+        "endLine": 88,
+        "endChar": 44
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_fb1bdb19",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "s/放つ/送信する/",
+      "range": {
+        "startLine": 90,
+        "startChar": 14,
+        "endLine": 90,
+        "endChar": 16
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_9b59ff00",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "中継",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 4
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_bb5c03ef",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "送信先",
+      "range": {
+        "startLine": 90,
+        "startChar": 25,
+        "endLine": 90,
+        "endChar": 34
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_1b1b4f1c",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "Do we need this empty line? The above paragraph and the below seem better put together.",
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_7b09abdc",
+        "filename": "docs/operation-guide/src/routing/section_routing_overview_ja.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1002760
+      },
+      "writtenOn": "2016-01-20T02:14:25Z",
+      "side": 1,
+      "message": "\"複数のパスが存在する送信先へのパケット\"",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 17
+      },
+      "revId": "ac026030398cec021d2fce0107ba5a22da52e49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
