@@ -166,3 +166,12 @@ operator has total freedom in selecting which traffic to monitor in his
 monitoring port, or, by creating different network interfaces and adding
 more vports to the monitoring bridge, he could also send different kinds
 of traffic to different monitoring ports.
+
+.Removing port mirrors
+
+To remove port mirrors from a bridge, use the `clear` command:
+
+[source]
+midonet> bridge bridge0 clear in-mirrors
+midonet> bridge bridge0 show
+bridge bridge0 name a-tenant state up
