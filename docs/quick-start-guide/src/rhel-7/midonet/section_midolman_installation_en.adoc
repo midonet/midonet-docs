@@ -116,6 +116,7 @@ iptables -I INPUT 1 -i metadata -j ACCEPT
 ====
 [source]
 ----
+# systemctl enable midolman.service
 # systemctl start midolman.service
 ----
 ====
