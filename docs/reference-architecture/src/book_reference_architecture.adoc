@@ -19,7 +19,6 @@ include::{sourcedir}/architecture/section_internal_network_{lang}.adoc[leveloffs
 include::{sourcedir}/architecture/section_underlay_network_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/architecture/section_bgp_setup_and_layer_3_topologies_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/architecture/section_virtual_routers_{lang}.adoc[leveloffset=+2]
-include::{sourcedir}/architecture/section_provider_router_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/architecture/section_compute_host_agents_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/architecture/section_bridges_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/architecture/section_metadata_server_{lang}.adoc[leveloffset=+2]
