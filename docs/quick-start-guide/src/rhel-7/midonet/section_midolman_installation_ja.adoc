@@ -102,6 +102,7 @@ http://docs.openstack.org/admin-guide-cloud/networking_config-identity.html#conf
 ====
 [source]
 ----
+# systemctl enable midolman.service
 # systemctl start midolman.service
 ----
 ====

@@ -80,6 +80,7 @@ EOF
 ====
 [source]
 ----
+# systemctl enable midonet-cluster.service
 # systemctl start midonet-cluster.service
 ----
 ====
