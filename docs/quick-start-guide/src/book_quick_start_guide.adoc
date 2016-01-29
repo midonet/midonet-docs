@@ -48,6 +48,7 @@ include::{sourcedir}/{operating_system}/{openstack_version}/openstack/content_ne
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_common_installation_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_controller_node_installation_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_lbaas_installation_{lang}.adoc[leveloffset=+4]
+include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_fwaas_installation_{lang}.adoc[leveloffset=+4]
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/section_neutron_compute_node_installation_{lang}.adoc[leveloffset=+3]
 
 // Chapter: MidoNet Installation
