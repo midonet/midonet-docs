@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa81d914_e9bbeae2",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/liberty/openstack/section_neutron_fwaas_installation_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1005043
+      },
+      "writtenOn": "2016-01-29T20:25:51Z",
+      "side": 1,
+      "message": "Seems that liberty has not implemented the shortcuts, we need to use  midonet.neutron.services.firewall.plugin.MidonetFirewallPlugin instead",
+      "range": {
+        "startLine": 21,
+        "startChar": 18,
+        "endLine": 21,
+        "endChar": 34
+      },
+      "revId": "06de3ba1cf95a02fb93843560872ac4909c0b422",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_29b6e2fa",
+        "filename": "docs/quick-start-guide/src/ubuntu-1404/liberty/openstack/section_neutron_fwaas_installation_ja.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1005043
+      },
+      "writtenOn": "2016-01-29T20:25:51Z",
+      "side": 1,
+      "message": "Same as the comment below",
+      "range": {
+        "startLine": 21,
+        "startChar": 18,
+        "endLine": 21,
+        "endChar": 34
+      },
+      "revId": "06de3ba1cf95a02fb93843560872ac4909c0b422",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
