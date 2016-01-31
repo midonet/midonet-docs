@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/liberty/install-guide-rdo/neutron.html[Add the Networking service]
+instructions, but *note the following differences*.
+

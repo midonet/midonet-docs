@@ -1,0 +1,56 @@
+[[nova_compute_node]]
+= コンピュートノード
+
+[IMPORTANT]
+OpenStack文書の
+http://docs.openstack.org/liberty/install-guide-rdo/nova-compute-install.html[Install and configure a compute node]
+指示に従います。ただし、*次の追加事項に注意してください*。
+
+. libvirtを構成する
++
+====
+`/etc/nova/nova.conf` ファイルを修正して次を含めます。
+
+[literal,subs="quotes"]
+----
+user = "root"
+group = "root"
+
+cgroup_device_acl = [
+    "/dev/null", "/dev/full", "/dev/zero",
+    "/dev/random", "/dev/urandom",
+    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+    *_"/dev/net/tun"_*
+]
+----
+====
+
+. *libvirtサービスを再開する*
++
+====
+[source]
+----
+# systemctl restart libvirtd.service
+----
+====
+
+. *nova-rootwrapネットワークフィルタをインストールする*
++
+====
+[source]
+----
+# yum install openstack-nova-network
+# systemctl disable openstack-nova-network.service
+----
+====
+
+. *コンピュートサービスを再開する*
++
+====
+[source]
+----
+# systemctl restart openstack-nova-compute.service
+----
+====
+

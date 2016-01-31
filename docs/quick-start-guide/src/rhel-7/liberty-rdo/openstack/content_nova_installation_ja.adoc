@@ -1,0 +1,5 @@
+[IMPORTANT]
+OpenStack文書の
+http://docs.openstack.org/liberty/install-guide-rdo/nova.html[Add the Compute service]
+の指示に従ってください。ただし、*次の相違点に注意してください。*
+

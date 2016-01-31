@@ -1,0 +1,40 @@
+. *Enable additional Red Hat repositories*
++
+====
+
+[source]
+----
+# subscription-manager repos --enable=rhel-7-server-extras-rpms
+# subscription-manager repos --enable=rhel-7-server-optional-rpms
+----
+====
+
+. *Enable repository priorization*
++
+====
+
+[source]
+----
+# yum install yum-plugin-priorities
+----
+====
+
+. *Enable EPEL repository*
++
+====
+
+[source]
+----
+# yum install http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+----
+====
+
+. *Enable RDO repository*
++
+====
+
+[source]
+----
+# yum install https://rdoproject.org/repos/openstack-liberty/rdo-release-liberty.rpm
+----
+====

@@ -1,0 +1,6 @@
+= コントローラノード
+
+[NOTE]
+OpenStack文書の
+http://docs.openstack.org/liberty/install-guide-rdo/nova-controller-install.html[Install and configure controller node]
+の指示にそのまま従います。

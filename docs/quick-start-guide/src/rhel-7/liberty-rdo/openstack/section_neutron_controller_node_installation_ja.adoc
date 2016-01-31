@@ -1,0 +1,173 @@
+[[neutron_controller_node_installation]]
+= コントローラノード
+
+[IMPORTANT]
+OpenStack文書の
+http://docs.openstack.org/liberty/install-guide-rdo/neutron-controller-install.html[Install and configure controller node]
+の指示に従います。ただし、 *次の相違事項と追加事項に注意してください。*
+
+. *前提条件*
++
+====
+このまま適用します。
+====
+
+. *ネットワークオプションの設定*
++
+====
+適用*しないで*ください。
+
+.. 代わりに、次のパッケージをインストールします。
++
+[source]
+----
+# yum install openstack-neutron python-networking-midonet python-neutronclient
+# yum erase openstack-neutron-ml2
+----
++
+サーバーコンポーネントを構成します。
++
+`/etc/neutron/neutron.conf` ファイルを変更して、次のキーを設定します。
++
+[literal,subs="quotes"]
+----
+[DEFAULT]
+...
+core_plugin = *midonet.neutron.plugin_v2.MidonetPluginV2*
+service_plugins = *midonet.neutron.services.l3.l3_midonet.MidonetL3ServicePlugin*
+...
+rpc_backend = rabbit
+...
+auth_strategy = keystone
+...
+notify_nova_on_port_status_changes = True
+notify_nova_on_port_data_changes = True
+nova_url = http://**_controller_**:8774/v2
+
+[database]
+...
+connection = mysql+pymysql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
+
+[oslo_messaging_rabbit]
+...
+rabbit_host = *_controller_*
+rabbit_userid = openstack
+rabbit_password = *_RABBIT_PASS_*
+
+[keystone_authtoken]
+...
+auth_uri = http://**_controller_**:5000
+auth_url = http://**_controller_**:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = neutron
+password = *_NEUTRON_PASS_*
+
+[nova]
+...
+auth_url = http://**_controller_**:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+region_name = RegionOne
+project_name = service
+username = nova
+password = *_NOVA_PASS_*
+
+[oslo_concurrency]
+...
+lock_path = /var/lib/neutron/tmp
+----
+====
+
+. *MidoNetのプラグインを構成する場合*
++
+====
+.. MidoNetプラグインのディレクトリを作成します。
++
+[source]
+----
+mkdir /etc/neutron/plugins/midonet
+----
++
+`/etc/neutron/plugins/midonet/midonet.ini` ファイルを作成し、修正して次を含めます。
++
+[literal,subs="quotes"]
+----
+[DATABASE]
+sql_connection = mysql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
+
+[MIDONET]
+# MidoNet API URL
+midonet_uri = http://*_controller_*:8181/midonet-api
+# MidoNet administrative user in Keystone
+username = *_midonet_*
+password = *_MIDONET_PASS_*
+# MidoNet administrative user's tenant
+project_id = service
+----
++
+.. NeutronをMidoNetの構成に転送するためのシンボリックリンクを作成します。
++
+[source]
+----
+# ln -s /etc/neutron/plugins/midonet/midonet.ini /etc/neutron/plugin.ini
+----
+====
+
+. *メタデータエージェントの設定*
++
+====
+適用*しないで*ください。
+====
+
+. *コンピュートでネットワーキングの使用を構成する場合*
++
+====
+このまま適用します。
+====
+
+. *Load-Balancer-as-a-Service (LBaaS) の設定*
++
+====
+OpenStackのインストールガイドとともに、xref:configure_lbaas[]に記載されている、Load-Balancer-as-a-Service (LBaaS) を設定してください。
+====
+
+. *FireWall-as-a-Service (FWaaS) の設定*
++
+====
+OpenStackのインストールガイドとともに、xref:configure_fwaas[]に記載されている、FireWall-as-a-Service (FWaaS) を設定してください。
+====
+
+. *インストールを終了する場合* [[neutron_controller_node_installation_finalize]]
++
+====
+Do *not* apply.
+
+Instead, perform the following steps.
+
+.. Populate the database:
++
+[source]
+----
+# su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/midonet/midonet.ini upgrade head" neutron
+# su -s /bin/sh -c "neutron-db-manage --subproject networking-midonet upgrade head" neutron
+----
++
+.. Restart the Compute service:
++
+[source]
+----
+# systemctl restart openstack-nova-api.service
+----
++
+.. Start the Networking service and configure it to start when the system boots:
++
+[source]
+----
+# systemctl enable neutron-server.service
+# systemctl start neutron-server.service
+----
+====
