@@ -10,15 +10,15 @@
 ----
 ====
 
-. *MidoNet FWaaS プラグインを有効にします*
+. *MidoNet FWaaS プラグインを有効します*
 +
 ====
 `/etc/neutron/neutron.conf` ファイルの `service_plugins` オプションで MidoNet FWaaS
-プラグインを有効にします。
+プラグインを有効します。
 
 [source]
 ----
-service_plugins = midonet_firewall
+service_plugins = midonet.neutron.services.firewall.plugin.MidonetFirewallPlugin
 ----
 ====
 

@@ -18,7 +18,7 @@ Enable the MidoNet FWaaS plug-in by using the `service_plugins` option in the
 
 [source]
 ----
-service_plugins = midonet_firewall
+service_plugins = midonet.neutron.services.firewall.plugin.MidonetFirewallPlugin
 ----
 ====
 
