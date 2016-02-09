@@ -41,6 +41,8 @@ following key in the `[DEFAULT]` section:
 [DEFAULT]
 ...
 core_plugin = midonet.neutron.plugin_v2.MidonetPluginV2
+...
+allow_overlapping_ips = True
 ----
 +
 ====
