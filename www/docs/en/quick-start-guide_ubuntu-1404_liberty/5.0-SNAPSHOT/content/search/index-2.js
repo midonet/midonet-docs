@@ -263,4 +263,5 @@ w["packag"]="1,2,9,20,22,23,26";
 w["paramet"]="9,26";
 w["parti"]="23";
 w["password"]="1,22,28";
+w["password-prompt"]="13";
 

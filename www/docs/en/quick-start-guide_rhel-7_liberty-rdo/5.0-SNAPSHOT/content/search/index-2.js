@@ -273,4 +273,5 @@ w["peer0"]="29";
 w["peer1"]="29";
 w["perform"]="1,9";
 w["perman"]="19";
+w["permiss"]="19";
 

@@ -1,5 +1,4 @@
 //Auto generated index for searching.
-w["password-prompt"]="13";
 w["peer"]="28";
 w["peer0"]="28";
 w["peer1"]="28";

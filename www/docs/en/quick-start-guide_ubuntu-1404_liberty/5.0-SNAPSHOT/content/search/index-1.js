@@ -96,6 +96,7 @@ w["agent-gateway-medium"]="20";
 w["aliv"]="14";
 w["all"]="0,9,14,15,20,25,26";
 w["allow"]="14";
+w["allow_overlapping_ip"]="1";
 w["also"]="17";
 w["altern"]="28";
 w["am"]="9";

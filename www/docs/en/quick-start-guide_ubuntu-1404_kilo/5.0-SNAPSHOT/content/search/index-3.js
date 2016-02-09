@@ -1,5 +1,4 @@
 //Auto generated index for searching.
-w["parti"]="22";
 w["password"]="1,21,27";
 w["password-prompt"]="12";
 w["peer"]="27";
@@ -189,7 +188,7 @@ w["topolog"]="0,3,19,24";
 w["traffic"]="13,19,24";
 w["transact"]="24";
 w["tri"]="25";
-w["true"]="10,13,19";
+w["true"]="1,10,13,19";
 w["trusti"]="22";
 w["trusty-secur"]="22";
 w["trusty-upd"]="22";
