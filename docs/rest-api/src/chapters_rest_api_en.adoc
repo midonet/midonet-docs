@@ -1532,7 +1532,7 @@ specified prefix length.
 |Matches the list of (interior or exterior) egress ports.
 
 |portGroup |UUID |POST/PUT |No
-|Matches the traffic ingresses or egresses at a port from the specified port
+|Matches the traffic originated from an exterior port from the specified port
 group.
 
 |tpDst |(Integer, Integer) |POST/PUT |No
@@ -3043,7 +3043,7 @@ than or equal to 1 and less than or equal to the greatest position in the chain.
 The default is one (1).
 
 |portGroup |UUID |POST |No
-|Matches the traffic ingresses or egresses at a port from the specified port
+|Matches the traffic originated from an exterior port from the specified port
 group.
 
 |tpDst |(Integer, Integer) |POST |No
