@@ -2,3 +2,4 @@
 Follow the OpenStack documentation's
 http://docs.openstack.org/liberty/install-guide-rdo/keystone.html[Add the Identity service]
 instructions, but *note the following differences and additions*.
+
