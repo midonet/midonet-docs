@@ -1,0 +1,155 @@
+[[service_container_scheduling]]
+= Scheduling
+
+The MidoNet Cluster uses the Containers Service to schedule existing service
+containers at different compute hosts. Container scheduling considers the
+following input data:
+
+* The MidoNet agent must be running at the compute host, and it must have the
+Containers Service enabled. See xref:agent_containers_configuration[] for how to
+enable or disable the service at the agent.
+
+* The configuration of the agent host in the NSDB should have a positive value
+for the _service container weight_. See xref:service_container_weight[].
+
+* The container service scheduling policy as defined by the service container
+group. See xref:service_container_scheduling_policies[].
+
+* The container status reported by the last host where the container has been
+scheduled.
+
+Scheduling is performed at the container level, and it considers the following
+possible states for a container:
+
+[width="60%",cols="10%,50%",options="header",]
+|=======================================================================
+|State |Description
+|`DOWN` |The container is not scheduled at a host.
+|`SCHEDULED` |The container is scheduled at a host, but that host has not yet
+reported the container status.
+|`UP` |The container is scheduled at a host, and that host has reported the
+container status as `running`.
+|=======================================================================
+
+Only `DOWN` containers are being scheduled, and scheduling is performed when the
+container is created and subsequently whenever the available hosts and their
+_state_ changes. By host state, we understand whether the agent at that host
+is running the container service and its corresponding _container weight_.
+
+A host is selected to run a container if it is _eligible_, that is it meets the
+first two criteria from above about running the container service and having a
+positive _container weight_, and if the host has not been previously marked as
+_bad_ for the same container. A _bad_ host is a host that has previously failed
+to launch a container. This may happen when the host is overloaded, or it does
+not have installed the necessary software that is needed to launch the
+container. Marking the hosts as _bad_ is a temporary action, and it prevents
+the rescheduling logic for retrying indefinitely with the same agent. The
+interval during which a host is marked as bad after failing to launch a
+container is configurable in the cluster containers configuration. See
+xref:cluster_containers_configuration[].
+
+[IMPORTANT]
+
+The values of the `scheduler_timeout` and `scheduler_bad_host_lifetime`
+configuration keys are paramount to ensure that containers are scheduled
+properly, and their values should consider both the acceptable downtime during
+a container or agent failure and the time required to start the container at
+the host. Some containers, such as the `IPSEC` containers, requires a
+non-negligible time interval to start, and therefore setting the container
+timeout to a very low value coupled with a long bad host lifetime will lead to
+containers not being scheduled. This situation may occur during the bulk
+creation of containers with a small number of compute hosts. In such cases, we
+recommend increasing the `scheduler_timeout` or setting the
+`scheduler_bad_host_lifetime` to zero.
+
+A host is selected from the eligible hosts using a random selection, where the
+probability of selecting a given host is weighted by its _container weight_.
+
+Example: Three hosts with the container weights 1, 3 and 4 will have 12.5%,
+37.5% and 50% probability in the statistical sense, respectively, of being
+selected to run a container.
+
+[NOTE]
+
+Running containers are not affected by changes to a host's _container weight_,
+except when it is set to zero.
+
+After a container has been scheduled, if an agent fails to report the container
+as `running` within the allowed scheduler timeout, the scheduling logic is
+repeated. The service also monitors continuously the host and container state,
+such that the container is re-scheduled when any of the following situations
+occurs.
+
+* The host container service is not running, because the agent has been shut
+down or has failed.
+
+* The host _container weight_ is set to zero.
+
+* The container is in `DOWN` state and the list of eligible hosts has changed.
+
+* The container is in `SCHEDULED` state and the scheduling timeout has expired.
+
+* The container is in `UP` state and the container state is `stopping`,
+`stopped` or `error`.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+[[service_container_weight]]
+== Host Container Weight
+
+You can use the container weight of a host to determine whether is is eligible
+to run service containers, and the weight it should be given when selecting it
+during container scheduling.
+
+To view the container weight assigned to all hosts, use the command:
+
+[source]
+midonet> host list
+host host1 name host1 alive true addresses 10.0.0.1 flooding-proxy-weight 1 container-weight 0
+host host2 name host2 alive true addresses 10.0.0.2 flooding-proxy-weight 1 container-weight 5
+host host3 name host3 alive true addresses 10.0.0.3 flooding-proxy-weight 1 container-weight 10
+
+To set the container weight to a different value, use the command:
+
+[source]
+midonet> host host1 set container-weight <new-value>
+
+[NOTE]
+
+Modifying the container weight on hosts takes an immediate effect on the
+container scheduling. If the weight is set to zero, all containers that are
+running or have been scheduled to run at that host will be migrated to other
+eligible hosts.
+
+[[service_container_scheduling_policies]]
+== Scheduling Policies
+
+MidoNet supports three scheduling policies for service containers. Each policy
+is configured by assigning the container to an appropriate service container
+group.
+
+* _Anywhere Policy_: This policy corresponds to service container groups that
+set neither `hostGroupId` nor `portGroupId`. With this policy containers
+are scheduled at any of the MidoNet hosts that run the container service and
+have a positive container weight.
+
+* _Host Group Policy_: Containers with this policy are scheduled only at the
+hosts that are member of the host group set in the service container group.
+Hosts must still meet the eligibility requirements to be selected.
+
+* _Port Group Policy_: Containers with this policy are scheduled only at the
+hosts bound to the exterior ports that are members of the port group set in the
+service container group. Hosts must still meet the eligibility requirements.
+When using the port group policy, the set of hosts will change when ports
+migrate between hosts. Therefore, this policy ensures that containers will
+be scheduled at the same compute hosts where the ports in the port group are
+located. For more information on port groups, see xref:stateful_port_groups[].
+
+[IMPORTANT]
+
+To ensure host-to-host traffic, all eligible hosts for a particular scheduling
+policy must be configured in the same tunnel zone. The Containers Service
+does not use the tunnel zone membership as an eligibility requirement during
+the host selection.

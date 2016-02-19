@@ -133,6 +133,12 @@ include::{sourcedir}/l2_gateway/chapter_l2_gateway_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/l2_gateway/section_configuration_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/l2_gateway/section_failover_{lang}.adoc[leveloffset=+2]
 
+// Chapter: Service Containers
+include::{sourcedir}/service_containers/chapter_service_containers_en.adoc[leveloffset=+1]
+include::{sourcedir}/service_containers/section_container_configuration.adoc[leveloffset=+2]
+include::{sourcedir}/service_containers/section_container_management.adoc[leveloffset=+2]
+include::{sourcedir}/service_containers/section_container_scheduling.adoc[leveloffset=+2]
+
 // Chapter: Working with the MidoNet CLI
 include::{sourcedir}/mn_cli/chapter_mn_cli_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/mn_cli/section_mn_cli_usage_{lang}.adoc[leveloffset=+2]
