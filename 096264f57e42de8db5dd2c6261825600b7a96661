@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba7be1f8_82038e72",
+        "filename": "docs/operation-guide/src/service_containers/chapter_service_containers_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-02-19T14:14:03Z",
+      "side": 1,
+      "message": "I wouldn\u0027t mention here Neutron as it may be not necessarily a neutron object no? Maybe \u0027topology object\u0027.",
+      "range": {
+        "startLine": 15,
+        "startChar": 17,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "096264f57e42de8db5dd2c6261825600b7a96661",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_2212e2b4",
+        "filename": "docs/operation-guide/src/service_containers/section_container_configuration.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-02-19T14:14:03Z",
+      "side": 1,
+      "message": "Only one container service is active (the leader) if this service is enabled at different cluster nodes. Upon failure, a new leader is elected among the enabled cluster nodes. (do you think that it should be here?)",
+      "range": {
+        "startLine": 72,
+        "startChar": 23,
+        "endLine": 72,
+        "endChar": 24
+      },
+      "revId": "096264f57e42de8db5dd2c6261825600b7a96661",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_c222e600",
+        "filename": "docs/operation-guide/src/service_containers/service_container_scheduling.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-02-19T14:14:03Z",
+      "side": 1,
+      "message": "s",
+      "revId": "096264f57e42de8db5dd2c6261825600b7a96661",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_021ddebd",
+        "filename": "docs/operation-guide/src/service_containers/service_container_scheduling.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-02-19T14:14:03Z",
+      "side": 1,
+      "message": "that are members?",
+      "range": {
+        "startLine": 143,
+        "startChar": 42,
+        "endLine": 143,
+        "endChar": 49
+      },
+      "revId": "096264f57e42de8db5dd2c6261825600b7a96661",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_e21feab5",
+        "filename": "docs/operation-guide/src/service_containers/service_container_scheduling.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-02-19T14:14:03Z",
+      "side": 1,
+      "message": "bound?",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 19
+      },
+      "revId": "096264f57e42de8db5dd2c6261825600b7a96661",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
