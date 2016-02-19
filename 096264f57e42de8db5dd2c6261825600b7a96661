@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ba7be1f8_2263c21b",
+        "filename": "docs/operation-guide/src/service_containers/chapter_service_containers_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2016-02-19T15:32:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba7be1f8_82038e72",
+      "range": {
+        "startLine": 15,
+        "startChar": 17,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "096264f57e42de8db5dd2c6261825600b7a96661",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba7be1f8_2212e2b4",
         "filename": "docs/operation-guide/src/service_containers/section_container_configuration.adoc",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ba7be1f8_4268b6f5",
+        "filename": "docs/operation-guide/src/service_containers/section_container_configuration.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2016-02-19T15:32:12Z",
+      "side": 1,
+      "message": "Yes, it can be. I will add a note after the table.",
+      "parentUuid": "ba7be1f8_2212e2b4",
+      "range": {
+        "startLine": 72,
+        "startChar": 23,
+        "endLine": 72,
+        "endChar": 24
+      },
+      "revId": "096264f57e42de8db5dd2c6261825600b7a96661",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba7be1f8_c222e600",
         "filename": "docs/operation-guide/src/service_containers/service_container_scheduling.adoc",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2016-02-19T14:14:03Z",
       "side": 1,
       "message": "s",
+      "revId": "096264f57e42de8db5dd2c6261825600b7a96661",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_8272aee3",
+        "filename": "docs/operation-guide/src/service_containers/service_container_scheduling.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2016-02-19T15:32:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba7be1f8_c222e600",
       "revId": "096264f57e42de8db5dd2c6261825600b7a96661",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -99,6 +165,54 @@
       "writtenOn": "2016-02-19T14:14:03Z",
       "side": 1,
       "message": "bound?",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 19
+      },
+      "revId": "096264f57e42de8db5dd2c6261825600b7a96661",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_027ebeae",
+        "filename": "docs/operation-guide/src/service_containers/service_container_scheduling.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2016-02-19T15:32:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba7be1f8_021ddebd",
+      "range": {
+        "startLine": 143,
+        "startChar": 42,
+        "endLine": 143,
+        "endChar": 49
+      },
+      "revId": "096264f57e42de8db5dd2c6261825600b7a96661",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_224ae283",
+        "filename": "docs/operation-guide/src/service_containers/service_container_scheduling.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2016-02-19T15:32:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba7be1f8_e21feab5",
       "range": {
         "startLine": 143,
         "startChar": 6,
