@@ -1183,6 +1183,160 @@ address group.
 |The IP address version. The value is 4 or 6.
 |=======================================================================
 
+[[ipsec-site-connection]]
+=== IPSec Site Connection
+
+_Media Type_:::
+  `[application/vnd.org.midonet.neutron.IpsecSiteConnection-v1+json]`
+_Collection Media Type_:::
+  `[application/vnd.org.midonet.neutron.IpsecSiteConnections-v1+json]`
+
+-----------------------------
+GET     /ipsec_site_conns
+GET     /ipsec_site_conns/:ipSecSiteConnectionId
+POST    /ipsec_site_conns
+PUT     /ipsec_site_conns/:ipSecSiteConnectionId
+DELETE  /ipsec_site_conns/:ipSecSiteConnectionId
+-----------------------------
+
+A Neutron IPSec site connection.
+
+[width="100%",cols="26%,8%,11%,11%,44%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|id |UUID |POST/PUT |Yes
+|A unique identifier of the resource.
+
+|admin_state_up |Boolean |POST/PUT |No
+|The administrative state of the resource.
+
+|auth_mode |String |POST/PUT |No
+|The authentication mode. It can be only `PSK`.
+
+|description |String |POST/PUT |No
+|The description of the VPN service.
+
+|dpd_action |String |POST/PUT |No
+|The action to take on _dead peer detection_. It can be one of the following:
+`CLEAR`, `HOLD`, `RESTART`, `DISABLED` and `RESTART_BY_PEER`.
+
+|dpd_interval |String |POST/PUT |No
+|The interval for _dead peer detection_.
+
+|dpd_timeout |String |POST/PUT |No
+|The timeout for _dead peer detection_.
+
+|ike_policy |Object |POST/PUT |No
+|The IKE policy. See:
+xref:ike-policy[].
+
+|ipsec_policy |Object |POST/PUT |No
+|The IPSec policy. See:
+xref:ipsec-policy[].
+
+|initiator |String |POST/PUT |No
+|The connection initiator. It can be one of the following: `BI_DIRECTIONAL` or
+`RESPONSE_ONLY`.
+
+|local_cidrs |Array of String |POST/PUT |No
+|The addresses for the local networks.
+
+|mtu |Integer |POST/PUT |No
+|The maximum transmission unit (MTU) for this connection.
+
+|name |String |POST/PUT |No
+|The name of the VPN service.
+
+|peer_address |String |POST/PUT |No
+|The IP address of the peer for this IPSec connection.
+
+|peer_cidrs |Array of String |POST/PUT |No
+|The addresses for the peer networks.
+
+|peer_id |String |POST/PUT |No
+|The identifier of the peer for this IPSec connection.
+
+|psk |String |POST/PUT |No
+|The pre-shared key (PSK) for pre-shared key authentication mode.
+
+|route_mode |String |POST/PUT |No
+|The routing mode. It can be only `STATIC`.
+
+|tenant_id |String |POST/PUT |No
+|The tenant name.
+
+|vpnservice_id |UUID |POST/PUT |No
+|The identifier of the VPN service.
+|=======================================================================
+
+[[ike-policy]]
+==== IKE Policy
+
+[width="100%",cols="26%,8%,11%,11%,44%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|id |UUID |POST/PUT |Yes
+|A unique identifier of the resource.
+
+|auth_algorithm |String |POST/PUT |No
+|The authentication algorithm. It can be only `SHA1`.
+
+|encryption_algorithm |String |POST/PUT |No
+|The encryption algorithm. It can be one of the following: `DES_3`, `AES_128`,
+`AES_192`, `AES_256`.
+
+|ike_version |String |POST/PUT |No
+|The IKE protocol version. It can be one of the following: `V1` and `V2`.
+
+|lifetime_units |String |POST/PUT |No
+|The IKE security association lifetime units.
+
+|lifetime_value |Integer |POST/PUT |No
+|The IKE security association lifetime value.
+
+|pfs |String |POST/PUT |No
+|The perfect forward secrecy. It can be one of the following: `GROUP2`,
+`GROUP5` and `GROUP14`.
+
+|phase1_negotiation_mode |String |POST/PUT |No
+|The negotiation mode used during phase 1 security association. It can only be
+`MAIN`.
+|=======================================================================
+
+[[ipsec-policy]]
+==== IPSec Policy
+
+[width="100%",cols="26%,8%,11%,11%,44%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|id |UUID |POST/PUT |Yes
+|A unique identifier of the resource.
+
+|auth_algorithm |String |POST/PUT |No
+|The authentication algorithm. It can be only `SHA1`.
+
+|encapsulation_mode |String |POST/PUT |No
+|The encapsulation mode. It can be one of the following: `TUNNEL` or
+`TRANSPORT`.
+
+|encryption_algorithm |String |POST/PUT |No
+|The encryption algorithm. It can be one of the following: `DES_3`, `AES_128`,
+`AES_192`, `AES_256`.
+
+|lifetime_units |String |POST/PUT |No
+|The IKE security association lifetime units.
+
+|lifetime_value |Integer |POST/PUT |No
+|The IKE security association lifetime value.
+
+|pfs |String |POST/PUT |No
+|The perfect forward secrecy. It can be one of the following: `GROUP2`,
+`GROUP5` and `GROUP14`.
+
+|transform_protocol |String |POST/PUT |No
+|The IPSec protocol. It can be one of the following: `ESP`, `AH` and `AH_ESP`.
+|=======================================================================
+
 
 [[l2insertion]]
 === L2 Insertion
@@ -1610,6 +1764,13 @@ services provided by MidoNet REST API.
 |floating_ips |URI | |
 |A GET against this URI returns the list of Neutron floating IP addresses.
 
+|ipsec_site_conns |Object | |
+|A GET against this URI returns the list of Neutron IPSec site connections.
+
+|load_balancer |Object | |
+|Object that has the URIs of the load balancer objects: `pools`, `vips`,
+`members` and `health_monitors`.
+
 |networks |URI | |
 |A GET against this URI returns the list of Neutron networks.
 
@@ -1628,6 +1789,9 @@ services provided by MidoNet REST API.
 |subnets |URI | |
 |A GET against this URI returns the list of Neutron subnets.
 
+|vpn_services |URI | |
+|A GET against this URI returns the list of Neutron VPN services.
+
 |add_router_interface_template |String | |
 |A PUT against the URI constructed from this template adds a Neutron router
 interface.
@@ -1637,6 +1801,9 @@ interface.
 
 |floating_ip_template |String | |
 |URI Template that represents the location of a Neutron floating IP address.
+
+|ipsec_site_conn_template |URI | |
+|URI Template that represents the location of a Neutron IPSec site connection.
 
 |network_template |String | |
 |URI template that represents the location of a Neutron network.
@@ -1660,8 +1827,8 @@ interface.
 |subnet_template |String | |
 |URI Template that represents the location of a Neutron subnet.
 
-|load_balancer |Object | | |Object that has the URIs of the load
-balancer objects: `pools`, `vips`, `members` and `health_monitors`.
+|vpn_service_template |URI | |
+|URI Template that represents the location of a Neutron VPN service.
 |=======================================================================
 
 
@@ -1711,7 +1878,7 @@ associated with
 
 
 [[neutron-healthmonitor]]
-=== Neutron HealthMonitor
+=== Neutron Health Monitor
 
 _Media Type_:::
   `[application/vnd.org.midonet.neutron.lb.HealthMonitor-v1+json]`
@@ -3150,6 +3317,105 @@ with a forward NAT rule.
 }
 ----------------------------
 
+[[service-container]]
+=== Service Container
+
+_Media Type_:::
+  `[application/vnd.org.midonet.ServiceContainer-v1+json]`
+_Collection Media Type_:::
+  `[application/vnd.org.midonet.collection.ServiceContainer-v1+json]`
+
+-----------------------------------------------
+GET     /service_containers
+GET     /service_containers/:serviceContainerId
+POST    /service_containers
+DELETE  /service_containers/:serviceContainerId
+-----------------------------------------------
+
+It represents a container running a network service.
+
+[width="100%",cols="17%,8%,11%,11%,53%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|uri |URI | |
+|A GET against this URI refreshes the representation of this resource.
+
+|port |URI | |
+|A GET against this URI returns the port connected to this service container.
+
+|serviceContainerGroup |URI | |
+|A GET against this URI returns the service container group for this
+service container.
+
+|id |UUID | |
+|The identifier of the service container. If this field is omitted in the POST
+request, a random UUID is generated.
+
+|serviceType |String |POST |Yes
+|The type of service container.
+
+|configurationId |UUID |POST |No
+|The identifier of the object that contains the configuration of this
+service container.
+
+|portId |UUID |POST |No
+|The identifier of the port connected to this service container.
+
+|serviceGroupId |UUID |POST |No
+|The identifier of the service container group.
+
+|hostId |UUID | |
+|The identifier of the host where the container is scheduled.
+
+|interfaceName |String | |
+|The name of the virtual Ethernet interface where the container is connected.
+
+|statusCode |String | |
+|The status of the service container. It is one of the following: `STARTING`,
+`RUNNING`, `STOPPING`, `STOPPED`, and `ERROR`.
+
+|statusMessage |String | |
+|The status message of the service container. It is set according to the
+status of the process running inside the container.
+|=======================================================================
+
+[[service-container-group]]
+=== Service Container Group
+
+_Media Type_:::
+  `[application/vnd.org.midonet.ServiceContainerGroup-v1+json]`
+_Collection Media Type_:::
+  `[application/vnd.org.midonet.collection.ServiceContainerGroup-v1+json]`
+
+----------------------------------------------------------
+GET     /service_container_groups
+GET     /service_container_groups/:serviceContainerGroupId
+POST    /service_container_groups
+DELETE  /service_container_groups/:serviceContainerGroupId
+----------------------------------------------------------
+
+It includes a set of common properties for a group of service containers.
+
+[width="100%",cols="17%,8%,11%,11%,53%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|uri |URI | |
+|A GET against this URI refreshes the representation of this resource.
+
+|serviceContainers |URI | |
+|A GET against this URI returns the list of service containers that are
+members of this group.
+
+|id |UUID | |
+|The identifier of the service container group. If this field is omitted in the
+POST request, a random UUID is generated.
+
+|hostGroupId |UUID |POST |No
+|The identifier of the host group when using host group scheduling policy.
+
+|portGroupId |UUID |POST |No
+|The identifier of the port group when using port group scheduling policy.
+|=======================================================================
 
 [[tenant]]
 === Tenant
@@ -3433,6 +3699,47 @@ interval [0, 65535].
 |loadBalancerId |UUID | |
 |The identifier of the load balancer object to which the VIP is
 associated with.
+|=======================================================================
+
+
+[[vpn-service]]
+=== VPN Service
+
+_Media Type_:::
+  `[application/vnd.org.midonet.neutron.VPNService-v1+json]`
+_Collection Media Type_:::
+  `[application/vnd.org.midonet.neutron.VPNServices-v1+json]`
+
+-----------------------------------
+GET     /vpn_services
+GET     /vpn_services/:vpnServiceId
+POST    /vpn_services
+DELETE  /vpn_services/:vpnServiceId
+-----------------------------------
+
+A Neutron VPN service.
+
+[width="100%",cols="26%,8%,11%,11%,44%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|id |UUID |POST |Yes
+|A unique identifier of the resource. If this field is omitted in the POST
+request, a random UUID is generated.
+
+|admin_state_up |Boolean |POST |No
+|The administrative state of the resource.
+
+|description |String |POST |No
+|The description of the VPN service.
+
+|name |String |POST |No
+|The name of the VPN service.
+
+|router_id |UUID |POST |No
+|The identifier of the router corresponding to the VPN service.
+
+|tenant_id |String |POST |No
+|The tenant name.
 |=======================================================================
 
 
