@@ -1,0 +1,191 @@
+[[service_container_troubleshooting]]
+= Troubleshooting
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+[[service_container_troubleshooting_agent]]
+== Agent Troubleshooting
+
+At the MidoNet Agent, the service containers are managed by a Container Service.
+This service monitors all port bindings corresponding to the local host. When
+a bound port is detected as being connected to a container (this is done by
+checking the `containerId` field from the port object), the service loads the
+container data, and initiates a container state machine that tracks the
+current container state.
+
+The container state transitions are the following:
+
+* _Created_ when the container is created for a new port binding, or an existing
+port binding references a new container.
+* _Updated_ when the container data changes, which includes the _service type_,
+_container group_ and _configuration_.
+* _Deleted_ when the port binding for a container is deleted, or an existing
+port binding references a new container.
+
+During the initialization the Container Service searches in the current agent
+class-path the implementation for all supported containers. These can be either
+containers packaged with the agent, or containers installed as stand-alone
+libraries. The following table lists the container implementations that
+packaged with the MidoNet Agent.
+
+[width="100%",cols="20%,10%,10%,50%",options="header",]
+|=======================================================================
+|Service Type |Container Version |MidoNet Version |Description
+|IPSEC |1 |>= 5.1.0 |Implements an IPSec endpoint for VPNaaS.
+|=======================================================================
+
+Containers are uniquely identified by their service type. If several
+implementations of the same container are installed, the agent selects the
+highest version. You can use the agent log, with the logging level set to `INFO`
+to determine the container implementations loaded by the Container Service
+during initialization. The logger name is `org.midonet.containers`.
+
+-----------------------------
+INFO  [main] containers -  Scanning classpath for service containers
+INFO  [main] containers -  Service container: IPSEC version 1
+INFO  [main] containers -  Starting Containers service for host <hostId>
+-----------------------------
+
+=== Troubleshooting Checklist
+[[service_container_troubleshooting_agent_checklist]]
+
+If a container fails to start at a designated compute, use the following
+checklist to troubleshoot the cause of the problem.
+
+* Use `mn-conf` to set the logging level for the container to `DEBUG`:
+
+-----------------------------
+mn-conf set -t default 'agent.loggers.org.midonet.containers : DEBUG'
+mn-conf set -h <hostId> 'agent.loggers.org.midonet.containers : DEBUG'
+-----------------------------
+
+* Check the Container Service is enabled in the agent configuration. The
+configuration is logged during the agent start-up.
+
+-----------------------------
+"containers" : {
+    "enabled" : true,
+    "scheduler_bad_host_lifetime" : "300s",
+    "scheduler_timeout" : "10s"
+}
+-----------------------------
+
+* Check in the agent log that the Container Service has started:
+
+-----------------------------
+DEBUG [containers-1] containers -  Container service is running with weight 1
+-----------------------------
+
+* Check the _container weight_ for the agent is a positive integer. Agents with
+zero weight are not allowed to start containers. If the container weight is
+zero, use the MidoNet CLI to set a positive weight for that agent's host.
+
+-----------------------------
+midonet> host host0 set container-weight 1
+-----------------------------
+
+* Check the agent detects the port binding for the corresponding container port.
+You can determine the container port using MidoNet CLI. If the binding is not
+detected, use the cluster log to determine whether the container has been
+scheduled at this host.
+
+-----------------------------
+DEBUG [devices-service-1] containers -  Host <hostId> bindings updated: Set(<portId>)
+-----------------------------
+
+* Check the agent loads the container data from the NSDB, and starts the process
+to create the container. The _service type_ must match one of the container
+types detected during the initialization, for example `IPSEC`.
+
+-----------------------------
+INFO  [containers-1] containers -  Create container for port binding ContainerPort{portId=<portId>, hostId=<hostId>, interfaceName=<...>, containerId=<containerId>, serviceType=<serviceType>, groupId=<...>, configurationId=<...>}
+-----------------------------
+
+* Check the service calls the `create` method for the container implementation
+of the current service type. The message logged for this event is specific for
+a given service type. For instance, the IPSec container displays the following
+log message. The logger name for this event depends on container implementation,
+in the case of IPSec containers is: `org.midonet.containers.ipsec`.
+
+-----------------------------
+INFO  [containers-1] ipsec -  Create IPSec container for ContainerPort{portId=<portId>, hostId=<hostId>, interfaceName=<...>, containerId=<containerId>, serviceType=IPSEC, groupId=<...>, configurationId=<...>}
+-----------------------------
+
+The container implementation may log additional messages, indicating the
+container configuration and the processes started inside the container.
+
+* When updating a container, check the service detects the update. The
+_service type_ must match one of the container types detected during the
+initialization, for example `IPSEC`.
+
+-----------------------------
+DEBUG [devices-service-1] containers -  Container <containerId> updated with type <serviceType> group <groupId> configuration <configurationId>
+-----------------------------
+
+* When deleting a container, check the service detects the deletion, and that
+it calls the `delete` method for the container implementation of the current
+service type.
+
+-----------------------------
+DEBUG [devices-service-1] containers -  Container <containerId> deleted for binding PortBinding{portId=<portId>, hostId=<hostId>, interfaceName=<...>, containerId=<containerId>} upon completion
+INFO  [containers-1] containers -  Delete container ContainerPort{portId=<portId>, hostId=<hostId>, interfaceName=<...>, containerId=<containerId>, serviceType=<serviceType>, groupId=<...>, configurationId=<...>}
+-----------------------------
+
+The container implementation may log additional messages detailing the container
+tear-down, such as stopping the container processes. For example, calling the
+`delete` method for an IPSec container results in the following log messages.
+
+-----------------------------
+INFO  [containers-1] ipsec -  Deleting IPSec container <name>
+INFO  [containers-1] ipsec -  Cleaning up IPSec container <name>
+-----------------------------
+
+[[service_container_log]]
+=== Containers Log
+
+The MidoNet Agent creates a local record of the running containers. The main
+purpose of this log is to track the containers in the case of an agent failure,
+and perform a cleanup during the next agent restart. However, the containers
+log may also serve to the purpose of troubleshooting, helping to identify the
+active containers.
+
+The location of the containers log directory is configurable using the
+`midolman.log.dir` JVM system property in the agent startup script, and it
+default to `/var/log/midolman`. The name of the logs directory is configurable
+using `mn-conf` at the configuration key `agent.containers.log_directory` and
+it defaults to `containers`.
+
+The containers log directory contains a file for each container started by the
+local agent, where the file name is `<container-name>.<service-type>`. For
+example, the following agent runs two IPSec containers.
+
+-----------------------------
+# ls /var/log/midolman/containers/ -la
+total 8
+drwxr-xr-x 2 root root 4096 Feb 22 18:42 .
+drwxr-xr-x 3 root root 4096 Feb 22 18:13 ..
+-rw-r--r-- 1 root root    0 Feb 22 18:42 vpn-60df5fda.IPSEC
+-rw-r--r-- 1 root root    0 Feb 22 18:42 vpn-dc56189c.IPSEC
+-----------------------------
+
+[[service_container_logging]]
+=== Logging the Container Processes
+
+The process or processes running inside a container may provide additional
+logging information. Where this is applicable, the container implementation
+may relay those logging messages to the agent log using the same or a different
+logger name. The logging data can be read from local file system, or it can be
+exchanged using a named pipe (FIFO file).
+
+The IPSec container uses a named pipe to read the logging data of the IPSec
+process, _pluto_, executing in the container. The log messages are appended to
+the agent log using a different logger name,
+`org.midonet.containers.ipsec.ipsec-pluto`, and the logging level set to `DEBUG`.
+
+-----------------------------
+DEBUG [io-1] ipsec-pluto -  <timestamp>: NSS DB directory: sql:/etc/ipsec.d
+DEBUG [io-1] ipsec-pluto -  <timestamp>: NSS initialized
+DEBUG [io-1] ipsec-pluto -  <timestamp>: Starting Pluto (Libreswan Version v3.14-dirty-master XFRM(netkey) KLIPS NSS DNSSEC XAUTH_PAM NETWORKMANAGER CURL(non-NSS) LDAP(non-NSS)) pid:21787
+-----------------------------

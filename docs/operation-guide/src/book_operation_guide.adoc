@@ -138,6 +138,7 @@ include::{sourcedir}/service_containers/chapter_service_containers_en.adoc[level
 include::{sourcedir}/service_containers/section_container_configuration.adoc[leveloffset=+2]
 include::{sourcedir}/service_containers/section_container_management.adoc[leveloffset=+2]
 include::{sourcedir}/service_containers/section_container_scheduling.adoc[leveloffset=+2]
+include::{sourcedir}/service_containers/section_container_troubleshooting.adoc[leveloffset=+2]
 
 // Chapter: Working with the MidoNet CLI
 include::{sourcedir}/mn_cli/chapter_mn_cli_{lang}.adoc[leveloffset=+1]
