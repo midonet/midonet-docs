@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a75e904_c91cd56d",
+        "filename": "docs/operation-guide/src/service_containers/chapter_service_containers_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-02-22T07:14:27Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 15,
+        "startChar": 72,
+        "endLine": 15,
+        "endChar": 75
+      },
+      "revId": "9fda88e51ff6cd143722b22dc6776029c2b31cbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a75e904_a90f992d",
+        "filename": "docs/operation-guide/src/service_containers/chapter_service_containers_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-02-22T07:14:27Z",
+      "side": 1,
+      "message": "being destroyed",
+      "range": {
+        "startLine": 18,
+        "startChar": 20,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "9fda88e51ff6cd143722b22dc6776029c2b31cbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a75e904_e919917a",
+        "filename": "docs/operation-guide/src/service_containers/chapter_service_containers_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-02-22T07:14:27Z",
+      "side": 1,
+      "message": "computes\u0027",
+      "range": {
+        "startLine": 21,
+        "startChar": 47,
+        "endLine": 21,
+        "endChar": 55
+      },
+      "revId": "9fda88e51ff6cd143722b22dc6776029c2b31cbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a75e904_0926edba",
+        "filename": "docs/operation-guide/src/service_containers/chapter_service_containers_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-02-22T07:14:27Z",
+      "side": 1,
+      "message": "inside the",
+      "range": {
+        "startLine": 32,
+        "startChar": 41,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "9fda88e51ff6cd143722b22dc6776029c2b31cbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a75e904_292ba983",
+        "filename": "docs/operation-guide/src/service_containers/chapter_service_containers_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-02-22T07:14:27Z",
+      "side": 1,
+      "message": "configures",
+      "range": {
+        "startLine": 47,
+        "startChar": 63,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "9fda88e51ff6cd143722b22dc6776029c2b31cbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a75e904_4920e59b",
+        "filename": "docs/operation-guide/src/service_containers/chapter_service_containers_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-02-22T07:14:27Z",
+      "side": 1,
+      "message": "starts",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "9fda88e51ff6cd143722b22dc6776029c2b31cbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a75e904_6925a1aa",
+        "filename": "docs/operation-guide/src/service_containers/chapter_service_containers_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-02-22T07:14:27Z",
+      "side": 1,
+      "message": "it can be",
+      "range": {
+        "startLine": 90,
+        "startChar": 67,
+        "endLine": 91,
+        "endChar": 2
+      },
+      "revId": "9fda88e51ff6cd143722b22dc6776029c2b31cbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
