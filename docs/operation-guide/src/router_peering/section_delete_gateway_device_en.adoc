@@ -1,0 +1,19 @@
+[router_peering_delete_gateway_device]
+= Deleting a Gateway Device
+
+By deleting the gateway device associated with the VTEP router, the VTEP router
+goes back to being a regular Neutron router.
+
+*Site A*
+
+[source]
+----
+# DELETE http://api_server_url/gw/gateway_devices/5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8
+----
+
+*Site B*
+
+[source]
+----
+# DELETE http://api_server_url/gw/gateway_devices/8e47afce-af83-11e5-9b76-4b95f3de9711
+----
