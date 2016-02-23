@@ -14,13 +14,32 @@ The fully qualified path of the Java class that provides the Keystone
 authentication service.
 
 [source]
-org.midonet.cluster.auth.keystone.v2_0.KeystoneService
+org.midonet.cluster.auth.keystone.KeystoneService
+
+[NOTE]
+Since MidoNet version 5.0.2, the legacy authentication provider
+`org.midonet.cluster.auth.keystone.v2_0.KeystoneService` is available for
+compatibility reasons, but it provides the same capabilities as the new
+provider, supporting both Keystone version 2 and 3. The default Keystone
+version is 3.
 
 == cluster.auth.admin_role
 
 Identifies the name of the admin role in MidoNet. The admin has read and write
 access to all the resources. We recommend re-using the OpenStack _admin_ role.
 Optionally you can create a separate admin role for MidoNet.
+
+== cluster.auth.keystone.version
+
+The version of the Keystone API. The following values are allowed:
+
+.Keystone Version
+[options="header"]
+|====
+| Version | Description
+| `2` | Uses the Keystone version 2 API.
+| `3` | Uses the Keystone version 3 API (default).
+|====
 
 == cluster.auth.keystone.protocol
 
@@ -31,7 +50,8 @@ are allowed:
 [options="header"]
 |====
 | Class | Description
-| `http` | Uses plain text HTTP to communicate with the Keystone server.
+| `http` | Uses plain text HTTP to communicate with the Keystone service
+(default).
 | `https` | Uses encrypted HTTPS to communicate with the Keystone service
 (recommended).
 |====
@@ -44,10 +64,18 @@ Identifies the host of the Keystone service (default is _localhost_).
 
 Identifies the port number of the Keystone service (default is _35357_).
 
+== cluster.auth.keystone.user_name
+
+The user name to authenticate with Keystone when using password authentication.
+
+== cluster.auth.keystone.user_password
+
+The password to authenticate with Keystone when using password authentication.
+
 == cluster.auth.keystone.admin_token
 
-Identifies the token of the admin user in Keystone that the API uses to make
-requests to Keystone.
+The administrative token to authenticate with Keystone when using token
+authentication.
 
 == cluster.auth.keystone.tenant_name
 
@@ -56,3 +84,8 @@ The log-in authentication to Keystone requires the username, password, and
 tenant name of the user. By specifying the tenant name here, you can avoid the
 need for applications to supply the tenant name when logging into Keystone
 through the MidoNet API.
+
+== cluster.auth.keystone.domain_name
+
+For Keystone version 3, specifies the name of the domain that is used when
+logging in to Keystone.

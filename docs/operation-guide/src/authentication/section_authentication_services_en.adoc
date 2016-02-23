@@ -2,7 +2,6 @@
 
 = Available authentication services in MidoNet
 
-
 The MidoNet Cluster package includes two authentication providers: _Keystone_
 authentication and _mock_ authentication. You can select the current
 authentication provider by modifying the value of the
@@ -13,15 +12,18 @@ values:
 [options="header"]
 |====
 | Class | Description
-| `org.midonet.cluster.auth.keystone.v2_0.KeystoneService` | Uses external
-Keystone identity service, version 2.
+| `org.midonet.cluster.auth.keystone.KeystoneService` | Uses external
+Keystone identity service, version 2 or version 3.
 | `org.midonet.cluster.auth.MockAuthService` | Disables authentication.
 |====
-
 
 This section describes the Keystone authentication service, the mock
 authentication and some additional configurations options specific to each
 provider.
+
+++++
+<?dbhtml stop-chunking?>
+++++
 
 == Keystone authentication
 
@@ -29,22 +31,49 @@ In order to use the OpenStack Keystone authentication service with MidoNet, you
 must configure the `KeystoneService` provider class:
 
 [source]
-echo "cluster.auth.provider_class : org.midonet.cluster.auth.keystone.v2_0.KeystoneService" | mn-conf set -t default
+echo "cluster.auth.provider_class : org.midonet.cluster.auth.keystone.KeystoneService" | mn-conf set -t default
+
+[NOTE]
+MidoNet version 5.0.2 introduced support for Keystone version 3, and a new
+authentication provider class `org.midonet.cluster.auth.keystone.KeystoneService`,
+which replaces the previous `org.midonet.cluster.auth.keystone.v2_0.KeystoneService`.
+However, the legacy provider is kept for compatibility reasons and provides
+the same capabilities as the new Keystone authentication provider, supporting
+both Keystone version 2 and 3.
+
+[IMPORTANT]
+Since MidoNet version 5.0.2, the default Keystone authentication is Keystone
+version 3. If you are upgrading from a previous MidoNet version, you must
+modify the Keystone configuration in order to continue using Keystone version 2.
+See xref:enabling_keystone_authentication[].
 
 [IMPORTANT]
 You must restart all MidoNet Cluster instances after changing the authentication
 provider.
 
+To enable Keystone authentication, you must configure the MidoNet cluster with
+the credentials of an administrative user. The cluster uses this credentials to
+authenticate third-party requests to the MidoNet API. MidoNet supports two
+Keystone authentication methods:
+
+* _Password authentication_, where you configure the user name and password
+credentials of an administrative user.
+
+* _Token authentication_, where you configure the administrative token used by
+Keystone.
+
+[IMPORTANT]
+The token authentication takes precedence over the password authentication.
+
 For additional Keystone configuration options, see
 xref:enabling_keystone_authentication[]
 
-
 == Mock authentication
 
-Mock authentication disables the authentication system by returning a fake
-tokens to authenticating clients, and ignoring the sent tokens during
-authorization.  To enable the mock authentication configure the
-`MockAuthService` provider class.
+Mock authentication disables the authentication system by returning fake tokens
+to authenticating clients, and ignoring the sent tokens during authorization.
+To enable the mock authentication configure the `MockAuthService` provider
+class.
 
 [source]
 echo "cluster.auth.provider_class : org.midonet.cluster.auth.MockAuthService" | mn-conf set -t default
