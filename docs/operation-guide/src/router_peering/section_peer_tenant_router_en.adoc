@@ -1,0 +1,95 @@
+[router_peering_peer_tenant_router]
+= Peering a Tenant Router
+
+The peering steps begin by attaching the tenant router to the multi-site network
+in both sites. Upon attaching the tenant router to the multi-site network, an
+extra route must be specified on the tenant router so that the remote private
+subnet traffic is routed to the remote peer tenant router.
+
+*Site A*
+
+[source]
+----
+# neutron port-create \
+   --tenant-id tenant \
+   --fixed-ip ip_address=192.168.0.1 \
+   --mac-address="16:B7:B5:A4:57:75" \
+   7d107e3a-a7a3-11e5-986c-7b399d0489a5
+----
+
+Port ID: 2aae9544-a7aa-11e5-9fcb-1730471db09c
+
+[source]
+----
+# neutron router-interface-add \
+   93adda04-af80-11e5-a1de-3f0ca86c2c1c \
+   port=2aae9544-a7aa-11e5-9fcb-1730471db09c
+----
+
+[source]
+----
+# neutron router-update \
+   93adda04-af80-11e5-a1de-3f0ca86c2c1c \
+   --routes type=dict list=true \
+   destination=10.0.1.0/24,nexthop=192.168.0.2
+----
+
+*Site B*
+
+[source]
+----
+# neutron port-create \
+   --tenant-id admin \
+   --fixed-ip ip_address=192.168.0.2 \
+   --mac-address="6F:E4:5A:FA:8E:09" \
+   8943d506-af84-11e5-bb39-e7d07e647dfc
+----
+
+Port ID: 5f328a1a-af88-11e5-9a2a-3b0fc560e9e7
+
+[source]
+----
+# neutron router-interface-add \
+   e86e6144-af80-11e5-bf25-8f151b61410e \
+   port=5f328a1a-af88-11e5-9a2a-3b0fc560e9e7
+----
+
+[source]
+----
+# neutron router-update \
+   e86e6144-af80-11e5-bf25-8f151b61410e \
+   --routes type=dict list=true \
+   destination=10.0.0.0/24,nexthop=192.168.0.1
+----
+
+In addition, when the router interface port is create in one site, the IP
+address and the MAC address of this port must be fed into the other site as
+explained in the beginning of the document.
+
+*Site A*
+
+[source]
+----
+# neutron port-create \
+   --tenant-id admin \
+   --fixed-ip ip_address=192.168.0.2 \
+   --mac-address="6F:E4:5A:FA:8E:09" \
+   --device-owner "network:remote-site" \
+   7d107e3a-a7a3-11e5-986c-7b399d0489a5
+----
+
+Port ID: 0bf1e1aa-af8a-11e5-a013-f38f48a84d8b
+
+*Site B*
+
+[source]
+----
+# neutron port-create \
+   --tenant-id admin \
+   --fixed-ip ip_address=192.168.0.1 \
+   --mac-address="16:B7:B5:A4:57:75" \
+   --device-owner "network:remote-site" \
+   8943d506-af84-11e5-bb39-e7d07e647dfc
+----
+
+Port ID: 0ca3a674-af8a-11e5-be73-9369ff5103cc
