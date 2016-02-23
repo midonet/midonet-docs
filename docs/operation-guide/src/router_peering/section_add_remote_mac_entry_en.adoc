@@ -1,0 +1,39 @@
+[router_peering_add_remote_mac_entry]
+= Adding a Remote MAC Entry (Endpoint) to the Multi-site Network
+
+The last step in configuring peering across sites is by adding remote MAC
+entries in the gateway devices' remote MAC tables. These entries tell the
+gateway device (and in turn the VTEP router) how to construct the VXLAN header.
+ Each entry represents an endpoint in the remote site. In this particular
+scenario, it is another VTEP router, but it could be a particular port of a VM
+or a router.
+
+The following request adds a remote MAC entry in the gateway device:
+
+*Site A*
+
+[literal,subs="quotes"]
+----
+# POST http://api_server_url/gw/gateway_devices/5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8/remote_mac_entries
+   '{"remote_mac_entry":
+      {"tenant_id": "admin",
+      "vtep_address": "200.200.0.2",
+      "mac_address": "6F:E4:5A:FA:8E:09",
+      "segmentation_id": "1002}}'
+----
+
+Remote MAC Entry ID: 32f2f11c-a7f2-11e5-84a0-0242ac110001
+
+*Site B*
+
+[literal,subs="quotes"]
+----
+# POST http://api_server_url/gw/gateway_devices/8e47afce-af83-11e5-9b76-4b95f3de9711/remote_mac_entries
+   '{"remote_mac_entry":
+      {"tenant_id": "admin",
+      "vtep_address": "200.200.0.1",
+      "mac_address": "16:B7:B5:A4:57:75",
+      "segmentation_id": "100"}}'
+----
+
+Remote MAC Entry ID: 4a415f8a-af8a-11e5-aa04-1b22bb4b3872

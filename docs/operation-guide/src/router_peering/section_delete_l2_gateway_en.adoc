@@ -1,0 +1,18 @@
+[router_peering_delete_l2_gateway]
+= Deleting an L2 Gateway
+
+The L2 Gateway must be deleted before its associated Gateway Device is deleted.
+
+*Site A*
+
+[source]
+----
+# DELETE http://api_server_url/l2-gateways/ea57e7e8-a7a4-11e5-89c2-b78c120baeb9
+----
+
+*Site B*
+
+[source]
+----
+# DELETE http://api_server_url/l2-gateways/9514751c-af83-11e5-ac3c-affb2bc390ae
+----

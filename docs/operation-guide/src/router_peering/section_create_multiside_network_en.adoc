@@ -1,0 +1,109 @@
+[router_peering_create_multiside_network]
+= Creating a Multi-site Network and L2 Gateway Connection
+
+The next step is to create a Neutron network that represents an L2 segment that
+spans across sites. This network must exist in both sites and must share the
+same CIDR and VNI. Also by associating a gateway device to an L2 gateway logical
+construct, it becomes an L2 gateway device.
+
+*Site A*
+
+[source]
+----
+# neutron net-create \
+   --tenant-id tenant \
+   --port-security-enabled=False \
+   SiteAMultiSiteNetwork
+----
+
+Network ID: 7d107e3a-a7a3-11e5-986c-7b399d0489a5
+
+[literal,subs="quotes"]
+----
+# POST http://api_server_url/l2-gateways
+   '{"l2_gateway": {
+      "tenant_id": "admin",
+      "name": "SiteAL2Gateway",
+      "devices": [{"device_id": "5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8"}]}}'
+----
+
+L2 Gateway ID: ea57e7e8-a7a4-11e5-89c2-b78c120baeb9
+
+[source]
+----
+# neutron subnet-create \
+   --tenant-id tenant \
+   --no-gateway \
+   --no-dhcp \
+   7d107e3a-a7a3-11e5-986c-7b399d0489a5 \
+   192.168.0.0/24
+----
+
+Subnet ID: 15f9485c-a7a4-11e5-850b-0b488249b443
+
+[literal,subs="quotes"]
+----
+# POST http://api_server_url/l2-gateway-connections
+   '{"l2_gateway_connections": {
+      "tenant_id": "admin",
+      "network_id": "7d107e3a-a7a3-11e5-986c-7b399d0489a5",
+      "segmentation_id": "100",
+      "l2_gateway_id": "ea57e7e8-a7a4-11e5-89c2-b78c120baeb9"}}'
+----
+
+L2 Gateway Connection ID: b0aef454-a7a5-11e5-8378-b3df9d563488
+
+*Site B*
+
+[source]
+----
+# neutron net-create \
+   --tenant-id tenant \
+   --port-security-enabled=False \
+   SiteBMultiSiteNetwork
+----
+
+Network ID: 8943d506-af84-11e5-bb39-e7d07e647dfc
+
+[literal,subs="quotes"]
+----
+# POST http://api_server_url/l2-gateways
+   '{"l2_gateway": {
+      "tenant_id": "admin",
+      "name": "SiteBL2Gateway",
+      "devices": [{"device_id": "8e47afce-af83-11e5-9b76-4b95f3de9711"}]}}'
+----
+
+L2 Gateway ID: 9514751c-af83-11e5-ac3c-affb2bc390ae
+
+[source]
+----
+# neutron subnet-create \
+   --tenant-id tenant \
+   --no-gateway \
+   --no-dhcp \
+   8943d506-af84-11e5-bb39-e7d07e647dfc \
+   192.168.0.0/24
+----
+
+Subnet ID: 90e9c6b2-af84-11e5-b12b-af7d2f9c54f7
+
+[literal,subs="quotes"]
+----
+# POST http://api_server_url/l2-gateway-connections
+   '{"l2_gateway_connections": {
+      "tenant_id": "admin",
+      "network_id": "7d107e3a-a7a3-11e5-986c-7b399d0489a5",
+      "segmentation_id": "100",
+      "l2_gateway_id": "ea57e7e8-a7a4-11e5-89c2-b78c120baeb9"}}'
+----
+
+L2 Gateway Connection ID: b0aef454-a7a5-11e5-8378-b3df9d563488
+
+It is important that you specify `--no-gateway` to avoid getting an IP address
+reserved for it on this network. Also, you can enable DHCP (remove
+`-disable-dhcp`) if you plan to launch VMs directly on this network. However, in
+that case, be aware that an IP address will be allocated for the DHCP port.
+
+Mandatory `segmentation_id` is the VNI, and it must be in a string format. The
+`devices` field of l2 gateway is a list, but only one device can be supplied.

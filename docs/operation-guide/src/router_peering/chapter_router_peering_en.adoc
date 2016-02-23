@@ -1,0 +1,137 @@
+[[router_peering]]
+= Router Peering
+
+The router peering feature of MidoNet provides overlay connectivity between
+multiple sites with VXLAN tunneling. The following section describes the Neutron
+CLI and REST API commands to set up router peering. All of the following
+operations are executed only by the cloud operator.
+
+The Neutron APIs defined for the router peering feature are not supported by the
+current upstream implementation of Neutron CLI, so they must be executed by
+making HTTP requests directly to the Neutron API server.
+
+The following terminologies are used throughout this document:
+
+* VTEP Router:
++
+Admin owned routers that are VXLAN endpoints in both sites. They are the virtual
+gateway devices of each site that enables site-to-site connectivity using VXLAN
+technology.
+
+* Gateway Device:
++
+An abstraction of a gateway device in a cloud. A VTEP router is an example of a
+gateway device. This abstraction lets us define other types of gateway devices
+in the future, such as hardware VTEP.
+
+* Tunnel IPs:
++
+The IP addresses used by the gateway device when constructing VXLAN header (the
+outer header). These IP addresses are known only to the gateway devices. It is
+also important to note that these are not associated with any particular port,
+which allows VXLAN traffic to egress/ingress from any edge router port.
+
+* Multi-Site Network:
++
+Admin-owned network that stretches across multiple sites. Another terminology
+used to refer to this network is "Inter-AZ Network". This network contains a
+private CIDR allocated for the tenant that emulates a single L2 segment uplink
+network of their routers, which in actuality maps to networks across sites (with
+the same CIDR).
+
+* Peer Router:
++
+A regular tenant router that connects to the multi-site network. This router
+typically already has an external network attached for Internet. In the router
+peering scenario, there will be an additional router interface that connects to
+the multi-site network.
+
+* Peer Router Port:
++
+A router interface port created on the multi-site network connecting it to the
+peer router. These ports on remote sites become the next hops for the local peer
+router over the multi-site network to handle traffic for any private tenant
+network attached to the peer routers.
+
+* VNI:
++
+A 24-bit VXLAN Network Identifier, which is used to identify a VXLAN network.
+Each multi-site network is associated with a VNI (when attaching it to a gateway
+device), and currently no two multi-site networks can share a same VNI per
+gateway device (but this limitation may be lifted in the future if needed).
+
+* Remote MAC Table:
++
+A table on a gateway device that contains the mappings of VNI, MAC, and tunnel
+IP. When a gateway device receives a VXLAN packet, it looks up this table to
+determine what the VNI and destination IP address should be on the VXLAN header.
+Thus, the MAC address and the tunnel IP are of the remote sites. MAC address
+refers to the MAC address assigned to the remote peer router port, which is also
+the destination MAC address of the packets ingressing the gateway device before
+encapsulation. With this table, coupled with the destination remote MAC address
+and the VNI associated with the multi-site network that the packet ingressed
+from, we can determine the destination tunnel IP address to use for the VXLAN
+header.
+
+* Remote-Site Port:
++
+MidoNet currently does not support broadcast over the cross-site VXLAN overlay
+network, which means that ARP does not work across sites. To get around this
+temporary limitation, and also to avoid broadcasting in general, we introduce a
+concept of a "remote-site" port.  Essentially, when a peer router port is
+created in one site, the other site needs to be notified of the IP address and
+the MAC address of this port so that it can "seed" the ARP/MAC tables of the
+multi-site network to avoid broadcasting ARP. To accomplish this, a special port
+of "remote-site" type must be created on all the "remote sites" multi-site
+networks.
+
+In the following example, there are two sites, Site A and Site B, each with its
+own MidoNet and OpenStack deployment. There are two tenants, "admin" and
+"tenant", representing the cloud administrator and the tenant using the cloud
+service.
+
+The following setups will be configured:
+
+*Site A*
+
+Tenant Network CIDR: 10.0.0.0/24
+
+Multi-Site Network (must match in Site B):
+
+* CIDR: 192.168.0.0/24
+* VNI: 100
+
+Router Interface Port (Multi-Site Network < - > Peer Router):
+
+* IP: 192.168.0.1
+* MAC: 16:B7:B5:A4:57:75
+
+Gateway Device Tunnel IP: 200.200.0.1
+
+*Site B*
+
+Tenant Network CIDR: 10.0.1.0/24
+
+Multi-Site Network (must match in Site A):
+
+* CIDR: 192.168.0.0/24
+* VNI: 100
+
+Router Interface Port (Multi-Site Network < - > Peer Router):
+
+* IP: 192.168.0.2
+* MAC: 6F:E4:5A:FA:8E:09
+
+Gateway Device Tunnel IP: 200.200.0.2
+
+Note that Gateway Device Tunnel IPs are in the same subnet in the example above,
+but in practice they do not need to be. They just need to be IP reachable.
+
+As you will see below, setting up multi-site peering requires a fairly large
+number of API operations and coordination among the sites that are mistake
+prone. Thus, it is recommended that these steps below are orchestrated and
+automated by an external service.
+
+++++
+<?dbhtml stop-chunking?>
+++++

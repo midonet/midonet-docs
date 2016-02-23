@@ -1,0 +1,67 @@
+[router_peering_create_gateway_device]
+= Creating a VTEP Router Gateway Device
+
+Any router can be a VTEP router. A router becomes a VTEP router only when it is
+registered to be a gateway device as a "router_vtep" type. Note that Neutron CLI
+does not support Gateway Device, as well as L2Gateway and L2GatewayConnection
+(detailed in the following section), extensions.
+
+*Site A*
+
+[source]
+----
+# neutron router-create \
+   --tenant-id admin \
+   SiteAVtepRouter
+----
+
+Router ID: 4bd9f56e-a792-11e5-b76a-9b045b18900a
+
+[literal,subs="quotes"]
+----
+# POST http://api_server_url/gw/gateway_devices
+   '{"gateway_device": {
+      "tenant_id": "admin",
+      "name": "SiteAGatewayDevice",
+      "type": "router_vtep",
+      "resource_id": "4bd9f56e-a792-11e5-b76a-9b045b18900a",
+      "tunnel_ips": ["200.0.0.1"]}}'
+----
+
+Gateway device ID: 5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8
+
+*Site B*
+
+[source]
+----
+
+# neutron router-create \
+   --tenant-id admin \
+   SiteBVtepRouter
+----
+
+Router ID: 7b0bc88c-af83-11e5-9ec4-bbe5550f7e92
+
+[literal,subs="quotes"]
+----
+# POST http://api_server_url/gw/gateway_devices
+   '{"gateway_device": {
+      "tenant_id": "admin",
+      "name": "SiteBGatewayDevice",
+      "type": "router_vtep",
+      "resource_id": "7b0bc88c-af83-11e5-9ec4-bbe5550f7e92",
+      "tunnel_ips": ["200.0.0.2"]}}'
+----
+
+Gateway device ID: 8e47afce-af83-11e5-9b76-4b95f3de9711
+
+While the `tunnel_ips` field of gateway device accepts a list of IP addresses,
+in the case of VTEP routers, only one IP address is accepted.
+
+When using curl commands to do the requests above, the command looks like:
+
+[source]
+----
+# curl -i -H "Content-type: application/json" -X POST \
+   -d `{"foo": {"name": "bar"}}' http://api_server_url/
+----

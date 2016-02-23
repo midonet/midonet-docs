@@ -1,0 +1,18 @@
+[router_peering_configure_edge_bindings]
+= Configure Edge Bindings
+
+At this point, two tenant routers should be peered over VXLAN. To actually get
+the traffic in and out, there must be an edge router with its ports bound to the
+physical interfaces. Configuration of these edge bindings is out of this
+document's scope, but there are several options to consider:
+
+* Use the existing edge router that is serving north-south (Internet) traffic.
+In this case, just link the VTEP router to the edge router.
+
+* Use a dedicated edge router to handle VTEP traffic. In this case, create a new
+edge router, configure its uplinks and connect the VTEP router to this edge
+router.
+
+* Use the VTEP router as an edge router. This is the most straightforward setup,
+where you treat the VTEP router as an edge router and configure uplinks on its
+ports directly.

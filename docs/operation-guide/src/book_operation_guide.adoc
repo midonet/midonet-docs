@@ -140,6 +140,19 @@ include::{sourcedir}/service_containers/section_container_management.adoc[levelo
 include::{sourcedir}/service_containers/section_container_scheduling.adoc[leveloffset=+2]
 include::{sourcedir}/service_containers/section_container_troubleshooting.adoc[leveloffset=+2]
 
+// Chapter: Router Peering
+include::{sourcedir}/router_peering/chapter_router_peering_en.adoc[leveloffset=+1]
+include::{sourcedir}/router_peering/section_create_tenant_routers_en.adoc[leveloffset=+2]
+include::{sourcedir}/router_peering/section_create_gateway_device_en.adoc[leveloffset=+2]
+include::{sourcedir}/router_peering/section_create_multiside_network_en.adoc[leveloffset=+2]
+include::{sourcedir}/router_peering/section_peer_tenant_router_en.adoc[leveloffset=+2]
+include::{sourcedir}/router_peering/section_add_remote_mac_entry_en.adoc[leveloffset=+2]
+include::{sourcedir}/router_peering/section_configure_edge_bindings_en.adoc[leveloffset=+2]
+include::{sourcedir}/router_peering/section_delete_remote_mac_entry_en.adoc[leveloffset=+2]
+include::{sourcedir}/router_peering/section_delete_l2_gateway_connection_en.adoc[leveloffset=+2]
+include::{sourcedir}/router_peering/section_delete_l2_gateway_en.adoc[leveloffset=+2]
+include::{sourcedir}/router_peering/section_delete_gateway_device_en.adoc[leveloffset=+2]
+
 // Chapter: Working with the MidoNet CLI
 include::{sourcedir}/mn_cli/chapter_mn_cli_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/mn_cli/section_mn_cli_usage_{lang}.adoc[leveloffset=+2]
