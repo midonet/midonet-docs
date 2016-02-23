@@ -57,7 +57,7 @@ $ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
 ----
 $ cat << EOF | mn-conf set -t default
 cluster.auth {
-    provider_class = "org.midonet.cluster.auth.keystone.v2_0.KeystoneService"
+    provider_class = "org.midonet.cluster.auth.keystone.KeystoneService"
     admin_role = "admin"
     keystone.tenant_name = "admin"
     keystone.admin_token = "*_ADMIN_TOKEN_*"
