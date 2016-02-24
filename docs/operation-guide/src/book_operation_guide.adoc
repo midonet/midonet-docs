@@ -65,8 +65,6 @@ include::{sourcedir}/rule_chains/section_rule_conditions_{lang}.adoc[leveloffset
 include::{sourcedir}/rule_chains/section_rule_condition_example_1_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/rule_chains/section_rule_condition_example_2_{lang}.adoc[leveloffset=+3]
 include::{sourcedir}/rule_chains/section_cli_example_{lang}.adoc[leveloffset=+2]
-include::{sourcedir}/rule_chains/section_list_bridges_for_tenant_{lang}.adoc[leveloffset=+2]
-include::{sourcedir}/rule_chains/section_list_openstack_security_group_rule_chain_{lang}.adoc[leveloffset=+2]
 
 // Chapter: Network Address Translation
 include::{sourcedir}/nat/chapter_nat_{lang}.adoc[leveloffset=+1]

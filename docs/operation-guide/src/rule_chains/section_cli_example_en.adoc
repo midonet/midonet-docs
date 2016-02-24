@@ -1,5 +1,5 @@
 [[midonet_rule_chain_example]]
-= MidoNet rule chain example
+= MidoNet rule chain examples
 
 This example shows how you can use the MidoNet CLI to display the rule chains
 used to implement security groups.
@@ -38,10 +38,8 @@ Rule chains relating to OpenStack security groups are implemented on the network
 (bridge) ports.
 
 To list the bridge(s) on the tenant and show the demo-private-net network
-(bridge):
+(bridge), enter the command:
 
-. Enter the command:
-+
 [source]
 midonet> list bridge
 bridge bridge0 name demo-private-net state up
@@ -63,10 +61,8 @@ connected to VMs. port1 is connected to a VM.
 
 == Listing the Rules for the Inbound Chain on a Port
 
-To list the pre-routing rule chain for port 1:
+To list the pre-routing rule chain for port1, enter the command:
 
-. Enter the command:
-+
 [source]
 midonet> chain chain2 list rule
 rule rule0 ethertype 2048 src !172.16.3.3 proto 0 tos 0 pos 1 type drop
@@ -101,10 +97,8 @@ drop these packets.
 You can list all the rule chains and then look at the rule chain for the
 OpenStack security group.
 
-To list all the rule chains and examine specific rule chains:
+To list all the rule chains and examine specific rule chains, enter the command:
 
-. Enter the command:
-+
 [source]
 midonet> list chain
 chain chain5 name OS_SG_050593ed-56ad-44ef-8489-4052d02d99ff_INGRESS
@@ -115,14 +109,12 @@ chain chain4 name OS_SG_050593ed-56ad-44ef-8489-4052d02d99ff_EGRESS
 chain chain7 name OS_SG_01fce1b8-c277-4a37-a8cc-86732eea186d_EGRESS
 chain chain2 name OS_PORT_6f72342b-4947-432f-8d01-0cf4e4b8d049_INBOUND
 chain chain3 name OS_PORT_6f72342b-4947-432f-8d01-0cf4e4b8d049_OUTBOUND
-+
+
 Note chain5, identified as a chain for an OpenStack security group (OS_SG) for
 INGRESS traffic.
-+
-To look at rule chain5:
 
-. Enter the command:
-+
+To look at rule chain5, enter the command:
+
 [source]
 midonet> chain chain5 list rule
 rule rule0 ethertype 2048 src 0.0.0.0/0 proto 6 tos 0 dst-port 5900 pos 1 type accept
@@ -142,10 +134,10 @@ them. rule1 matches packets of the ICMP type and accepts them.
 
 * In addition to the other matches already mentioned, the rules match and accept
 the packets according to the security group rules you defined in OpenStack,
-specifically, packets with the destinations:[[ul_izv_nxc_q4]]
+specifically, packets with the destinations:
 
-* TCP port 5900 (VNC)
+** TCP port 5900 (VNC)
 
-* TCP port 22 (SSH)
+** TCP port 22 (SSH)
 
-* TCP port 80 (HTTP)
+** TCP port 80 (HTTP)
