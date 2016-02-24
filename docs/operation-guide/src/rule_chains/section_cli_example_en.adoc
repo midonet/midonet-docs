@@ -79,7 +79,17 @@ packets. This prevents the port's VM from sending packets with a forged IP
 address.
 
 * rule1 says: for packets with a hardware source that does not match the listed
-source MAC address (the VM's MAC address), drop these packets. This prevents the
+source MAC address (the VM's MAC address), drop these packets. This prevents the== Setting and clearing Rule Chains
+
+To set an existing rule chain on a device
+
+[source]
+midonet> bridge bridge0 port port1 
+
+To clear the devices rule chain, use the following command:
+
+[source]
+midonet> router router0 clear infilter
 VM from sending packets with a forged MAC address.
 
 * rule2 says: for packets that match a return flow (that is, a packet that
@@ -141,3 +151,15 @@ specifically, packets with the destinations:
 ** TCP port 22 (SSH)
 
 ** TCP port 80 (HTTP)
+
+== Setting and clearing Rule Chains
+
+To set or change a rule chain on a device, use the `set` command:
+
+[source]
+midonet> bridge bridge0 port port1 set infilter chain8
+
+To remove a rule chain from a device, use the `clear` command:
+
+[source]
+midonet> bridge bridge0 port port1 clear infilter
