@@ -28,9 +28,9 @@ specific compute hosts. The default is `true`.
 default is 30 seconds.
 |`shutdown_grace_time` |Duration |The timeout for all containers to stop
 gracefully when the containers service is stopped. The default is 30 seconds.
-|`log_file_name` |String |The name of the log file where the agent writes a
+|`log_directory` |String |The name of the log directory where the agent writes a
 record of all container operations. The log is used to cleanup containers
-following an agent failure. The default value is `container.log`. The file
+following an agent failure. The default value is `containers`. The directory
 is created in the same directory as the agent log, which is configurable using
 the `midolman.log.dir` JVM system property in the agent startup script, and
 which defaults to `/var/log/midolman`.
