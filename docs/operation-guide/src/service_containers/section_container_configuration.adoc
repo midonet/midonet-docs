@@ -1,0 +1,95 @@
+[[service_containers_configuration]]
+= Configuration
+
+The containers are configured using `mn-conf`. Both the MidoNet Agent and
+Cluster run a Container Service, which is responsible for launching the
+containers at the agent, and scheduling the containers across different
+computes at the cluster.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+[[agent_containers_configuration]]
+== Agent Configuration
+
+The container configuration at the agent is found under the `agent.containers`
+namespace. The following table lists the configuration keys, and modifying
+the value of a configuration key requires restarting the agent in order to
+take effect.
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`enabled` |Boolean |Whether an agent instance runs the containers service.
+This allows the operator to disable containers across all compute hosts or at
+specific compute hosts. The default is `true`.
+|`timeout` |Duration |The timeout for a container operation to complete. The
+default is 30 seconds.
+|`shutdown_grace_time` |Duration |The timeout for all containers to stop
+gracefully when the containers service is stopped. The default is 30 seconds.
+|`log_file_name` |String |The name of the log file where the agent writes a
+record of all container operations. The log is used to cleanup containers
+following an agent failure. The default value is `container.log`. The file
+is created in the same directory as the agent log, which is configurable using
+the `midolman.log.dir` JVM system property in the agent startup script, and
+which defaults to `/var/log/midolman`.
+|=======================================================================
+
+Specific container types may include additional configuration keys, as follows.
+
+[[ipsec_containers_configuration]]
+=== IPSec Containers Configuration
+
+The following table lists the configuration keys for IPSec containers, which are
+used to implement VPNaaS. All keys are found under the `agent.containers.ipsec`
+namespace.
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`logging_enabled` |Boolean |Indicates whether the IPSec container writes to
+the agent log the log messages reported by the IPSec processes running inside
+the container. The default is `true`. When enabled, these messages are logged
+using the logger name `org.midonet.containers.ipsec.ipsec-pluto`.
+|`logging_poll_interval` |Duration |The polling interval for the IPSec
+container log. The default is 250 milliseconds.
+|`logging_timeout` |Duration |The timeout when closing the log file. The
+default is 3 seconds.
+|`status_update_interval` |Duration |The interval for updating the container
+status and health. The default is 5 seconds.
+|=======================================================================
+
+[[cluster_containers_configuration]]
+== Cluster Configuration
+
+The containers configuration at the cluster is found under the
+`cluster.containers` namespace. The following table lists the configuration
+keys, and modifying the value of a configuration key requires restarting the
+cluster in order to take effect.
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`enabled` |Boolean |Whether a cluster node runs the containers service. This
+allows the operator to disable containers across all cluster nodes or at
+specific cluster nodes. The default is `true`.
+|`scheduler_timeout` |Duration |The timeout for a container to reach `running`
+state when scheduled at a compute host. The default is 10 seconds. For more
+information on container scheduling see xref:service_container_scheduling[].
+|`scheduler_bad_host_lifetime` |Duration |When an agent fails to start a
+container within the expected timeout interval, that host is considered bad
+and not used for subsequent scheduling operations of the same container. This
+key controls for how long a host is considered bad after failing to launch a
+container. The default is 5 minutes. Set this value to zero (0) to disable
+bad hosts for scheduling. For more information on container scheduling see
+xref:service_container_scheduling[].
+|=======================================================================
+
+[NOTE]
+
+If the containers service is enabled at multiple cluster nodes, only one
+cluster node determined by via distributed leader election will actively
+perform the container scheduling at a time. If the leader node fails, another
+node will take over the scheduling role automatically. The failover latency
+equals the configured ZooKeeper session timeout at `zookeeper.session_timeout`.

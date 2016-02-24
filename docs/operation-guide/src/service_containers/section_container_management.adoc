@@ -1,0 +1,66 @@
+[[service_containers_managament]]
+= Management
+
+Normally, the service containers are launched and destroyed automatically by the
+MidoNet Cluster. Therefore, the operator would typically use the MidoNet CLI
+only to inspect the containers configuration and running state.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Listing the Service Containers
+
+To list information about all service containers, enter the command:
+
+[source]
+midonet> list container
+container container0 container-group cgroup0 configuration 63c6fa43-abcd-43b0-870b-c72ab6f2c4dc port port0 type IPSEC status running host host0 namespace vpn-e9a728b2 interface vpn-e9a728b2
+container container1 container-group cgroup1 configuration 401994b8-4fec-428d-9133-40c51988578a port port1 type IPSEC status running host host0 namespace vpn-a55d15fe interface vpn-a55d15fe
+
+The example above shows two service containers of `IPSEC` type that have been
+scheduled at host `host0` and are currently in the `running` state. If the
+containers are not running, then the output of the command would be as follows:
+
+[source]
+midonet> list container
+container container0 container-group cgroup0 configuration 63c6fa43-abcd-43b0-870b-c72ab6f2c4dc port port0 type IPSEC status stopped
+container container1 container-group cgroup1 configuration 401994b8-4fec-428d-9133-40c51988578a port port1 type IPSEC status stopped
+
+== Listing the Service Container Group
+
+To list information about all service container groups, enter the command:
+
+[source]
+midonet> list container-group
+cgroup cgroup0
+cgroup cgroup1
+cgroup cgroup2
+
+== Viewing the Container Status Message
+
+The container status message is usually a text with multiple lines, and
+therefore it is not included in the container listing. Therefore, to view
+the message, enter the command:
+
+[source]
+midonet> container container0 show status-message
+000 using kernel interface: netkey
+000 interface lo/lo ::1@500
+000 interface lo/lo 127.0.0.1@4500
+000 interface lo/lo 127.0.0.1@500
+000 interface vpn-e9a728b2-ns/vpn-e9a728b2-ns 1.0.0.2@4500
+000 interface vpn-e9a728b2-ns/vpn-e9a728b2-ns 1.0.0.2@500
+000 interface vpn-e9a728b2-ns/vpn-e9a728b2-ns 169.254.0.2@4500
+000 interface vpn-e9a728b2-ns/vpn-e9a728b2-ns 169.254.0.2@500
+...
+
+[NOTE]
+You can also use the `show` command for any other fields of a service container
+or service container group object.
+
+
+[WARNING]
+MidoNet also provides `create` and `delete` commands for the service containers.
+However, these should not be used under normal circumstances and should be
+reserved only for troubleshooting purposes.

@@ -1,0 +1,114 @@
+[[service_containers]]
+= Service Containers
+
+MidoNet supports the network functions virtualization, such as L4LB, VPN or
+BGP, using third party software that executes in namespaces connected to the
+MidoNet virtual topology. To make the integration of these components easier
+and to control the namespace scheduling, MidoNet 5.1 introduces the concept of
+service containers. Currently, they are used only for VPNaaS.
+
+Service containers are Linux namespaces with a port connected to a MidoNet
+virtual device, and they run a set of programs that are configured according to
+the type of the service container.
+
+Service containers are launched and destroyed automatically by the MidoNet
+Cluster with the topology object to which they correspond. For example, an
+IPSec container, used to encrypt traffic for VPN connections and handle the
+security associations, launches when creating the first Neutron `VpnService` on
+a router, and it is destroyed when deleting the last.
+
+Container scheduling on the available physical computes is also managed by the
+MidoNet Cluster, and it takes into account the computes' availability, one of
+the several configurable scheduling policies, and a per-compute host container
+weight parameter allowing the cloud operator to differentiate the container
+load between different computes.
+
+*Architecture*
+
+A service container is an object that exists in the MidoNet topology, like a
+virtual device or port. When created, it is linked to an existing virtual port,
+which becomes the _container port_ through which the container namespace
+exchanges traffic with the other devices inside the MidoNet virtual topology.
+
+A _service type_ describes the container namespace and the processes that are
+executed inside it, while a _configuration identifier_ keeps a reference to an
+object in the MidoNet topology that indicates how the namespaces and the
+container processes are configured.
+
+The container scheduling policy is specified using a _service container group_
+object. Therefore, several containers can share the same scheduling policy by
+referencing the same container group. The MidoNet Cluster uses the policy as
+defined by the container group to determine the physical compute where a
+container is launched. This scheduling is controlled via the binding of the
+container port on a given host.
+
+When a MidoNet Agent launches a scheduled container, it runs a set of routines
+that are customized for a particular container type, and which configures and
+starts the container processes. These can be loaded from external libraries,
+allowing the cloud operator to deploy additional containerized services as
+needed, without necessarily installing a new version of the agent.
+
+MidoNet agents that run service containers use the same container library to
+monitor and report the container status to the NSDB. This allows the MidoNet
+Cluster to report it via the REST API, and to drive the container scheduling
+upon a container failure.
+
+*General Fields*
+
+The following table lists the fields that describe a service container in the
+MidoNet topology.
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`id` |UUID |The service container identifier.
+|`serviceType` |String |A unique name that identifies the type of the service
+container.
+|`groupId`|UUID |The identifier of the service container group that describes
+the scheduling policy.
+|`portId` |UUID |The identifier of the container virtual port. This is an
+exterior port connected to a device from the virtual topology. The port's
+binding information describes the compute host where the container is launched.
+|`configurationId` |UUID |The identifier of an object from the MidoNet topology
+that provides the container configuration. The type of this object is specific
+for a particular service type, and the agent library handling that service type
+is responsible for giving it the proper interpretation.
+|=======================================================================
+
+*Status Fields*
+
+The following table lists the fields that describe the status of a service
+container.
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`statusCode` |String |Indicates the running state of a container, it can
+be one of the following: `starting`, `running`, `stopping`, `stopped` and
+`error`.
+|`statusMessage` |String |A custom status message, usually containing
+information about the processes running inside the container.
+|`hostId` |UUID |The identifier of the agent host where the container is
+running. This field is present only for starting, running or stopping,
+containers.
+|`namespaceName` |String |The name of the Linux namespace hosting the
+container.
+|`interfaceName` |String |The name of the virtual Ethernet interface connected
+to the container.
+|=======================================================================
+
+*Container Group Fields*
+
+The following table lists the fields that describe the service container group.
+For more information on the service container scheduling and scheduling
+policies see xref:service_container_scheduling[].
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`id` |UUID |The service container group identifier.
+|`hostGroupId` |UUID |The identifier of the host group when using host group
+scheduling policy.
+|`portGroupId` |UUID |The identifier of the port group when using port group
+scheduling policy.
+|=======================================================================
