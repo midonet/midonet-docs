@@ -14,15 +14,22 @@ operating system and OpenStack distribution.
 [options="header"]
 |====
 | File | Type
-| /etc/cassandra/conf/cassandra.yaml | CONF
-| /var/log/cassandra/cassandra.log   | LOG
+|
+/etc/cassandra/conf/cassandra.yaml (RHEL)
+
+/etc/cassandra/cassandra.yaml (Ubuntu)
+| CONF
+|
+/var/log/cassandra/cassandra.log (RHEL)
+
+/var/log/cassandra/system.log (Ubutnu)
+| LOG
 |====
 
 == MidoNet Agent
 [options="header"]
 |====
 | File | Type
-| /etc/midolman/midolman-akka.conf     | CONF
 | /etc/midolman/midolman.conf          | CONF
 | /etc/midolman/midolman-env.sh        | CONF
 | /var/log/midolman/midolman.event.log | LOG
@@ -31,26 +38,34 @@ operating system and OpenStack distribution.
 | /var/log/midolman/upstart-stderr.log | LOG
 |====
 
-== MidoNet API
+== MidoNet Cluster
 [options="header"]
 |====
 | File | Type
-| /usr/share/midonet-api/WEB-INF/web.xml | CONF
-| /var/log/tomcat/catalina.out           | LOG
-| /var/log/tomcat/midonet-api.log        | LOG
+| /var/log/midonet-cluster/midonet-cluster.log | LOG
+| /var/log/midonet-cluster/upstart-stderr.log  | LOG
 |====
 
 == Quagga (BGPD)
 [options="header"]
 |====
 | File | Type
-| /var/log/quagga/bgpd.log | LOG
+| /etc/midolman/quagga/*            | CONF
+| /var/log/midolman/quagga._xxxx_/* | LOG
+| /var/log/quagga/bgpd.log          | LOG
 |====
 
 == ZooKeeper
 [options="header"]
 |====
 | File | Type
-| /etc/zookeeper/zoo.cfg           | CONF
-| /var/log/zookeeper/zookeeper.out | LOG
+|
+/etc/zookeeper/zoo.cfg (RHEL)
+
+/etc/zookeeper/conf/zoo.cfg (Ubuntu)| CONF
+|
+/var/log/zookeeper/zookeeper.out (RHEL)
+
+/var/log/zookeeper/zookeeper.log (Ubuntu)
+| LOG
 |====

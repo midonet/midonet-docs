@@ -1,0 +1,5 @@
+[[midonet_cluster]]
+= MidoNet Cluster
+
+The MidoNet Cluster writes log messages to the
+`/var/log/midonet-cluster/midonet-cluster.log` file.

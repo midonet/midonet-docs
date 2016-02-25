@@ -3,7 +3,7 @@
 
 This section gives an overview of common processes.
 
-Note that names and paths may slightly differ depending on the used operating
+Note that exact names and paths may differ depending on the used operating
 system and OpenStack distribution.
 
 ++++
@@ -13,9 +13,9 @@ system and OpenStack distribution.
 [options="header"]
 |====
 | Program | Process
-| Cassandra                | java [...] org.apache.cassandra.service.CassandraDaemon
-| MidoNet Agent            | java [...] org.midonet.midolman.Midolman
-| MidoNet Agent (Watchdog) | /usr/bin/python /usr/bin/wdog [...] org.midonet.midolman.Midolman
-| MidoNet API (Tomcat)     | java [...] org.apache.catalina.startup.Bootstrap
-| ZooKeeper                | java [...] org.apache.zookeeper.server.quorum.QuorumPeerMain
+| Cassandra                | java _[...]_ org.apache.cassandra.service.CassandraDaemon
+| MidoNet Agent            | java _[...]_ org.midonet.midolman.Midolman _[...]_
+| MidoNet Agent (Watchdog) | /usr/bin/wdog
+| MidoNet Cluster          | java _[...]_ org.midonet.cluster.ClusterNode _[...]_
+| ZooKeeper                | java _[...]_ org.apache.zookeeper.server.quorum.QuorumPeerMain _[...]_
 |====
