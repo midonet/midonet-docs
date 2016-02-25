@@ -2,7 +2,7 @@
 = Overlay Network
 
 The overlay network, i.e. the physical network, should be the first starting
-point to check for any connectivity issues:
+point to check for any connectivity issues.
 
 == Tunnel Zone
 
@@ -12,13 +12,16 @@ zone and are alive.
 [literal,subs="quotes"]
 ----
 # midonet-cli
+
 midonet> list tunnel-zone
 tzone tzone0 name tz type vxlan
+
 midonet> tunnel-zone tzone0 list member
 zone tzone0 host host0 address 192.168.0.1
 zone tzone0 host host1 address 192.168.0.2
 zone tzone0 host host2 address 192.168.0.3
 zone tzone0 host host3 address 192.168.0.4
+
 midonet> list host
 host host0 name host-a alive true
 host host1 name host-b alive true
@@ -29,15 +32,22 @@ host host3 name host-d alive true
 Check if packets are transmitted over the tunnel interface, and ensure that
 there are no errors or dropped packets.
 
-Check the `tngre-overlay` port in case of GRE protocol, or the `tnvxlan-overlay`
-port in case of VXLAN protocol.
+Check the `tnvxlan-overlay` port in case of VXLAN protocol, or the
+`tngre-overlay` port in case of GRE protocol.
 
 ====
 [literal,subs="quotes"]
 ----
-# mm-dpctl --show-dp midonet | grep overlay
-Port #1 "tngre-overlay"  Gre  Stats{*rxPackets=508157678*, *txPackets=398704120*, rxBytes=291245619484, txBytes=318474308439, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
-Port #2 "tnvxlan-overlay"  VXLan  Stats{rxPackets=0, txPackets=0, rxBytes=0, txBytes=0, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
+# mm-dpctl datapath --show midonet | grep tnvxlan-overlay
+Port #x '*tnvxlan-overlay*' VXLan Stats{*rxPackets=24170772*, *txPackets=45160026*, rxBytes=1628556667, txBytes=30598767320, *rxErrors=0*, *txErrors=0*, *rxDropped=0*, *txDropped=0*}
+----
+====
+
+====
+[literal,subs="quotes"]
+----
+# mm-dpctl datapath --show midonet | grep tngre-overlay
+Port #x "*tngre-overlay*" Gre Stats{*rxPackets=508157678*, *txPackets=398704120*, rxBytes=291245619484, txBytes=318474308439, *rxErrors=0*, *txErrors=0*, *rxDropped=0*, *txDropped=0*}
 ----
 ====
 
@@ -48,56 +58,43 @@ Check the MidoNet Datapath.
 ====
 [literal,subs="quotes"]
 ----
-# mm-dpctl --show-dp midonet
-Datapath name   : midonet
-Datapath index : 11
-Datapath Stats:
+# mm-dpctl datapath --show midonet
+Name: midonet
+Index: 10
+Supports megaflows: yes
+Stats:
   Flows :1340066
   Hits  :1111802509
   Lost  :0
   Misses:17302163
 Port #0 "midonet"  Internal  Stats{rxPackets=0, txPackets=0, rxBytes=0, txBytes=0, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
-Port #1 "tngre-overlay"  Gre  Stats{rxPackets=508157678, txPackets=398704120, rxBytes=291245619484, txBytes=318474308439, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
-Port #2 "tnvxlan-overlay"  VXLan  Stats{rxPackets=0, txPackets=0, rxBytes=0, txBytes=0, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
-Port #3 "tnvxlan-vtep"  VXLan  Stats{rxPackets=0, txPackets=0, rxBytes=0, txBytes=0, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
-Port #4 "tapa0164c42-dd"  NetDev  Stats{rxPackets=389426272, txPackets=342761506, rxBytes=1128206548338, txBytes=241007949600, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
-Port #5 "tap19ccc069-f1"  NetDev  Stats{rxPackets=0, txPackets=54640, rxBytes=0, txBytes=2347034, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
-Port #6 "tape3055fc6-cc"  NetDev  Stats{rxPackets=21375, txPackets=42911, rxBytes=3573207, txBytes=4607633, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
+Port #1 'metadata' Internal Stats{rxPackets=8, txPackets=0, rxBytes=648, txBytes=0, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
+Port #2 "tngre-overlay"  Gre  Stats{rxPackets=508157678, txPackets=398704120, rxBytes=291245619484, txBytes=318474308439, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
+Port #3 "tnvxlan-overlay"  VXLan  Stats{rxPackets=0, txPackets=0, rxBytes=0, txBytes=0, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
+Port #4 "tnvxlan-vtep"  VXLan  Stats{rxPackets=0, txPackets=0, rxBytes=0, txBytes=0, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
+Port #5 "tapa0164c42-dd"  NetDev  Stats{rxPackets=389426272, txPackets=342761506, rxBytes=1128206548338, txBytes=241007949600, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
+Port #6 "tap19ccc069-f1"  NetDev  Stats{rxPackets=0, txPackets=54640, rxBytes=0, txBytes=2347034, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
+Port #7 "tape3055fc6-cc"  NetDev  Stats{rxPackets=21375, txPackets=42911, rxBytes=3573207, txBytes=4607633, rxErrors=0, txErrors=0, rxDropped=0, txDropped=0}
 ----
 ====
 
 ====
 [literal,subs="quotes"]
 ----
-# mm-dpctl --dump-dp midonet
+# mm-dpctl datapath --dump midonet
 1340149 flows
-  Flow:
-    match keys:
-      Tunnel{tun_id=4360, ipv4_src=10.11.0.16, ipv4_dst=10.11.0.15, tun_flag=0, ipv4_tos=0, ipv4_ttl=-3}
-      InPort{1}
-      Ethernet{src=02:13:38:97:08:f3, dst=fa:16:3f:92:53:60}
-      EtherType{0x800}
-      KeyIPv4{src=8.8.8.8, dst=10.17.3.14, proto=17, tos=0, ttl=55, frag=0}
-      UDP{src=53, dst=56975}
-    actions:
-      Output{port=21}
-[...]
-----
-====
-
-====
-[literal,subs="quotes"]
-----
-# mm-ctl --list-hosts
-Host: id=17ef018f-de8b-431b-89f0-b5472f176769
-  name=hostname
-  isAlive=true
-  addresses:
-  vport-host-if-bindings:
-    VirtualPortMapping{virtualPortId=ac0c2557-9fa0-4009-9e18-dc62ea65052a, localDeviceName='tapac0c2557-9f'}
-    VirtualPortMapping{virtualPortId=c37d8bf2-d008-464e-a688-0627f2da342f, localDeviceName='f58b0880_MN_dp'}
-    VirtualPortMapping{virtualPortId=7aa08012-d06c-4c78-aee8-1fff7c063fed, localDeviceName='tap7aa08012-d0'}
-    VirtualPortMapping{virtualPortId=5aa6a752-57f2-4749-b160-9e632e0a16bb, localDeviceName='f58b0880_MN_dp'}
+  Flow
+    Match: FlowMatch[InputPortNumber=5, EthSrc=0a:b4:2c:fc:86:86, EthDst=fa:16:3e:15:6c:cc, EtherType=0800, NetworkSrc=8.8.8.8, NetworkDst=172.16.17.18, NetworkProto=udp, NetworkTTL=52, NetworkTOS=0, FragmentType=None, SrcPort=53, DstPort=8968]
+    Mask:  FlowMask[Priority{0}, InPort{-1}, Ethernet{src=ff:ff:ff:ff:ff:ff, dst=ff:ff:ff:ff:ff:ff}, EtherType{0xffffffff}, KeyIPv4{src=255.255.255.255, dst=255.255.255.255, proto=-1, tos=-1, ttl=-1, frag=-1}, UDP{src=65535, dst=65535}, Tunnel{tun_id=0, ipv4_src=0.0.0.0, ipv4_dst=0.0.0.0, tun_flag=0, ipv4_tos=0, ipv4_ttl=0}]
+    Actions: 
+      SetKey{Ethernet{src=fa:16:3e:e1:58:2e, dst=fa:16:3e:88:4c:59}}
+      SetKey{KeyIPv4{src=8.8.8.8, dst=10.5.0.2, proto=17, tos=0, ttl=50, frag=0}}
+      SetKey{UDP{src=53, dst=53241}}
+      SetKey{Tunnel{tun_id=44, ipv4_src=192.168.123.76, ipv4_dst=192.168.123.79, tun_flag=0, ipv4_tos=0, ipv4_ttl=-1}}
+      Output{port=3}
+    Stats: FlowStats{packets=0, bytes=0}
+    TCP flags: 
+    Last used time: 0
 [...]
 ----
 ====
@@ -115,8 +112,8 @@ Ensure that the VM's MTU is set accordingly to the underlay's MTU.
 [options="header"]
 |====
 |Underlay MTU |Tunnel Protocol |Protocol Overhead |VM's MTU
-|1500 bytes   |VxLAN           |50 bytes          |1450 bytes
+|1500 bytes   |VXLAN           |50 bytes          |1450 bytes
 |1500 bytes   |GRE             |46 bytes          |1455 bytes
-|9000 bytes   |VxLAN           |50 bytes          |8950 bytes
+|9000 bytes   |VXLAN           |50 bytes          |8950 bytes
 |9000 bytes   |GRE             |46 bytes          |8955 bytes
 |====

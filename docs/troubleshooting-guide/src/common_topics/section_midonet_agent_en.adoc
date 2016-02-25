@@ -1,6 +1,9 @@
 [[midonet_agent]]
 = MidoNet Agent
 
+The MidoNet Agent (Midolman) writes log messages to the
+`/var/log/midolman/midolman.log` file.
+
 ++++
 <?dbhtml stop-chunking?>
 ++++
@@ -8,11 +11,12 @@
 == Debugging
 
 During troubleshooting periods, you can increase the logging level via the
-`mn-conf(1)` utility.
+`mn-conf` utility.
 
-The available log levels are: DEBUG, INFO, WARN, ERROR
+The available log levels are: `DEBUG`, `INFO`, `WARN`, `ERROR`
 
-To check the currently configured level, execute the following command:
+To check the currently configured level, execute the following command on an
+Agent host:
 
 [literal,subs="verbatim,quotes"]
 ----
@@ -20,11 +24,11 @@ $ mn-conf get agent.loggers.root
 agent.loggers.root = *INFO*
 ----
 
-To increase the log level, execute the following command:
+To increase the log level to `DEBUG`, execute the following command:
 
 [literal,subs="verbatim,quotes"]
 ----
-$ echo "agent.loggers.root : *DEBUG*" | mn-conf set -t default
+$ echo "agent.loggers.root : *DEBUG*" | mn-conf set
 ----
 
 This change does not require an Agent restart.

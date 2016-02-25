@@ -1,27 +1,53 @@
 [[mm_dpctl]]
 = mm-dpctl
 
-The `mm-dpctl` command can be run on any MidoNet Agent node and will display the
+The `mm-dpctl` command can be run on any MidoNet Agent node to display the
 datapath information, such as the current flows.
 
 Available options:
 
 [source]
 ----
-$ mm-dpctl 
-usage: mm-dpctl
-    --add-dp <arg>      Add a new datapath.
-    --delete-dp <arg>   Delete a datapath.
-    --dump-dp <arg>     Show all the flows installed for a given datapath.
-    --list-dps          List all the installed datapaths
-    --show-dp <arg>     Show all the information related to a given datapath.
-    --timeout <arg>     Specifies a timeout in seconds. If the program is not able to get the results in less than this amount of time it will stop and return with an error code
+# mm-dpctl --help
+      --timeout  <arg>   timeout in seconds to wait for an operation to complete
+                         (default = 3)
+      --help             Show help message
+
+Subcommand: datapath - datapath operations (create, delete, list, dump)
+  -a, --add  <arg>      add a new datapath
+  -D, --delete  <arg>   delete a datapath
+  -d, --dump  <arg>     show all the flows installed for a given datapath
+  -l, --list            list all the installed datapaths
+  -s, --show  <arg>     show all the information related to a given datapath
+      --help            Show help message
+Subcommand: interface - interface operations (add, delete)
+  -a, --add  <arg>      add an interface to a datapath
+  -d, --delete  <arg>   delete an interface from a datapath
+      --help            Show help message
+
+ trailing arguments:
+  datapath (required)   the datapath where to create/delete a flow
+Subcommand: flows - flow operations (create, delete)
+      --arp               src-ip and dst-ip belong to an ARP
+  -d, --datapath  <arg>   the datapath where to create/delete a flow
+  -D, --delete            delete the flow
+      --dst-ip  <arg>     destination IP/ARP address
+      --dst-mac  <arg>    destination MAC address
+      --dst-port  <arg>   transport destination port or ICMP code
+  -i, --input  <arg>      input interface (adds it to datapath)
+  -o, --output  <arg>     output interface (adds it to datapath)
+      --proto  <arg>      IP protocol (TCP, UDP, or ICMP)
+      --reply             tells whether the ARP is a reply
+      --src-ip  <arg>     source IP/ARP address
+      --src-mac  <arg>    source MAC address
+      --src-port  <arg>   transport source port or ICMP type
+      --help              Show help message
 ----
 
 Examples:
 
 [source]
 ----
-$ mm-dpctl --show-dp midonet # shows datapath and interfaces
-$ mm-dpctl --dump-dp midonet # shows current flows
+# mm-dpctl datapath --show midonet # shows datapath and interfaces
+# mm-dpctl datapath --dump midonet # dumps current flows
 ----
