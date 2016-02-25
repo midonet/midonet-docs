@@ -22,7 +22,7 @@ operating system and OpenStack distribution.
 |
 /var/log/cassandra/cassandra.log (RHEL)
 
-/var/log/cassandra/system.log (Ubutnu)
+/var/log/cassandra/system.log (Ubuntu)
 | LOG
 |====
 
