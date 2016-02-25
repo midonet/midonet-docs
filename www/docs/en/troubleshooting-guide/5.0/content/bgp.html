@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#"><head>
+<link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Border Gateway Protocol (BGP) - MidoNet Troubleshooting Guide
+   - 5.0</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/><meta name="mavenGroupId" content="org.midonet"/><meta name="mavenArtifactId" content="midonet-docs-troubleshooting-guide-en"/><meta name="mavenVersionId" content="5.0"/><link rel="home" href="index.html" title="MidoNet Troubleshooting Guide"/><link rel="up" href="_common_topics.html" title="Chapter 2. Common Topics"/><link rel="prev" href="midonet_cluster.html" title="MidoNet Cluster"/><link rel="next" href="zookeeper.html" title="ZooKeeper"/><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><meta name="git-sha" content="8e0c17cc14b2e0631df5d4edc4ac69624494b32e"/><meta name="buildTime" content="2016-02-25T06:10:10+00:00"/><script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "treeview-book_troubleshooting_guide_en";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+        </script><style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(../common/jquery/treeview/images/folder.gif) 0 0px no-repeat;
+            }
+            
+        </style><link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/><link rel="stylesheet" type="text/css" href="../common/css/positioning.css"/><link rel="stylesheet" type="text/css" href="../common/css/custom.css"/><!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="../common/css/ie.css"/>
+	<![endif]--><link rel="stylesheet" type="text/css" href="../common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/><link rel="stylesheet" type="text/css" href="../common/jquery/treeview/jquery.treeview.css"/><script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"><!----></script><script type="text/javascript" src="../common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script><script type="text/javascript" src="../common/jquery/jquery.cookie.js"><!----></script><script type="text/javascript" src="../common/jquery/treeview/jquery.treeview.min.js"><!----></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"><!--jQuery plugin for glossary popups. --></script><script type="text/javascript" src="search/htmlFileList.js"><!----></script><script type="text/javascript" src="search/htmlFileInfoList.js"><!----></script><script type="text/javascript" src="search/nwSearchFnt.js"><!----></script><script type="text/javascript" src="search/stemmers/en_stemmer.js"><!--//make this scalable to other languages as well.--></script><script type="text/javascript" src="search/index-1.js"><!----></script><script type="text/javascript" src="search/index-2.js"><!----></script><script type="text/javascript" src="search/index-3.js"><!----></script><script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-56283377-4']);
+	    
+	    _gaq.push(['_setDomainName', '.midonet.org']);	        
+	        </script><script type="text/javascript" src="../common/ga.js"><!----></script></head><body><div id="header"><a onclick="_gaq.push(['_trackEvent', 'Header', 'logo', 'click', 1]);" target="_blank" href="https://www.midonet.org"><img src="../common/images/midonet-logo.png" alt="MidoNet Documentation" width="157" height="47"/></a><h1>Border Gateway Protocol (BGP)</h1><div id="navheader" align="right"><!----><table class="navLinks"><tr><td><a id="showHideButton" onclick="showHideToc(); _gaq.push(['_trackEvent', 'Header', 'show/hide', 'click', 1]);" class="pointLeft" title="Hide TOC tree">Sidebar
+                            </a></td><td><a accesskey="p" class="navLinkPrevious" onclick="_gaq.push(['_trackEvent', 'Header', 'prevLink', 'click', 1]);" tabindex="5" href="midonet_cluster.html">Prev</a>
+				      |
+                                        <a accesskey="u" class="navLinkUp" onclick="_gaq.push(['_trackEvent', 'Header', 'upLink', 'click', 1]);" tabindex="5" href="_common_topics.html">Up</a>
+				  |
+                                    <a accesskey="n" class="navLinkNext" onclick="_gaq.push(['_trackEvent', 'Header', 'nextLink', 'click', 1]);" tabindex="5" href="zookeeper.html">Next</a></td></tr></table></div></div><div id="toolbar" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all"><div id="toolbar-left"><p class="breadcrumbs"><a href="https://docs.midonet.org/">MidoNet Manuals</a><a href="index.html">MidoNet Troubleshooting Guide
+   - 5.0</a></p><a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" class="pdficon" href="../MidoNet_Troubleshooting_Guide_EN_5.0.pdf"><img src="../common/images/pdf.png"/></a><div id="gplusone"><a id="AskOOLink1" href="https://github.com/midonet/midonet/wiki/Communication" target="_blank" title="Questions? Discuss on Mailing Lists or Chat."><i class="icon-question"><!----></i></a>  
+        <a id="logABugLink1" href="https://midonet.atlassian.net/browse/MND/" target="_blank" title="Found an error? Report a bug."><i class="icon-bug"><!----></i></a></div></div></div><div id="content"><div class="section"><div xmlns="" class="titlepage"><div><div><h2 xmlns="http://www.w3.org/1999/xhtml" class="title" style="clear: both"><a id="bgp"> </a>Border Gateway Protocol (BGP)</h2></div></div></div><p>This section covers some of the most common BGP related topics.</p><p>Find BGP namespaces:</p><pre class="literallayout"># ip netns list
+<span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span>
+<span class="strong"><strong><span class="emphasis"><em>mbgp2_ns</em></span></strong></span>
+[...]</pre><p>Verify that the Quagga process is running:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> ps aux | grep [q]uagga
+quagga   10614  0.0  0.0 114544  7664 ?        S    04:06   0:00 /usr/sbin/bgpd <span class="strong"><strong><span class="emphasis"><em>--vty_port 2606</em></span></strong></span> --config_file /etc/midolman/quagga/bgpd.conf --pid_file /var/run/quagga/bgpd.2606.pid --socket /var/run/quagga/zserv1.api</pre><p>Verify that Quagga is listening on both VTYSH and BGP ports:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> netstat -tulpen
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       User       Inode      PID/Program name
+tcp        0      0 0.0.0.0:<span class="emphasis"><em><span class="strong"><strong>2606</strong></span></em></span>            0.0.0.0:*               LISTEN      92         4052614    24029/bgpd
+tcp        0      0 0.0.0.0:<span class="emphasis"><em><span class="strong"><strong>179</strong></span></em></span>             0.0.0.0:*               LISTEN      92         4052693    24029/bgpd
+tcp6       0      0 :::<span class="emphasis"><em><span class="strong"><strong>2606</strong></span></em></span>                 :::*                    LISTEN      92         4052615    24029/bgpd
+tcp6       0      0 :::<span class="emphasis"><em><span class="strong"><strong>179</strong></span></em></span>                  :::*                    LISTEN      92         4052694    24029/bgpd</pre><p>Check the BGP-related interfaces and routing information:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> ip addr
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+5: mbgp1_m: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether ac:ca:ba:1a:af:24 brd ff:ff:ff:ff:ff:ff
+    inet <span class="emphasis"><em><span class="strong"><strong>192.0.2.2/30</strong></span></em></span> scope global mbgp1_m
+       valid_lft forever preferred_lft forever
+    inet6 fe80::aeca:baff:fe1a:af24/64 scope link
+       valid_lft forever preferred_lft forever
+7: mbgp1_vtym: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether c6:89:e2:2b:b0:8e brd ff:ff:ff:ff:ff:ff
+    inet <span class="emphasis"><em><span class="strong"><strong>172.23.0.6/30</strong></span></em></span> scope global mbgp1_vtym
+       valid_lft forever preferred_lft forever
+    inet6 fe80::c489:e2ff:fe2b:b08e/64 scope link
+       valid_lft forever preferred_lft forever</pre><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> ip route
+192.0.2.0/30   dev mbgp1_m     proto kernel  scope link  src 192.0.2.2
+172.23.0.4/30  dev mbgp1_vtym  proto kernel  scope link  src 172.23.0.6</pre><p>Ensure that the BGP peers are <code class="literal">REACHABLE</code>:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> ip neigh show</pre><p>Dump the VTYSH interface’s traffic:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> tcpdump -vvv -i <span class="strong"><strong><span class="emphasis"><em>mbgp1_vtym</em></span></strong></span></pre><p>Dump ARP, BGP and ICMP traffic on the BGP interface:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> tcpdump -vvv -i <span class="strong"><strong><span class="emphasis"><em>mbgp1_m</em></span></strong></span> "icmp or arp or port 179"</pre><p>Dump ARP, BGP and ICMP traffic on the corresponding physical interface:</p><pre class="literallayout"># tcpdump -vvv -i <span class="strong"><strong><span class="emphasis"><em>eth1</em></span></strong></span> "icmp or arp or port 179"</pre><p>Launch Quagga’s VTY shell:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> vtysh</pre><p>Inside Quagga’s VTY shell, show the running configuration:</p><pre class="screen"># show run
+Building configuration...
+
+Current configuration:
+!
+hostname bgpd
+log file /var/log/quagga/bgpd.2609.log
+!
+password zebra_password
+!
+router bgp 65535
+ bgp router-id 192.0.2.2
+ network 203.0.113.0/24
+ neighbor 192.0.2.1 remote-as 65534
+ neighbor 192.0.2.1 timers 5 15
+ neighbor 192.0.2.1 timers connect 10
+!
+line vty
+!
+end</pre><p>Inside Quagga’s VTY shell, show the BGP summary:</p><pre class="screen"># show ip bgp summary
+BGP router identifier 192.0.2.2, local AS number 65535
+RIB entries 19, using 2128 bytes of memory
+Peers 1, using 4560 bytes of memory
+
+Neighbor    V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+192.0.2.1   4 65534    5512    5523        0    0    0 07:40:09       10</pre><p>Inside Quagga’s VTY shell, show BGP routing information:</p><pre class="screen"># show ip bgp
+BGP table version is 0, local router ID is 192.0.2.2
+Status codes: s suppressed, d damped, h history, * valid, &gt; best, i - internal,
+              r RIB-failure, S Stale, R Removed
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network            Next Hop            Metric LocPrf Weight Path
+*&gt; 0.0.0.0            192.0.2.1           0             0 65534 ?
+*&gt; 203.0.113.0/24     0.0.0.0             0         32768 i
+*&gt; 192.0.2.0/30       192.0.2.1           0             0 65534 ?
+
+Total number of prefixes 11</pre></div><script type="text/javascript" src="../common/main.js"><!----></script><div class="logabug" style="text-align: center"><a id="AskOOLink2" href="https://github.com/midonet/midonet/wiki/Communication" target="_blank"><i class="icon-question"><!----></i>Questions? Discuss on Mailing Lists or Chat.</a><br/><a id="logABugLink2" href="https://midonet.atlassian.net/browse/MND/" target="_blank"><i class="icon-bug"><!----></i>Found an error? Report a bug.</a></div><hr/><div id="disqus_thread"><script type="text/javascript">
+	      if(window.location.protocol.substring(0,4) == 'http'){
+	        var disqus_shortname = 'midonet';
+	      
+	        var disqus_identifier = 'book_troubleshooting_guide_en5.0bgp';
+	      
+	      }
+	    </script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><script type="text/javascript" src="../common/comments.js"><!----></script></div><hr/><div class="legal"><a href="index.html">Legal notices</a></div></div><div><div id="leftnavigation" style="padding-top:3px; background-color:white;"><div id="tabs"><ul><li><a href="#treeDiv" tabindex="1"><span class="contentsTab">Contents</span></a></li><li><a href="#searchDiv" tabindex="1"><span class="searchTab">Search</span></a></li></ul><div id="treeDiv"><img src="../common/images/loading.gif" alt="loading table of contents..." id="tocLoading" style="display:block;"/><div id="ulTreeDiv" style="display:none" class="thisisthat"><ul id="tree" class="filetree"><li tabindex="2"><span class="file"><a href="preface.html">Preface</a></span><ul><li tabindex="2"><span class="file"><a href="preface.html#_conventions">Conventions</a></span><ul><li tabindex="2"><span class="file"><a href="preface.html#_notices">Notices</a></span></li><li tabindex="2"><span class="file"><a href="preface.html#_command_prompts">Command prompts</a></span></li></ul></li></ul></li><li tabindex="2"><span class="file"><a href="overall_approach.html">1. Overall Approach</a></span><ul><li tabindex="2"><span class="file"><a href="underlay_network.html">Underlay Network</a></span><ul><li tabindex="2"><span class="file"><a href="_hardware_cabling.html">Hardware / Cabling</a></span></li><li tabindex="2"><span class="file"><a href="_routing.html">Routing</a></span></li><li tabindex="2"><span class="file"><a href="_firewall.html">Firewall</a></span></li><li tabindex="2"><span class="file"><a href="_access_control.html">Access Control</a></span></li><li tabindex="2"><span class="file"><a href="_linux_kernel_open_vswitch.html">Linux Kernel / Open vSwitch</a></span></li><li tabindex="2"><span class="file"><a href="_time_synchronization.html">Time Synchronization</a></span></li></ul></li><li tabindex="2"><span class="file"><a href="overlay_network.html">Overlay Network</a></span><ul><li tabindex="2"><span class="file"><a href="_tunnel_zone.html">Tunnel Zone</a></span></li><li tabindex="2"><span class="file"><a href="_midonet_datapath.html">MidoNet Datapath</a></span></li><li tabindex="2"><span class="file"><a href="_mtu.html">MTU</a></span></li></ul></li><li tabindex="2"><span class="file"><a href="topology_simulation.html">Topology Simulation</a></span></li><li tabindex="2"><span class="file"><a href="virtual_topology.html">Virtual Topology</a></span><ul><li tabindex="2"><span class="file"><a href="_security_groups.html">Security Groups</a></span></li></ul></li></ul></li><li tabindex="2"><span class="file"><a href="_common_topics.html">2. Common Topics</a></span><ul><li tabindex="2"><span class="file"><a href="midonet_agent.html">MidoNet Agent</a></span><ul><li tabindex="2"><span class="file"><a href="midonet_agent.html#_debugging">Debugging</a></span></li></ul></li><li tabindex="2"><span class="file"><a href="midonet_cluster.html">MidoNet Cluster</a></span></li><li tabindex="2" id="webhelp-currentid"><span class="file"><a href="bgp.html">Border Gateway Protocol (BGP)</a></span></li><li tabindex="2"><span class="file"><a href="zookeeper.html">ZooKeeper</a></span></li><li tabindex="2"><span class="file"><a href="vm_interconnectivity.html">VM Interconnectivity</a></span><ul><li tabindex="2"><span class="file"><a href="vm_interconnectivity.html#_scenario">Scenario</a></span></li><li tabindex="2"><span class="file"><a href="vm_interconnectivity.html#_determine_physical_compute_hosts">Determine physical compute hosts</a></span></li><li tabindex="2"><span class="file"><a href="vm_interconnectivity.html#_determine_tap_interfaces">Determine TAP interfaces</a></span></li><li tabindex="2"><span class="file"><a href="vm_interconnectivity.html#_examine_the_traffic_on_the_tap_interfaces">Examine the traffic on the TAP interfaces</a></span></li></ul></li></ul></li><li tabindex="2"><span class="file"><a href="tools_and_commands.html">3. Tools and Commands</a></span><ul><li tabindex="2"><span class="file"><a href="tools_and_commands.html#midonet_cli">midonet-cli</a></span></li><li tabindex="2"><span class="file"><a href="tools_and_commands.html#mm_dpctl">mm-dpctl</a></span></li><li tabindex="2"><span class="file"><a href="tools_and_commands.html#mm_trace">mm-trace</a></span></li><li tabindex="2"><span class="file"><a href="tools_and_commands.html#ip">ip</a></span></li></ul></li><li tabindex="2"><span class="file"><a href="directories_and_files.html">4. Directories and Files</a></span><ul><li tabindex="2"><span class="file"><a href="directories_and_files.html#_cassandra">Cassandra</a></span></li><li tabindex="2"><span class="file"><a href="directories_and_files.html#_midonet_agent">MidoNet Agent</a></span></li><li tabindex="2"><span class="file"><a href="directories_and_files.html#_midonet_cluster">MidoNet Cluster</a></span></li><li tabindex="2"><span class="file"><a href="directories_and_files.html#_quagga_bgpd">Quagga (BGPD)</a></span></li><li tabindex="2"><span class="file"><a href="directories_and_files.html#_zookeeper">ZooKeeper</a></span></li></ul></li><li tabindex="2"><span class="file"><a href="processes.html">5. Processes</a></span></li></ul></div></div><div id="searchDiv"><div id="search"><form onsubmit="Verifie(ditaSearch_Form);return false" name="ditaSearch_Form" class="searchForm"><fieldset class="searchFieldSet"><legend>Search</legend><center><input id="textToSearch" name="textToSearch" type="text" class="searchText"/> &nbsp; <input onclick="Verifie(ditaSearch_Form)" type="button" class="searchButton" value="Go" id="doSearch"/></center></fieldset></form></div><div id="searchResults"><center/></div><p class="searchHighlight"><a href="#" onclick="toggleHighlight()">Search Highlighter (On/Off)</a></p></div></div></div></div></body></html>
