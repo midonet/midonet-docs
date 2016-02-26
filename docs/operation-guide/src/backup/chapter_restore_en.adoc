@@ -1,0 +1,54 @@
+[[restore]]
+= Restore
+
+Before restoring the data, ensure that all affected services are being stopped.
+
+Additionally to the OpenStack services, the following MidoNet related services
+have to be stopped:
+
+RHEL:
+
+[source]
+----
+# systemctl stop cassandra.servive
+# systemctl stop midolman.servive
+# systemctl stop midonet-cluster.servive
+# systemctl stop zookeeper.servive
+----
+
+Ubuntu:
+
+[source]
+----
+# service cassandra stop
+# service midolman stop
+# service midonet-cluster stop
+# service zookeeper stop
+----
+
+== Configuration Files
+
+Restore the configuration files that you backed up in xref:backup[].
+
+
+== MySQL / MariaDB
+
+Restore the SQL dump:
+
+[literal,subs="quotes"]
+----
+# mysqldump \
+   -uroot -p_*password*_ \
+   --lock-tables --events --routines --triggers --all-databases | \
+  gzip > openstack_db$(hostname)_backup.LOCKED.$(date --rfc-3339=date).sql.gz
+----
+
+== ZooKeeper
+
+On each ZooKeeper node, restore the `data` directory from the backup.
+
+[literal,subs="quotes"]
+----
+# mkdir /tmp/zkbackup.$(date –rfc-3339=date).$(hostname)
+# cp /var/lib/zookeeper/data/version-2/* /tmp/zkbackup.$(date --rfc-3339=date).$(hostname)
+----

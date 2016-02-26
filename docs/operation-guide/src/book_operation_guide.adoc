@@ -171,3 +171,6 @@ include::{sourcedir}/services/section_services_controller_{lang}.adoc[leveloffse
 include::{sourcedir}/services/section_services_nsdb_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/services/section_services_compute_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/services/section_services_gateway_{lang}.adoc[leveloffset=+2]
+
+// Chapter: Backup
+include::{sourcedir}/backup/chapter_backup_en.adoc[leveloffset=+1]
