@@ -1,0 +1,91 @@
+[[backup_mysql]]
+= MySQL / MariaDB
+
+Technically MidoNet only relies on the Neutron and Keystone tables, but for
+completeness and ease of use a full backup of the database is recommended.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Backup
+
+. *Create Database Dump*
++
+====
+Use the `mysqldump` command to create a database backup:
+
+[literal,subs="quotes"]
+----
+# mysqldump \
+   -uroot -p_*password*_ \
+   --lock-tables --events --routines --triggers --all-databases | \
+  gzip > /tmp/ost_backup/data/ost_database.sql.gz
+----
+====
+
+== Restore
+
+. *Stop Affected Services*
++
+====
+Stop all services that access the database.
+
+This includes, but is *not limited* to the following services (depending on your
+OpenStack installation):
+
+Ubuntu:
+
+[source]
+----
+# service apache2 stop
+# service keystone stop
+# service neutron-server stop
+[...]
+----
+
+RHEL:
+
+[source]
+----
+# systemctl stop openstack-keystone.service
+# systemctl stop neutron-server.service
+# systemctl stop httpd.service
+[...]
+----
+====
+
+. *Restore Database Dump*
++
+====
+[literal,subs="quotes"]
+----
+# gunzip -c /tmp/ost_backup/data/ost_database.sql.gz | mysql -uroot -p_*password*_
+----
+====
+
+. *Restart Services*
++
+====
+Restart the services.
+
+Ubuntu:
+
+[source]
+----
+# service apache2 start
+# service keystone start
+# service neutron-server start
+[...]
+----
+
+RHEL:
+
+[source]
+----
+# systemctl start openstack-keystone.service
+# systemctl start neutron-server.service
+# systemctl start httpd.service
+[...]
+----
+====

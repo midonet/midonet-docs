@@ -1,0 +1,52 @@
+[[backup_libvirt]]
+= Libvirt
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Backup
+
+. *Backup Libvirt Configuration*
++
+====
+On the Compute nodes, make a copy of the Libvirt configuration:
+
+[source]
+----
+# cp /etc/libvirt/qemu.conf /tmp/libvirt_backup/
+----
+====
+
+== Restore
+
+. *Restore Libvirt Configuration*
++
+====
+Restore the Libvirt configuration from your backup:
+
+[source]
+----
+# cp /tmp/libvirt_backup/qemu.conf /etc/libvirt/
+----
+====
+
+. *Restart Libvirt*
++
+====
+Restart the Libvirt service.
+
+Ubuntu:
+
+[source]
+----
+# service libvirt-bin restart
+----
+
+RHEL:
+
+[source]
+----
+# systemctl restart libvirtd.service
+----
+====
