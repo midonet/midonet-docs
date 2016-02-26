@@ -1,0 +1,74 @@
+[[backup]]
+= Backup / Restore
+
+[NOTE]
+----
+This documentation does not cover the complete OpenStack environment. Please
+refer to the
+http://docs.openstack.org/openstack-ops/[OpenStack Operations Guide]
+for further information on how to backup and recover OpenStack.
+----
+
+Backing up MidoNet related data consists of:
+
+* Configuration Files
+* OpenStack Databases (Neutron, Keystone)
+* ZooKeeper data
+
+== Configuration Files
+
+On all nodes, backup the following configuration files.
+
+RHEL:
+
+[source]
+----
+/etc/cassandra/conf/cassandra.yaml
+/etc/midolman/midolman.conf
+/etc/midolman/midolman-env.sh
+/etc/midonet/midonet.conf
+/etc/neutron/neutron.conf
+/etc/neutron/plugins/midonet/midonet.ini
+/etc/zookeeper/zoo.cfg
+/var/lib/zookeeper/data/myid
+----
+
+Ubuntu:
+
+[source]
+----
+/etc/cassandra/cassandra.yaml
+/etc/default/neutron-server
+/etc/midolman/midolman.conf
+/etc/midolman/midolman-env.sh
+/etc/midonet/midonet.conf
+/etc/neutron/neutron.conf
+/etc/neutron/plugins/midonet/midonet.ini
+/etc/zookeeper/conf/zoo.cfg
+/var/lib/zookeeper/myid
+----
+
+== MySQL / MariaDB
+
+Technically MidoNet only relates to the Neutron and Keystone tables, but for
+ease of use the following examples creates a backup of the complete database.
+
+[literal,subs="quotes"]
+----
+# mysqldump \
+   -uroot -p_*password*_ \
+   --lock-tables --events --routines --triggers --all-databases | \
+  gzip > openstack_database.sql.gz
+----
+
+== ZooKeeper
+
+On each ZooKeeper node, copy the latest snapshot file and the log of
+transactions from the time the snapshot was taken. If in doubt copy the whole
+folder.
+
+[literal,subs="quotes"]
+----
+# mkdir /tmp/zkbackup.$(date –rfc-3339=date).$(hostname)
+# cp /var/lib/zookeeper/data/version-2/* /tmp/zkbackup.$(date --rfc-3339=date).$(hostname)
+----

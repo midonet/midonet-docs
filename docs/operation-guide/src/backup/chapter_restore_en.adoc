@@ -1,0 +1,59 @@
+[[restore]]
+= Restore
+
+Before restoring the data, ensure that the affected services are being stopped.
+
+Additionally to the OpenStack services, the following MidoNet related services
+have to be stopped:
+
+[source]
+----
+# service midolman stop
+# service cassandra stop
+# service zookeeper stop
+----
+
+
+
+
+
+
+
+== Configuration Files
+
+Backup the following configuration files:
+
+[source]
+----
+/etc/cassandra/conf/cassandra.yaml (RHEL)
+/etc/cassandra/cassandra.yaml (Ubuntu)
+/etc/midolman/midolman.conf
+/etc/midolman/midolman-env.sh
+/etc/neutron/plugins/midonet/midonet.ini
+/etc/zookeeper/zoo.cfg (RHEL)
+/etc/zookeeper/conf/zoo.cfg (Ubuntu)
+----
+
+== MySQL / MariaDB
+
+Backup OpenStack's MySQL database:
+
+[literal,subs="quotes"]
+----
+# mysqldump \
+   -uroot -p_*password*_ \
+   --lock-tables --events --routines --triggers --all-databases | \
+  gzip > openstack_db$(hostname)_backup.LOCKED.$(date --rfc-3339=date).sql.gz
+----
+
+== ZooKeeper
+
+On each ZooKeeper node, copy the latest snapshot file and the log of
+transactions from the time the snapshot was taken. If in doubt copy the whole
+folder:
+
+[literal,subs="quotes"]
+----
+# mkdir /tmp/zkbackup.$(date –rfc-3339=date).$(hostname)
+# cp /var/lib/zookeeper/data/version-2/* /tmp/zkbackup.$(date --rfc-3339=date).$(hostname)
+----
