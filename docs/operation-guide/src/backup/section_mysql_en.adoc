@@ -1,0 +1,13 @@
+[[backup_mysql]]
+= MySQL / MariaDB
+
+Technically MidoNet only relies on the Neutron and Keystone tables, but for ease
+of use the following examples creates a backup of the complete database.
+
+[literal,subs="quotes"]
+----
+# mysqldump \
+   -uroot -p_*password*_ \
+   --lock-tables --events --routines --triggers --all-databases | \
+  gzip > /tmp/ost_backup/ost_database.sql.gz
+----
