@@ -1,0 +1,177 @@
+[[backup_cassandra]]
+= Cassandra
+
+MidoNet exchanges connection tracking and NAT information directly between its
+Agents, but also stores this data in Cassandra as a backup.
+
+Whilst normal packet processing does not require access to Cassandra, it is
+necessary to support port migrations and to keep connections working across
+Agent reboots. Agents pull this information from Cassandra anytime they bind a
+new local interface to the virtual topology.
+
+If you do not rely on above, a full data backup of Cassandra is not required.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Backup
+
+. *Stop Cassandra*
++
+====
+On all NSDB nodes, stop the Cassandra service:
+
+Ubuntu:
+
+[source]
+----
+# service cassandra stop
+----
+
+RHEL:
+
+[source]
+----
+# systemctl stop cassandra.service
+----
+====
+
+. *Backup Cassandra Configuration*
++
+====
+On all NSDB nodes, make a copy of the Cassandra configuration:
+
+Ubuntu:
+
+[source]
+----
+# cp /etc/cassandra/cassandra.yaml /tmp/cass_backup/config/
+----
+
+RHEL:
+
+[source]
+----
+# cp /etc/cassandra/conf/cassandra.yaml /tmp/cass_backup/config/
+----
+====
+
+. *Backup Cassandra Data*
++
+====
+On all NSDB nodes, make a copy of the Cassandra data:
+
+[source]
+----
+# cp -r /var/lib/cassandra/* /tmp/cass_backup/data/
+----
+====
+
+. *Restart Cassandra*
++
+====
+On all NSDB nodes, start the Cassandra service:
+
+[source]
+----
+# service cassandra start
+----
+
+[source]
+----
+# systemctl start cassandra.service
+----
+====
+
+== Restore
+
+. *Stop Cassandra*
++
+====
+On all NSDB nodes, stop the Cassandra service:
+
+[source]
+----
+# service cassandra stop
+----
+
+[source]
+----
+# systemctl stop cassandra.service
+----
+====
+
+. *Restore Cassandra Configuration*
++
+====
+On all NSDB nodes, restore the Cassandra configuration from your backup:
+
+Ubuntu:
+
+[source]
+----
+# cp /tmp/cass_backup/config/cassandra.yaml /etc/cassandra/
+----
+
+RHEL:
+
+[source]
+----
+# cp /tmp/cass_backup/config/cassandra.yaml /etc/cassandra/conf/
+----
+====
+
+. *Restore Cassandra Data*
++
+====
+On all NSDB nodes, restore the Cassandra data from your backup:
+
+[source]
+----
+# rm -r /var/lib/cassandra/*
+# cp -r /tmp/cass_backup/data/* /var/lib/cassandra/
+----
+====
+
+. *Restart Cassandra*
++
+====
+On all NSDB nodes, start the Cassandra service:
+
+Ubuntu:
+
+[source]
+----
+# service cassandra start
+----
+
+RHEL:
+
+[source]
+----
+# systemctl start cassandra.service
+----
+====
+
+. *Verify Cassandra Operation*
++
+====
+On all NSDB nodes, verify that Cassandra is operating properly.
+
+A basic check can be done by executing the `nodetool status` command. This will
+reply with `UN` (Up / Normal) in the first column if the servers are running in
+a non-error state:
+
+[source]
+----
+$ nodetool -host 127.0.0.1 status
+[...]
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--  Address    Load       Tokens  Owns   Host ID                               Rack
+UN  192.0.2.1  123.45 KB  256     33.3%  11111111-2222-3333-4444-555555555555  rack1
+UN  192.0.2.2  234.56 KB  256     33.3%  22222222-3333-4444-5555-666666666666  rack1
+UN  192.0.2.3  345.67 KB  256     33.4%  33333333-4444-5555-6666-777777777777  rack1
+----
+====

@@ -1,0 +1,218 @@
+[[backup_zookeeper]]
+= ZooKeeper
+
+Backing up the ZooKeeper data consists of making a copy of the latest snapshot
+file and the transaction log that contains the transactions from the time the
+snapshot was taken. If in doubt, a copy of the whole data directory should be
+taken (as in the following example).
+
+See the 
+https://zookeeper.apache.org/doc/current/zookeeperAdmin.html[ZooKeeper Administrator's Guide]
+for further information about ZooKeeper's snapshot and transaction files.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Backup
+
+[IMPORTANT]
+====
+To ensure that Neutron's MySQL database and MidoNet's ZooKeeper data are in
+sync, set the MidoNet API to read-only before starting the backup.
+
+Backup both ZooKeeper data and MySQL database (as described in
+xref:backup_mysql[]) at the same time!
+====
+
+. *Set MidoNet API to READONLY*
++
+====
+Set the MidoNet API to `READONLY` to avoid topology changes during the backup
+process:
+
+[source]
+----
+# midonet-cli
+midonet> set system-state availability READONLY
+----
+====
+
+. *Backup ZooKeeper Configuration*
++
+====
+On all NSDB nodes, make a copy of the ZooKeeper configuration:
+
+Ubuntu:
+
+[source]
+----
+# cp /etc/zookeeper/conf/zoo.cfg /tmp/zk_backup/config/
+# cp /var/lib/zookeeper/data/myid /tmp/zk_backup/config/
+----
+
+RHEL:
+
+[source]
+----
+# cp /etc/zookeeper/zoo.cfg /tmp/zk_backup/config/
+# cp /var/lib/zookeeper/myid /tmp/zk_backup/config/
+----
+====
+
+. *Backup ZooKeeper Data*
++
+====
+On all NSDB nodes, make a copy of the ZooKeeper data:
+
+Ubuntu:
+
+[source]
+----
+# cp /var/lib/zookeeper/version-2/* /tmp/zk_backup/data/
+----
+
+RHEL:
+
+[source]
+----
+# cp /var/lib/zookeeper/data/version-2/* /tmp/zk_backup/data/
+----
+====
+
+. *Create MySQL Backup*
++
+====
+Create the MySQL backup (as described in xref:backup_mysql[]) to ensure that
+ZooKeeper and MySQL data are in sync.
+====
+
+. *Reset MidoNet API to READWRITE*
++
+====
+Reset the MidoNet API to `READWRITE`:
+
+[source]
+----
+# midonet-cli
+midonet> set system-state availability READWRITE
+----
+====
+
+== Restore
+
+. *Stop ZooKeeper*
++
+====
+On all NSDB nodes, stop the ZooKeeper service:
+
+[source]
+----
+# service zookeeper stop
+----
+
+[source]
+----
+# systemctl stop zookeeper.service
+----
+====
+
+. *Restore ZooKeeper Configuration*
++
+====
+On all NSDB nodes, restore the ZooKeeper configuration from your backup:
+
+Ubuntu:
+
+[source]
+----
+# cp /tmp/zk_backup/config/zoo.cfg /etc/zookeeper/conf/zoo.cfg
+# cp /tmp/zk_backup/config/myid /var/lib/zookeeper/data/myid
+----
+
+RHEL:
+
+[source]
+----
+# cp /tmp/zk_backup/config/zoo.cfg /etc/zookeeper/zoo.cfg
+# cp /tmp/zk_backup/config/myid /var/lib/zookeeper/myid
+----
+====
+
+. *Restore ZooKeeper Data*
++
+====
+On all NSDB nodes, restore the ZooKeeper data from your backup:
+
+Ubuntu:
+
+[source]
+----
+# rm /var/lib/zookeeper/version-2/*
+# cp /tmp/zk_backup/data/* /var/lib/zookeeper/version-2/
+----
+
+RHEL:
+
+[source]
+----
+# rm /var/lib/zookeeper/data/version-2/*
+# cp /tmp/zk_backup/data/* /var/lib/zookeeper/data/version-2/
+----
+====
+
+. *Restart ZooKeeper*
++
+====
+On all NSDB nodes, start the ZooKeeper service:
+
+Ubuntu:
+
+[source]
+----
+# service zookeeper start
+----
+
+RHEL:
+
+[source]
+----
+# systemctl start zookeeper.service
+----
+====
+
+. *Verify ZooKeeper Operation*
++
+====
+On all NSDB nodes, verify that ZooKeeper is operating properly.
+
+A basic check can be done by executing the `ruok` (Are you ok?) command. This
+will reply with `imok` (I am ok.) if the server is running in a non-error state:
+
+[source]
+----
+# echo ruok | nc 127.0.0.1 2181
+imok
+----
+
+More detailed information can be requested with the `stat` command, which lists
+statistics about performance and connected clients:
+
+[source]
+----
+# echo stat | nc 127.0.0.1 2181
+Zookeeper version: 3.4.5--1, built on 06/10/2013 17:26 GMT
+Clients:
+ /127.0.0.1:34768[0](queued=0,recved=1,sent=0)
+ /192.0.2.1:49703[1](queued=0,recved=1053,sent=1053)
+
+Latency min/avg/max: 0/4/255
+Received: 1055
+Sent: 1054
+Connections: 2
+Outstanding: 0
+Zxid: 0x260000013d
+Mode: follower
+Node count: 3647
+----
+====
