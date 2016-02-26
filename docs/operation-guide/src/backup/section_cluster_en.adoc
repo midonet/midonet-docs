@@ -1,0 +1,51 @@
+[[backup_cluster]]
+= MidoNet Cluster
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Backup
+
+. *Backup Cluster Configuration*
++
+====
+On the Cluster nodes, make a copy of the Cluster configuration:
+
+[source]
+----
+# cp /etc/midonet/midonet.conf /tmp/mn-cluster_backup/config/
+----
+====
+
+== Restore
+
+. *Restore Cluster Configuration*
++
+====
+On the Cluster nodes, restore the Cluster configuration from your backup:
+
+----
+# cp /tmp/mn-cluster_backup/config/* /etc/midonet/
+----
+====
+
+. *Restart Cluster*
++
+====
+On the Cluster nodes, restart the Cluster service:
+
+Ubuntu:
+
+[source]
+----
+# service midonet-cluster restart
+----
+
+RHEL:
+
+[source]
+----
+# systemctl restart midonet-cluster.service
+----
+====

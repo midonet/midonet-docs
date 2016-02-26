@@ -171,3 +171,13 @@ include::{sourcedir}/services/section_services_controller_{lang}.adoc[leveloffse
 include::{sourcedir}/services/section_services_nsdb_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/services/section_services_compute_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/services/section_services_gateway_{lang}.adoc[leveloffset=+2]
+
+// Chapter: Backup / Restore
+include::{sourcedir}/backup/chapter_backup_restore_en.adoc[leveloffset=+1]
+include::{sourcedir}/backup/section_zookeeper_en.adoc[leveloffset=+2]
+include::{sourcedir}/backup/section_cassandra_en.adoc[leveloffset=+2]
+include::{sourcedir}/backup/section_midolman_en.adoc[leveloffset=+2]
+include::{sourcedir}/backup/section_cluster_en.adoc[leveloffset=+2]
+include::{sourcedir}/backup/section_mysql_en.adoc[leveloffset=+2]
+include::{sourcedir}/backup/section_neutron_en.adoc[leveloffset=+2]
+include::{sourcedir}/backup/section_libvirt_en.adoc[leveloffset=+2]
