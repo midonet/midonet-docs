@@ -1,0 +1,52 @@
+[[backup_midolman]]
+= MidoNet Agent
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Backup
+
+. *Backup Agent Configuration*
++
+====
+On the Agent nodes, make a copy of the Agent configuration:
+
+[source]
+----
+# cp /etc/midolman/midolman.conf /tmp/mn-agent_backup/config/
+# cp /etc/midolman/midolman-env.sh /tmp/mn-agent_backup/config/
+----
+====
+
+== Restore
+
+. *Restore Agent Configuration*
++
+====
+On the Agent nodes, restore the Agent configuration from your backup:
+
+----
+# cp /tmp/mn-agent_backup/config/* /etc/midolman/
+----
+====
+
+. *Restart Agent*
++
+====
+On the Agent nodes, restart the Midolman service:
+
+Ubuntu:
+
+[source]
+----
+# service midolman restart
+----
+
+RHEL:
+
+[source]
+----
+# systemctl restart midolman.service
+----
+====
