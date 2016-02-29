@@ -1876,6 +1876,47 @@ allocated.
 associated with
 |=======================================================================
 
+[[neutron-gateway-device]]
+=== Neutron Gateway Device
+
+_Media Type_:::
+  `[application/vnd.org.midonet.neutron.GatewayDevice-v1+json]`
+_Collection Media Type_:::
+  `[application/vnd.org.midonet.neutron.GatewayDevices-v1+json]`
+
+------------------------------------------
+GET      /neutron/gateway_devices
+GET      /neutron/gateway_devices/:gatewayDeviceId
+POST     /neutron/gateway_devices
+PUT      /neutron/gateway_devices/:gatewayDeviceId
+DELETE   /neutron/gateway_devices/:gatewayDeviceId
+------------------------------------------
+
+[width="100%",cols="24%,8%,11%,11%,46%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+
+|id |UUID |POST |Yes
+|A unique identifier of the resource.
+
+|type |String |POST |Yes
+|The type of the gateway device. It can be `ROUTER_VTEP` or `HW_VTEP`.
+
+|resourceId |UUID |POST |Yes
+|Resource UUID. For `ROUTER_VTEP` it will be the router UUID.
+
+|tunnelIps |String (list of IP addresses) |POST/PUT |No
+|IP addresses on which the gateway device originates or terminates tunnels.
+
+|managementIp |String |POST |No
+|Management IP to the device.
+
+|managementPort |Integer |POST |No
+|Management port to the device.
+
+|managementProtocol |String |POST |No
+|Management protocol to the device. It can be `OVSDB` or None.
+|=======================================================================
 
 [[neutron-healthmonitor]]
 === Neutron Health Monitor
@@ -1926,6 +1967,69 @@ times out.
 `HTTPS`. This determines the type of packet sent for the health check.
 |=======================================================================
 
+[[neutron-l2-gateway-connection]]
+=== Neutron L2 Gateway Connection
+
+_Media Type_:::
+  `[application/vnd.org.midonet.neutron.L2GatewayConnection-v1+json]`
+_Collection Media Type_:::
+  `[application/vnd.org.midonet.neutron.L2GatewayConnections-v1+json]`
+
+------------------------------------------
+GET      /neutron/l2_gateway_connections
+GET      /neutron/l2_gateway_connections/:l2GatewayConnections
+POST     /neutron/l2_gateway_connections
+PUT      /neutron/l2_gateway_connections/:l2GatewayConnections
+DELETE   /neutron/l2_gateway_connections/:l2GatewayConnections
+------------------------------------------
+
+[width="100%",cols="24%,8%,11%,11%,46%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+
+|id |UUID |POST |Yes
+|A unique identifier of the resource.
+
+|networkId |UUID |POST |Yes
+|The UUID of the network associated with the l2 gateway connection.
+
+|segmentationId |Integer |POST |Yes
+|Indicates the segmentation identifier of the network.
+
+|l2Gateway |Object |POST |No
+|The L2 gateway object. See xref:neutron-l2-gateway[].
+|=======================================================================
+
+[[neutron-l2-gateway]]
+=== Neutron L2 Gateway
+
+[width="100%",cols="24%,8%,11%,11%,46%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+
+|id |UUID |POST |Yes
+|A unique identifier of the resource.
+
+|name |String |POST |Yes
+|Name of the L2 gateway.
+
+|devices |List of Objects |Post | No
+|List of L2 gateway devices. See xref:neutron-l2-gateway-device[].
+|=======================================================================
+
+[[neutron-l2-gateway-device]]
+=== Neutron L2 Gateway Device
+
+[width="100%",cols="24%,8%,11%,11%,46%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+
+|deviceId |UUID |POST |Yes
+|The identifier of the device associated with this L2 gateway.
+
+|segmentationId |Integer |POST |No
+|Indicates the segmentation identifier of the network.
+|=======================================================================
 
 [[neutron-member]]
 === Neutron Member
@@ -2176,6 +2280,40 @@ indicating the `ip_address` and `subnet_id`, such as
 |The status of this resource. This field is currently unused.
 |=======================================================================
 
+[[neutron-remote-mac-entry]]
+=== Neutron Remote Mac Entry
+
+_Media Type_:::
+ `[application/vnd.org.midonet.neturon.RemoteMacEntry-v1+json]`
+_Collection Media Type_:::
+ `[application/vnd.org.midonet.neturon.RemoteMacEntries-v1+json]`
+
+------------------------------------------
+GET      /neutron/remote_mac_entries
+GET      /neutron/remote_mac_entries/:remoteMacEntry
+POST     /neutron/remote_mac_entries
+DELETE   /neutron/remote_mac_entries/:remoteMacEntry
+------------------------------------------
+
+[width="100%",cols="24%,8%,11%,11%,46%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+
+|id |UUID |POST |Yes
+|A unique identifier of the resource.
+
+|deviceId |String |POST |No
+|The identifier of the device that owns the remote mac entry.
+
+|vtepAddress |String |POST |Yes
+|IP address of the destination port.
+
+|macAddress |String |POST |Yes
+|MAC address of the destination port.
+
+|segmentationId |String |POST |Yes
+|Indicates the segmentation identifier of the network.
+|=======================================================================
 
 [[neutron-router]]
 === Neutron Router
