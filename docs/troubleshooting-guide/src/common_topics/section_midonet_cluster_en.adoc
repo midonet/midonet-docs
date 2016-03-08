@@ -3,3 +3,51 @@
 
 The MidoNet Cluster writes log messages to the
 `/var/log/midonet-cluster/midonet-cluster.log` file.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Debugging
+
+During troubleshooting periods, you can increase the logging level via the
+`/etc/midonet-cluster/logback.xml` file.
+
+The available log levels are: `OFF`, `ERROR`, `WARN`, `INFO`, `DEBUG`, `TRACE`
+
+To check the currently configured levels, see the different `logger`s at the end
+of the file:
+
+[literal,subs="verbatim,quotes"]
+----
+<logger name="com.sun.jersey" level="*WARN*"/>
+<logger name="org.apache.cassandra" level="*INFO*"/>
+<logger name="org.apache.zookeeper" level="*INFO*"/>
+<logger name="org.eclipse.jetty" level="*INFO*"/>
+<logger name="org.hibernate" level="*WARN*"/>
+<logger name="org.opendaylight" level="*WARN*"/>
+<logger name="org.reflections" level="*INFO*"/>
+
+<root level="*INFO*">
+   <appender-ref ref="LOG-FILE" />
+</root>
+----
+
+To increase the log level to `DEBUG`, change the logger's levels as follows:
+
+[literal,subs="verbatim,quotes"]
+----
+<logger name="com.sun.jersey" level="*DEBUG*"/>
+<logger name="org.apache.cassandra" level="*DEBUG*"/>
+<logger name="org.apache.zookeeper" level="*DEBUG*"/>
+<logger name="org.eclipse.jetty" level="*DEBUG*"/>
+<logger name="org.hibernate" level="*DEBUG*"/>
+<logger name="org.opendaylight" level="*DEBUG*"/>
+<logger name="org.reflections" level="*DEBUG*"/>
+
+<root level="*DEBUG*">
+   <appender-ref ref="LOG-FILE" />
+</root>
+----
+
+Changing the log level requires a restart of the `midonet-cluster` service.
