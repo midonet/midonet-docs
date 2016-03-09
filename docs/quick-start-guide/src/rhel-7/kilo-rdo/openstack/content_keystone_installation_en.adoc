@@ -7,9 +7,5 @@ instructions, but *note the following differences and additions*.
 +
 ====
 Do *not* apply step '1. For security reasons, disable the temporary
-authentication token mechanism'.
-
-The MidoNet API uses the Keystone admin token for authentication purposes,
-therefore *admin_token_auth* has to be kept in the corresponding configuration
-sections.
+authentication token mechanism' from the 'Verify operation' section.
 ====
