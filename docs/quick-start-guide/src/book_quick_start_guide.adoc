@@ -33,6 +33,7 @@ include::{sourcedir}/{operating_system}/{openstack_version}/openstack/content_op
 // Section: Keystone
 include::{sourcedir}/common/openstack/section_keystone_installation_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/content_keystone_installation_{lang}.adoc[]
+include::{sourcedir}/{operating_system}/openstack/listitem_keystone_admin_token_auth_configuration_en.adoc[]
 include::{sourcedir}/common/openstack/{openstack_version}/listitem_keystone_midonet_service_configuration_{lang}.adoc[]
 include::{sourcedir}/{operating_system}/{openstack_version}/openstack/listitem_keystone_midonet_user_configuration_{lang}.adoc[]
 
