@@ -79,16 +79,16 @@ Metadata Proxy:
 
 [source,subs="specialcharacters,quotes"]
 ----
-$ echo "agent.openstack.metadata.nova_metadata_url : \"http://**_nova_metadata_host_**:**_nova_metadata_port_**\"" | mn-conf set -t default
+$ echo "agent.openstack.metadata.nova_metadata_url : \"http://**_controller_**:**_8775_**\"" | mn-conf set -t default
 $ echo "agent.openstack.metadata.shared_secret : *_shared_secret_*" | mn-conf set -t default
 $ echo "agent.openstack.metadata.enabled : true" | mn-conf set -t default
 ----
 
-*_nova_metadata_host_*, *_nova_metadata_port_*, and *_shared_secret_* should be
+*_controller_*, *_8775_*, and *_shared_secret_* should be
 replaced with appropriate values. They need to match with the corresponding Nova
 Metadata API configuration.
 
-*_nova_metadata_host_* and *_nova_metadata_port_* specify the address on which
+*_controller_* and *_8775_* specify the address on which
 Nova accepts Metadata API requests. *_shared_secret_* has to be the same as
 specified by the "metadata_proxy_shared_secret" field in the "neutron" section
 of nova.conf.
