@@ -77,16 +77,16 @@ JVMリソーステンプレートを設定するためには、デフォルト�
 
 [source,subs="specialcharacters,quotes"]
 ----
-$ echo "agent.openstack.metadata.nova_metadata_url : \"http://**_nova_metadata_host_**:**_nova_metadata_port_**\"" | mn-conf set -t default
+$ echo "agent.openstack.metadata.nova_metadata_url : \"http://**_controller_**:**_8775_**\"" | mn-conf set -t default
 $ echo "agent.openstack.metadata.shared_secret : *_shared_secret_*" | mn-conf set -t default
 $ echo "agent.openstack.metadata.enabled : true" | mn-conf set -t default
 ----
 
-*_nova_metadata_host_*、*_nova_metadata_port_*、*_shared_secret_* は適切な値に
+*_controller_*、*_8775_*、*_shared_secret_* は適切な値に
 置きかえてください。これらの値は対応する Nova Metadata API の設定に
 マッチしている必要があります。
 
-*_nova_metadata_host_* と *_nova_metadata_port_* には Nova Metadata API が
+*_controller_* と *_8775_* には Nova Metadata API が
 要求を受け付けるアドレスを指定します。 *_shared_secret_* には
 nova.conf の "neutron" セクション内の "metadata_proxy_shared_secret"
 フィールドと同じ値を設定してください。
