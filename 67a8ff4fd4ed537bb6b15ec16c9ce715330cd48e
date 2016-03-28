@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da9b358b_c96d1334",
+        "filename": "docs/operation-guide/src/backup/section_zookeeper_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002803
+      },
+      "writtenOn": "2016-03-28T10:07:23Z",
+      "side": 1,
+      "message": "we could avoid stopping ZK for the backup in order to backup the state without causing downtime, maybe just locking midonet API (with midonet-cli) to make sure mysql and ZK are in sync while the backups are taken. For instance mysql is not stopped while taking the dump",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "67a8ff4fd4ed537bb6b15ec16c9ce715330cd48e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
