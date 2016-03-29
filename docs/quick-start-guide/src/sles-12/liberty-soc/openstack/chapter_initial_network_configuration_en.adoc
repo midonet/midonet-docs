@@ -1,0 +1,14 @@
+[[initial_network_configuration]]
+= Initial Network Configuration
+
+. *To create the external network*
++
+====
+Use the following command to create the external network:
+
+[source]
+----
+$ neutron net-create ext-net --router:external
+----
+====
+

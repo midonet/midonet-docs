@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the SUSE OpenStack Cloud documentation's
+https://www.suse.com/documentation/suse-openstack-cloud-6/book_cloud_deploy/data/sec_depl_ostack_nova.html[Deploying Nova]
+instructions, but *note the following differences*.
+
