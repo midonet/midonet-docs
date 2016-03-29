@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the
+https://www.suse.com/documentation/suse-openstack-cloud-6/book_cloud_deploy/data/book_cloud_deploy.html[Suse Cloud 6 Deployment Guide]
+, but *note the following differences*.
+
