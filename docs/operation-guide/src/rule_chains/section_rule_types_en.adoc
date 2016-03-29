@@ -93,5 +93,3 @@ its jump_target and calls the chain to process the packet on the ingress port.
 packet on the ingress, egress port.
 
 * If the chain cannot be found, the jump rule returns the default, CONTINUE.
-Otherwise, it returns exactly the (next_action, new_packet) returned by invoking
-the rule chain.
