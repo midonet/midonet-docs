@@ -1,0 +1,20 @@
+. *Enable MEM repositories*
++
+====
+
+Use the following command to add the MEM repositories:
+
+[literal,subs="quotes"]
+----
+# zypper addrepo -f http://**_username_**:**_password_**@download.midokura.com/repo/v1.9/stable/SLE_12/ midonet
+----
+[literal,subs="quotes"]
+----
+# zypper addrepo -f http://**_username_**:**_password_**@download.midokura.com/repo/openstack-liberty/stable/SLE_12/ midonet-plugin-liberty
+----
+
+[NOTE]
+Replace *_username_* and *_password_* with the login credentials provided by
+Midokura.
+====
+
