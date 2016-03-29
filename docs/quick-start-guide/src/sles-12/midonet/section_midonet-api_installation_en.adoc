@@ -1,0 +1,131 @@
+= MidoNet API Installation
+
+. *Install MidoNet API package*
++
+====
+[source]
+----
+# zypper install midonet-api
+----
+====
+
+. *Configure MidoNet API*
++
+====
+Edit the `/usr/share/midonet-api/WEB-INF/web.xml` file to contain the following:
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>rest_api-base_uri</param-name>
+    <param-value>http://*_controller_*:8080/midonet-api</param-value>
+</context-param>
+----
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>keystone-service_host</param-name>
+    <param-value>**_controller_**</param-value>
+</context-param>
+----
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>keystone-admin_token</param-name>
+    <param-value>**_ADMIN_TOKEN_**</param-value>
+</context-param>
+----
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>zookeeper-zookeeper_hosts</param-name>
+    <param-value>**_nsdb1_**:2181,*_nsdb2_*:2181,*_nsdb3_*:2181</param-value>
+</context-param>
+----
+
+[literal,subs="verbatim,quotes"]
+----
+<context-param>
+    <param-name>midocluster-properties_file</param-name>
+    <param-value>/var/lib/tomcat/webapps/host_uuid.properties</param-value>
+</context-param>
+----
+====
+
+. *Install Tomcat package*
++
+====
+[source]
+----
+# zypper install tomcat
+----
+====
+
+. *Optimize Tomcat*
++
+====
+On systems that are short of entropy, the Tomcat startup may take several
+minutes reading from the blocking entropy source (/dev/random). For faster
+startup this can be changed to use a non-blocking source (/dev/urandom) instead.
+
+By default, Tomcat is assigned a very little PermGen memory for the running
+process. To fix it, we can increase the PermGen memory settings and using more
+memory allocation for the JVM.
+
+To do so, edit the `/etc/sysconfig/tomcat` file to contain the following:
+
+[source]
+----
+JAVA_OPTS="$JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
+JAVA_OPTS="$JAVA_OPTS -Xms512m -Xmx1024m -XX:MaxPermSize=256m"
+----
+
+See the
+https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat Wiki]
+for further information.
+====
+
+. *Configure Tomcat's Maximum HTTP Header Size*
++
+====
+Edit the `/etc/tomcat/server.xml` file and adjust the maximum header size for
+the HTTP connector:
+
+[literal,subs="verbatim,quotes"]
+----
+<Connector port="8080" protocol="HTTP/1.1"
+           connectionTimeout="20000"
+           URIEncoding="UTF-8"
+           redirectPort="8443"
+           **maxHttpHeaderSize="65536"** />
+----
+====
+
+. *Configure MidoNet API context*
++
+====
+Create the `/etc/tomcat/Catalina/localhost/midonet-api.xml` file and edit it to
+contain the following:
+
+[source]
+----
+<Context
+    path="/midonet-api"
+    docBase="/usr/share/midonet-api"
+    antiResourceLocking="false"
+    privileged="true"
+/>
+----
+====
+
+. *Start Tomcat*
++
+====
+[source]
+----
+# service tomcat start
+----
+====

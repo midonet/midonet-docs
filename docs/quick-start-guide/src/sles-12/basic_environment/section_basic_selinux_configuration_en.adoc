@@ -1,0 +1,11 @@
+= SuSEfirewall2 Configuration
+
+[NOTE]
+SuSEfirewall2 is a stateful network packet filter also known as firewall.
+
+Disable it by executing the following command:
+
+[source]
+----
+# /sbin/SuSEfirewall2 off
+----

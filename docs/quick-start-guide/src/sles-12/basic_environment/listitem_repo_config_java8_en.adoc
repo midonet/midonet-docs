@@ -1,0 +1,27 @@
+. *Configure Java 8 repository*
++
+Since Ubuntu 14.04 does not provide a Java 8 runtime environment in its
+repositories, we are going to use the
+https://launchpad.net/~openjdk-r/[Launchpad PPA for OpenJDK].
+
++
+====
+Create the `/etc/apt/sources.list.d/openjdk-8.list` file and edit it to contain
+the following:
+
+[source]
+----
+# OpenJDK 8
+deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main
+----
+====
+
++
+====
+Download and install the repository's key:
+
+[source]
+----
+# apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x86F44E2A
+----
+====

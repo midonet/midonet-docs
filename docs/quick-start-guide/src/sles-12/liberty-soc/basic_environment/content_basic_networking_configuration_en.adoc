@@ -1,0 +1,4 @@
+This guide assumes that you follow the instructions in
+https://www.suse.com/documentation/suse-openstack-cloud-6/book_cloud_deploy/data/sec_depl_req_network.html[Network]
+of the SUSE OpenStack Cloud Documentation.
+
