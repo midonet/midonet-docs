@@ -27,10 +27,11 @@ service_provider = LOADBALANCER:Midonet:midonet.neutron.services.loadbalancer.dr
 +
 ====
 Enable the LBaaS plug-in by using the `service_plugins` option in the
-`/etc/neutron/neutron.conf` file:
+`[DEFAULT]` section of the `/etc/neutron/neutron.conf` file:
 
 [source]
 ----
+[DEFAULT]
 service_plugins = lbaas
 ----
 ====
