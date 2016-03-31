@@ -15,8 +15,15 @@ During troubleshooting periods, you can increase the logging level via the
 
 The available log levels are: `DEBUG`, `INFO`, `WARN`, `ERROR`
 
-To check the currently configured level, execute the following command on an
-Agent host:
+[IMPORTANT]
+In production environments it is not recommended to enable DEBUG logging due to
+impact on performance, unless it's really required. If possible always first use
+`mm-trace` (see xref:mm_trace[]) which has no performance impact.
+
+=== Single Host
+
+To check the currently configured level for a certain Agent host, execute the
+following command on that host:
 
 [literal,subs="verbatim,quotes"]
 ----
@@ -24,11 +31,33 @@ $ mn-conf get agent.loggers.root
 agent.loggers.root = *INFO*
 ----
 
-To increase the log level to `DEBUG`, execute the following command:
+To increase the log level for this host to `DEBUG`, execute the following
+command:
 
 [literal,subs="verbatim,quotes"]
 ----
 $ echo "agent.loggers.root : *DEBUG*" | mn-conf set
 ----
 
-This change does not require an Agent restart.
+This change applies immediately and does not require an Agent restart.
+
+=== Globally
+
+It is also possible to increase the log level globally (i.e. for all Agent
+hosts) by changing the default template's value:
+
+[literal,subs="verbatim,quotes"]
+----
+$ echo "agent.loggers.root : *DEBUG*" | mn-conf set *-t default*
+----
+
+Note that if a host has a local log level configured, this will have higher
+priority than the template configuration.
+
+To see the current template configuration, execute the following command:
+
+[literal,subs="verbatim,quotes"]
+----
+$ mn-conf get agent.loggers.root -t default
+agent.loggers.root = *INFO*
+----
