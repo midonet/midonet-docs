@@ -1,0 +1,54 @@
+[[backup_neutron]]
+= Neutron
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Backup
+
+. *Backup Neutron Configuration*
++
+====
+Make a copy of the Neutron configuration:
+
+[source]
+----
+# cp /etc/neutron/neutron.conf /tmp/neutron_backup/config/
+# cp /etc/neutron/plugins/midonet/midonet.ini /tmp/neutron_backup/config/
+----
+====
+
+== Restore
+
+. *Restore Neutron Configuration*
++
+====
+Restore the Neutron configuration from your backup:
+
+[source]
+----
+# cp /tmp/neutron_backup/config/neutron.conf /etc/neutron/
+# cp /tmp/neutron_backup/config/midonet.ini /etc/neutron/plugins/midonet/
+----
+====
+
+. *Restart Neutron*
++
+====
+Restart the Neutron service.
+
+Ubuntu:
+
+[source]
+----
+# service neutron-server restart
+----
+
+RHEL:
+
+[source]
+----
+# systemctl restart neutron-server.service
+----
+====
