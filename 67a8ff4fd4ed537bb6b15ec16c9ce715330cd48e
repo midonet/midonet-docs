@@ -22,6 +22,30 @@
       "revId": "67a8ff4fd4ed537bb6b15ec16c9ce715330cd48e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_2621404e",
+        "filename": "docs/operation-guide/src/backup/section_zookeeper_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-03-31T07:38:02Z",
+      "side": 1,
+      "message": "Thanks Fernando.\nI added the API r/o change and also interlinked the ZK and MySQL sections with a note that both have to be backupped at the same time to avoid inconsitency.",
+      "parentUuid": "da9b358b_c96d1334",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "67a8ff4fd4ed537bb6b15ec16c9ce715330cd48e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
