@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da9b358b_264020a5",
+        "filename": "docs/operation-guide/src/backup/section_mysql_en.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-03-31T08:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da9b358b_06cf5c57",
+      "range": {
+        "startLine": 64,
+        "startChar": 39,
+        "endLine": 64,
+        "endChar": 45
+      },
+      "revId": "4c581acdf60457cba9bccf9163941ac0b537bb4c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da9b358b_c6d85420",
         "filename": "docs/operation-guide/src/backup/section_zookeeper_en.adoc",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-31T08:44:05Z",
       "side": 1,
       "message": "READWRITE",
+      "range": {
+        "startLine": 98,
+        "startChar": 39,
+        "endLine": 98,
+        "endChar": 45
+      },
+      "revId": "4c581acdf60457cba9bccf9163941ac0b537bb4c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_463a0438",
+        "filename": "docs/operation-guide/src/backup/section_zookeeper_en.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-03-31T08:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da9b358b_c6d85420",
       "range": {
         "startLine": 98,
         "startChar": 39,
