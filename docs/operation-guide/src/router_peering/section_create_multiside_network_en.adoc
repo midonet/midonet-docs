@@ -6,6 +6,17 @@ spans across sites. This network must exist in both sites and must share the
 same CIDR and VNI. Also by associating a gateway device to an L2 gateway logical
 construct, it becomes an L2 gateway device.
 
+Note that Neutron CLI does not support L2Gateway and L2GatewayConnection
+extensions.
+
+When using curl commands to do the requests below, the command looks like:
+
+[source]
+----
+# curl -i -H "Content-type: application/json" -X POST \
+   -d `{"foo": {"name": "bar"}}' http://api_server_url/
+----
+
 *Site A*
 
 [source]
