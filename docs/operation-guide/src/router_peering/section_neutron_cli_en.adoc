@@ -1,0 +1,295 @@
+[[router_peering_neutron_cli]]
+# Neutron CLI Gateway Device Reference
+
+This section describes the Neutron CLI commands for the Gateway Device API.
+
+## List of Gateway Device API commands
+
+[source]
+----
+gateway-device-create
+   Create Gateway Device information.
+
+gateway-device-delete
+   Delete a given Gateway Device.
+
+gateway-device-list
+   List Gateway Devices.
+
+gateway-device-show
+   Show information of a given Gateway Device.
+
+gateway-device-update
+   Update a given Gateway Device.
+
+gateway-device-remote-mac-entry-create
+   Create Gateway Device Remote Mac Entry information.
+
+gateway-device-remote-mac-entry-delete
+   Delete a given Gateway Device Remote Mac Entry.
+
+gateway-device-remote-mac-entry-list
+   List Gateway Device Remote Mac Entries.
+
+gateway-device-remote-mac-entry-show
+   Show information of a given Gateway Device Remote Mac Entry.
+----
+
+## neutron gateway-device-create
+
+[source]
+----
+usage: neutron gateway-device-create [-h]
+                                     [-f {json,shell,table,value,yaml}]
+                                     [-c COLUMN] [--max-width <integer>]
+                                     [--noindent] [--prefix PREFIX]
+                                     [--request-format {json}]
+                                     [--tenant-id TENANT_ID]
+                                     [--management-ip MANAGEMENT_IP]
+                                     [--management-port MANAGEMENT_PORT]
+                                     [--management-protocol MANAGEMENT_PROTOCOL]
+                                     [--type <hw_vtep | router_vtep>]
+                                     [--resource-id RESOURCE_ID] [--name NAME]
+                                     [--tunnel-ip TUNNEL_IP]
+----
+
+Create Gateway Device information.
+
+*Optional arguments:*
+
+  -h, --help            Show this help message and exit.
+  --request-format {json}
+                        DEPRECATED! Only JSON request format is supported.
+  --tenant-id TENANT_ID
+                        The owner tenant ID.
+  --management-ip MANAGEMENT_IP
+                        Management IP to the device. Defaults to None.
+  --management-port MANAGEMENT_PORT
+                        Management port to the device. Defaults to None.
+  --management-protocol MANAGEMENT_PROTOCOL
+                        Management protocol to manage the device: ovsdb or
+                        none. If management IP and port are specified,
+                        defaults to ovsdb. Otherwise to none.
+  --type <hw_vtep | router_vtep>
+                        Type of the device: hw_vtep or router_vtep. Defaults
+                        to hw_vtep.
+  --resource-id RESOURCE_ID
+                        Resource UUID or None (for type router_vtep will be
+                        router UUID).
+  --name NAME           User defined device name.
+  --tunnel-ip TUNNEL_IP
+                        IP address on which gateway device originates or
+                        terminates tunnel.
+
+## neutron gateway-device-delete
+
+[source]
+----
+usage: neutron gateway-device-delete [-h]
+                                     [--request-format {json}]
+                                     GATEWAY_DEVICE
+----
+
+Delete a given gateway-device.
+
+*Positional arguments:*
+
+  GATEWAY_DEVICE        ID or name of gateway_device to delete.
+
+*Optional arguments:*
+
+  -h, --help            Show this help message and exit.
+  --request-format {json}
+                        DEPRECATED! Only JSON request format is supported.
+
+## neutron gateway-device-show
+
+[source]
+----
+usage: neutron gateway-device-show [-h]
+                                   [-f {json,shell,table,value,yaml}]
+                                   [-c COLUMN] [--max-width <integer>]
+                                   [--noindent] [--prefix PREFIX]
+                                   [--request-format {json}] [-D] [-F FIELD]
+                                   GATEWAY_DEVICE
+----
+
+Show information of a given gateway-device.
+
+*Positional arguments:*
+
+  GATEWAY_DEVICE        ID or name of Gateway Device to look up.
+
+*Optional arguments:*
+
+  -h, --help            Show this help message and exit.
+  --request-format {json}
+                        DEPRECATED! Only JSON request format is supported.
+  -D, --show-details    Show detailed information.
+  -F FIELD, --field FIELD
+                        Specify the field(s) to be returned by server. You
+                        can repeat this option.
+
+## neutron gateway-device-update
+
+[source]
+----
+usage: neutron gateway-device-update [-h]
+                                     [--request-format {json}]
+                                     [--name NAME] [--tunnel-ip TUNNEL_IP]
+                                     GATEWAY_DEVICE
+----
+
+Update a given gateway-device.
+
+*Positional arguments:*
+
+  GATEWAY_DEVICE        ID or name of Gateway Device to update.
+
+*Optional arguments:*
+
+  -h, --help            Show this help message and exit.
+  --request-format {json}
+                        DEPRECATED! Only JSON request format is supported.
+  --name NAME           User defined device name.
+  --tunnel-ip TUNNEL_IP
+                        IP address on which gateway device originates or
+                        terminates tunnel.
+
+## neutron gateway-device-remote-mac-entry-create
+
+[source]
+----
+usage: neutron gateway-device-remote-mac-entry-create [-h]
+                                                      [-f {json,shell,table,value,yaml}]
+                                                      [-c COLUMN]
+                                                      [--max-width <integer>]
+                                                      [--noindent]
+                                                      [--prefix PREFIX]
+                                                      [--request-format {json}]
+                                                      --mac-address
+                                                      MAC_ADDRESS
+                                                      --vtep-address
+                                                      VTEP_ADDRESS
+                                                      --segmentation-id
+                                                      SEGMENTATION_ID
+                                                      GATEWAY_DEVICE
+----
+
+Create Gateway Device Remote Mac Entry information.
+
+*Positional arguments:*
+
+  GATEWAY_DEVICE        ID or name of the Gateway Device.
+
+*Optional arguments:*
+
+  -h, --help            Show this help message and exit.
+  --request-format {json}
+                        DEPRECATED! Only JSON request format is supported.
+  --mac-address MAC_ADDRESS
+                        Remote MAC address.
+  --vtep-address VTEP_ADDRESS
+                        Remote VTEP Tunnel IP.
+  --segmentation-id SEGMENTATION_ID
+                        VNI to be used.
+
+## neutron gateway-device-remote-mac-entry-delete
+
+[source]
+----
+usage: neutron gateway-device-remote-mac-entry-delete [-h]
+                                                      [--request-format {json}]
+                                                      REMOTE_MAC_ENTRY
+                                                      GATEWAY_DEVICE
+----
+
+Delete a given Gateway Device Remote MAC Entry.
+
+*Positional arguments:*
+
+  REMOTE_MAC_ENTRY      ID of Remote MAC Entry to delete.
+  GATEWAY_DEVICE        ID or name of the Gateway Device.
+
+*Optional arguments:*
+
+  -h, --help            Show this help message and exit.
+  --request-format {json}
+                        DEPRECATED! Only JSON request format is supported.
+
+## neutron gateway-device-remote-mac-entry-list
+
+[source]
+----
+usage: neutron gateway-device-remote-mac-entry-list [-h]
+                                                    [-f {csv,json,table,value,yaml}]
+                                                    [-c COLUMN]
+                                                    [--max-width <integer>]
+                                                    [--noindent]
+                                                    [--quote {all,minimal,none,nonnumeric}]
+                                                    [--request-format {json}]
+                                                    [-D] [-F FIELD] [-P SIZE]
+                                                    [--sort-key FIELD]
+                                                    [--sort-dir {asc,desc}]
+                                                    GATEWAY_DEVICE
+----
+
+List Gateway Device Remote Mac Entries.
+
+*Positional arguments:*
+
+  GATEWAY_DEVICE        ID or name of the Gateway Device.
+
+*Optional arguments:*
+
+  -h, --help            Show this help message and exit.
+  --request-format {json}
+                        DEPRECATED! Only JSON request format is supported.
+  -D, --show-details    Show detailed information.
+  -F FIELD, --field FIELD
+                        Specify the field(s) to be returned by server. You can
+                        repeat this option.
+  -P SIZE, --page-size SIZE
+                        Specify retrieve unit of each request, then split one
+                        request to several requests.
+  --sort-key FIELD      Sorts the list by the specified fields in the
+                        specified directions. You can repeat this option, but
+                        you must specify an equal number of sort_dir and
+                        sort_key values. Extra sort_dir options are ignored.
+                        Missing sort_dir options use the default asc value.
+  --sort-dir {asc,desc}
+                        Sorts the list in the specified direction. You can
+                        repeat this option.
+
+## neutron gateway-device-remote-mac-entry-show
+
+[source]
+----
+usage: neutron gateway-device-remote-mac-entry-show [-h]
+                                                    [-f {json,shell,table,value,yaml}]
+                                                    [-c COLUMN]
+                                                    [--max-width <integer>]
+                                                    [--noindent]
+                                                    [--prefix PREFIX]
+                                                    [--request-format {json}]
+                                                    [-D] [-F FIELD]
+                                                    REMOTE_MAC_ENTRY
+                                                    GATEWAY_DEVICE
+----
+
+Show information of a given Gateway Device Remote MAC Entry.
+
+*Positional arguments:*
+
+  REMOTE_MAC_ENTRY      ID of Remote MAC Entry to look up.
+  GATEWAY_DEVICE        ID or name of the Gateway Device.
+
+*Optional arguments:*
+
+  -h, --help            Show this help message and exit.
+  --request-format {json}
+                        DEPRECATED! Only JSON request format is supported.
+  -D, --show-details    Show detailed information.
+  -F FIELD, --field FIELD
+                        Specify the field(s) to be returned by server. You
+                        can repeat this option.

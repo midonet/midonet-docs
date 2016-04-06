@@ -8,9 +8,22 @@ gateway device (and in turn the VTEP router) how to construct the VXLAN header.
 scenario, it is another VTEP router, but it could be a particular port of a VM
 or a router.
 
-The following request adds a remote MAC entry in the gateway device:
+The following adds remote MAC entries in the gateway devices:
 
 *Site A*
+
+_Via Neutron CLI (Mitaka):_
+
+[literal,subs="quotes"]
+----
+# neutron gateway-device-remote-mac-entry-create \
+   --vtep-address 200.200.0.2 \
+   --mac-address 6F:E4:5A:FA:8E:09 \
+   --segmentation-id 100 \
+   5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8
+----
+
+_Via Neutron API:_
 
 [literal,subs="quotes"]
 ----
@@ -19,12 +32,25 @@ The following request adds a remote MAC entry in the gateway device:
       {"tenant_id": "admin",
       "vtep_address": "200.200.0.2",
       "mac_address": "6F:E4:5A:FA:8E:09",
-      "segmentation_id": "1002}}'
+      "segmentation_id": "100"}}'
 ----
 
 Remote MAC Entry ID: 32f2f11c-a7f2-11e5-84a0-0242ac110001
 
 *Site B*
+
+_Via Neutron CLI (Mitaka):_
+
+[literal,subs="quotes"]
+----
+# neutron gateway-device-remote-mac-entry-create \
+   --vtep-address 200.200.0.1 \
+   --mac-address 16:B7:B5:A4:57:75 \
+   --segmentation-id 100 \
+   8e47afce-af83-11e5-9b76-4b95f3de9711
+----
+
+_Via Neutron API:_
 
 [literal,subs="quotes"]
 ----
