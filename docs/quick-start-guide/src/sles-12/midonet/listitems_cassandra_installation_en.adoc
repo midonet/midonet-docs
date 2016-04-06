@@ -1,0 +1,114 @@
+. *Install Cassandra packages*
++
+====
+[source]
+----
+# zypper install java-1.7.0-openjdk
+# zypper install cassandra
+----
+====
+
+. *Configure Cassandra*
++
+====
+
+.. *Common Configuration*
++
+Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# The name of the cluster.
+cluster_name: 'midonet'
+
+...
+
+# Addresses of hosts that are deemed contact points.
+seed_provider:
+    - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+      parameters:
+          - seeds: "*_nsdb1_*,*_nsdb2_*,*_nsdb3_*"
+----
++
+
+.. *Node-specific Configuration*
+
+... *NSDB Node 1*
++
+Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_nsdb1_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_nsdb1_*
+----
+
+... *NSDB Node 2*
++
+Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_nsdb2_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_nsdb2_*
+----
+
+... *NSDB Node 3*
++
+Edit the `/etc/cassandra/conf/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_nsdb3_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_nsdb3_*
+----
+====
+
+. *Edit the service's init script*
++
+On installation, the `/var/run/cassandra` directory is created, but because it
+is located on a temporary file system it will be lost after system reboot. As a
+result it is not possible to stop or restart the Cassandra service anymore.
++
+To avoid this, edit the `/etc/init.d/cassandra` file to create the directory on
+service start:
++
+====
+[literal,subs="verbatim,quotes"]
+----
+[...]
+case "$1" in
+    start)
+        # Cassandra startup
+        echo -n "Starting Cassandra: "
+        *mkdir -p /var/run/cassandra*
+        *chown cassandra:cassandra /var/run/cassandra*
+        su $CASSANDRA_OWNR -c "$CASSANDRA_PROG -p $pid_file" > $log_file 2>&1
+        retval=$?
+[...]
+----
+====
+
+. *Enable and start Cassandra*
++
+====
+[source]
+----
+# service cassandra start
+----
+====

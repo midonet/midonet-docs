@@ -1,0 +1,7 @@
+= Controller Node
+
+[NOTE]
+Follow the SUSE OpenStack Cloud documentation's
+https://www.suse.com/documentation/suse-openstack-cloud-6/book_cloud_deploy/data/cha_depl_ostack.html[Deploying the OpenStack Services]
+instructions as is.
+

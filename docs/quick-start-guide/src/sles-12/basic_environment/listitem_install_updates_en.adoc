@@ -1,0 +1,8 @@
+. *Install available updates*
++
+====
+[source]
+----
+# zypper update
+----
+====

@@ -1,0 +1,85 @@
+. *Install ZooKeeper packages*
++
+====
+[source]
+----
+# zypper install java-1.7.0-openjdk
+# zypper install zookeeper
+----
+====
+
+. *Configure ZooKeeper*
++
+====
+.. *Common Configuration*
++
+Edit the `/etc/zookeeper/zoo.cfg` file to contain the following:
++
+[literal,subs="quotes"]
+----
+server.*1*=*_nsdb1_*:2888:3888
+server.*2*=*_nsdb2_*:2888:3888
+server.*3*=*_nsdb3_*:2888:3888
+----
++
+Create data directory:
++
+[source]
+----
+# mkdir /var/lib/zookeeper/data
+# chown zookeeper:zookeeper /var/lib/zookeeper/data
+----
++
+[IMPORTANT]
+For production deployments it is recommended to configure the storage of
+snapshots in a different disk than the commit log. This can be set by changing
+the parameter `dataDir` in `zoo.cfg` to a different disk.
+
+.. *Node-specific Configuration*
+
+... *NSDB Node 1*
++
+Create the `/var/lib/zookeeper/data/myid` file and edit it to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *1* > /var/lib/zookeeper/data/myid
+----
+
+... *NSDB Node 2*
++
+Create the `/var/lib/zookeeper/data/myid` file and edit it to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *2* > /var/lib/zookeeper/data/myid
+----
+
+... *NSDB Node 3*
++
+Create the `/var/lib/zookeeper/data/myid` file and edit it to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *3* > /var/lib/zookeeper/data/myid
+----
+====
+
+. *Create Java Symlink*
++
+====
+[source]
+----
+# mkdir -p /usr/java/default/bin/
+# ln -s /usr/lib64/jvm/java-1.7.0-openjdk-1.7.0/jre/bin/java /usr/java/default/bin/java
+----
+====
+
+. *Enable and start ZooKeeper*
++
+====
+[source]
+----
+#  /usr/bin/zkServer.sh start
+----
+====

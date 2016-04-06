@@ -1,0 +1,108 @@
+= Midolman Installation
+
+The _MidoNet Agent (Midolman)_ has to be installed on all nodes where traffic
+enters or leaves the virtual topology, in this guide this are the
+*_controller_*, *_gateway1_*, *_gateway2_* and *_compute1_* nodes.
+
+. *Install Midolman package*
++
+====
+[source]
+----
+# zypper install midolman
+----
+====
+
+. *Set up mn-conf*
++
+====
+Edit `/etc/midolman/midolman.conf` to point mn-conf to the ZooKeeper cluster:
+
+[source,subs="quotes"]
+----
+[zookeeper]
+zookeeper_hosts = *_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181
+----
+====
+
+. *Configure access to the NSDB for all agents*
++
+====
+This step needs to happen only once, it will set up access to the NSDB for
+all MidoNet Agent nodes.
+
+Run the following command to set the cloud-wide values for the ZooKeeper and
+Cassandra server addresses:
+
+[source,subs="specialcharacters,quotes"]
+----
+$ cat << EOF | mn-conf set -t default
+zookeeper {
+    zookeeper_hosts = "*_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181"
+}
+
+cassandra {
+    servers = "*_nsdb1_*,*_nsdb2_*,*_nsdb3_*"
+}
+EOF
+----
+
+Run the following command to set the Cassandra replication factor:
+
+[source,subs="specialcharacters,quotes"]
+----
+$ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
+----
+====
+
+. *Configure resource usage*
++
+====
+Run these steps on *each agent host* in order to configure resource usage.
+
+[IMPORTANT]
+For production environments the *large* templates are strongly recommended.
+
+.. *Midolman resource template*
++
+Run the following command to configure the Midolman resource template:
++
+[source,subs="specialcharacters,quotes"]
+----
+$ mn-conf template-set -h local -t *_TEMPLATE_NAME_*
+----
++
+Replace *_TEMPLATE_NAME_* with one of the following templates:
++
+[source,subs="specialcharacters,quotes"]
+----
+agent-compute-large
+agent-compute-medium
+agent-gateway-large
+agent-gateway-medium
+default
+----
+
+.. *Java Virtual Machine (JVM) resource template*
++
+Replace the default `/etc/midolman/midolman-env.sh` file with one of the below
+to configure the JVM resource template:
++
+[source,subs="specialcharacters,quotes"]
+----
+/etc/midolman/midolman-env.sh.compute.large
+/etc/midolman/midolman-env.sh.compute.medium
+/etc/midolman/midolman-env.sh.gateway.large
+/etc/midolman/midolman-env.sh.gateway.medium
+----
+====
+
+. *Start Midolman*
++
+====
+[source]
+----
+# systemctl enable midolman.service
+# systemctl start midolman.service
+----
+====
