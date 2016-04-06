@@ -6,12 +6,30 @@ goes back to being a regular Neutron router.
 
 *Site A*
 
+_Via Neutron CLI (Mitaka):_
+
+[source]
+----
+# neutron gateway-device-delete 5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8
+----
+
+_Via Neutron API:_
+
 [source]
 ----
 # DELETE http://neutron_api_url/gw/gateway_devices/5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8
 ----
 
 *Site B*
+
+_Via Neutron CLI (Mitaka):_
+
+[source]
+----
+# neutron gateway-device-delete 8e47afce-af83-11e5-9b76-4b95f3de9711
+----
+
+_Via Neutron API:_
 
 [source]
 ----

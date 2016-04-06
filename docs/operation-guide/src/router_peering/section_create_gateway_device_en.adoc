@@ -2,9 +2,7 @@
 = Creating a VTEP Router Gateway Device
 
 Any router can be a VTEP router. A router becomes a VTEP router only when it is
-registered to be a gateway device as a "router_vtep" type. Note that Neutron CLI
-does not support Gateway Device, as well as L2Gateway and L2GatewayConnection
-(detailed in the following section), extensions.
+registered to be a gateway device as a "router_vtep" type.
 
 *Site A*
 
@@ -16,6 +14,20 @@ does not support Gateway Device, as well as L2Gateway and L2GatewayConnection
 ----
 
 Router ID: 4bd9f56e-a792-11e5-b76a-9b045b18900a
+
+_Via Neutron CLI (Mitaka):_
+
+[literal,subs="quotes"]
+----
+# neutron gateway-device-create \
+   --tenant-id admin \
+   --name SiteAGatewayDevice \
+   --type router_vtep \
+   --resource-id 4bd9f56e-a792-11e5-b76a-9b045b18900a \
+   --tunnel-ip 200.0.0.1
+----
+
+_Via Neutron API:_
 
 [literal,subs="quotes"]
 ----
@@ -34,13 +46,26 @@ Gateway device ID: 5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8
 
 [source]
 ----
-
 # neutron router-create \
    --tenant-id admin \
    SiteBVtepRouter
 ----
 
 Router ID: 7b0bc88c-af83-11e5-9ec4-bbe5550f7e92
+
+_Via Neutron CLI (Mitaka):_
+
+[literal,subs="quotes"]
+----
+# neutron gateway-device-create \
+   --tenant-id admin \
+   --name SiteBGatewayDevice \
+   --type router_vtep \
+   --resource-id 7b0bc88c-af83-11e5-9ec4-bbe5550f7e92 \
+   --tunnel-ip 200.0.0.2
+----
+
+_Via Neutron API:_
 
 [literal,subs="quotes"]
 ----
@@ -55,13 +80,6 @@ Router ID: 7b0bc88c-af83-11e5-9ec4-bbe5550f7e92
 
 Gateway device ID: 8e47afce-af83-11e5-9b76-4b95f3de9711
 
-While the `tunnel_ips` field of gateway device accepts a list of IP addresses,
-in the case of VTEP routers, only one IP address is accepted.
-
-When using curl commands to do the requests above, the command looks like:
-
-[source]
-----
-# curl -i -H "Content-type: application/json" -X POST \
-   -d `{"foo": {"name": "bar"}}' http://neutron_api_url/
-----
+While the `--tunnel-ip` option (CLI) can be specified repeatedly, and the
+`tunnel_ips` field (API) accepts a list of IP addresses, in the case of VTEP
+routers, only one IP address is accepted.

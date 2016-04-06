@@ -151,6 +151,7 @@ include::{sourcedir}/router_peering/section_delete_remote_mac_entry_en.adoc[leve
 include::{sourcedir}/router_peering/section_delete_l2_gateway_connection_en.adoc[leveloffset=+2]
 include::{sourcedir}/router_peering/section_delete_l2_gateway_en.adoc[leveloffset=+2]
 include::{sourcedir}/router_peering/section_delete_gateway_device_en.adoc[leveloffset=+2]
+include::{sourcedir}/router_peering/section_neutron_cli_en.adoc[leveloffset=+2]
 
 // Chapter: Working with the MidoNet CLI
 include::{sourcedir}/mn_cli/chapter_mn_cli_{lang}.adoc[leveloffset=+1]

@@ -7,9 +7,21 @@ CLI and REST API commands to set up router peering. All of the following
 operations are executed only by the cloud operator.
 
 [IMPORTANT]
-The Neutron APIs defined for the router peering feature are not supported by the
-current upstream implementation of Neutron CLI, so they must be executed by
-making HTTP requests directly to the Neutron API server.
+====
+Depending on the OpenStack release and the corresponding MidoNet plugin you are
+using, some of the Neutron APIs defined for the router peering feature are not
+supported by the upstream implementation of Neutron CLI, so they must be
+executed by making HTTP requests directly to the Neutron API server.
+
+When using `curl` to do the Neutron API requests, the command pattern looks
+like the following:
+
+[source]
+----
+# curl -i -H "Content-type: application/json" -X POST \
+   -d `{"foo": {"name": "bar"}}' http://api_server_url/
+----
+====
 
 The following terminologies are used throughout this document:
 
@@ -132,7 +144,3 @@ As you will see below, setting up multi-site peering requires a fairly large
 number of API operations and coordination among the sites that are mistake
 prone. Thus, it is recommended that these steps below are orchestrated and
 automated by an external service.
-
-++++
-<?dbhtml stop-chunking?>
-++++
