@@ -1,8 +1,8 @@
 = Midolman Installation
 
 The _MidoNet Agent (Midolman)_ has to be installed on all nodes where traffic
-enters or leaves the virtual topology, in this guide this are the
-*_controller_*, *_gateway1_*, *_gateway2_* and *_compute1_* nodes.
+enters or leaves the virtual topology, in this guide this are the *_gateway1_*,
+*_gateway2_* and *_compute1_* nodes.
 
 . *Install Midolman package*
 +

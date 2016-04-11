@@ -33,8 +33,8 @@ Cassandra disk with other services and just leave the ZooKeeper transaction
 log on its own.
 
 The _MidoNet Agent (Midolman)_ has to be installed on all nodes where traffic
-enters or leaves the virtual topology. In this guide this are the
-*_controller_*, *_gateway1_*, *_gateway2_* and *_compute1_* hosts.
+enters or leaves the virtual topology. In this guide this are the *_gateway1_*,
+*_gateway2_* and *_compute1_* hosts.
 
 The _Midonet Cluster_ can be installed on a separate host, but this guide
 assumes it to be installed on the *_controller_* host.
