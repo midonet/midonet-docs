@@ -80,6 +80,17 @@ project_name = service
 username = nova
 password = *_NOVA_PASS_*
 ----
+
+[NOTE]
+=====
+When using multiple service plugins, separate them with commas:
+
+[source]
+----
+[DEFAULT]
+service_plugins = foo,bar,midonet.neutron.services.l3.l3_midonet.MidonetL3ServicePlugin
+----
+=====
 ====
 
 . *Configure the MidoNet plug-in*
