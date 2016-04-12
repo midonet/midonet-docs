@@ -33,6 +33,17 @@ Enable the LBaaS plug-in by using the `service_plugins` option in the
 ----
 service_plugins = lbaas
 ----
+
+[NOTE]
+=====
+When using multiple service plugins, separate them with commas:
+
+[source]
+----
+[DEFAULT]
+service_plugins = foo,bar,lbass
+----
+=====
 ====
 
 . *Enable load balancing in the dashboard*
