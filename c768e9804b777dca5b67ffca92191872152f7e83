@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_2bcfc980",
+        "filename": "docs/operation-guide/src/router_peering/section_add_remote_mac_entry_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-04-12T02:52:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_ff519f63",
+      "range": {
+        "startLine": 35,
+        "startChar": 26,
+        "endLine": 35,
+        "endChar": 30
+      },
+      "revId": "c768e9804b777dca5b67ffca92191872152f7e83",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_7f1d8f72",
         "filename": "docs/operation-guide/src/router_peering/section_delete_gateway_device_en.adoc",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-11T11:17:12Z",
       "side": 1,
       "message": "Sorry, missing \"-\". 5f1a1a9a-a7a2",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 44
+      },
+      "revId": "c768e9804b777dca5b67ffca92191872152f7e83",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_0bcc0588",
+        "filename": "docs/operation-guide/src/router_peering/section_delete_gateway_device_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-04-12T02:52:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_7f1d8f72",
       "range": {
         "startLine": 13,
         "startChar": 32,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_ebc8c176",
+        "filename": "docs/operation-guide/src/router_peering/section_delete_gateway_device_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-04-12T02:52:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_1f0d633e",
+      "range": {
+        "startLine": 29,
+        "startChar": 32,
+        "endLine": 29,
+        "endChar": 44
+      },
+      "revId": "c768e9804b777dca5b67ffca92191872152f7e83",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_223b6ed3",
         "filename": "docs/operation-guide/src/router_peering/section_delete_remote_mac_entry_en.adoc",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_cbc5fd5b",
+        "filename": "docs/operation-guide/src/router_peering/section_delete_remote_mac_entry_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-04-12T02:52:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_223b6ed3",
+      "range": {
+        "startLine": 12,
+        "startChar": 27,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "c768e9804b777dca5b67ffca92191872152f7e83",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_e23466df",
         "filename": "docs/operation-guide/src/router_peering/section_delete_remote_mac_entry_en.adoc",
         "patchSetId": 5
@@ -105,6 +201,30 @@
       "writtenOn": "2016-04-11T11:17:12Z",
       "side": 1,
       "message": "missing \"-\". 8e47afce-af83",
+      "range": {
+        "startLine": 30,
+        "startChar": 3,
+        "endLine": 30,
+        "endChar": 15
+      },
+      "revId": "c768e9804b777dca5b67ffca92191872152f7e83",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_aba199ab",
+        "filename": "docs/operation-guide/src/router_peering/section_delete_remote_mac_entry_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-04-12T02:52:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_e23466df",
       "range": {
         "startLine": 30,
         "startChar": 3,
