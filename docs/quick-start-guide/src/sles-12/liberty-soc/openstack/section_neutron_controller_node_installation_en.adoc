@@ -49,7 +49,7 @@ nova_url = http://**_controller_**:8774/v2
 
 [database]
 ...
-connection = psql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
+connection = postgresql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
 
 [oslo_messaging_rabbit]
 ...
@@ -112,7 +112,7 @@ contain the following:
 [literal,subs="quotes"]
 ----
 [DATABASE]
-sql_connection = psql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
+sql_connection = postgresql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
 
 [MIDONET]
 # MidoNet API URL
