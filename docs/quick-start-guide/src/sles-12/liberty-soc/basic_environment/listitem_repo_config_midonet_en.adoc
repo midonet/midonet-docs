@@ -12,3 +12,13 @@ Use the following commands to add the MidoNet repositories:
 # zypper addrepo -f http://builds.midonet.org/openstack-liberty/stable/sles12/ midonet-plugin-liberty
 ----
 ====
++
+====
+Download and import the repositories' key:
+
+[source]
+----
+# wget https://builds.midonet.org/midorepo.key
+# rpm --import midorepo.key
+----
+====
