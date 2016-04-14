@@ -6,5 +6,5 @@ MidoNetでは、既存の物理ネットワークの上位のオーバーレイ�
 MidoNetエージェントに加え、ステイト管理システムによって分散されたエージェントそれぞれとも連係させます。一元管理のために、MidoNetではレストフルAPIサーバーも提供されます。
 
 .MidoNetのトポロジの例
-image::midonet_example_topology_3299x2349.png[scaledwidth="100%"]
+image::midonet_example_topology_1122x794.png[scaledwidth="100%"]
 
