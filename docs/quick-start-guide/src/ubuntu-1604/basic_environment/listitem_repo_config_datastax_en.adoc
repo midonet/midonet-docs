@@ -1,0 +1,22 @@
+. *Configure DataStax repository*
++
+====
+Create the `/etc/apt/sources.list.d/datastax.list` file and edit it to contain
+the following:
+
+[source]
+----
+# DataStax (Apache Cassandra)
+deb http://debian.datastax.com/community 2.2 main
+----
+====
+
++
+====
+Download and install the repository's key:
+
+[source]
+----
+# curl -L https://debian.datastax.com/debian/repo_key | apt-key add -
+----
+====

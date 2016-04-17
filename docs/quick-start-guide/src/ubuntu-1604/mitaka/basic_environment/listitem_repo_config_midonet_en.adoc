@@ -1,0 +1,29 @@
+. *Configure MidoNet repositories*
++
+====
+
+Create the `/etc/apt/sources.list.d/midonet.list` file and edit it to contain
+the following:
+
+[source]
+----
+# MidoNet
+deb http://builds.midonet.org/midonet-5 stable main
+
+# MidoNet OpenStack Integration
+deb http://builds.midonet.org/openstack-mitaka stable main
+
+# MidoNet 3rd Party Tools and Libraries
+deb http://builds.midonet.org/misc stable main
+----
+====
+
++
+====
+Download and install the repositories' key:
+
+[source]
+----
+# curl -L https://builds.midonet.org/midorepo.key | apt-key add -
+----
+====

@@ -1,0 +1,71 @@
+. *Install ZooKeeper packages*
++
+====
+[source]
+----
+# apt-get install openjdk-8-jre-headless
+# apt-get install zookeeper zookeeperd zkdump
+----
+====
+
+. *Configure ZooKeeper*
++
+====
+.. *Common Configuration*
++
+Edit the `/etc/zookeeper/conf/zoo.cfg` file to contain the following:
++
+[literal,subs="quotes"]
+----
+server.*1*=*_nsdb1_*:2888:3888
+server.*2*=*_nsdb2_*:2888:3888
+server.*3*=*_nsdb3_*:2888:3888
+autopurge.snapRetainCount=10
+autopurge.purgeInterval =12
+----
++
+[IMPORTANT]
+For production deployments it is recommended to configure the storage of
+snapshots in a different disk than the commit log, this is done by setting
+the parameters `dataDir` and `dataLogDir` in `zoo.cfg`. In addition we
+advice to use an SSD drive for the commit log.
+
+
+.. *Node-specific Configuration*
+
+... *NSDB Node 1*
++
+Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *1* > /var/lib/zookeeper/myid
+----
+
+... *NSDB Node 2*
++
+Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *2* > /var/lib/zookeeper/myid
+----
+
+... *NSDB Node 3*
++
+Create the `/var/lib/zookeeper/myid` file and edit it to contain the host's ID:
++
+[literal,subs="quotes"]
+----
+# echo *3* > /var/lib/zookeeper/myid
+----
+====
+
+. *Restart ZooKeeper*
++
+====
+[source]
+----
+# service zookeeper restart
+----
+====

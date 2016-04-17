@@ -1,0 +1,91 @@
+. *Install Cassandra packages*
++
+====
+[source]
+----
+# apt-get install openjdk-8-jre-headless
+# apt-get install dsc22
+----
+====
+
+. *Configure Cassandra*
++
+====
+
+.. *Common Configuration*
++
+Edit the `/etc/cassandra/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# The name of the cluster.
+cluster_name: 'midonet'
+
+...
+
+# Addresses of hosts that are deemed contact points.
+seed_provider:
+    - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+      parameters:
+          - seeds: "*_nsdb1_*,*_nsdb2_*,*_nsdb3_*"
+----
++
+
+.. *Node-specific Configuration*
+
+... *NSDB Node 1*
++
+Edit the `/etc/cassandra/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_nsdb1_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_nsdb1_*
+----
+
+... *NSDB Node 2*
++
+Edit the `/etc/cassandra/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_nsdb2_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_nsdb2_*
+----
+
+... *NSDB Node 3*
++
+Edit the `/etc/cassandra/cassandra.yaml` file to contain the following:
++
+[literal,subs="quotes"]
+----
+# Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: *_nsdb3_*
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: *_nsdb3_*
+----
+====
+
+. *Clean existing data and restart Cassandra*
++
+====
+[source]
+----
+# service cassandra stop
+# rm -rf /var/lib/cassandra/*
+# service cassandra start
+----
+====
