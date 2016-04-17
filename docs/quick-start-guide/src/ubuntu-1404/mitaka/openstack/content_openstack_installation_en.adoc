@@ -1,0 +1,4 @@
+[IMPORTANT]
+Follow the
+http://docs.openstack.org/mitaka/install-guide-ubuntu/index.html[OpenStack Mitaka Installation Guide for Ubuntu]
+, but *note the following differences*.
