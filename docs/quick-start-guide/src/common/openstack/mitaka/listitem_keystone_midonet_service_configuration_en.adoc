@@ -1,0 +1,10 @@
+. *Create MidoNet API Service*
++
+====
+As Keystone +admin+, execute the following command:
+
+[source]
+----
+$ openstack service create --name midonet --description "MidoNet API Service" midonet
+----
+====

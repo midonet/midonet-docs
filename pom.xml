@@ -25,6 +25,7 @@
         <module>build/quick-start-guide_ubuntu-1404_kilo_ja</module>
         <module>build/quick-start-guide_ubuntu-1404_liberty_en</module>
         <module>build/quick-start-guide_ubuntu-1404_liberty_ja</module>
+        <module>build/quick-start-guide_ubuntu-1404_mitaka_en</module>
         <module>build/operation-guide_en</module>
         <module>build/operation-guide_ja</module>
         <module>build/reference-architecture_en</module>
