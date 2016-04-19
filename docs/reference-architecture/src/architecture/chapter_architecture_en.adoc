@@ -10,4 +10,4 @@ which coordinates with each of the distributed agents. For centralized
 management, MidoNet also provides a RESTful API server.
 
 .MidoNet Example Topology
-image::midonet_example_topology_3299x2349.png[scaledwidth="100%"]
+image::midonet_example_topology_1122x794.png[scaledwidth="100%"]
