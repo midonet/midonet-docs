@@ -2,7 +2,7 @@
 
 [IMPORTANT]
 Follow the Red Hat documentation's
-https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/version-7/red-hat-enterprise-linux-openstack-platform-7-installation-reference/chapter-7-install-openstack-networking/[Chapter 7. Install OpenStack Networking]
+https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/7/installation-reference/chapter-7-install-openstack-networking[Chapter 7. Install OpenStack Networking]
 instructions, but *note the following differences*.
 
 . *7.1. Install the OpenStack Networking Packages*
