@@ -1,4 +1,4 @@
 [IMPORTANT]
 Follow the
-https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/version-7/red-hat-enterprise-linux-openstack-platform-7-installation-reference/installation-reference/[Installation Reference]
+https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/7/installation-reference/installation-reference[Installation Reference]
 documentation, but *note the following differences*.

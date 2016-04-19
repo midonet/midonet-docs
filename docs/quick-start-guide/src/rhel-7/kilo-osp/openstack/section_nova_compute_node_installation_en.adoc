@@ -3,7 +3,7 @@
 
 [IMPORTANT]
 Follow the Red Hat documentation's
-https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/version-7/red-hat-enterprise-linux-openstack-platform-7-installation-reference/82-install-a-compute-node/[8.2. Install a Compute Node]
+https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/7/installation-reference/82-install-a-compute-node[8.2. Install a Compute Node]
 instructions, but *note the following differences and additions*.
 
 . *8.2.1. Install the Compute Service Packages*
