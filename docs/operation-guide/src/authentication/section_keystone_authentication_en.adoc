@@ -3,3 +3,7 @@
 
 This section explains how to use the Keystone authentication service with
 MidoNet.
+
+++++
+<?dbhtml stop-chunking?>
+++++
