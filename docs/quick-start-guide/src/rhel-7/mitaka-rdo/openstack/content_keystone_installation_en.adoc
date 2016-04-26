@@ -1,0 +1,11 @@
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/liberty/install-guide-rdo/keystone.html[Identity service]
+instructions, but *note the following differences and additions*.
+
+. *Verify operation*
++
+====
+Do *not* apply step '1. For security reasons, disable the temporary
+authentication token mechanism' from the 'Verify operation' section.
+====
