@@ -17,6 +17,7 @@
         <module>build/quick-start-guide_rhel-7_kilo-osp_en</module>
         <module>build/quick-start-guide_rhel-7_kilo-rdo_en</module>
         <module>build/quick-start-guide_rhel-7_kilo-rdo_ja</module>
+        <module>build/quick-start-guide_rhel-7_liberty-osp_en</module>
         <module>build/quick-start-guide_rhel-7_liberty-rdo_en</module>
         <module>build/quick-start-guide_rhel-7_liberty-rdo_ja</module>
         <module>build/quick-start-guide_sles-12_liberty-soc_en</module>
