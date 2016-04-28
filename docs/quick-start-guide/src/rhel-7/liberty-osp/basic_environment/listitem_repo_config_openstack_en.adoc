@@ -1,0 +1,9 @@
+. *Enable Red Hat OSP repositories*
++
+====
+[source]
+----
+# subscription-manager repos --enable=rhel-7-server-openstack-8-rpms
+# subscription-manager repos --enable=rhel-7-server-openstack-8-optools-rpms
+----
+====
