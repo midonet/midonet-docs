@@ -1,0 +1,4 @@
+[IMPORTANT]
+Follow the
+https://access.redhat.com/documentation/en/red-hat-openstack-platform/8/installation-reference/installation-reference[Installation Reference]
+documentation, but *note the following differences*.

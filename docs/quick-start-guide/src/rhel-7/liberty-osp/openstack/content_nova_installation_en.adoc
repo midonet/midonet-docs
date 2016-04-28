@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en/red-hat-openstack-platform/8/installation-reference/chapter-8-install-the-compute-service[Chapter 8. Install The Compute Service]
+instructions, but *note the following differences*.
+
