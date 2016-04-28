@@ -1,0 +1,131 @@
+= Controller Node
+
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en/red-hat-openstack-platform/8/installation-reference/82-install-a-compute-node[8.2. Install a Compute Node]
+instructions, but *note the following differences and additions*.
+
+. *8.2.1. Install the Compute Service Packages*
++
+====
+Do *not* apply as is.
+
+Instead, install only the following packages:
+
+[source]
+----
+# yum install openstack-nova-api openstack-nova-conductor openstack-nova-scheduler python-cinderclient
+----
+
+[NOTE]
+The `openstack-nova-compute` package is going to be installed on the Compute
+Node instead.
+====
+
+. *8.2.2. Create the Compute Service Database*
++
+====
+Apply as is.
+====
+
+. *8.2.3. Configure the Compute Service Database Connection*
++
+====
+Apply as is.
+====
+
+. *8.2.4. Create the Compute Service Identity Records*
++
+====
+Apply as is.
+====
+
+. *8.2.5. Configure Compute Service Authentication*
++
+====
+Apply as is.
+====
+
+. *8.2.6. Configure the Firewall to Allow Compute Service Traffic*
++
+====
+Apply as is.
+====
+
+. *8.2.7. Configure the Compute Service to Use SSL*
++
+====
+Apply as is.
+====
+
+. *8.2.8. Configure RabbitMQ Message Broker Settings for the Compute Service*
++
+====
+Apply as is.
+====
+
+. *8.2.9. Enable SSL Communication Between the Compute Service and the Message Broker*
++
+====
+Apply as is.
+====
+
+. *8.2.10. Configure Resource Overcommitment*
++
+====
+Apply as is.
+====
+
+. *8.2.11. Reserve Host Resources*
++
+====
+Apply as is.
+====
+
+. *8.2.12. Configure Compute Networking* [[nova_metadata_proxy]]
++
+====
+Apply as is, except the following topics:
+
+.. *8.2.12.3. Configure the L2 Agent*
++
+Do *not* apply.
++
+.. *8.2.12.4. Configure Virtual Interface Plugging*
++
+Configure the generic VIF driver.
+====
+
+. *8.2.13. Populate the Compute Service Database*
++
+====
+Apply as is.
+====
+
+. *8.2.14. Launch the Compute Services*
++
+====
+.. *1. Starting the Message Bus Service*
++
+Do *not* apply. Only required on the Compute Node.
+
+.. *2. Starting the Libvirtd Service*
++
+Do *not* apply. Only required on the Compute Node.
+
+.. *3. Starting the API Service*
++
+Apply as is.
+
+.. *4. Starting the Scheduler*
++
+Apply as is.
+
+.. *5. Starting the Conductor*
++
+Apply as is.
+
+.. *6. Starting the Compute Service*
++
+Do *not* apply. Only required on the Compute Node.
+====
