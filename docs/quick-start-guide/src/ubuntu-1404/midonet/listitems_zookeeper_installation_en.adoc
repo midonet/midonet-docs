@@ -20,12 +20,16 @@ Edit the `/etc/zookeeper/conf/zoo.cfg` file to contain the following:
 server.*1*=*_nsdb1_*:2888:3888
 server.*2*=*_nsdb2_*:2888:3888
 server.*3*=*_nsdb3_*:2888:3888
+autopurge.snapRetainCount=10
+autopurge.purgeInterval =12
 ----
 +
 [IMPORTANT]
 For production deployments it is recommended to configure the storage of
-snapshots in a different disk than the commit log. This can be set by changing
-the parameter `dataDir` in `zoo.cfg` to a different disk.
+snapshots in a different disk than the commit log, this is done by setting
+the parameters `dataDir` and `dataLogDir` in `zoo.cfg`. In addition we
+advice to use an SSD drive for the commit log.
+
 
 .. *Node-specific Configuration*
 
