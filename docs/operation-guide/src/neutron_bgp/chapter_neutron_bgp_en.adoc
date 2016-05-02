@@ -1,0 +1,237 @@
+[[neutron_bgp]]
+= Neutron BGP (Dynamic Routing)
+
+MidoNet’s implementation of Neutron BGP provides two different ways of
+configuring BGP.
+
+*Router Insertion*
+
+In this mode, when you create a BGP speaker object, you specify the router to
+which you want to associate it to. This does not match Neutron's
+http://specs.openstack.org/openstack/neutron-specs/specs/mitaka/bgp-dynamic-routing.html[Dynamic Advertising Routes for Public Ranges]
+specification, but matches MidoNet's BGP configuration more closely where you
+configure BGP on a router. This feature is implemented as a Neutron vendor
+extension, `bgp-speaker-router-insertion`. Router association is specified on
+creation, and cannot be updated. You can choose to use this extension on BGP
+Speaker basis.
+
+In this mode, `add_gateway_network` and `delete_gateway_network` APIs are not
+applicable. Calling these APIs will result in an error.
+
+*Non Router Insertion*
+
+In this mode, when you create a BGP speaker object, you do not specify a router
+to associate with. This matches the expected behavior of the reference
+implementation API. Even in this mode, however, a router must be associated with
+the BGP speaker implicitly for MidoNet to be able to provide the BGP service.
+The router association occurs when the `add_gateway_network` API is called on a
+BGP speaker. In this operation, the specified network is always an external
+network. If there is an edge router attached to the external network as its
+gateway router, then this router is chosen to associate with the BGP speaker.
+The `delete_gateway_network` API is used to disassociate a router from a BGP
+speaker in this mode. If the specified external network does not have any edge
+router as its gateway router, an error is thrown.
+
+It is implied in both cases that with MidoNet a BGP speaker is always only
+associated with one router. Hence, a BGP peer cannot be associated with multiple
+BGP speakers. While this restriction deviates from the reference implementation
+of BGP in Neutron, it closely matches the MidoNet implementation of BGP while
+maintaining compatibility with the Neutron API. Note, however, that several BGP
+peers can be associated with the same BGP speaker. MidoNet uses routing to
+decide via which router interface/port to forward packets for a specific BGP
+session.
+
+Also, with MidoNet, all the networks attached to the router that have BGP
+configured via router interface command will be advertised automatically. It
+does not advertise gateway networks, and it does not advertise individual /32
+Floating IP routes. Thus, the fields `advertise_floating_ip_host_routes` and
+`advertise_tenant_networks` of BGP Speaker are ignored. Also, extra routes added
+on the router are automatically advertised.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Creating a router, network and subnet
+
+In this example, we have an edge router (router acting as the gateway on an
+external network) but the same workflow applies to regular tenant routers as
+well.
+
+Skip this step if you already created the Edge Router and external network and
+subnets. This is here just for completeness.
+
+[source]
+----
+# neutron router-create EdgeRouter
+----
+
+Router ID: 14ce01e6-af80-11e5-aca9-6730c321a8c7
+
+[source]
+----
+# neutron net-create \
+   --router:external True \
+   ExtNetwork
+----
+
+Network ID: cb98c61f-b299-4e66-8c29-0da8e4e0146d
+
+[source]
+----
+# neutron subnet-create \
+   cb98c61f-b299-4e66-8c29-0da8e4e0146d \
+   200.0.0.0/24
+----
+
+Subnet ID: d97e2ee8-f194-11e5-949d-0242ac110001
+
+[source]
+----
+# neutron router-interface-add \
+   14ce01e6-af80-11e5-aca9-6730c321a8c7 \
+   d97e2ee8-f194-11e5-949d-0242ac110001
+----
+
+== Creating a BGP speaker
+
+*Without router specified (bgp-router-insertion):*
+
+[source]
+----
+# neutron bgp-speaker-create \
+   --tenant-id admin \
+   --local-as 4000 \
+   --ip-version 4 \
+   BGP-Speaker
+----
+
+BGP Speaker ID: 5ef786aa-7f83-4762-bbbe-8d0dd51a7704
+
+*With router specified:*
+
+[source]
+----
+# neutron bgp-speaker-create \
+   --tenant-id admin \
+   --local-as 4000 \
+   --ip-version 4 \
+   --router-id=14ce01e6-af80-11e5-aca9-6730c321a8c7 \
+   BGP-Speaker
+----
+
+BGP Speaker ID: 5ef786aa-7f83-4762-bbbe-8d0dd51a7704
+
+The `advertise_floating_ip_routes` and `advertise_tenant_networks` parameters
+are ignored.
+
+== Updating a BGP Speaker
+
+Only `name` can be updated.
+
+[source]
+----
+# neutron bgp-speaker-update \
+   --name BGP-Speaker-New-Name \
+   BGP-Speaker
+----
+
+== Adding a gateway network to a BGP speaker
+
+If the BGP speaker is already associated with a router, an error is thrown. If
+the external network specified in the request does not have any edge router
+attached as its gateway router, an error is thrown. Otherwise, the edge router
+is chosen and associated with the BGP Speaker. Once associated, it cannot be
+associated to any other BGP speaker.
+
+[source]
+----
+# neutron bgp-speaker-network-add \
+   BGP-Speaker \
+   ExtNetwork
+----
+
+== Creating a BGP peer
+
+[source]
+----
+# neutron bgp-peer-create \
+   --tenant-id admin \
+   --peer-ip 10.0.0.1 \
+   --remote-as 4000 \
+   --auth-type md5 \
+   --password "$1$RzrnCAAt$FWS7sy1ZwWIc0ln7moO0W0" \
+   BGP-Peer
+----
+
+BGP Peer ID: ba1fc7ca-f197-11e5-8b10-0242ac110001
+
+Supported auth types are `md5` and `none`.
+
+== Updating a BGP Peer
+
+`name` and `password` can be updated.
+
+[source]
+----
+# neutron bgp-peer-update \
+   --password "$1$b6mXFzDF$KZ0pIqWZQN6DRp4tSUWj.0" \
+   BGP-Peer
+----
+
+== Adding a BGP peer to a BGP Speaker
+
+This operation only succeeds if the BGP speaker is already associated with a
+router.
+
+[source]
+----
+# neutron bgp-speaker-peer-add \
+   BGP-Speaker \
+   BGP-Peer
+----
+
+== Listing advertised routes
+
+[source]
+----
+# neutron bgp-speaker-advertiseroute-list \
+   ea57e7e8-a7a4-11e5-89c2-b78c120baeb9
+----
+
+== Removing a gateway network
+
+This operation only succeeds if BGP Speaker was originally associated with a
+router via the `add_gateway_network` API.
+
+[source]
+----
+# neutron bgp-speaker-network-remove \
+   BGP-Speaker \
+   ExtNetwork
+----
+
+== Removing a BGP peer from a BGP Speaker
+
+[source]
+----
+# neutron bgp-speaker-peer-remove \
+   BGP-Speaker \
+   BGP-Peer
+----
+
+== Deleting a BGP Peer
+
+[source]
+----
+# neutron bgp-peer-delete \
+   BGP-Peer
+----
+
+== Deleting a BGP Speaker
+
+[source]
+----
+# neutron bgp-speaker-delete \
+   BGP-Speaker
+----
