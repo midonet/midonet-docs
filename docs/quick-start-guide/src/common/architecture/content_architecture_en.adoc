@@ -18,7 +18,7 @@ connectivity to external networks via the Border Gateway Protocol (BGP).
 
 Three or more hosts are being used for the MidoNet Network State Database (NSDB)
 cluster which utilizes https://zookeeper.apache.org/[ZooKeeper] and
-http://www.datastax.com/documentation/cassandra/2.0/cassandra/gettingStartedCassandraIntro.html[Cassandra]
+http://docs.datastax.com/en/cassandra/2.2/cassandra/cassandraAbout.html[Cassandra]
 to store virtual network topology and connection state information:
 
 * NSDB Node 1 (*_nsdb1_*)
