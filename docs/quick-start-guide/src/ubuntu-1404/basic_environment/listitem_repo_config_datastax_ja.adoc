@@ -6,7 +6,7 @@
 [source]
 ----
 # DataStax (Apache Cassandra)
-deb http://debian.datastax.com/community 2.0 main
+deb http://debian.datastax.com/community 2.2 main
 ----
 ====
 

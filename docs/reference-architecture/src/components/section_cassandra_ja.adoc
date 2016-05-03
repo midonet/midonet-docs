@@ -1,7 +1,7 @@
 [[cassandra]]
 = Cassandra
 
-MidoNetではApache Cassandraバーション2.0を使用して、NATバインディングや接続トラッキング情報などのフローステート情報が保存され、VMの移行がサポートされます。 
+MidoNetではApache Cassandra を使用して、NATバインディングや接続トラッキング情報などのフローステート情報が保存され、VMの移行がサポートされます。
 
 MidoNetではCassandraの耐久性、耐障害性、有効期限、低遅延の読み込み/書き込みなどの利点を活用していますが、Cassandraは一次データソースではなくバックアップとしてのみ使用します。
 
