@@ -17,7 +17,7 @@ http://www.quagga.net/[Quagga]
 * ゲートウェイノード 2（*_gateway2_*）
 
 https://zookeeper.apache.org/[ZooKeeper] と
-http://www.datastax.com/documentation/cassandra/2.0/cassandra/gettingStartedCassandraIntro.html[Cassandra]
+http://docs.datastax.com/en/cassandra/2.2/cassandra/cassandraAbout.html[Cassandra]
 を利用する 3 個以上のホストを MidoNet Network State
 Database（NSDB）クラスタに使用して、仮想ネットワークトポロジと接続状態情報を保存します。
 
