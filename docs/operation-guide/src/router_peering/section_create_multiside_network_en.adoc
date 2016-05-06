@@ -20,7 +20,7 @@ Network ID: 7d107e3a-a7a3-11e5-986c-7b399d0489a5
 
 [literal,subs="quotes"]
 ----
-# POST http://api_server_url/l2-gateways
+# POST http://neutron_api_url/l2-gateways
    '{"l2_gateway": {
       "tenant_id": "admin",
       "name": "SiteAL2Gateway",
@@ -43,7 +43,7 @@ Subnet ID: 15f9485c-a7a4-11e5-850b-0b488249b443
 
 [literal,subs="quotes"]
 ----
-# POST http://api_server_url/l2-gateway-connections
+# POST http://neutron_api_url/l2-gateway-connections
    '{"l2_gateway_connections": {
       "tenant_id": "admin",
       "network_id": "7d107e3a-a7a3-11e5-986c-7b399d0489a5",
@@ -67,7 +67,7 @@ Network ID: 8943d506-af84-11e5-bb39-e7d07e647dfc
 
 [literal,subs="quotes"]
 ----
-# POST http://api_server_url/l2-gateways
+# POST http://neutron_api_url/l2-gateways
    '{"l2_gateway": {
       "tenant_id": "admin",
       "name": "SiteBL2Gateway",
@@ -90,7 +90,7 @@ Subnet ID: 90e9c6b2-af84-11e5-b12b-af7d2f9c54f7
 
 [literal,subs="quotes"]
 ----
-# POST http://api_server_url/l2-gateway-connections
+# POST http://neutron_api_url/l2-gateway-connections
    '{"l2_gateway_connections": {
       "tenant_id": "admin",
       "network_id": "7d107e3a-a7a3-11e5-986c-7b399d0489a5",

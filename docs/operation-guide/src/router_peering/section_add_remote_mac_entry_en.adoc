@@ -14,7 +14,7 @@ The following request adds a remote MAC entry in the gateway device:
 
 [literal,subs="quotes"]
 ----
-# POST http://api_server_url/gw/gateway_devices/5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8/remote_mac_entries
+# POST http://neutron_api_url/gw/gateway_devices/5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8/remote_mac_entries
    '{"remote_mac_entry":
       {"tenant_id": "admin",
       "vtep_address": "200.200.0.2",
@@ -28,7 +28,7 @@ Remote MAC Entry ID: 32f2f11c-a7f2-11e5-84a0-0242ac110001
 
 [literal,subs="quotes"]
 ----
-# POST http://api_server_url/gw/gateway_devices/8e47afce-af83-11e5-9b76-4b95f3de9711/remote_mac_entries
+# POST http://neutron_api_url/gw/gateway_devices/8e47afce-af83-11e5-9b76-4b95f3de9711/remote_mac_entries
    '{"remote_mac_entry":
       {"tenant_id": "admin",
       "vtep_address": "200.200.0.1",

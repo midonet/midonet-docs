@@ -8,12 +8,12 @@ deleted.
 
 [source]
 ----
-# DELETE http://api_server_url/l2-gateway-connections/b0aef454-a7a5-11e5-8378-b3df9d563488
+# DELETE http://neutron_api_url/l2-gateway-connections/b0aef454-a7a5-11e5-8378-b3df9d563488
 ----
 
 *Site B*
 
 [source]
 ----
-# DELETE http://api_server_url/l2-gateway-connections/acccad4e-af85-11e5-b48e-1b3586917939
+# DELETE http://neutron_api_url/l2-gateway-connections/acccad4e-af85-11e5-b48e-1b3586917939
 ----

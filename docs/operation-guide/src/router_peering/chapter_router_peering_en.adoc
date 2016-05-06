@@ -6,6 +6,7 @@ multiple sites with VXLAN tunneling. The following section describes the Neutron
 CLI and REST API commands to set up router peering. All of the following
 operations are executed only by the cloud operator.
 
+[IMPORTANT]
 The Neutron APIs defined for the router peering feature are not supported by the
 current upstream implementation of Neutron CLI, so they must be executed by
 making HTTP requests directly to the Neutron API server.
