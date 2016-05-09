@@ -140,6 +140,7 @@ include::{sourcedir}/service_containers/section_container_troubleshooting.adoc[l
 
 // Chapter: Router Peering
 include::{sourcedir}/router_peering/chapter_router_peering_en.adoc[leveloffset=+1]
+include::{sourcedir}/router_peering/section_diagrams_en.adoc[leveloffset=+2]
 include::{sourcedir}/router_peering/section_create_tenant_routers_en.adoc[leveloffset=+2]
 include::{sourcedir}/router_peering/section_create_gateway_device_en.adoc[leveloffset=+2]
 include::{sourcedir}/router_peering/section_create_multiside_network_en.adoc[leveloffset=+2]
