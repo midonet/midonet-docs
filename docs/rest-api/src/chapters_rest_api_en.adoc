@@ -1394,6 +1394,12 @@ to another virtual port.
 |A unique identifier of the resource. If this field is omitted in the POST
 request, a random UUID is generated.
 
+|toPortId |UUID |POST/PUT |Yes
+|The port to which mirrored traffic should be copied. This is NOT the place
+traffic is mirrored from. The "to-port" gets traffic when this Mirror's UUID is
+added to the inboundMirrorIds or outboundMirrorIds of one or more ports,
+bridges, or routers.
+
 |conditions |Array of Condition |POST/PUT |No
 |A list of matching conditions against which the mirrored traffic should be
 matched. See
