@@ -1,1 +1,1 @@
-= MidoNet Quick Start Guide for RHEL 7 / Liberty (OSP)
+= MidoNet Quick Start Guide for RHEL 7 / Liberty (OSP 8)

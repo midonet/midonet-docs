@@ -72,7 +72,7 @@
                             <webhelpDirname>quick-start-guide/rhel-7_kilo-osp_en</webhelpDirname>
                             <webhelpIndexerLanguage>en</webhelpIndexerLanguage>
 
-                            <pdfFilenameBase>MidoNet_Quick_Start_Guide_RHEL-7_Kilo-OSP_EN_${project.version}</pdfFilenameBase>
+                            <pdfFilenameBase>MidoNet_Quick_Start_Guide_RHEL-7_Kilo-OSP-7_EN_${project.version}</pdfFilenameBase>
                             <preProcess>
                                 <echo>Adding xml:id attribute to Docbook's book element.</echo>
                                 <replace file="${dir.tmp.asciidoc2docbook}/${file.book.basename}.xml" summary="true">
