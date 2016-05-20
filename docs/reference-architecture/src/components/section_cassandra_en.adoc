@@ -1,9 +1,8 @@
 [[cassandra]]
 = Cassandra
 
-MidoNet uses Apache Cassandra version 2.0 to store flow state information, for
-example NAT bindings, connection tracking information, and to support VM
-migration.
+MidoNet uses Apache Cassandra to store flow state information, for example NAT
+bindings, connection tracking information, and to support VM migration.
 
 While, MidoNet leverages Cassandra's durability, fault tolerance, timed
 expirations, and low-latency read/writes, it only uses Cassandra as a backup

@@ -4,7 +4,7 @@
 [source]
 ----
 # yum install java-1.7.0-openjdk-headless
-# yum install dsc20
+# yum install dsc22
 ----
 ====
 
