@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_d414e34d",
+        "filename": "docs/operation-guide/src/neutron_bgp/chapter_neutron_bgp_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002740
+      },
+      "writtenOn": "2016-05-21T07:38:13Z",
+      "side": 1,
+      "message": "This mode may not be available in mitaka, so let\u0027s find out if we can get this in first.",
+      "revId": "8100ad53adbdb7a9b7689d217f0d7d93c6a5ff49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
