@@ -3,7 +3,7 @@
 ====
 [source]
 ----
-# apt-get install openjdk-7-jre-headless
+# apt-get install openjdk-8-jre-headless
 # apt-get install dsc22
 ----
 ====
