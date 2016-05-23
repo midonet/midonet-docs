@@ -51,20 +51,40 @@ echo "cluster.rest_api.http_port = $NEW_PORT" | mn-conf set -t default
 
 == MidoNet REST API HTTPS endpoint
 
-HTTPS is also available and exposed on port TCP/8443 by default. This
-port can be changed with the following mn-conf command:
+To enable the HTTPS end-point of the MidoNet Cluster REST API service, you must
+configure a JKS key store containing the private and public key X.509
+certificate used for encrypting such connections.
+
+The location of the key store file and the password for the private key are
+specified as the following Java system properties.
+
+.System Properties for the HTTPS Key Store
+[options="header"]
+|===============
+|Property Name|Default Value|Description
+|`midonet.keystore_path`|`/etc/midonet-cluster/ssl/midonet.jks`|
+    The name of the key store file.
+|`midonet.keystore_password`|_none_|
+    The password for the private key entry. If not set, the HTTPS end-point of
+    the REST API will be disabled (default).
+|===============
+
+To change the previous properties, and enable HTTPS, you can add the
+corresponding property values to the environmental MidoNet Cluster
+script file found at `/etc/midonet-cluster/midonet-cluster-env.sh`:
+
+[source]
+JVM_OPTS="$JVM_OPTS -Dmidonet.keystore_path=<key-store-file>"
+JVM_OPTS="$JVM_OPTS -Dmidonet.keystore_password=<key-entry-password>"
+
+HTTPS is exposed on port TCP/8443 by default. This port can be changed with the
+following mn-conf command:
 
 [source]
 echo "cluster.rest_api.https_port = $NEW_PORT" | mn-conf set -t default
 
 MidoNet Cluster will disable the HTTPS endpoint if the port is set to a
 value equal or less than 0, or if no keystore is accessible on the system.
-
-The MidoNet Cluster will expect to find a keystore containing the
-certificate in `/etc/midonet-cluster/ssl/midonet.jks`.
-
-This location can be overridden by setting the midonet.keystore_path
-system variable to a different path.
 
 To generate a self-signed key, you can use the following procedure. Note that
 you will be prompted for passwords during this process, and need to keep the
