@@ -10,6 +10,17 @@ MidoNet performance.
 
 == Overview of Performance-Impacting Configuration Options
 
+*DSCP field in flow state packets*
+
+The flow state packets that Agent hosts exchange for flow state replication are
+marked for QoS using the type of service IP field, which is configured by the
+`control_packet_tos` MidoNet configuration option.
+
+It defaults defaults to the DSCP (differentiated services) field being set to
+Expedited Forwarding. These packets should be prioritized using classifiers
+(ingress qdiscs) at the hosts and also by configuring the underlay network
+hardware accordingly.
+
 *+agent.midolman+ configuration section in mn-conf(1)*
 
 simulation_threads - Number of threads to dedicate to packet processing
