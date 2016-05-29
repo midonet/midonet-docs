@@ -108,9 +108,6 @@ contain the following:
 +
 [literal,subs="quotes"]
 ----
-[DATABASE]
-sql_connection = mysql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
-
 [MIDONET]
 # MidoNet API URL
 midonet_uri = http://*_controller_*:8181/midonet-api
