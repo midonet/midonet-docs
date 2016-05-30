@@ -1,4 +1,5 @@
 //Auto generated index for searching.
+w["enable_firewal"]="6";
 w["enable_lb"]="10";
 w["encapsul"]="13";
 w["ensur"]="12";
@@ -222,7 +223,6 @@ w["neutron"]="0,2,6,7,9,10,17,20,21,25";
 w["neutron-db-manag"]="17";
 w["neutron-dist"]="17";
 w["neutron_dbpass"]="17";
-w["neutron_dbpass@"]="17";
 w["new"]="0";
 w["nic"]="0";
 w["nmap-ncat"]="8";
@@ -276,5 +276,4 @@ w["own"]="25,26";
 w["packag"]="1,3,8,17,19,20,22,23,26";
 w["paramet"]="8,26";
 w["parti"]="23";
-w["password"]="17,22,28";
 

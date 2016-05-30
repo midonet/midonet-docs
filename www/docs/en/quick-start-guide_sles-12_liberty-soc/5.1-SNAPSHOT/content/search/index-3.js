@@ -158,7 +158,6 @@ w["solv"]="26";
 w["someth"]="17";
 w["special"]="0";
 w["specif"]="0";
-w["sql_connect"]="1";
 w["src"]="28";
 w["srv"]="11";
 w["ssd"]="9";

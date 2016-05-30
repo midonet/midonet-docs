@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <products xmlns:xlink="http://www.w3.org/1999/xlink">
-   <latestpdf>MidoNet_Quick_Start_Guide_RHEL-7_Liberty-OSP_EN_5.1-SNAPSHOT-latest.pdf</latestpdf>
-   <pdfoutname>MidoNet_Quick_Start_Guide_RHEL-7_Liberty-OSP_EN_5.1-SNAPSHOT.pdf</pdfoutname>
-   <docname>MidoNet Quick Start Guide for RHEL 7 / Liberty (OSP)</docname>
+   <latestpdf>MidoNet_Quick_Start_Guide_RHEL-7_Liberty-OSP-8_EN_5.1-SNAPSHOT-latest.pdf</latestpdf>
+   <pdfoutname>MidoNet_Quick_Start_Guide_RHEL-7_Liberty-OSP-8_EN_5.1-SNAPSHOT.pdf</pdfoutname>
+   <docname>MidoNet Quick Start Guide for RHEL 7 / Liberty (OSP 8)</docname>
    <productname>MidoNet Quick Start Guide</productname>
    <webappname>quick-start-guide/rhel-7_liberty-osp_en</webappname>
    <pominfo>

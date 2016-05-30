@@ -1,4 +1,5 @@
 //Auto generated index for searching.
+w["password"]="17,22,28";
 w["password-prompt"]="12";
 w["peer"]="28";
 w["peer0"]="28";
@@ -156,7 +157,6 @@ w["someth"]="16";
 w["special"]="0";
 w["specif"]="0";
 w["specifi"]="20";
-w["sql_connect"]="17";
 w["src"]="28";
 w["ssd"]="8";
 w["ssl"]="3,17,19";
