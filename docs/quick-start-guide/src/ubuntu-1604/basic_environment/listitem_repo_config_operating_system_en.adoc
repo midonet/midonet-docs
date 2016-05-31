@@ -6,13 +6,13 @@ Edit the `/etc/apt/sources.list` file to contain the following:
 [source]
 ----
 # Ubuntu Main Archive
-deb http://archive.ubuntu.com/ubuntu/ trusty main
-deb http://security.ubuntu.com/ubuntu trusty-updates main
-deb http://security.ubuntu.com/ubuntu trusty-security main
+deb http://archive.ubuntu.com/ubuntu/ xenial main
+deb http://security.ubuntu.com/ubuntu xenial-updates main
+deb http://security.ubuntu.com/ubuntu xenial-security main
 
 # Ubuntu Universe Archive
-deb http://archive.ubuntu.com/ubuntu/ trusty universe
-deb http://security.ubuntu.com/ubuntu trusty-updates universe
-deb http://security.ubuntu.com/ubuntu trusty-security universe
+deb http://archive.ubuntu.com/ubuntu/ xenial universe
+deb http://security.ubuntu.com/ubuntu xenial-updates universe
+deb http://security.ubuntu.com/ubuntu xenial-security universe
 ----
 ====
