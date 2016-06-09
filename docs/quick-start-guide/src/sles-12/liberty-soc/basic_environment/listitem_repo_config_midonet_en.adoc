@@ -5,7 +5,7 @@ Use the following commands to add the MidoNet repositories:
 
 [literal,subs="quotes"]
 ----
-# zypper addrepo -f http://builds.midonet.org/midonet-5/stable/sles12/ midonet
+# zypper addrepo -f http://builds.midonet.org/midonet-5.0/stable/sles12/ midonet
 ----
 [literal,subs="quotes"]
 ----
