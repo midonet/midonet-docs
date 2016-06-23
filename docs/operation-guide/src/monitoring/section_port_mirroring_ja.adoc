@@ -1,0 +1,134 @@
+[[port_mirroring]]
+= ポートミラーリング
+
+ポートミラーリングを使うと、オペレーターは特定のバーチャルポート内のオーバーレイで発生するトラフィックの、任意サブセットを監視することができます。バーチャルポートのモニタリングや、トラブルシューティングを行う場合に役立てることができます。
+
+MidoNet v5.0は、以下のコンセプトに基いてポートミラーリングを導入しています。:
+
+. 新しいタイプの仮想デバイス：*mirror*
+. 各ミラーがその*to-port*属性によって送信先の仮想ポートと関連づけられています。そこへミラートラフィックが複製されます。
+. 各ミラーには*matches*のリストがあります。マッチとは、ルールやチェインの条件と同様にに、トラフィックをマッチさせる条件です。両者は同じ属性を持っています。これら*matches*によって、どのトラフィックがミラーされるかが選択されます。
+. ポート、ブリッジ、ルータには、インバウンドとアウトバウンドという2種類のミラーリストが含まれています。これはミラーがトラフィックをキャプチャするポイントとなります。
+
+オペレータはミラーを作り、希望通りのトラフィックにマッチさせるよう設定し、仮想トポロジーの1つあるいは幾つかのポイントに適用させることができます。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== ミラーリングの例
+
+オーバーレイの簡単なトポロジーを想定してみましょう。
+
+. 3つの仮想ポートを持つ仮想ブリッジ
+. 以下を持つ仮想ルータ:
+  .. 上流の物理ルータと接続している仮想ポート1つ
+  .. ブリッジと接続している仮想ポート1つ
+. ブリッジ内の残りの2つのポートおよび192.168.1.10 と192.168.1.11 に接続しているVM2つ
+
+これをCLIで調べて見ると、次のように見えます。:
+
+[source]
+midonet> bridge list
+bridge bridge0 name a-tenant state up
+midonet> router list
+router router0 name gateway state up asn 0
+midonet> bridge bridge0 list port
+port port0 device bridge0 state up plugged no vlan 0 peer router0:port0
+port port1 device bridge0 state up plugged no vlan 0
+port port2 device bridge0 state up plugged no vlan 0
+midonet> router router0 list port
+port port0 device router0 state up plugged no mac ac:ca:ba:73:9c:05 address 192.168.1.1 net 192.168.1.0/24 peer bridge0:port0
+port port1 device router0 state up plugged no mac ac:ca:ba:a0:6b:43 address 10.0.0.1 net 10.0.0.0/24
+midonet>
+
+オペレーターは、このオーバーレイトポロジーの中でトラフィックを見たり監視したいとします。VMが稼働しているハイパーバイザーにログインし、VMが接続しているtapデバイス上でtcpdumpを実行するという手もあるかもしれません。ただしこのやり方は、特定のハイバーバイザとtapを見つける必要があり、面倒でエラーが起きやすいと言う問題があります。さらに、この方法は柔軟性がありません。つまり、複数のVMに属するトラフィックを監視したい場合や、トポロジーの中でトラフィックが仮想ルータを経由するのをそのままの姿で監視したい、というような場合に対応できません。
+
+.監視ネームスペースの準備
+
+ポートミラーリングを開始するには、まずミラーする先のポートが必要です。そのためには、独立した監視用ブリッジを作り、そこにポートを追加し、そのポートにLinuxネットワークネームスペースを連携させましょう。そこでtcpdumpやその他のあらゆるネットワーク管理ツールを実行できます。
+
+まず最初に、ブリッジとポートを作成します。:
+
+[source]
+midonet> bridge create name "Monitoring bridge"
+bridge1
+midonet> list bridge
+bridge bridge0 name a-tenant state up
+bridge bridge1 name Monitoring bridge state up
+midonet> bridge bridge1 add port
+bridge1:port0
+midonet>
+
+次に、ハイパーバイザにログインします。これが監視マシンとなります。ホストネームは*hypervisor01*です。ここに次のようにネットワークネームスペースを作り、MidoNetバーチャルポートにバインド可能な veth pair も作成します。:
+
+[source]
+$ sudo ip netns add mon
+$ sudo ip link add name mondp type veth peer name monns
+$ sudo ip link set mondp up
+$ sudo ip link set monns netns mon
+$ sudo ip netns exec mon ip link set monns up
+$ sudo ip netns exec mon ip link set dev lo up
+
+これで*mon*というネームスペースができました。ここには*monns*というネットワークインターフェースが含まれています。veth pairの片側では、*mondp*がmidonetビューポートとバインド可能な状態になっています。
+
+このステップを*midonet-cli*でも続けましょう。まず、監視ホストを特定しましょう。その*hypervisor01*というホストネームを使って、次のようにホストのリストにフィルターをかけることができます。:
+
+[source]
+midonet> host list name hypervisor01
+host host0 name hypervisor01 alive true addresses 10.1.0.1,127.0.0.1
+midonet>
+
+Now we can bind the "physical" monitoring namespace in the monitoring port in
+the virtual topology:
+
+[source]
+midonet> host host0 add binding port bridge1:port0 interface mondp
+host host0 interface mondp port bridge1:port0
+
+これで、仮想トポロジー内の監視ポートの中に「物理的」な監視ネームスペースを次のようにバインドすることができます。
+
+.ポートミラーリングを使う
+
+監視ネームスペースの用意ができたら、ミラーを使って、監視ポート内のオーバーレイトラフィックのサブセットの複製を見ることができます。オペレーターは、適切なマッチのあるミラーを作り、オーバーレイトポロジーの中のあらゆるポイントに適用するだけでよいのです。
+
+さて、オペレーターがどのようにテナントのブリッジ内部でipトラフィックを監視するか考えてみましょう。つまり、オペレーターはブリッジにローカルなトラフィックを見たいわけで、ルーターに向かったりルーターからやって来るトラフィックを見たいわけではないのです。
+
+このためには、192.168.1.0/24ネットワークの中にトラフィックにマッチするミラーを次のように作成します。:
+
+[source]
+midonet> create mirror to-port bridge1:port0
+mirror0
+midonet> mirror mirror0 matches add dst 192.168.0.0/24 src 192.168.0.0/24
+src 192.168.0.0/24 dst 192.168.0.0/24
+midonet> mirror mirror0 list matches
+src 192.168.0.0/24 dst 192.168.0.0/24 fragment-policy any no-vlan false
+midonet>
+
+...そしてそれを、ブリッジ内の2つのミラーリングフックのうちの1つに適用します。:
+
+[source]
+midonet> bridge bridge0 set in-mirrors mirror0
+midonet> bridge bridge0 show
+bridge bridge0 name a-tenant state up in-mirrors mirror0
+midonet>
+
+これでオペレーターは監視ポート上で次のようにtcpdump することで、このブリッジのローカルトラフィックをすべて見ることができます。:
+
+[source]
+hypervisor01$ sudo ip netns exec mon tcpdump -nei monns
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on monns, link-type EN10MB (Ethernet), capture size 65535 bytes
+
+同じ方法を使えば、オペレーターは他のトラフィックもミラーすることができ、またそれが仮想オーバーレイ内のどのポイントからも可能です。ミラーがルータのアップストリームに向いているポートに適用されれば、ミラーはポートから見えるMACやIPアドレスを見ることができます。
+
+各ミラーはどんな数のデバイスにも適用することができます。また、トラフィックの異なったスライスをキャプチャするために、複数のマッチ条件を持つことが可能です。同じように、1つのデバイス内のミラーリングフックのそれぞれに、複数のミラーを適用させることが可能です。したがってオペレーターは自分の監視ポート内でどのトラフィックを監視するのか自由に決められますし、監視ブリッジに異なるネットワークインターフェースを自由に作ることができ、さらに異なる種類のトラフィックを異なる監視ポートに送ることもできます。
+
+.ポートミラーを除去する
+
+ポートミラーをブリッジから除去するには、`clear`コマンドを使って次にように行ってください。:
+
+[source]
+midonet> bridge bridge0 clear in-mirrors
+midonet> bridge bridge0 show
+bridge bridge0 name a-tenant state up

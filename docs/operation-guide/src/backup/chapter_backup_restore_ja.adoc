@@ -1,0 +1,9 @@
+[[backup_restore]]
+= バックアップ / 復元
+
+[NOTE]
+====
+この資料は、MidoNetに関連しないOpenStackのコンポーネントのバックアップについては書かれていません。
+OpenStackのバックアップや復元に関する詳しいじょう方は下記を参照ください。
+http://docs.openstack.org/openstack-ops/[OpenStack Operations Guide]
+====

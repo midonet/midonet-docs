@@ -1,0 +1,51 @@
+[[backup_cluster]]
+= MidoNetクラスタ
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== バックアップ
+
+. *バックアップクラスタ　コンフィグレーション*
++
+====
+クラスターノードで、クラスタ　コンフィグレーションをコピーします。:
+
+[source]
+----
+# cp /etc/midonet/midonet.conf /tmp/mn-cluster_backup/config/
+----
+====
+
+== 復元
+
+. *クラスタ　コンフィグレーションの復元*
++
+====
+クラスターノードで、バックアップからクラスタ　コンフィグレーションを復元します:
+
+----
+# cp /tmp/mn-cluster_backup/config/* /etc/midonet/
+----
+====
+
+. *クラスターの再起動*
++
+====
+クラスターノードで、クラスターを再起動します:
+
+Ubuntu:
+
+[source]
+----
+# service midonet-cluster restart
+----
+
+RHEL:
+
+[source]
+----
+# systemctl restart midonet-cluster.service
+----
+====

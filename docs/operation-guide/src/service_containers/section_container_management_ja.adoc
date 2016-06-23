@@ -1,0 +1,58 @@
+[[service_containers_managament]]
+= マネージメント
+
+サービスコンテナは、通常、MidoNetクラスターにより自動的に起動され、破壊されます。従って、オペレータは、普通はMidoNet CLIを使ってコンテナコンフィギュレーションと実行状態を点検するだけです。
+
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== サービスコンテナの一覧取得
+
+サービスコンテナ全ての情報の一覧を取得するには、次のコマンドを入力してください。
+
+[source]
+midonet> list container
+container container0 container-group cgroup0 configuration 63c6fa43-abcd-43b0-870b-c72ab6f2c4dc port port0 type IPSEC status running host host0 namespace vpn-e9a728b2 interface vpn-e9a728b2
+container container1 container-group cgroup1 configuration 401994b8-4fec-428d-9133-40c51988578a port port1 type IPSEC status running host host0 namespace vpn-a55d15fe interface vpn-a55d15fe
+
+上記の例では、ホストhost0でスケジュールされ現在running状態である「IPSec」タイプのサービスコンテナを２つ表示しています。コンテナが実行されていない場合、コマンド出力は以下のようになっていたでしょう。
+
+[source]
+midonet> list container
+container container0 container-group cgroup0 configuration 63c6fa43-abcd-43b0-870b-c72ab6f2c4dc port port0 type IPSEC status stopped
+container container1 container-group cgroup1 configuration 401994b8-4fec-428d-9133-40c51988578a port port1 type IPSEC status stopped
+
+== サービスコンテナグループの一覧取得
+
+サービスコンテナグループ全ての情報の一覧を取得するには、次のコマンドを入力してください。:
+
+[source]
+midonet> list container-group
+cgroup cgroup0
+cgroup cgroup1
+cgroup cgroup2
+
+== コンテナ状態メッセージを表示
+
+コンテナ状態メッセージは通常は複数行のテキストで、コンテナ一覧には含まれません。従って、メッセージを表示するためには、次のコマンドを入力してください。:
+
+[source]
+midonet> container container0 show status-message
+000 using kernel interface: netkey
+000 interface lo/lo ::1@500
+000 interface lo/lo 127.0.0.1@4500
+000 interface lo/lo 127.0.0.1@500
+000 interface vpn-e9a728b2-ns/vpn-e9a728b2-ns 1.0.0.2@4500
+000 interface vpn-e9a728b2-ns/vpn-e9a728b2-ns 1.0.0.2@500
+000 interface vpn-e9a728b2-ns/vpn-e9a728b2-ns 169.254.0.2@4500
+000 interface vpn-e9a728b2-ns/vpn-e9a728b2-ns 169.254.0.2@500
+...
+
+[NOTE]
+サービスコンテナの他のフィールドあるいはサービスコンテナグループのオブジェクトには、showコマンドも使用できます。
+
+
+[WARNING]
+MidoNet では、サービスコンテナに` create` と` delete` コマンドも提供しますが、通常は使用を避け、トラブルシューティング時だけの使用としてください。

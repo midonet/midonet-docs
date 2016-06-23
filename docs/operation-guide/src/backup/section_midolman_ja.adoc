@@ -1,0 +1,52 @@
+[[backup_midolman]]
+= MidoNetエージェント
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== バックアップ
+
+. *Agentコンフィグレーションのバックアップ*
++
+====
+エージェントノードにて、Agentコンフィグレーションのコピーを作成します:
+
+[source]
+----
+# cp /etc/midolman/midolman.conf /tmp/mn-agent_backup/config/
+# cp /etc/midolman/midolman-env.sh /tmp/mn-agent_backup/config/
+----
+====
+
+== 復元
+
+. *Agentコンフィグレーションの復元*
++
+====
+エージェントノードにて、 Agentコンフィグレーションをバックアップから復元します:
+
+----
+# cp /tmp/mn-agent_backup/config/* /etc/midolman/
+----
+====
+
+. *Agent再起動*
++
+====
+エージェントノードにて、Midolmanサービスを再起動します:
+
+Ubuntu:
+
+[source]
+----
+# service midolman restart
+----
+
+RHEL:
+
+[source]
+----
+# systemctl restart midolman.service
+----
+====

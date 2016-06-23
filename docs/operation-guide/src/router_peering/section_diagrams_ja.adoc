@@ -1,0 +1,31 @@
+[[router_peering_diagrams]]
+= ダイアグラム
+
+== 概要
+
+image::router_peering_overview_1204x737.png[scaledwidth="100%"]
+
+== 詳細
+
+image::router_peering_details_1555x888.png[scaledwidth="100%"]
+
+サイトAのVM 10.0.0.3が サイトBのVM 10.0.1.3にIPパケットを送ると、パケットは、SiteAGatewayDeviceで送信されるところで、下記のように表示されます。 :
+
+* Outer Ethernet header: src is MAC of 200.200.0.1, dst is MAC of SiteAVtepRouter’s peer
+* Outer IP header: src is 200.200.0.1, dst is 200.200.0.2, proto is UDP
+* UDP header: src is hash of inner packet, dst is standard VXLAN port
+* VXLAN header: VNI is 100
+* Inner Ethernet header:
+** src is 16:B7:B5:A4:57:75 (MAC of SiteATenantRouter on SiteAMultiSiteNetwork)
+** dst is 6F:E4:5A:FA:8E:09 (MAC of SiteBTenantRouter on SiteBMultiSiteNetwork)
+* Inner IP header: src is 10.0.0.3, dst is 10.0.1.3
+
+SiteATenantRouterとSiteBTenantRouterのIPアドレスはこのパケットには出てきません。なぜなら、それは中間にあるルータだからです。しかし、VM 10.0.0.3 から 10.0.1.3 へのトレースルートをすればこのホップを検知できます:
+
+* 10.0.0.1
+* 192.168.0.1
+* 192.168.0.2
+* 10.0.1.1
+* 10.0.1.3
+
+トレースルートでは、トンネリングをしているSiteAVtepRouter や SiteBVtepRouterを検知することはできません。 

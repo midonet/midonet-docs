@@ -1,0 +1,126 @@
+[[backup_mysql]]
+= MySQL / MariaDB
+
+技術的には、MidoNetはNeutronとKeystoneテーブルのみに依存しますが、万全を期すため、データベースを全てバックアップすることを推奨します。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== バックアップ
+
+[IMPORTANT]
+====
+NeutronのMySQLデータベースとMidoNetのZooKeeperデータが同期していることを確実にするため、バックアップを始める前にMidoNet APIをread-onlyにします。
+
+MySQLデータベースとMidoNetのZooKeeperデータ (xref:backup_zookeeper[] にある)両方を同時にバックアップしてください。
+====  
+
+. *MidoNet APIをREADONLYに設定*
++
+====
+MidoNet APIを`READONLY`に設定し、バックアッププロセス中にとポロジが変更されるのを防ぎます。:
+
+[source]
+----
+# midonet-cli
+midonet> set system-state availability READONLY
+----
+====
+
+. *Database Dumpを作成*
++
+====
+データベースのバックアップを作成するため、`mysqldump` コマンドを使います:
+
+[literal,subs="quotes"]
+----
+# mysqldump \
+   -uroot -p_*password*_ \
+   --lock-tables --events --routines --triggers --all-databases | \
+  gzip > /tmp/ost_backup/data/ost_database.sql.gz
+----
+====
+
+. *ZooKeeperバックアップの作成*
++
+====
+MySQLとZooKeeperデータが同期していることを確かめて、ZooKeeperバックアップの作成します (xref:backup_zookeeper[] に書かれてある) 
+====
+
+. *MidoNet APIをREADWRITEに再設定*
++
+====
+MidoNet APIを`READWRITE`に再設定します:
+
+[source]
+----
+# midonet-cli
+midonet> set system-state availability READWRITE
+----
+====
+
+== 復元
+
+. *影響を受けるサービスを停止*
++
+====
+データベースにアクセスするすべてのサービスを停止します。
+
+関係するサービスには下記がありますが、これだけには限りません(お客様のOpenStack導入環境によって違います):
+
+Ubuntu:
+
+[source]
+----
+# service apache2 stop
+# service keystone stop
+# service neutron-server stop
+[...]
+----
+
+RHEL:
+
+[source]
+----
+# systemctl stop openstack-keystone.service
+# systemctl stop neutron-server.service
+# systemctl stop httpd.service
+[...]
+----
+====
+
+. *Database Dumpの復元*
++
+====
+[literal,subs="quotes"]
+----
+# gunzip -c /tmp/ost_backup/data/ost_database.sql.gz | mysql -uroot -p_*password*_
+----
+====
+
+. *サービスをリスタート*
++
+====
+サービスをリスタートします。
+
+Ubuntu:
+
+[source]
+----
+# service apache2 start
+# service keystone start
+# service neutron-server start
+[...]
+----
+
+RHEL:
+
+[source]
+----
+# systemctl start openstack-keystone.service
+# systemctl start neutron-server.service
+# systemctl start httpd.service
+[...]
+----
+====

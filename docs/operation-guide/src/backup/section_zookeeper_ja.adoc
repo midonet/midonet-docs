@@ -1,0 +1,208 @@
+[[backup_zookeeper]]
+= ZooKeeper
+
+データのバックアップでは、最新ファイルのスナップショットと、スナップショットが作成されるまでに発生したトランズアクションログ作成を行います。もしタイミングがはっきりしない場合は、データダイレクトリの全体のコピーを作成してください（下記の例）
+
+ZooKeeperのスナップショットとトランズアクションファイルに関する詳細情報は下記を参照ください。 
+https://zookeeper.apache.org/doc/current/zookeeperAdmin.html[ZooKeeper Administrator's Guide]
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== バックアップ
+
+[IMPORTANT]
+====
+NeutronのMySQLデータベースとMidoNetのZooKeeperデータが同期していることを確かにするため、バックアップを開始する前に MidoNet APIをread-onlyにしてください。
+
+MySQLデータベースとMidoNetのZooKeeperデータの両方を同時にバックアップしてください (xref:backup_mysql[] に書かれています) 
+====
+
+. *MidoNet APIをREADONLYに設定*
++
+====
+バックアップ中にトポロジーが変更されないよう、MidoNet APIを`READONLY` にします:
+
+[source]
+----
+# midonet-cli
+midonet> set system-state availability READONLY
+----
+====
+
+. *ZooKeeperコンフィグレーションのバックアップ*
++
+====
+すべてのNSDBノードにおいて、ZooKeeperコンフィグレーションのコピーを作成します:
+
+Ubuntu:
+
+[source]
+----
+# cp /etc/zookeeper/conf/zoo.cfg /tmp/zk_backup/config/
+# cp /var/lib/zookeeper/data/myid /tmp/zk_backup/config/
+----
+
+RHEL:
+
+[source]
+----
+# cp /etc/zookeeper/zoo.cfg /tmp/zk_backup/config/
+# cp /var/lib/zookeeper/myid /tmp/zk_backup/config/
+----
+====
+
+. *ZooKeeperデータのバックアップ*
++
+====
+すべてのNSDBノードにおいて、 ZooKeeperデータのコピーを作成します:
+
+Ubuntu:
+
+[source]
+----
+# cp /var/lib/zookeeper/version-2/* /tmp/zk_backup/data/
+----
+
+RHEL:
+
+[source]
+----
+# cp /var/lib/zookeeper/data/version-2/* /tmp/zk_backup/data/
+----
+====
+
+. *MySQLバックアップの作成*
++
+====
+ZooKeeperとMySQLMySQLデータが同期しているのを確かめるため、バックアップを作成します (xref:backup_mysql[] に記述されています) 
+====
+
+. *MidoNet API をREADWRITEに戻す*
++
+====
+MidoNet API を`READWRITE`に戻します:
+
+[source]
+----
+# midonet-cli
+midonet> set system-state availability READWRITE
+----
+====
+
+== 復元
+
+. *ZooKeeperの停止*
++
+====
+すべてのNSDBノードにおいて、 ZooKeeperサービスを停止します:
+
+[source]
+----
+# service zookeeper stop
+----
+
+[source]
+----
+# systemctl stop zookeeper.service
+----
+====
+
+. *ZooKeeperコンフィグレーションの復元*
++
+====
+すべてのNSDBノードにおいて、 ZooKeeperコンフィグレーションをバックアップから復元します:
+
+Ubuntu:
+
+[source]
+----
+# cp /tmp/zk_backup/config/zoo.cfg /etc/zookeeper/conf/zoo.cfg
+# cp /tmp/zk_backup/config/myid /var/lib/zookeeper/data/myid
+----
+
+RHEL:
+
+[source]
+----
+# cp /tmp/zk_backup/config/zoo.cfg /etc/zookeeper/zoo.cfg
+# cp /tmp/zk_backup/config/myid /var/lib/zookeeper/myid
+----
+====
+
+. *ZooKeeperデータの復元*
++
+====
+すべてのNSDBノードにおいて、ZooKeeperデータをバックアップから復元します:
+
+Ubuntu:
+
+[source]
+----
+# rm /var/lib/zookeeper/version-2/*
+# cp /tmp/zk_backup/data/* /var/lib/zookeeper/version-2/
+----
+
+RHEL:
+
+[source]
+----
+# rm /var/lib/zookeeper/data/version-2/*
+# cp /tmp/zk_backup/data/* /var/lib/zookeeper/data/version-2/
+----
+====
+
+. *Restart ZooKeeper*
++
+====
+すべてのNSDBノードにおいて、 ZooKeeperサービスをスタートします:
+
+Ubuntu:
+
+[source]
+----
+# service zookeeper start
+----
+
+RHEL:
+
+[source]
+----
+# systemctl start zookeeper.service
+----
+====
+
+. *ZooKeeperの稼働を確認*
++
+====
+すべてのNSDBノードにおいて、ZooKeeperが適切に稼働しているか確認します
+
+基本的な確認方法としては `ruok` (Are you ok?) コマンドを実行することで可能です。サーバーが正常に動作していれば、 `imok` (I am ok.) を返します。:
+
+[source]
+----
+# echo ruok | nc 127.0.0.1 2181
+imok
+----
+
+より詳細情報は、More detailed information can be requested with the `stat` コマンドで要求することができます。これによって、パフォーマンスや接続されているクライアントの情報を得ることができます。:
+
+[source]
+----
+# echo stat | nc 127.0.0.1 2181
+Zookeeper version: 3.4.5--1, built on 06/10/2013 17:26 GMT
+Clients:
+ /127.0.0.1:34768[0](queued=0,recved=1,sent=0)
+ /192.0.2.1:49703[1](queued=0,recved=1053,sent=1053)
+
+Latency min/avg/max: 0/4/255
+Received: 1055
+Sent: 1054
+Connections: 2
+Outstanding: 0
+Zxid: 0x260000013d
+Mode: follower
+Node count: 3647
+----
+====

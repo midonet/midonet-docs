@@ -1,0 +1,79 @@
+[router_peering_create_tenant_networks_and_routers]
+= テナントネットワークの作成と（ピア）ルータ
+
+もしすでにテナントルータとそれにピアリングするネットワークを作成済みでしたらこのステップを省いてください。
+このセクションは必要事項を確実に説明しておくためにあります。
+
+*サイト A*
+
+[source]
+----
+# neutron net-create \
+   --tenant-id tenant \
+   SiteATenantNetwork
+----
+
+Network ID: 14ce01e6-af80-11e5-aca9-6730c321a8c7
+
+[source]
+----
+# neutron subnet-create \
+   --tenant-id tenant \
+   14ce01e6-af80-11e5-aca9-6730c321a8c7 \
+   10.0.0.0/24
+----
+
+Subnet ID: 502b8ae2-af80-11e5-8b7e-137be9ecc435
+
+[source]
+----
+# neutron router-create \
+   --tenant-id tenant \
+   SiteATenantRouter
+----
+
+Router ID: 93adda04-af80-11e5-a1de-3f0ca86c2c1c
+
+[source]
+----
+# neutron router-interface-add \
+   93adda04-af80-11e5-a1de-3f0ca86c2c1c \
+   subnet=502b8ae2-af80-11e5-8b7e-137be9ecc435
+----
+
+*サイト B*
+
+[source]
+----
+# neutron net-create \
+   --tenant-id tenant \
+   SiteBTenantNetwork
+----
+
+Network ID: dd3279be-af80-11e5-a647-67e82f86cba5
+
+[source]
+----
+# neutron subnet-create \
+   --tenant-id tenant \
+   dd3279be-af80-11e5-a647-67e82f86cba5 \
+   10.0.1.0/24
+----
+
+Subnet ID: e253ffb2-af80-11e5-bd02-c36540fab896
+
+[source]
+----
+# neutron router-create \
+   --tenant-id tenant \
+   SiteBTenantRouter
+----
+
+Router ID: e86e6144-af80-11e5-bf25-8f151b61410e
+
+[source]
+----
+# neutron router-interface-add \
+   e86e6144-af80-11e5-bf25-8f151b61410e \
+   subnet=e253ffb2-af80-11e5-bd02-c36540fab896
+----

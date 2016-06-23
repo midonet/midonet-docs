@@ -1,0 +1,172 @@
+[[backup_cassandra]]
+= Cassandra
+
+MidoNet は、コネクショントラッキングとNAT情報をAgent同士で直接交換していますが、Cassandraにもバックアップとして保持しています。
+
+通常のパケットプロセスではCassandraへのアクセスは不要ですが、Agentの再起動においてポートマイグレーションのサポートとコネクションを保持しておくことは必要です。Agentは新規のローカルインターフェースが仮想ネットワークに接続する際には必ずCassandraの情報を引用します。
+
+もし、上記のようにCassandraの情報に依存しないのであれば、Cassandraのフルバックアップは必要ありません。
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== バックアップ
+
+. *Cassandra停止*
++
+====
+すべてのNSDBノードにてCassandraを停止する:
+
+Ubuntu:
+
+[source]
+----
+# service cassandra stop
+----
+
+RHEL:
+
+[source]
+----
+# systemctl stop cassandra.service
+----
+====
+
+. *Cassandraコンフィグレーションのバックアップ*
++
+====
+すべてのNSDBノードにて、Cassandraコンフィグレーションをコピーする:
+
+Ubuntu:
+
+[source]
+----
+# cp /etc/cassandra/cassandra.yaml /tmp/cass_backup/config/
+----
+
+RHEL:
+
+[source]
+----
+# cp /etc/cassandra/conf/cassandra.yaml /tmp/cass_backup/config/
+----
+====
+
+. *Backup Cassandra Data*
++
+====
+すべてのNSDBノードにて、 Cassandraデータのコピーを作成する:
+
+[source]
+----
+# cp -r /var/lib/cassandra/* /tmp/cass_backup/data/
+----
+====
+
+. *Restart Cassandra*
++
+====
+すべてのNSDBノードにて、 Cassandraサービスをスタートする:
+
+[source]
+----
+# service cassandra start
+----
+
+[source]
+----
+# systemctl start cassandra.service
+----
+====
+
+== Restore
+
+. *Stop Cassandra*
++
+====
+すべてのNSDBノードにて、Cassandraサービスを停止する:
+
+[source]
+----
+# service cassandra stop
+----
+
+[source]
+----
+# systemctl stop cassandra.service
+----
+====
+
+. *Cassandraコンフィグレーションを復元する*
++
+====
+すべてのNSDBノードにて、 Cassandraコンフィグレーションをバックアップから復元する:
+
+Ubuntu:
+
+[source]
+----
+# cp /tmp/cass_backup/config/cassandra.yaml /etc/cassandra/
+----
+
+RHEL:
+
+[source]
+----
+# cp /tmp/cass_backup/config/cassandra.yaml /etc/cassandra/conf/
+----
+====
+
+. *Restore Cassandra Data*
++
+====
+すべてのNSDBノードにて、Cassandraデータをバックアップから復元する:
+
+[source]
+----
+# rm -r /var/lib/cassandra/*
+# cp -r /tmp/cass_backup/data/* /var/lib/cassandra/
+----
+====
+
+. *Restart Cassandra*
++
+====
+すべてのNSDBノードにて、 Cassandraサービスをスタートする:
+
+Ubuntu:
+
+[source]
+----
+# service cassandra start
+----
+
+RHEL:
+
+[source]
+----
+# systemctl start cassandra.service
+----
+====
+
+. *Verify Cassandra Operation*
++
+====
+すべてのNSDBノードにて、Cassandraが適切に動いているか確認する
+
+基本的な確認は、`nodetool status`コマンドを実行することでできます。
+このコマンドは、サービスが正常に動いている場合、最初のコラムで  `UN` (Up / Normal) と返してきます:
+
+[source]
+----
+$ nodetool -host 127.0.0.1 status
+[...]
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--  Address    Load       Tokens  Owns   Host ID                               Rack
+UN  192.0.2.1  123.45 KB  256     33.3%  11111111-2222-3333-4444-555555555555  rack1
+UN  192.0.2.2  234.56 KB  256     33.3%  22222222-3333-4444-5555-666666666666  rack1
+UN  192.0.2.3  345.67 KB  256     33.4%  33333333-4444-5555-6666-777777777777  rack1
+----
+====

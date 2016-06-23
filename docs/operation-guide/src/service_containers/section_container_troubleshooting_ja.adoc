@@ -1,0 +1,142 @@
+[[service_container_troubleshooting]]
+= トラブルシューティング
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+[[service_container_troubleshooting_agent]]
+== エージェントのトラブルシューティング
+
+MidoNet エージェントでは、サービスコンテナはコンテナサービス（Container Service）で管理されます。このサービスはローカルホストに対応するポートバインディング全てをモニターします。バインドされたポートがコンテナに接続されていると検出(これは、`containerId`フィールドをポートオブジェクトから確認して行います)された場合、サービスはコンテナデータをロードし、現在のコンテナ状態を追跡するコンテナのステートマシンを初期化します。
+
+コンテナの状態遷移は次のものです。:
+
+* _Created_ コンテナが新しいポートバインディング用に作成されるか、既存のポートバインディングが新しいコンテナを参照した場合。
+* _Updated_ コンテナデータ(_service type_、
+_container group_ 、 _configuration_を含む)が変更された場合。
+* _Deleted_ コンテナのポートバインディングが削除されるか、既存のポートバインディングの参照が新しいコンテナを参照した場合。
+
+初期化中にコンテナサービスは現在のエージェントのclass-pathで、サポートされたコンテナ全ての実装を検索します。これらは、エージェントにパッケージされたコンテナか、スタンドアローンライブラリとしてインストールされたコンテナのいずれかです。次の表にMidoNetエージェントにパッケージされたコンテナ実装一覧を示します。
+
+
+[width="100%",cols="20%,10%,10%,50%",options="header",]
+|=======================================================================
+|Service Type |Container Version |MidoNet Version |Description
+|IPSEC |1 |>= 5.1.0 |Implements an IPSec endpoint for VPNaaS.
+|=======================================================================
+
+コンテナはサービスタイプで一意に識別可能です。同一コンテナに複数の実装がインストールされている場合、エージェントは一番大きなバージョン番号で選択します。エージェントログのログレベルを`INFO`に設定し、初期化中にコンテナサービスでロードされたコンテナ実装を確認することが可能です。ロガー名は`org.midonet.containers`です。
+
+-----------------------------
+INFO  [main] containers -  Scanning classpath for service containers
+INFO  [main] containers -  Service container: IPSEC version 1
+INFO  [main] containers -  Starting Containers service for host <hostId>
+-----------------------------
+
+=== トラブルシューティングのチェックリスト
+[[service_container_troubleshooting_agent_checklist]]
+
+コンテナが指定されたComputeを開始できない場合、以下のチェックリストで問題の原因を解決してください。
+
+* mn-confを使用し、コンテナのログレベルを`DEBUG`に設定します。:
+
+-----------------------------
+mn-conf set -t default 'agent.loggers.org.midonet.containers : DEBUG'
+mn-conf set -h <hostId> 'agent.loggers.org.midonet.containers : DEBUG'
+-----------------------------
+
+* エージェントコンフィギュレーションでコンテナサービスが有効であることを確認してください。コンフィギュレーションはエージェント起動中にログで記録されます。
+
+-----------------------------
+"containers" : {
+    "enabled" : true,
+    "scheduler_bad_host_lifetime" : "300s",
+    "scheduler_timeout" : "10s"
+}
+-----------------------------
+
+* コンテナサービスが開始したことをエージェントログで確認してください。:
+
+-----------------------------
+DEBUG [containers-1] containers -  Container service is running with weight 1
+-----------------------------
+
+*  エージェントの_container weight_がプラスの整数であることを確認してください。ウェイトがゼロのエージェントは、コンテナを開始することはできません。コンテナのウェイトがゼロである場合、MidoNet CLIを使ってエージェントホストにプラスのウェイトをセットしてください。
+
+-----------------------------
+midonet> host host0 set container-weight 1
+-----------------------------
+
+* エージェントがコンテナポートに対応するポートバインディングを検出していることを確認してください。 コンテナポートは、MidoNet CLIを用いて確認できます。バインディングが検出できない場合、クラスターログを使用してコンテナがこのホストでスケジュールされているかどうかを調べてください。
+
+-----------------------------
+DEBUG [devices-service-1] containers -  Host <hostId> bindings updated: Set(<portId>)
+-----------------------------
+
+* エージェントがコンテナデータをNSDBから読み込み、コンテナを作成するためにプロセスを開始していることを確認してください。_service type_ は初期化中に検出された(例えば `IPSEC `などの)コンテナタイプのいずれかとマッチする必要があります。
+
+-----------------------------
+INFO  [containers-1] containers -  Create container for port binding ContainerPort{portId=<portId>, hostId=<hostId>, interfaceName=<...>, containerId=<containerId>, serviceType=<serviceType>, groupId=<...>, configurationId=<...>}
+-----------------------------
+
+* サービスが現在のサービスタイプのコンテナ実装の `create `メソッドを呼び出していることを確認してください。このイベントでログで記録されたメッセージは、あるサービスタイプに固有です。例えば、IPSecコンテナでは、以下のログメッセージを表示します。このイベントのロガー名は、コンテナ実装に依存します。IPSec コンテナの場合は、 `org.midonet.containers.ipsec `です。
+
+-----------------------------
+INFO  [containers-1] ipsec -  Create IPSec container for ContainerPort{portId=<portId>, hostId=<hostId>, interfaceName=<...>, containerId=<containerId>, serviceType=IPSEC, groupId=<...>, configurationId=<...>}
+-----------------------------
+
+コンテナ実装は、コンテナ内のコンテナコンフィギュレーションと開始されたプロセスを示す、追加のメッセージをログで記録することができます。 
+* コンテナを更新した場合、サービスが更新を検出したことを確認してください。 _service type_ は、初期化中に検出された(例えば`IPSEC`などの)コンテナタイプのいずれかとマッチする必要があります。
+
+
+-----------------------------
+DEBUG [devices-service-1] containers -  Container <containerId> updated with type <serviceType> group <groupId> configuration <configurationId>
+-----------------------------
+
+* コンテナを削除する場合、サービスが削除を検出し、現在のサービスタイプのコンテナ実装の`delete`メソッドを呼び出していることを確認してください。
+
+-----------------------------
+DEBUG [devices-service-1] containers -  Container <containerId> deleted for binding PortBinding{portId=<portId>, hostId=<hostId>, interfaceName=<...>, containerId=<containerId>} upon completion
+INFO  [containers-1] containers -  Delete container ContainerPort{portId=<portId>, hostId=<hostId>, interfaceName=<...>, containerId=<containerId>, serviceType=<serviceType>, groupId=<...>, configurationId=<...>}
+-----------------------------
+
+コンテナ実装は、コンテナプロセスの停止などコンテナの分解の詳細を報告する、追加のメッセージをログで記録することができます。例えば、IPSecコンテナで`delete`メソッドを呼ぶと以下のログメッセージが得られます。
+
+-----------------------------
+INFO  [containers-1] ipsec -  Deleting IPSec container <name>
+INFO  [containers-1] ipsec -  Cleaning up IPSec container <name>
+-----------------------------
+
+[[service_container_log]]
+=== コンテナのログ
+
+MidoNet エージェントは、実行中のコンテナのローカルな記録を作成します。このログの主な目的は、エージェントが故障した場合にコンテナを追跡し、次回エージェントが再開する時にクリーンアップ処理を行うためです。しかしながら、コンテナログはアクティブなコンテナ特定するためも有効で、問題解決にも役立ちます。
+
+コンテナログディレクトリの場所は、エージェントの起動スクリプト内のJVMのシステムプロパティ`midolman.log.dir`により設定可能です。デフォールト値は`/var/log/midolman`です。ログディレクトリの名前は、設定キー`agent.containers.log_directory`の`mn-conf`を使って構成可能で、デフォールト値は`containers`です。
+
+コンテナログディレクトリには、ローカルエージェントにより開始されるコンテナ毎にファイルがあり、そのファイル名は`<コンテナ名>.<サービスタイプ>`です。例えば、次のエージェントはIPSec コンテナを2つ実行します。
+
+
+-----------------------------
+# ls /var/log/midolman/containers/ -la
+total 8
+drwxr-xr-x 2 root root 4096 Feb 22 18:42 .
+drwxr-xr-x 3 root root 4096 Feb 22 18:13 ..
+-rw-r--r-- 1 root root    0 Feb 22 18:42 vpn-60df5fda.IPSEC
+-rw-r--r-- 1 root root    0 Feb 22 18:42 vpn-dc56189c.IPSEC
+-----------------------------
+
+[[service_container_logging]]
+=== コンテナプロセスのログ記録
+
+コンテナ内部で実行されるプロセスは、追加でログ情報を提供することが可能です。適切である場合には、コンテナ実装は、ログするメッセージを同じまたは別のロガー名を使ってエージェントログにリレーすることができます。ログするデータは、ローカルファイルシステムから読み込まれるか、名前付きパイプ(FIFOファイル)を使って交換することが可能です。
+
+IPSec コンテナでは名前付きパイプを用い、このコンテナで実行されているIPSecプロセス_pluto_のログデータを読み込みます。ログメッセージは、別のロガー名`org.midonet.containers.ipsec.ipsec-pluto`を用い、ログレベルをDEBUGに設定してエージェントログに追加されます。
+
+
+-----------------------------
+DEBUG [io-1] ipsec-pluto -  <timestamp>: NSS DB directory: sql:/etc/ipsec.d
+DEBUG [io-1] ipsec-pluto -  <timestamp>: NSS initialized
+DEBUG [io-1] ipsec-pluto -  <timestamp>: Starting Pluto (Libreswan Version v3.14-dirty-master XFRM(netkey) KLIPS NSS DNSSEC XAUTH_PAM NETWORKMANAGER CURL(non-NSS) LDAP(non-NSS)) pid:21787
+-----------------------------

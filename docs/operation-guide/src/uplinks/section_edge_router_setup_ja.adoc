@@ -1,0 +1,51 @@
+[[edge_router_setup]]
+= エッジルーターのセットアップ
+
+v5.0より以前は、Neutronを用いて、ゲートウェイをセットアップする方法はたった一つだけでした。その方法とは、Neutron内で外部ネットワークが生成された際にプロバイダールーターと呼ばれる特別なゲートウェイルーターが自動的に生成される方法でした。プロバイダールーターはクラウドのエッジ (端) にあり、アップリンク・ルーターとインターフェースで連結します。プロバイダールーターは通常BGPが構成されていた場所です。このアプローチの最も大きな制約は、ルーターの代わりにエッジにL2ネットワークを持ちたい場合を想定していないということでした。他の制約としては、クラウド全体に対してそのようなルーターを一つしか作れないということでした。
+
+v5.0からはこのような制約は取り除かれており、Neutron APIを用いて自分のゲートウェイを、L2ネットワークとして、または好きなだけ多くのルーターが付いたルーターとしてデザインすることができます。
+
+主要な変更点が二つあります。:
+
+*エッジルータ*
+
+プロバイダールータは、外部ネットワークが作成された際に自動的に生成されることはありません。その代わりに、標準のNeutron APIを用いてエッジルータと呼ばれるエッジゲートウェイルータを作成します。このアプローチで、複数のエッジ・ルーターを、任意で作成することができます。
+
+*ゲートウェイ仮想トポロジー*
+
+以前のモデルでは、プロバイダールータはテナントルータに直接接続され、外部ネットワークがプロバイダールータにつながっていました。
+
+新しいモデルでは、外部ネットワークはエッジルータとテナントルータの間に存在します。
+
+ゲートウェイトポロジを作成するには、以下のようなNeutronコマンドを使います。
+
+標準Neutronルータを作成:
+
+[source]
+neutron router-create <EDGE_ROUTER_NAME>
+
+エッジルータを外部ネットワークに接続:
+
+[source]
+neutron router-interface-add <EDGE_ROUTER_ID> <EXT_SUBNET_ID>
+
+クラウド外部の物理ネットワークを意味する「アップリンク」ネットワークを作成:
+
+[source]
+neutron net-create <UPLINK_NET_NAME> --tenant_id admin --provider:network_type uplink
+
+アップリンクネットワークにて使用されるCIDRに適合したアップリンクネットワーク向けのサブネットを作成
+(他のルーターに直接接続されている場合は/30で):
+
+[source]
+neutron subnet-create --tenant_id admin --disable-dhcp --name <UPLINK_SUBNET_NAME> <UPLINK_NET_NAME> <CIDR>
+
+仮想ポートがゲートウェイホスト上の特定のNICに結合されるように、使用したい特定のIPおよびその他詳細条件とともにアップリンクネットワーク上にポートを作成します:
+
+[source]
+neutron port-create <UPLINK_NET_ID> --binding:host_id <HOST_NAME> --binding:profile type=dict interface_name=<INTERFACE_NAME> --fixed-ip ip_address=<IP_ADDR>
+
+アップリンクポートをエッジルータに接続します:
+
+[source]
+neutron router-interface-add <EDGE_ROUTER_ID> port=<UPLINK_PORT_ID>

@@ -1,0 +1,54 @@
+[[backup_neutron]]
+= Neutron
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== バックアップ
+
+. *Neutronコンフィグレーションのバックアップ*
++
+====
+Neutronコンフィグレーションのコピーを作成します:
+
+[source]
+----
+# cp /etc/neutron/neutron.conf /tmp/neutron_backup/config/
+# cp /etc/neutron/plugins/midonet/midonet.ini /tmp/neutron_backup/config/
+----
+====
+
+== 復元
+
+. *Neutronコンフィグレーションの復元*
++
+====
+Neutronコンフィグレーションをバックアップから復元します:
+
+[source]
+----
+# cp /tmp/neutron_backup/config/neutron.conf /etc/neutron/
+# cp /tmp/neutron_backup/config/midonet.ini /etc/neutron/plugins/midonet/
+----
+====
+
+. *Neutronのリスタート*
++
+====
+Neutronサービスをリスタートします。
+
+Ubuntu:
+
+[source]
+----
+# service neutron-server restart
+----
+
+RHEL:
+
+[source]
+----
+# systemctl restart neutron-server.service
+----
+====

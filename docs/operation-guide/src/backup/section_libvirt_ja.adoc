@@ -1,0 +1,52 @@
+[[backup_libvirt]]
+= Libvirt
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== バックアップ
+
+. *Libvirtコンフィグレーションのバックアップ*
++
+====
+コンピュートノードにて、Libvirtコンフィグレーションのコピーを作成します:
+
+[source]
+----
+# cp /etc/libvirt/qemu.conf /tmp/libvirt_backup/
+----
+====
+
+== 復元
+
+. *Libvirtコンフィグレーションの復元*
++
+====
+Libvirtコンフィグレーションをバックアップから復元します:
+
+[source]
+----
+# cp /tmp/libvirt_backup/qemu.conf /etc/libvirt/
+----
+====
+
+. *Libvirtの再起動*
++
+====
+Libvirtサービスを再起動します。
+
+Ubuntu:
+
+[source]
+----
+# service libvirt-bin restart
+----
+
+RHEL:
+
+[source]
+----
+# systemctl restart libvirtd.service
+----
+====

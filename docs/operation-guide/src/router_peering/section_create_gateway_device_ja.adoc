@@ -1,0 +1,85 @@
+[router_peering_create_gateway_device]
+= VTEPルータゲートウェイデバイスの作成
+
+どのルータもVTEPルータにすることができます。ルータは、「router_vtep」タイプのゲートウェイデバイスと登録されれば、VTEPルータになります。
+
+「--tunnel-ip」オプション(CLI)は複数回指定でき、「tunnel_ips」フィールド(API)はIPアドレスのリストを受け入れるのに対し、VTEPルータでは1つのIPアドレスしか受け入れません。
+
+
+*サイト A*
+
+[source]
+----
+# neutron router-create \
+   --tenant-id admin \
+   SiteAVtepRouter
+----
+
+Router ID: 4bd9f56e-a792-11e5-b76a-9b045b18900a
+
+_Via Neutron CLI (Mitaka):_
+
+[literal,subs="quotes"]
+----
+# neutron gateway-device-create \
+   --tenant-id admin \
+   --name SiteAGatewayDevice \
+   --type router_vtep \
+   --resource-id 4bd9f56e-a792-11e5-b76a-9b045b18900a \
+   --tunnel-ip 200.0.0.1
+----
+
+_Via Neutron API:_
+
+[literal,subs="quotes"]
+----
+# POST http://neutron_api_url/gw/gateway_devices
+   '{"gateway_device": {
+      "tenant_id": "admin",
+      "name": "SiteAGatewayDevice",
+      "type": "router_vtep",
+      "resource_id": "4bd9f56e-a792-11e5-b76a-9b045b18900a",
+      "tunnel_ips": ["200.0.0.1"]}}'
+----
+
+Gateway device ID: 5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8
+
+*サイト B*
+
+[source]
+----
+# neutron router-create \
+   --tenant-id admin \
+   SiteBVtepRouter
+----
+
+Router ID: 7b0bc88c-af83-11e5-9ec4-bbe5550f7e92
+
+_Via Neutron CLI (Mitaka):_
+
+[literal,subs="quotes"]
+----
+# neutron gateway-device-create \
+   --tenant-id admin \
+   --name SiteBGatewayDevice \
+   --type router_vtep \
+   --resource-id 7b0bc88c-af83-11e5-9ec4-bbe5550f7e92 \
+   --tunnel-ip 200.0.0.2
+----
+
+_Via Neutron API:_
+
+[literal,subs="quotes"]
+----
+# POST http://neutron_api_url/gw/gateway_devices
+   '{"gateway_device": {
+      "tenant_id": "admin",
+      "name": "SiteBGatewayDevice",
+      "type": "router_vtep",
+      "resource_id": "7b0bc88c-af83-11e5-9ec4-bbe5550f7e92",
+      "tunnel_ips": ["200.0.0.2"]}}'
+----
+
+Gateway device ID: 8e47afce-af83-11e5-9b76-4b95f3de9711
+
+`--tunnel-ip` オプション (CLI)は繰り返し特定でき、そして`tunnel_ips`フィールド (API) はIPアドレスのリストを受け付けますが、VTEPルータの場合、一つのIPアドレスしか受け付けられません。

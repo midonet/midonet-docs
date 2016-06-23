@@ -1,0 +1,83 @@
+[[service_containers]]
+= サービスコンテナ
+
+MidoNetは、MidoNet 仮想トポロジーに接続されたnamespacesで実行されるサードパーティソフトウェアを使用して、L4LB(レイヤ4ロードバランサ)、VPN あるいは BGPなどのネットワーク・ファンクション・バーチャライゼーション（NFV）をサポートします。コンポーネントの容易な組み込みとnamespacesのスケジューリング制御を行うため、MidoNet 5.1では、サービスコンテナという概念が導入されました。このサービスコンテナは、現在、VPNaaSでのみ使用されています。
+
+サービスコンテナは、MidoNet仮想デバイスにポートで接続されたLinuxのnamespacesで、サービスコンテナの種類に従って設定されたプログラムセットを実行します。
+
+サービスコンテナは、対応するトポロジーオブジェクトを持つMidoNetクラスターにより自動的に起動され、破壊されます。例えば、IPSecコンテナは、VPN接続へのトラフィックを暗号化し、セキュリティアソシエーションを処理しますが、ルーターに最初のNeutronの `VpnService` を作成する時に起動され、最後のVpnServiceを削除する時に破壊されます。
+
+利用可能な物理Compute上のコンテナスケジューリングもMidoNetクラスターにより管理されます。 コンテナスケジューリングは、設定可能なスケジューリングポリシーの一つであるComputeのアベイラビリティ、そして、クラウドオペレータが異なるCompute間でのコンテナ負荷を区別できるようにするComputeホスト毎のコンテナウェイトパラメータを考慮します。
+
+
+*アーキテクチャ*
+
+サービスコンテナは、仮想デバイスや仮想ポートのようにMidoNet トポロジー内に存在するオブジェクトです。 サービスコンテナは作成された時に既存の仮想ポートへリンクされ、これが _container port_ となります。コンテナのnamespacesは、このポートを通じてMidoNetの仮想トポロジー内部にある他のデバイスとトラフィックを交換します。
+
+_service type_ には、コンテナのnamespacesとその内部で実行されるプロセスが記載されます。 _configuration identifier_ には、namespacesとコンテナプロセスがどう設定されているかを示すMidoNetトポロジ内のオブジェクトへの参照が格納されます。
+
+コンテナスケジューリングポリシーは、_service container group_オブジェクトにより指定されます。従って、複数のコンテナが同じコンテナグループを参照して、同一のスケジューリングポリシーを共有することが可能です。MidoNetクラスターは、コンテナグループで定義されたようにポリシーを使用し、コンテナを起動する物理Computeを決定します。このスケジューリングは、あるホスト上のコンテナポートのバインディング経由で制御されます。
+
+MidoNet エージェントがスケジュールされたコンテナを起動する時、特定コンテナタイプにカスタマイズされた一連の手順を実行し、この手順でコンテナプロセスを設定して開始します。これは外部ライブラリからロードさせることが可能で、必要に応じて追加でコンテナ化されたサービスを、新しいバージョンのエージェントをインストールする必要なしにクラウドオペレータがデプロイすることが可能です。
+
+サービスコンテナを実行するMidoNet エージェントは、同じコンテナライブラリを用いて、コンテナの状態をモニターしてNSDBへ報告します。 コンテナに障害が発生した場合には、MidoNetクラスターはREST API経由で報告し、コンテナスケジューリングを稼働させることが可能です。
+
+
+*一般フィールド*
+
+次の表にMidoNetトポロジー内のサービスコンテナを説明するフィールド一覧を示します。
+
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`id` |UUID |The service container identifier.
+|`serviceType` |String |A unique name that identifies the type of the service
+container.
+|`groupId`|UUID |The identifier of the service container group that describes
+the scheduling policy.
+|`portId` |UUID |The identifier of the container virtual port. This is an
+exterior port connected to a device from the virtual topology. The port's
+binding information describes the compute host where the container is launched.
+|`configurationId` |UUID |The identifier of an object from the MidoNet topology
+that provides the container configuration. The type of this object is specific
+for a particular service type, and the agent library handling that service type
+is responsible for giving it the proper interpretation.
+|=======================================================================
+
+*状態フィールド*
+
+次の表にサービスコンテナの状態を説明するフィールド一覧を示します。
+
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`statusCode` |String |Indicates the running state of a container, it can
+be one of the following: `starting`, `running`, `stopping`, `stopped` and
+`error`.
+|`statusMessage` |String |A custom status message, usually containing
+information about the processes running inside the container.
+|`hostId` |UUID |The identifier of the agent host where the container is
+running. This field is present only for starting, running or stopping,
+containers.
+|`namespaceName` |String |The name of the Linux namespace hosting the
+container.
+|`interfaceName` |String |The name of the virtual Ethernet interface connected
+to the container.
+|=======================================================================
+
+*コンテナグループフィールド*
+
+次の表にサービスコンテナグループを説明するフィールド一覧を示します。 サービスコンテナのスケジューリングとスケジューリングポリシーについての詳細情報は下記をご覧ください
+ xref:service_container_scheduling[].
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`id` |UUID |The service container group identifier.
+|`hostGroupId` |UUID |The identifier of the host group when using host group
+scheduling policy.
+|`portGroupId` |UUID |The identifier of the port group when using port group
+scheduling policy.
+|=======================================================================

@@ -1,40 +1,23 @@
 [[vxlan_flooding_proxy]]
-= VXLAN Flooding Proxy
+= VXLAN フラッディング・プロキシ
 
-The VXLAN Gateway controller running in the MidoNet Cluster nodes will
-try to populate the MAC Remote tables in VTEPs so that the switch can
-tunnel traffic directly to the exact hypervisor that hosts the
-destination VM.
+MidoNet クラスター・ノード上で動作しているVXLAN ゲートウェイ・コントローラは、スイッチが転送先VMをホストするハイパーバイザーに直接トラフィックをトンネルできるよう、VTEPのMAC リモート・テーブルを追加しようとします。
 
-Depending on the virtual topology, it may not always be possible to
-instruct the VTEP to tunnel to a specific physical location.  This will
-typically happen on BUM (Broadcast, Unknown and Multicast) traffic.  In
-these cases MidoNet will instruct the VTEP to tunnel the packet to a
-service node in order for it to be simulated and delivered to the right
-destination.  This node is called the "Flooding Proxy", and it has the
-same properties:
+バーチャル・トポロジーによっては、VTEPに対し、特定の物理機器に対してトンネルを作るように指示することができないことがあります。これは、特にBUM (Broadcast, Unknown and Multicast) トラフィック上で生じます。このような場合MidoNet は、サービス・ノードでシミュレートされ正しい転送先に届けられるよう、サービス・ノードにトンネルを作るようVTEPに指示を出します。そのノードは、「フラッディング・プロキシ」と呼ばれます。:
 
-  - The Flooding Proxy (FP) is one single node elected among all the
-    MidoNet hosts that belong to the same tunnel zone as the VTEP.
-  - The FP will be in charge of simulating BUM traffic, and tunnelling
-    the packet to their destination (typically a hypervisor).
-  - Upon failure of the currently elected Flooding Proxy, the MidoNet
-    cluster will use a weighted algorithm to elect a new "Flooding
-    Proxy" role, and instruct the VTEP to tunnel all BUM traffic to it
-    for simulation.
 
-The weight assigned to a MidoNet Agent defaults to 1, and can be
-altered issuing the following command on the MidoNet CLI:
+  - フラッディング・プロキシ (FP) は、VTEPと同じトンネル・ゾーンに属しているすべて
+   のMidoNetホストの中から選ばれた単一のノードです。
+  - FP は、BUMトラフィックをシミュレートし、転送先（一般的に
+    ハイパーバイザー）に対してパケットをトンネリングします。
+  - フラッディング・プロキシに故障が生じた場合、MidoNet クラスターは、調整済みのアルゴリズムを使って新しい「フラッディング・プロキシ」役を選び、すべてのBUMトラフィックが新しいプロキシでシミュレーションされるようVTEPに指示します。
+
+MidoNet Agentに割り当てられるウエイトはデフォルトで1に設定されており、MidoNet CLIに以下のコマンドを出すことで、変更できます：
 
 [source]
 host <host-alias> set flooding-proxy-weight <new-weight>
 
-Higher weights will imply a higher probability of the host being chosen
-as Flooding Proxy.
+ウエイトが高いほど、そのホストがフラッディング・プロキシに選ばれる可能性が高まります。フラッディング・プロキシに設定される候補からAgentを除外するには、０のウエイトを割り当ててください。
 
-To exclude an Agent from the candidate set for Flooding Proxy, assign a
-weight of 0.
+フラッディング・プロキシが大量のトラフィックを処理する可能性があることに注意してください。そのような状況が想定される場合、プロキシ専用のホストに、高いウエイトを割り当てることをお勧めします。
 
-Note that the Flooding Proxy may potentially process a large volume of
-traffic.  In these circumstances it is recommended to assign a much
-higher weight to a dedicated host.

@@ -1,0 +1,84 @@
+[[service_containers_configuration]]
+= コンフィギュレーション
+
+コンテナは、`mn-conf`を使用して設定されます。MidoNet エージェントとMidNet クラスターは、共にコンテナサービスを実行します。コンテナサービスは、エージェントではコンテナを起動し、クラスターでは異なるCompute全体でコンテナをスケジュールする役割を持ちます。
+
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+[[agent_containers_configuration]]
+== エージェント コンフィギュレーション
+
+エージェントのコンテナコンフィギュレーションは、`agent.containers ` namespacesにあります。次の表に設定キーの一覧を示します。設定キーの値変更を有効にするにはエージェントを再起動が必要です。
+
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`enabled` |Boolean |Whether an agent instance runs the containers service.
+This allows the operator to disable containers across all compute hosts or at
+specific compute hosts. The default is `true`.
+|`timeout` |Duration |The timeout for a container operation to complete. The
+default is 30 seconds.
+|`shutdown_grace_time` |Duration |The timeout for all containers to stop
+gracefully when the containers service is stopped. The default is 30 seconds.
+|`log_directory` |String |The name of the log directory where the agent writes a
+record of all container operations. The log is used to cleanup containers
+following an agent failure. The default value is `containers`. The directory
+is created in the same directory as the agent log, which is configurable using
+the `midolman.log.dir` JVM system property in the agent startup script, and
+which defaults to `/var/log/midolman`.
+|=======================================================================
+
+特定コンテナタイプには、次の設定キーを追加することが可能です。
+
+[[ipsec_containers_configuration]]
+=== IPSec コンテナ コンフィギュレーション
+
+次の表にVPNaaSを実現するために使用されるIPSecコンテナの設定キーの一覧を示します。 キーは全て `agent.containers.ipsec` namespacesにあります。
+
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`logging_enabled` |Boolean |Indicates whether the IPSec container writes to
+the agent log the log messages reported by the IPSec processes running inside
+the container. The default is `true`. When enabled, these messages are logged
+using the logger name `org.midonet.containers.ipsec.ipsec-pluto`.
+|`logging_poll_interval` |Duration |The polling interval for the IPSec
+container log. The default is 250 milliseconds.
+|`logging_timeout` |Duration |The timeout when closing the log file. The
+default is 3 seconds.
+|`status_update_interval` |Duration |The interval for updating the container
+status and health. The default is 5 seconds.
+|=======================================================================
+
+[[cluster_containers_configuration]]
+== クラスター コンフィギュレーション
+
+クラスターのコンテナコンフィギュレーションは、namespaces `cluster.containers` にあります。次の表に設定キーの一覧を示します。設定キーの値変更を有効にするにはクラスタの再起動が必要です。
+
+
+[width="100%",cols="30%,10%,60%",options="header",]
+|=======================================================================
+|Field Name |Type |Description
+|`enabled` |Boolean |Whether a cluster node runs the containers service. This
+allows the operator to disable containers across all cluster nodes or at
+specific cluster nodes. The default is `true`.
+|`scheduler_timeout` |Duration |The timeout for a container to reach `running`
+state when scheduled at a compute host. The default is 10 seconds. For more
+information on container scheduling see xref:service_container_scheduling[].
+|`scheduler_bad_host_lifetime` |Duration |When an agent fails to start a
+container within the expected timeout interval, that host is considered bad
+and not used for subsequent scheduling operations of the same container. This
+key controls for how long a host is considered bad after failing to launch a
+container. The default is 5 minutes. Set this value to zero (0) to disable
+bad hosts for scheduling. For more information on container scheduling see
+xref:service_container_scheduling[].
+|=======================================================================
+
+[NOTE]
+
+複数のクラスターノードでコンテナサービスが有効である場合、分散リーダー選出(distributed leader election)にて決定される、同時にただ１つのクラスターノードがコンテナスケジューリングを実際に実行します。リーダーノードに障害がある場合、別のノードがスケジューリングの役割を自動的に引き受けます。フェイルオーバー待ち時間は、設定されたZooKeeperのセッションタイムアウト `zookeeper.session_timeout `と同じです。
