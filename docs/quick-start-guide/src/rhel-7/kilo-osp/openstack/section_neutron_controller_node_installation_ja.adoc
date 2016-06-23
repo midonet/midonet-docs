@@ -1,0 +1,180 @@
+= コントローラーノード
+
+[IMPORTANT]
+Follow the Red Hat ドキュメントの下記の指示に従ってください。
+https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/7/installation-reference/chapter-7-install-openstack-networking[Chapter 7. Install OpenStack Networking]
+ただし *後述されている差異部分もご確認下さい*。
+
+. *7.1. OpenStack ネットワーキングパッケージのインストール*
++
+====
+ドキュメントに書かれている通りには*せずに* 下記のパッケージをインストールしてください:
+
+[source]
+----
+# yum install openstack-neutron openstack-utils openstack-selinux python-neutron-plugin-midonet
+----
+====
+
+. *7.2.1. OpenStack Networkingプラグインを設定*
++
+====
+ドキュメントに書かれている通りには*せずに* 、下記のステップを行ってください:
+
+.. `/etc/neutron/neutron.conf`ファイルを編集し、`[DEFAULT]`セクションにある下記のキーを設定してください。:
++
+[source]
+----
+[DEFAULT]
+...
+core_plugin = midonet.neutron.plugin_v2.MidonetPluginV2
+...
+dhcp_agent_notification = False
+...
+allow_overlapping_ips = True
+----
+
+.. MidoNet プラグインのためのディレクトリを作成してください:
++
+[source]
+----
+mkdir /etc/neutron/plugins/midonet
+----
+
+.. `/etc/neutron/plugins/midonet/midonet.ini`ファイルを作成し、下記を含むように編集してください。:
++
+[literal,subs="quotes"]
+----
+[MIDONET]
+# MidoNet API URL
+midonet_uri = http://*_controller_*:8181/midonet-api
+# MidoNet administrative user in Keystone
+username = *_midonet_*
+password = *_MIDONET_PASS_*
+# MidoNet administrative user's tenant
+project_id = services
+----
+
+.. Neutron から MidoNetコンフィグレーションにシンボリックリンクを作成してください。:
++
+[source]
+----
+# ln -s /etc/neutron/plugins/midonet/midonet.ini /etc/neutron/plugin.ini
+----
+====
+
+
+. *7.2.2. OpenStackネットワーキングデータベースの作成*
++
+====
+ドキュメントに書かれている通りには*せずに* 、下記のようにデータベースをステップを作成してください:
+
+[literal,subs="quotes"]
+----
+$ mysql -u root -p
+CREATE DATABASE neutron character set utf8;
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY '*_NEUTRON_DBPASS_*';
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '*_NEUTRON_DBPASS_*';
+FLUSH PRIVILEGES;
+quit
+----
+
+その後、`neutron-db-manage` コマンドを実行してください:
+
+[source]
+----
+# neutron-db-manage \
+  --config-file /usr/share/neutron/neutron-dist.conf \
+  --config-file /etc/neutron/neutron.conf \
+  --config-file /etc/neutron/plugin.ini \
+  upgrade head
+----
+
+そして `midonet-db-manage`コマンドを実行してください:
+
+[source]
+----
+# midonet-db-manage upgrade head
+----
+====
+
+. *7.2.3. OpenStackネットワーキングデータベース接続のコンフィグレーション*
++
+====
+ドキュメントの指示の通りに実施してください。
+====
+
+. *7.2.4. OpenStack Networking Identity Recordsの作成*
++
+====
+ドキュメントの指示の通りに実施してください。
+====
+
+. *7.2.5. OpenStack Networking Authenticationのコンフィグレーション*
++
+====
+ドキュメントの指示の通りに実施してください。
+====
+
+. *7.2.6. Firewall to Allow OpenStack Networking Trafficのコンフィグレーション*
++
+====
+ドキュメントの指示の通りに実施してください。
+====
+
+. *7.2.7. OpenStack NetworkingのためのRabbitMQ Message Broker Settingsのコンフィグレーション*
++
+====
+ドキュメントの指示の通りに実施してください。
+====
+
+. *7.2.8. OpenStack Networking とthe Message BrokerSSL 間のコミュニケーションを有効化 *
++
+====
+ドキュメントの指示の通りに実施してください。
+====
+
+. *7.2.9. OpenStack Networkingとコンピュートサービスのコミュニケーション設定*
++
+====
+ドキュメントの指示の通りに実施してください。
+====
+
+. *Load-Balancer-as-a-Service (LBaaS)のコンフィグレーション*
++
+====
+Additionally to the Red Hatインストールガイドに加え、 xref:configure_lbaas[]に書かれている通りにLoad-Balancer-as-a-Service (LBaaS) を設定してください。 
+====
+
+. *7.2.10. OpenStack Networkingの立ち上げ* [[neutron_controller_node_installation_finalize]]
++
+====
+ドキュメントの指示の通りに実施してください。
+====
+
+. *7.3. DHCP Agentのコンフィグレーション*
++
+====
+実施しないでください。
+====
+
+. *7.4. External Networkの作成*
++
+====
+ドキュメントに書かれている通りには*せずに* 、
+OpenStackとMidoNetのインストールが完了した後に、Neutronネットワークを作成してください。
+
+MidoNetプラグインがアクティブになる前に作成されたネットワークはすべて、MidoNetからは見えません。
+====
+
+. *7.5. Plug-in Agentのコンフィグレーション*
++
+====
+実施しないでください。
+====
+
+. *7.6. L3 Agentのコンフィグレーション*
++
+====
+実施しないでください。
+====

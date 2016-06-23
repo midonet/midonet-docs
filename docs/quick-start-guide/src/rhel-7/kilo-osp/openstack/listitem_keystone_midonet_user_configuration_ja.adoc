@@ -1,0 +1,11 @@
+. *MidoNetアドミンユーザを作成する*
++
+====
+Keystoneの +admin+権限で、下記のコマンドを実行してください:
+
+[literal,subs="quotes"]
+----
+$ keystone user-create --name *_midonet_* --pass *_MIDONET_PASS_* --tenant services
+$ keystone user-role-add --user *_midonet_* --role admin --tenant services
+----
+====
