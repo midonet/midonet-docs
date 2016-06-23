@@ -1,0 +1,21 @@
+. *アドミントークンの認証を確認*
++
+====
+MidoNet APIは、認証のためにKeystoneアドミントークンを使います。よって、*`admin_token_auth`*
+が対応するKeystoneの設定の中に含まれている必要があります。
+
+*`admin_token_auth`* が下記の中に含まれていることを確認してください。
+`/usr/share/keystone/keystone-dist-paste.ini`:
+
+[literal,subs="quotes"]
+----
+[pipeline:public_api]
+pipeline = [...] admin_token_auth [...]
+
+[pipeline:admin_api]
+pipeline = [...] admin_token_auth [...]
+
+[pipeline:api_v3]
+pipeline = [...] admin_token_auth [...]
+----
+====
