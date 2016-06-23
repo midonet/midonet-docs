@@ -1,0 +1,174 @@
+[[nova_compute_node]]
+= コンピュートノード
+
+[IMPORTANT]
+Follow the Red Hat ドキュメントの下記の指示に従ってください。
+https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/7/installation-reference/82-install-a-compute-node[8.2. Install a Compute Node]
+ただし *後述されている追加・差異部分をよくご確認ください*。
+
+. *8.2.1. Compute Service Packagesのインストール*
++
+====
+書かれている通りには実施 *せず*、下記のパッケージだけをインストールしてください。:
+
+[source]
+----
+# yum install openstack-nova-compute openstack-utils
+----
+====
+
+. *8.2.2. コンピュートサービスデータベースの作成*
++
+====
+実施しないでください。コントローラノードですでに実施されています。 
+====
+
+. *8.2.3. コンピュートサービスデータベースコネクションのコンフィグレーション*
++
+====
+書かれている通りに実施してください。
+====
+
+. *8.2.4. Compute Service Identity Recordsの作成*
+====
+実施しないでください。コントローラノードですでに実施されています。
+====
+
+. *8.2.5. Compute Service Authenticationのコンフィグレーション*
+====
+書かれている通りに実施してください。
+====
+
+. *8.2.6. Compute Service Trafficを許可するためのファイヤーウォールのコンフィグレーション*
++
+====
+書かれている通りに実施してください。
+====
+
+. *8.2.7. SSLを使うためのコンピュートサービスのコンフィグレーション*
++
+====
+書かれている通りに実施してください。
+====
+
+. *8.2.8. Compute ServiceのためのRabbitMQ Message Broker Settingsのコンフィグレーション*
++
+====
+書かれている通りに実施してください。
+====
+
+. *8.2.9. Compute Service と the Message Broker間のコミュニケーションを有効化*
++
+====
+書かれている通りに実施してください。
+====
+
+. *8.2.10. Resource Overcommitmentのコンフィグレーション*
++
+====
+書かれている通りに実施してください。
+====
+
+. *8.2.11. ホストリソースの予約*
++
+====
+書かれている通りに実施してください。
+====
+
+. *8.2.12. コンピュートネットワーキングのコンフィグレーション*
++
+====
+コンピュートネットワーキングのコンフィグレーション：
+
+.. *8.2.12.3. L2 Agentのコンフィグレーション*
++
+実施しないでください。
++
+.. *8.2.12.4. Virtual Interface Pluggingのコンフィグレーション*
++
+実施しないでください。
+====
+
+. *8.2.13. コンピュートサービスデータベースの追加*
++
+====
+実施しないでください。コントローラーノードですでに実施されています。 
+====
+
+. *8.2.14. コンピュートサービスの立ち上げ*
++
+====
+.. *1. メッセージバスサービスの開始*
++
+書かれている通りに実施してください。
+
+.. *2. Libvirtdサービスの開始*
++
+書かれている通りに実施してください。
+
+.. *3. APIサービスの開始*
++
+実施しないでください。コントローラーノードでのみ必要です。
+
+.. *4. スケジューラの開始*
++
+実施しないでください。コントローラーノードでのみ必要です。
+
+.. *5. Conductorの開始*
++
+実施しないでください。コントローラーノードでのみ必要です。
+
+.. *6. コンピュートサービスの開始*
++
+書かれている通りに実施してください。
+====
+
+. *加えて、下記のステップを実施してください。*
+
+.. *libvirtのコンフィグレーション*
++
+====
+下記を含むように `/etc/libvirt/qemu.conf`ファイルを編集してください。:
+
+[literal,subs="quotes"]
+----
+user = "root"
+group = "root"
+
+cgroup_device_acl = [
+    "/dev/null", "/dev/full", "/dev/zero",
+    "/dev/random", "/dev/urandom",
+    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+    *_"/dev/net/tun"_*
+]
+----
+====
+
+.. *libvirtサービスを再起動してください*
++
+====
+[source]
+----
+# systemctl restart libvirtd.service
+----
+====
+
+.. *nova-rootwrapネットワークフィルターをインストール*
++
+====
+[source]
+----
+# yum install openstack-nova-network
+# systemctl disable openstack-nova-network.service
+----
+====
+
+.. *コンピュートサービスを再起動*
++
+====
+[source]
+----
+# systemctl restart openstack-nova-compute.service
+----
+====

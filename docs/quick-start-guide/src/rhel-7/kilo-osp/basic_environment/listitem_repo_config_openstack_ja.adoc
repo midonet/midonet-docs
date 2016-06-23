@@ -1,0 +1,8 @@
+. *Red Hat OSP レポジトリを有効化する*
++
+====
+[source]
+----
+# subscription-manager repos --enable=rhel-7-server-openstack-7.0-rpms
+----
+====

@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the Red Hat ドキュメントの下記の指示に従ってください
+https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/7/installation-reference/chapter-8-install-the-compute-service[Chapter 8. Install The Compute Service]
+ただし *後述の追加事項もご覧下さい*。
+

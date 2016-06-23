@@ -1,0 +1,3 @@
+このガイドでは、OpenStackドキュメントの下記の指示に従うことを想定しています。
+http://docs.openstack.org/kilo/install-guide/install/yum/content/ch_basic_environment.html#basics-networking-neutron[OpenStack Networking (neutron)]
+

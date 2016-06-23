@@ -1,0 +1,4 @@
+[IMPORTANT]
+Follow the Red Hat ドキュメントの下記の指示に従ってください。
+https://access.redhat.com/documentation/en/red-hat-enterprise-linux-openstack-platform/7/installation-reference/installation-reference[Installation Reference]
+ただし *後述されている差異部分もご確認ください*。
