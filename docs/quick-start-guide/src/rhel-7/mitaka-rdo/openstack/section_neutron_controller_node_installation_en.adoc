@@ -62,6 +62,7 @@ rabbit_password = *_RABBIT_PASS_*
 ...
 auth_uri = http://**_controller_**:5000
 auth_url = http://**_controller_**:35357
+memcached_servers = **_controller_**:11211
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
