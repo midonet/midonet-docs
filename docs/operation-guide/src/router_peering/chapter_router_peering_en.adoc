@@ -6,23 +6,6 @@ multiple sites with VXLAN tunneling. The following section describes the Neutron
 CLI and REST API commands to set up router peering. All of the following
 operations are executed only by the cloud operator.
 
-[IMPORTANT]
-====
-Depending on the OpenStack release and the corresponding MidoNet plugin you are
-using, some of the Neutron APIs defined for the router peering feature are not
-supported by the upstream implementation of Neutron CLI, so they must be
-executed by making HTTP requests directly to the Neutron API server.
-
-When using `curl` to do the Neutron API requests, the command pattern looks
-like the following:
-
-[source]
-----
-# curl -i -H "Content-type: application/json" -X POST \
-   -d `{"foo": {"name": "bar"}}' http://api_server_url/
-----
-====
-
 The following terminologies are used throughout this document:
 
 * VTEP Router:

@@ -3,8 +3,6 @@
 
 *Site A*
 
-_Via Neutron CLI (Mitaka):_
-
 [source]
 ----
 # neutron gateway-device-remote-mac-entry-delete \
@@ -12,27 +10,11 @@ _Via Neutron CLI (Mitaka):_
    5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8
 ----
 
-_Via Neutron API:_
-
-[source]
-----
-# DELETE http://neutron_api_url/gw/gateway_devices/5f1a1a9a-a7a2-11e5-8bde-8b2506f539f8/remote_mac_entries/32f2f11c-a7f2-11e5-84a0-0242ac110001
-----
-
 *Site B*
-
-_Via Neutron CLI (Mitaka):_
 
 [source]
 ----
 # neutron gateway-device-remote-mac-entry-delete \
    4a415f8a-af8a-11e5-aa04-1b22bb4b3872 \
    8e47afce-af83-11e5-9b76-4b95f3de9711
-----
-
-_Via Neutron API:_
-
-[source]
-----
-# DELETE http://neutron_api_url/gw/gateway_devices/8e47afce-af83-11e5-9b76-4b95f3de9711/remote_mac_entries/4a415f8a-af8a-11e5-aa04-1b22bb4b3872
 ----
