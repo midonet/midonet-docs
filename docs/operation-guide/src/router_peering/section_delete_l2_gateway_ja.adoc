@@ -7,12 +7,12 @@ L2ゲートウェイの削除は、それに関連付けられたゲートウェ
 
 [source]
 ----
-# DELETE http://neutron_api_url/l2-gateways/ea57e7e8-a7a4-11e5-89c2-b78c120baeb9
+# neutron l2-gateway-delete ea57e7e8-a7a4-11e5-89c2-b78c120baeb9
 ----
 
 *サイト B*
 
 [source]
 ----
-# DELETE http://neutron_api_url/l2-gateways/9514751c-af83-11e5-ac3c-affb2bc390ae
+# neutron l2-gateway-delete 9514751c-af83-11e5-ac3c-affb2bc390ae
 ----

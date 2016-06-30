@@ -37,7 +37,7 @@ Port ID: 2aae9544-a7aa-11e5-9fcb-1730471db09c
 [source]
 ----
 # neutron port-create \
-   --tenant-id admin \
+   --tenant-id tenant \
    --fixed-ip ip_address=192.168.0.2 \
    --mac-address="6F:E4:5A:FA:8E:09" \
    8943d506-af84-11e5-bb39-e7d07e647dfc
@@ -67,7 +67,7 @@ Port ID: 5f328a1a-af88-11e5-9a2a-3b0fc560e9e7
 [source]
 ----
 # neutron port-create \
-   --tenant-id admin \
+   --tenant-id tenant \
    --fixed-ip ip_address=192.168.0.2 \
    --mac-address="6F:E4:5A:FA:8E:09" \
    --device-owner "network:remote-site" \
@@ -81,7 +81,7 @@ Port ID: 0bf1e1aa-af8a-11e5-a013-f38f48a84d8b
 [source]
 ----
 # neutron port-create \
-   --tenant-id admin \
+   --tenant-id tenant \
    --fixed-ip ip_address=192.168.0.1 \
    --mac-address="16:B7:B5:A4:57:75" \
    --device-owner "network:remote-site" \
