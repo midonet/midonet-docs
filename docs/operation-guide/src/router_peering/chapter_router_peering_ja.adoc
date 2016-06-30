@@ -3,21 +3,6 @@
 
 MidoNetのルータピアリング接続機能はVXLANトンネリングを利用する複数のサイトの間でオーバーレイ接続をすることができます。この章では、ルータピアリング接続を設定するためのニュートロンCLIとREST APIのコマンドを説明する。これらの操作は、クラウド管理者のみに可能なものです。
 
-
-[IMPORTANT]
-====
-使用するOpenStackのバージョンとそれに対応するMidoNetのプラグインにより、ルータピアリング接続のための1部のNeutron APIがNeutron CLIのアップストリーム実装にサポートされていないことがあるので、その場合はNeutron APIのサーバーに直接HTTPリクエストする必要があります。
-
-Neutron APIのリクエストに`curl`を利用する場合は、コマンドパターンは以下のようになります:
-
-
-[source]
-----
-# curl -i -H "Content-type: application/json" -X POST \
-   -d `{"foo": {"name": "bar"}}' http://api_server_url/
-----
-====
-
 文章中には、次の単語が使用されます。:
 
 * VTEPルータ:
