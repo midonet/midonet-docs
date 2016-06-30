@@ -1,0 +1,187 @@
+[[fwaas_logging]]
+= FWaaS Logging
+
+Midonet’s implementation of Neutron FWaaS Logging offers a single method of
+configuring firewalls to log events. FWaaS Logging can be configured by either
+cloud operator or tenants. The log files are generated on the physical hosts, so
+only the cloud operators can access them. It is expected that an external
+service collects and aggregates the generated logs. FWaaS Logging lets you audit
+and debug firewall rules that you manage.
+
+There are two resources defined for FWaaS Logging.
+
+* Logging Resource - Top level model that represents a collection of firewall
+logging objects.
+
+* Firewall Logging - Object that represents logging of a particular firewall
+object.
+
+The flow of operations is as follows:
+
+. Create a router that will be associated with the firewall for which events
+will be logged
+
+. Create a firewall for which events will be logged
+
+. Create a logging resource
+
+. Create a firewall log associated with the firewall created in step 2, and the
+logging resource in step 3.
+
+Multiple firewall logs can be associated with a single logging resource. The
+logging resource can then be enabled or disabled, providing the ability to
+enable or disable event logging for multiple firewall logs in a single command.
+
+The following is a concrete example of the topology creation.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Creating a router and firewall
+
+[source]
+----
+$ neutron router-create example_router
+Created a new router:
++-----------------------+--------------------------------------+
+| Field                 | Value                                |
++-----------------------+--------------------------------------+
+| admin_state_up        | True                                 |
+| description           |                                      |
+| external_gateway_info |                                      |
+| id                    | d7acbd7b-8a1b-44ff-a92f-291fac96b4ca |
+| name                  | example_router                       |
+| routes                |                                      |
+| status                | ACTIVE                               |
+| tenant_id             | admin                                |
++-----------------------+--------------------------------------+
+----
+
+[source]
+----
+$ neutron firewall-policy-create example_policy
+Created a new firewall_policy:
++----------------+--------------------------------------+
+| Field          | Value                                |
++----------------+--------------------------------------+
+| audited        | False                                |
+| description    |                                      |
+| firewall_rules |                                      |
+| id             | 52c3a819-4846-4a8b-8418-453abf965210 |
+| name           | example_policy                       |
+| shared         | False                                |
+| tenant_id      | admin                                |
++----------------+--------------------------------------+
+----
+
+[source]
+----
+$ neutron firewall-create example_policy --router d7acbd7b-8a1b-44ff-a92f-291fac96b4ca
+Created a new firewall:
++--------------------+--------------------------------------+
+| Field              | Value                                |
++--------------------+--------------------------------------+
+| admin_state_up     | True                                 |
+| description        |                                      |
+| firewall_policy_id | 52c3a819-4846-4a8b-8418-453abf965210 |
+| id                 | 2b3cd306-df9b-47c8-adef-ab8381e42bb2 |
+| name               |                                      |
+| router_ids         | d7acbd7b-8a1b-44ff-a92f-291fac96b4ca |
+| status             | PENDING_CREATE                       |
+| tenant_id          | admin                                |
++--------------------+--------------------------------------+
+----
+
+[source]
+----
+$ neutron firewall-rule-create --protocol tcp --destination-port 80 --action deny
+Created a new firewall_rule:
++------------------------+--------------------------------------+
+| Field                  | Value                                |
++------------------------+--------------------------------------+
+| action                 | deny                                 |
+| description            |                                      |
+| destination_ip_address |                                      |
+| destination_port       | 80                                   |
+| enabled                | True                                 |
+| firewall_policy_id     |                                      |
+| id                     | 386fa9fd-eb39-41c6-aadc-f1eaef1714cf |
+| ip_version             | 4                                    |
+| name                   |                                      |
+| position               |                                      |
+| protocol               | tcp                                  |
+| shared                 | False                                |
+| source_ip_address      |                                      |
+| source_port            |                                      |
+| tenant_id              | admin                                |
++------------------------+--------------------------------------+
+----
+
+[source]
+----
+$ neutron firewall-policy-insert-rule example_policy 386fa9fd-eb39-41c6-aadc-f1eaef1714cf
+Inserted firewall rule in firewall policy example_policy
+----
+
+== Creating a logging resource and firewall log
+
+[source]
+----
+$ neutron logging-create example_lr
+Created a new logging_resource:
++---------------+--------------------------------------+
+| Field         | Value                                |
++---------------+--------------------------------------+
+| description   |                                      |
+| enabled       | False                                |
+| firewall_logs |                                      |
+| id            | 09e17388-479c-40ea-a124-a4fa53935322 |
+| name          | example_lr                           |
+| tenant_id     | admin                                |
++---------------+--------------------------------------+
+----
+
+[source]
+----
+$ neutron logging-firewall-create --firewall-id 2b3cd306-df9b-47c8-adef-ab8381e42bb2 example_lr
+Created a new firewall_log:
++---------------------+--------------------------------------+
+| Field               | Value                                |
++---------------------+--------------------------------------+
+| description         |                                      |
+| firewall_id         | 2b3cd306-df9b-47c8-adef-ab8381e42bb2 |
+| fw_event            | ALL                                  |
+| id                  | 36a5440b-dde5-47b6-9cf1-85ee325b4600 |
+| logging_resource_id | 09e17388-479c-40ea-a124-a4fa53935322 |
+| tenant_id           | admin                                |
++---------------------+--------------------------------------+
+----
+
+== Updating a logging resource and firewall log
+
+[source]
+----
+$ neutron logging-update --enabled True 09e17388-479c-40ea-a124-a4fa53935322
+Updated logging_resource: 09e17388-479c-40ea-a124-a4fa53935322
+----
+
+[source]
+----
+$ logging-firewall-update 2b3cd306-df9b-47c8-adef-ab8381e42bb2 09e17388-479c-40ea-a124-a4fa53935322 --fw-event DROP
+Updated firewall_log: 2b3cd306-df9b-47c8-adef-ab8381e42bb2
+----
+
+== Deleting a logging resource and firewall log
+
+[source]
+----
+$ logging-firewall-delete 09e17388-479c-40ea-a124-a4fa53935322 09e17388-479c-40ea-a124-a4fa53935322
+Deleted firewall_log: 09e17388-479c-40ea-a124-a4fa53935322
+----
+
+[source]
+----
+$ neutron logging-delete 09e17388-479c-40ea-a124-a4fa53935322
+Deleted logging_resource: 09e17388-479c-40ea-a124-a4fa53935322
+----
