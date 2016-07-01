@@ -15,7 +15,7 @@
 
     <groupId>org.midonet</groupId>
     <artifactId>midonet-docs-operations-guide-en</artifactId>
-    <version>5.2-rev1-SNAPSHOT</version>
+    <version>5.2-rev1</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId} v${project.version}</name>
