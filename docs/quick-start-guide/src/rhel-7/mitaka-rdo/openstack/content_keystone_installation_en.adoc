@@ -1,6 +1,6 @@
 [IMPORTANT]
 Follow the OpenStack documentation's
-http://docs.openstack.org/liberty/install-guide-rdo/keystone.html[Identity service]
+http://docs.openstack.org/mitaka/install-guide-rdo/keystone.html[Identity service]
 instructions, but *note the following differences and additions*.
 
 . *Verify operation*
