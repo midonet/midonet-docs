@@ -1,0 +1,386 @@
+[[vpnaas]]
+= VPN as a Service (VPNaaS)
+
+The VPNaaS feature of MidoNet provides secure overlay connectivity between
+multiple private networks possibly hosted on different sites.
+
+We'll show here how to setup a basic environment for reference purposes.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Create the private networks and routers
+
+The following two networks will be connected through the VPNaaS feature. They
+may be created in different sites.
+
+*Create the left side:*
+
+[source]
+----
+# neutron net-create LEFT
+
+Created a new network:
++-----------------------+--------------------------------------+
+| Field                 | Value                                |
++-----------------------+--------------------------------------+
+| admin_state_up        | True                                 |
+| created_at            | 2016-07-08T08:14:51                  |
+| description           |                                      |
+| id                    | 1331e08a-8f9c-4d75-b7ff-661a474290d0 |
+| name                  | LEFT                                 |
+| port_security_enabled | True                                 |
+| provider:network_type | midonet                              |
+| router:external       | False                                |
+| shared                | False                                |
+| status                | ACTIVE                               |
+| subnets               |                                      |
+| tags                  |                                      |
+| tenant_id             | admin                                |
+| updated_at            | 2016-07-08T08:14:51                  |
++-----------------------+--------------------------------------+
+----
+
+[source]
+----
+# neutron subnet-create \
+   --name LEFT_SUB \
+   1331e08a-8f9c-4d75-b7ff-661a474290d0 \
+   10.1.0.0/24 \
+   --gateway 10.1.0.1
+
+Created a new subnet:
++-------------------+--------------------------------------------+
+| Field             | Value                                      |
++-------------------+--------------------------------------------+
+| allocation_pools  | {"start": "10.1.0.2", "end": "10.1.0.254"} |
+| cidr              | 10.1.0.0/24                                |
+| created_at        | 2016-07-08T08:15:20                        |
+| description       |                                            |
+| dns_nameservers   |                                            |
+| enable_dhcp       | True                                       |
+| gateway_ip        | 10.1.0.1                                   |
+| host_routes       |                                            |
+| id                | 538fd8eb-b36f-400e-8bba-995b8f674f21       |
+| ip_version        | 4                                          |
+| ipv6_address_mode |                                            |
+| ipv6_ra_mode      |                                            |
+| name              | LEFT_SUB                                   |
+| network_id        | 1331e08a-8f9c-4d75-b7ff-661a474290d0       |
+| subnetpool_id     |                                            |
+| tenant_id         | admin                                      |
+| updated_at        | 2016-07-08T08:15:20                        |
++-------------------+--------------------------------------------+
+----
+
+[source]
+----
+# neutron router-create LEFT_ROUTER
+
+Created a new router:
++-----------------------+--------------------------------------+
+| Field                 | Value                                |
++-----------------------+--------------------------------------+
+| admin_state_up        | True                                 |
+| description           |                                      |
+| external_gateway_info |                                      |
+| id                    | 384ed43a-3297-4fac-9f1a-a29e1749bffa |
+| name                  | LEFT_ROUTER                          |
+| routes                |                                      |
+| status                | ACTIVE                               |
+| tenant_id             | admin                                |
++-----------------------+--------------------------------------+
+----
+
+[source]
+----
+# neutron router-interface-add \
+   384ed43a-3297-4fac-9f1a-a29e1749bffa \
+   538fd8eb-b36f-400e-8bba-995b8f674f21
+
+Added interface b0c5fbcb-d944-4eaf-83b5-a30039449900
+to router 384ed43a-3297-4fac-9f1a-a29e1749bffa.
+----
+
+[source]
+----
+# neutron router-gateway-set \
+   384ed43a-3297-4fac-9f1a-a29e1749bffa \
+   EXTERNAL
+
+Set gateway for router 384ed43a-3297-4fac-9f1a-a29e1749bffa
+----
+
+*Create the right side:*
+
+[source]
+----
+# neutron net-create RIGHT
+
+Created a new network:
++-----------------------+--------------------------------------+
+| Field                 | Value                                |
++-----------------------+--------------------------------------+
+| admin_state_up        | True                                 |
+| created_at            | 2016-07-11T01:37:37                  |
+| description           |                                      |
+| id                    | 75b9789e-6e13-4bfe-9668-c38dcdbe7a67 |
+| name                  | RIGHT                                |
+| port_security_enabled | True                                 |
+| provider:network_type | midonet                              |
+| router:external       | False                                |
+| shared                | False                                |
+| status                | ACTIVE                               |
+| subnets               |                                      |
+| tags                  |                                      |
+| tenant_id             | admin                                |
+| updated_at            | 2016-07-11T01:37:37                  |
++-----------------------+--------------------------------------+
+----
+
+[source]
+----
+# neutron subnet-create \
+   --name RIGHT_SUB \
+   75b9789e-6e13-4bfe-9668-c38dcdbe7a67 \
+   10.2.0.0/24 \
+   --gateway 10.2.0.1
+
+Created a new subnet:
++-------------------+--------------------------------------------+
+| Field             | Value                                      |
++-------------------+--------------------------------------------+
+| allocation_pools  | {"start": "10.2.0.2", "end": "10.2.0.254"} |
+| cidr              | 10.2.0.0/24                                |
+| created_at        | 2016-07-11T01:38:15                        |
+| description       |                                            |
+| dns_nameservers   |                                            |
+| enable_dhcp       | True                                       |
+| gateway_ip        | 10.2.0.1                                   |
+| host_routes       |                                            |
+| id                | 8058c633-4616-42ec-9838-2d2a8786441d       |
+| ip_version        | 4                                          |
+| ipv6_address_mode |                                            |
+| ipv6_ra_mode      |                                            |
+| name              | RIGHT_SUB                                  |
+| network_id        | 75b9789e-6e13-4bfe-9668-c38dcdbe7a67       |
+| subnetpool_id     |                                            |
+| tenant_id         | admin                                      |
+| updated_at        | 2016-07-11T01:38:15                        |
++-------------------+--------------------------------------------+
+----
+
+[source]
+----
+# neutron router-create RIGHT_ROUTER
+
+Created a new router:
++-----------------------+--------------------------------------+
+| Field                 | Value                                |
++-----------------------+--------------------------------------+
+| admin_state_up        | True                                 |
+| description           |                                      |
+| external_gateway_info |                                      |
+| id                    | 24011587-0b8c-484b-9e35-f6779aa27b98 |
+| name                  | RIGHT_ROUTER                         |
+| routes                |                                      |
+| status                | ACTIVE                               |
+| tenant_id             | admin                                |
++-----------------------+--------------------------------------+
+----
+
+[source]
+----
+# neutron router-interface-add \
+   24011587-0b8c-484b-9e35-f6779aa27b98 \
+   8058c633-4616-42ec-9838-2d2a8786441d
+
+Added interface 5dbf6189-a24b-415e-a934-bbc3f4761b8b
+to router 24011587-0b8c-484b-9e35-f6779aa27b98.
+----
+
+[source]
+----
+# neutron router-gateway-set \
+   24011587-0b8c-484b-9e35-f6779aa27b98 \
+   EXTERNAL
+
+Set gateway for router 24011587-0b8c-484b-9e35-f6779aa27b98
+----
+
+== Create the VPN Policies
+
+[source]
+----
+# neutron vpn-ikepolicy-create IKEPOLICY
+
+Created a new ikepolicy:
++-------------------------+--------------------------------------+
+| Field                   | Value                                |
++-------------------------+--------------------------------------+
+| auth_algorithm          | sha1                                 |
+| description             |                                      |
+| encryption_algorithm    | aes-128                              |
+| id                      | 4d1bdf17-4c1a-48c9-a880-9d7a31356ab3 |
+| ike_version             | v1                                   |
+| lifetime                | {"units": "seconds", "value": 3600}  |
+| name                    | IKEPOLICY                            |
+| pfs                     | group5                               |
+| phase1_negotiation_mode | main                                 |
+| tenant_id               | admin                                |
++-------------------------+--------------------------------------+
+----
+
+[source]
+----
+# neutron vpn-ipsecpolicy-create IPSECPOLICY
+
+Created a new ipsecpolicy:
++----------------------+--------------------------------------+
+| Field                | Value                                |
++----------------------+--------------------------------------+
+| auth_algorithm       | sha1                                 |
+| description          |                                      |
+| encapsulation_mode   | tunnel                               |
+| encryption_algorithm | aes-128                              |
+| id                   | 7607ac27-8708-451c-9df7-d913ec99c11a |
+| lifetime             | {"units": "seconds", "value": 3600}  |
+| name                 | IPSECPOLICY                          |
+| pfs                  | group5                               |
+| tenant_id            | admin                                |
+| transform_protocol   | esp                                  |
++----------------------+--------------------------------------+
+----
+
+== Create the VPN Services and Connections
+
+*For the left side:*
+
+[source]
+----
+# neutron vpn-service-create \
+   --name LEFT_CONN \
+   384ed43a-3297-4fac-9f1a-a29e1749bffa \
+   538fd8eb-b36f-400e-8bba-995b8f674f21
+
+Created a new vpnservice:
++----------------+--------------------------------------+
+| Field          | Value                                |
++----------------+--------------------------------------+
+| admin_state_up | True                                 |
+| description    |                                      |
+| external_v4_ip | 200.200.200.2                        |
+| external_v6_ip |                                      |
+| id             | 54b02ff5-698c-421e-807b-b1fd9ee69e45 |
+| name           | LEFT_CONN                            |
+| router_id      | 384ed43a-3297-4fac-9f1a-a29e1749bffa |
+| status         | PENDING_CREATE                       |
+| subnet_id      | 538fd8eb-b36f-400e-8bba-995b8f674f21 |
+| tenant_id      | admin                                |
++----------------+--------------------------------------+
+----
+
+[source]
+----
+> neutron ipsec-site-connection-create \
+   --name LEFT_SITE_CONN \
+   --vpnservice-id 54b02ff5-698c-421e-807b-b1fd9ee69e45 \
+   --ikepolicy-id 4d1bdf17-4c1a-48c9-a880-9d7a31356ab3 \
+   --ipsecpolicy-id 7607ac27-8708-451c-9df7-d913ec99c11a \
+   --peer-address 200.200.200.3 \
+   --peer-id 200.200.200.3 \
+   --peer-cidr 10.2.0.0/24 \
+   --psk secret
+
+Created a new ipsec_site_connection:
++-------------------+----------------------------------------------------+
+| Field             | Value                                              |
++-------------------+----------------------------------------------------+
+| admin_state_up    | True                                               |
+| auth_mode         | psk                                                |
+| description       |                                                    |
+| dpd               | {"action": "hold", "interval": 30, "timeout": 120} |
+| id                | 52684388-c74e-4c06-bf37-a16a045e6ecc               |
+| ikepolicy_id      | 4d1bdf17-4c1a-48c9-a880-9d7a31356ab3               |
+| initiator         | bi-directional                                     |
+| ipsecpolicy_id    | 7607ac27-8708-451c-9df7-d913ec99c11a               |
+| local_ep_group_id |                                                    |
+| mtu               | 1500                                               |
+| name              | LEFT_SITE_CONN                                     |
+| peer_address      | 200.200.200.3                                      |
+| peer_cidrs        | 10.2.0.0/24                                        |
+| peer_ep_group_id  |                                                    |
+| peer_id           | 200.200.200.3                                      |
+| psk               | secret                                             |
+| route_mode        | static                                             |
+| status            | PENDING_CREATE                                     |
+| tenant_id         | admin                                              |
+| vpnservice_id     | 54b02ff5-698c-421e-807b-b1fd9ee69e45               |
++-------------------+----------------------------------------------------+
+----
+
+*For the right side:*
+
+[source]
+----
+# neutron vpn-service-create \
+   --name RIGHT_CONN \
+   24011587-0b8c-484b-9e35-f6779aa27b98 \
+   8058c633-4616-42ec-9838-2d2a8786441d
+
+Created a new vpnservice:
++----------------+--------------------------------------+
+| Field          | Value                                |
++----------------+--------------------------------------+
+| admin_state_up | True                                 |
+| description    |                                      |
+| external_v4_ip | 200.200.200.3                        |
+| external_v6_ip |                                      |
+| id             | 0784e875-5ad0-4757-8005-e6b00aab9bd3 |
+| name           | RIGHT_CONN                           |
+| router_id      | 24011587-0b8c-484b-9e35-f6779aa27b98 |
+| status         | PENDING_CREATE                       |
+| subnet_id      | 8058c633-4616-42ec-9838-2d2a8786441d |
+| tenant_id      | admin                                |
++----------------+--------------------------------------+
+----
+
+[source]
+----
+# neutron ipsec-site-connection-create \
+   --name RIGHT_SITE_CONN \
+   --vpnservice-id 0784e875-5ad0-4757-8005-e6b00aab9bd3 \
+   --ikepolicy-id 4d1bdf17-4c1a-48c9-a880-9d7a31356ab3 \
+   --ipsecpolicy-id 7607ac27-8708-451c-9df7-d913ec99c11a \
+   --peer-address 200.200.200.2 \
+   --peer-id 200.200.200.2 \
+   --peer-cidr 10.1.0.0/24 \
+   --psk secret
+
+Created a new ipsec_site_connection:
++-------------------+----------------------------------------------------+
+| Field             | Value                                              |
++-------------------+----------------------------------------------------+
+| admin_state_up    | True                                               |
+| auth_mode         | psk                                                |
+| description       |                                                    |
+| dpd               | {"action": "hold", "interval": 30, "timeout": 120} |
+| id                | 53368c20-9f1c-49c3-9f69-2566cd8656bd               |
+| ikepolicy_id      | 4d1bdf17-4c1a-48c9-a880-9d7a31356ab3               |
+| initiator         | bi-directional                                     |
+| ipsecpolicy_id    | 7607ac27-8708-451c-9df7-d913ec99c11a               |
+| local_ep_group_id |                                                    |
+| mtu               | 1500                                               |
+| name              | RIGHT_SITE_CONN                                    |
+| peer_address      | 200.200.200.2                                      |
+| peer_cidrs        | 10.1.0.0/24                                        |
+| peer_ep_group_id  |                                                    |
+| peer_id           | 200.200.200.2                                      |
+| psk               | secret                                             |
+| route_mode        | static                                             |
+| status            | PENDING_CREATE                                     |
+| tenant_id         | admin                                              |
+| vpnservice_id     | 0784e875-5ad0-4757-8005-e6b00aab9bd3               |
++-------------------+----------------------------------------------------+
+----

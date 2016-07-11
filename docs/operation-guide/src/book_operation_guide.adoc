@@ -155,6 +155,9 @@ include::{sourcedir}/router_peering/section_delete_l2_gateway_{lang}.adoc[levelo
 include::{sourcedir}/router_peering/section_delete_gateway_device_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/router_peering/section_neutron_cli_{lang}.adoc[leveloffset=+2]
 
+// Chapter: VPNaaS
+include::{sourcedir}/vpnaas/chapter_vpnaas_{lang}.adoc[leveloffset=+1]
+
 // Chapter: Working with the MidoNet CLI
 include::{sourcedir}/mn_cli/chapter_mn_cli_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/mn_cli/section_mn_cli_usage_{lang}.adoc[leveloffset=+2]
