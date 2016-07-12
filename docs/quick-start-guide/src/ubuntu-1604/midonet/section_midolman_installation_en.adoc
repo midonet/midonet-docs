@@ -1,0 +1,121 @@
+= Midolman Installation
+
+The _MidoNet Agent (Midolman)_ has to be installed on all nodes where traffic
+enters or leaves the virtual topology, in this guide this are the *_gateway1_*,
+*_gateway2_* and *_compute1_* nodes.
+
+. *Install Midolman package*
++
+====
+[source]
+----
+# apt-get install openjdk-8-jre-headless
+# apt-get install midolman
+----
+====
+
+. *Set up mn-conf*
++
+====
+Edit `/etc/midolman/midolman.conf` to point mn-conf to the ZooKeeper cluster:
+
+[source,subs="quotes"]
+----
+[zookeeper]
+zookeeper_hosts = *_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181
+----
+====
+
+. *Configure resource usage*
++
+====
+Run these steps on *each agent host* in order to configure resource usage.
+
+[IMPORTANT]
+For production environments the *large* templates are strongly recommended.
+
+.. *Midolman resource template*
++
+Run the following command to configure the Midolman resource template:
++
+[source,subs="specialcharacters,quotes"]
+----
+$ mn-conf template-set -h local -t *_TEMPLATE_NAME_*
+----
++
+Replace *_TEMPLATE_NAME_* with one of the following templates:
++
+[source,subs="specialcharacters,quotes"]
+----
+agent-compute-large
+agent-compute-medium
+agent-gateway-large
+agent-gateway-medium
+default
+----
+
+.. *Java Virtual Machine (JVM) resource template*
++
+Replace the default `/etc/midolman/midolman-env.sh` file with one of the below
+to configure the JVM resource template:
++
+[source,subs="specialcharacters,quotes"]
+----
+/etc/midolman/midolman-env.sh.compute.large
+/etc/midolman/midolman-env.sh.compute.medium
+/etc/midolman/midolman-env.sh.gateway.large
+/etc/midolman/midolman-env.sh.gateway.medium
+----
+====
+
+. *Configure MidoNet Metadata Proxy for all agents*
++
+====
+This step needs to happen only once, it will set up MidoNet Metadata Proxy
+for all MidoNet Agent nodes.
+
+Run the following commands to set the cloud-wide values for the MidoNet
+Metadata Proxy:
+
+[source,subs="specialcharacters,quotes"]
+----
+$ echo "agent.openstack.metadata.nova_metadata_url : \"http://**_controller_**:**_8775_**\"" | mn-conf set -t default
+$ echo "agent.openstack.metadata.shared_secret : *_shared_secret_*" | mn-conf set -t default
+$ echo "agent.openstack.metadata.enabled : true" | mn-conf set -t default
+----
+
+*_controller_*, *_8775_*, and *_shared_secret_* should be
+replaced with appropriate values. They need to match with the corresponding Nova
+Metadata API configuration.
+
+*_controller_* and *_8775_* specify the address on which
+Nova accepts Metadata API requests. *_shared_secret_* has to be the same as
+specified by the "metadata_proxy_shared_secret" field in the "neutron" section
+of nova.conf.
+
+The Nova side of the configuration for the metadata service is same as when
+using Neutron Metadata Proxy. See the OpenStack documentation for details:
+
+http://docs.openstack.org/admin-guide-cloud/networking_config-identity.html#configure-metadata[Cloud Administrator Guide: Configure Metadata]
+====
+
+[IMPORTANT]
+====
+The Metadata Proxy creates an interface on the hypervisor hosts, named
+"metadata".
+
+When using `iptables` it may be necessary to add a rule to accept traffic on
+that interface:
+
+[source]
+iptables -I INPUT 1 -i metadata -j ACCEPT
+====
+
+. *Start Midolman*
++
+====
+[source]
+----
+# service midolman start
+----
+====

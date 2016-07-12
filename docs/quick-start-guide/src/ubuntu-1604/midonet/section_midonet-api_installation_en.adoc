@@ -1,0 +1,82 @@
+= MidoNet Cluster Installation
+
+. *Install MidoNet Cluster package*
++
+====
+[source]
+----
+# apt-get install midonet-cluster
+----
+====
+
+. *Set up mn-conf*
++
+====
+Edit `/etc/midonet/midonet.conf` to point mn-conf to the ZooKeeper cluster:
+
+[source,subs="quotes"]
+----
+[zookeeper]
+zookeeper_hosts = *_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181
+----
+====
+
+. *Configure access to the NSDB*
++
+====
+This step needs to happen only once, it will set up access to the NSDB for
+the MidoNet Cluster and Agent nodes.
+
+Run the following command to set the cloud-wide values for the ZooKeeper and
+Cassandra server addresses:
+
+[source,subs="specialcharacters,quotes"]
+----
+$ cat << EOF | mn-conf set -t default
+zookeeper {
+    zookeeper_hosts = "*_nsdb1_*:2181,*_nsdb2_*:2181,*_nsdb3_*:2181"
+}
+
+cassandra {
+    servers = "*_nsdb1_*,*_nsdb2_*,*_nsdb3_*"
+}
+EOF
+----
+
+Run the following command to set the Cassandra replication factor:
+
+[source,subs="specialcharacters,quotes"]
+----
+$ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
+----
+====
+
+. *Configure Keystone access*
++
+====
+This step needs to happen only once, it will set up access to Keystone for the
+MidoNet Cluster node(s).
+
+[literal,subs="verbatim,quotes"]
+----
+$ cat << EOF | mn-conf set -t default
+cluster.auth {
+    provider_class = "org.midonet.cluster.auth.keystone.KeystoneService"
+    admin_role = "admin"
+    keystone.tenant_name = "admin"
+    keystone.admin_token = "*_ADMIN_TOKEN_*"
+    keystone.host = *_controller_*
+    keystone.port = 35357
+}
+EOF
+----
+====
+
+. *Start the MidoNet Cluster*
++
+====
+[source]
+----
+# service midonet-cluster start
+----
+====

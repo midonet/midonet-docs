@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/mitaka/install-guide-rdo/neutron.html[Networking service]
+instructions, but *note the following differences*.
+

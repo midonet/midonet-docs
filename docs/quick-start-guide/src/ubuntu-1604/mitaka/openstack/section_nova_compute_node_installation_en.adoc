@@ -1,0 +1,36 @@
+[[nova_compute_node]]
+= Compute Node
+
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/mitaka/install-guide-ubuntu/nova-compute-install.html[Install and configure a compute node]
+instructions, but *note the following additions*.
+
+. *Configure libvirt*
++
+====
+Edit the `/etc/libvirt/qemu.conf` file to contain the following:
+
+[literal,subs="quotes"]
+----
+user = "root"
+group = "root"
+
+cgroup_device_acl = [
+    "/dev/null", "/dev/full", "/dev/zero",
+    "/dev/random", "/dev/urandom",
+    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+    *_"/dev/net/tun"_*
+]
+----
+====
+
+. *Restart the libvirt service*
++
+====
+[source]
+----
+# service libvirt-bin restart
+----
+====

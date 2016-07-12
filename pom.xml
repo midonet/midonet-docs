@@ -20,11 +20,14 @@
         <module>build/quick-start-guide_rhel-7_liberty-osp_en</module>
         <module>build/quick-start-guide_rhel-7_liberty-rdo_en</module>
         <module>build/quick-start-guide_rhel-7_liberty-rdo_ja</module>
+        <module>build/quick-start-guide_rhel-7_mitaka-rdo_en</module>
         <module>build/quick-start-guide_sles-12_liberty-soc_en</module>
         <module>build/quick-start-guide_ubuntu-1404_kilo_en</module>
         <module>build/quick-start-guide_ubuntu-1404_kilo_ja</module>
         <module>build/quick-start-guide_ubuntu-1404_liberty_en</module>
         <module>build/quick-start-guide_ubuntu-1404_liberty_ja</module>
+        <module>build/quick-start-guide_ubuntu-1404_mitaka_en</module>
+        <module>build/quick-start-guide_ubuntu-1604_mitaka_en</module>
         <module>build/operation-guide_en</module>
         <module>build/operation-guide_ja</module>
         <module>build/reference-architecture_en</module>

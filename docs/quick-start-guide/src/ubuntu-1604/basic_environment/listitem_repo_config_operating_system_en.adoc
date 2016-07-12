@@ -1,0 +1,18 @@
+. *Configure Ubuntu repositories*
++
+====
+Edit the `/etc/apt/sources.list` file to contain the following:
+
+[source]
+----
+# Ubuntu Main Archive
+deb http://archive.ubuntu.com/ubuntu/ xenial main
+deb http://security.ubuntu.com/ubuntu xenial-updates main
+deb http://security.ubuntu.com/ubuntu xenial-security main
+
+# Ubuntu Universe Archive
+deb http://archive.ubuntu.com/ubuntu/ xenial universe
+deb http://security.ubuntu.com/ubuntu xenial-updates universe
+deb http://security.ubuntu.com/ubuntu xenial-security universe
+----
+====
