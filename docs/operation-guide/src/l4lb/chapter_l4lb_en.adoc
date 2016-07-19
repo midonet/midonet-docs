@@ -75,3 +75,5 @@ is enabled.
 
 * When using sticky-source IP, directly connecting to the selected back-end host
 on the same port that is being used by the load balancer is not possible.
+
+* To use an external network for VIPs, it has to be "shared".
