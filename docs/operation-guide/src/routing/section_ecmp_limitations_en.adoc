@@ -1,0 +1,42 @@
+[[ecmp_limitations]]
+= ECMP Limitations
+
+Limitations of MidoNet ECMP for load-balancing to a set of stateful services:
+
+* ECMP route selection is "flow-hash mod N"
+
+* MidoNet does not test that the routes are ordered the same in every Agent so
+that "hash mod N" will return the same result on different L3 Gateways as long
+as N does not change.
+
+* The hash algorithm does not satisfy "consistent hashing" properties, in
+particular, it does not minimise the impact of changes to the load-balanced set.
+Therefore, when the load-balanced set changes, any active flow that is
+recomputed (because it lasts more than 30 seconds or because upstream routing
+causes it to ingress a new gateway) will be balanced to a different back-end,
+usually leading to a broken connection.
+
+** Note that MidoNet's DNAT rules as well as L4 LBaaS implementation do generate
+per-flow state so those features are more resilient to backend set changes.
+
+* The hash algorithm is not symmetric, so return packets are unlikely to
+traverse the same VNF instance.
+
+** This matters for stateful services that need to see traffic in both
+directions. Some stateful services can live without. And some stateful service
+instances forward traffic with their own address and therefore receive the
+return traffic without ECMP configuration.
+
+* MidoNet's L3 Gateway makes use of ECMP for choosing an egress gateway for
+packets heading out of the logical network (to the rest of the data center or to
+the Internet). That use-case works fine because it is load-balancing to a set of
+stateless upstream routers. There is no harm to suddenly sending packets in a
+flow out of a different gateway node (apart from the possibility of some packets
+arriving out of order at the destination endpoint).
+
+Despite the limitations discussed above, MidoNet's ECMP works pretty well for a
+number of use-cases including load-balancing a VIP to an Active-Active HA set of
+L7 load-balancers.
+
+Remember that you can program MidoNet's virtual router's tables using either
+MidoNet's native API or via the Neutron ExtraRoute API extension.
