@@ -3,7 +3,7 @@
 ====
 [source]
 ----
-# yum install java-1.7.0-openjdk-headless
+# yum install java-1.8.0-openjdk-headless
 # yum install zookeeper zkdump nmap-ncat
 ----
 ====
@@ -74,7 +74,7 @@ Create the `/var/lib/zookeeper/data/myid` file and edit it to contain the host's
 [source]
 ----
 # mkdir -p /usr/java/default/bin/
-# ln -s /usr/lib/jvm/jre-1.7.0-openjdk/bin/java /usr/java/default/bin/java
+# ln -s /usr/lib/jvm/jre-1.8.0-openjdk/bin/java /usr/java/default/bin/java
 ----
 ====
 
