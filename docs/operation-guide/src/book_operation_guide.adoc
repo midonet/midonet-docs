@@ -54,6 +54,7 @@ include::{sourcedir}/routing/section_routing_overview_{lang}.adoc[leveloffset=+2
 include::{sourcedir}/routing/section_viewing_routes_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/routing/section_add_route_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/routing/section_delete_route_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/routing/section_ecmp_limitations_{lang}.adoc[leveloffset=+2]
 
 // Chapter: Rule chains
 include::{sourcedir}/rule_chains/chapter_rule_chains_{lang}.adoc[leveloffset=+1]
