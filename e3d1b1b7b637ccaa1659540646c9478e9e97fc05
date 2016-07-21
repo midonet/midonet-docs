@@ -16,6 +16,24 @@
       "revId": "e3d1b1b7b637ccaa1659540646c9478e9e97fc05",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_c930e258",
+        "filename": "docs/operation-guide/src/routing/section_ecmp_limitations_ja.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-07-21T08:02:37Z",
+      "side": 1,
+      "message": "Yes, this is intentional.\n\nIt\u0027s for the Japanese translation, wWhich we won\u0027t do as part of this commit though. But for the build system it is essential that this file exists (even if it\u0027s empty / just contains a comment).",
+      "parentUuid": "baa041b7_a9e35ed7",
+      "revId": "e3d1b1b7b637ccaa1659540646c9478e9e97fc05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
