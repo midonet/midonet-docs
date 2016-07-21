@@ -1,0 +1,17 @@
+:sourcedir: .
+
+// Title
+include::{sourcedir}/book_title_{lang}.adoc[leveloffset=+1]
+
+// Preface
+include::{sourcedir}/preface_{lang}.adoc[leveloffset=+1]
+
+// Chapter: 1st Chapter
+include::{sourcedir}/1st_chapter/chapter_one_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/1st_chapter/section_one_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/1st_chapter/section_two_{lang}.adoc[leveloffset=+2]
+
+// Chapter: 2nd Chapter
+include::{sourcedir}/2nd_chapter/chapter_two_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/2nd_chapter/section_one_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/2nd_chapter/section_two_{lang}.adoc[leveloffset=+2]

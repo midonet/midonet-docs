@@ -6,6 +6,7 @@ set -e
 # List of directories to be zipped.
 #
 BUILD_DIRS=(
+    'kubernetes-guide_en'
     'operation-guide_en'
     'operation-guide_ja'
     'quick-start-guide_rhel-7_kilo-osp_en'
