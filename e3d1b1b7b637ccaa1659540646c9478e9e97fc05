@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_a9e35ed7",
+        "filename": "docs/operation-guide/src/routing/section_ecmp_limitations_ja.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002773
+      },
+      "writtenOn": "2016-07-21T07:54:38Z",
+      "side": 1,
+      "message": "Is this intentional? What is this a placeholder for?",
+      "revId": "e3d1b1b7b637ccaa1659540646c9478e9e97fc05",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
