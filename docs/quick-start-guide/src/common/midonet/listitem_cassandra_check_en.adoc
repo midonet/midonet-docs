@@ -16,7 +16,7 @@ a non-error state:
 ====
 [source]
 ----
-$ nodetool -host 127.0.0.1 status
+$ nodetool --host 127.0.0.1 status
 [...]
 Status=Up/Down
 |/ State=Normal/Leaving/Joining/Moving
