@@ -1,0 +1,23 @@
+[[vtep_ha]]
+= VXLAN Gateway high availability (VTEP side, active-passive mode)
+
+MidoNet supports VTEP HA by using two ToR VTEPs, both connected to each host in
+the rack with an active-passive configuration.
+
+There are two possible failure scenarios:
+
+* The active link from a host is lost. The passive link will take over, so
+traffic from the host will now flow through the other VTEP and its MACs will be
+learned there.
+
+* A VTEP dies. Any host whose active link connects to this VTEP will now move to
+the passive link, with the same result: MACs and IPs migrate to a different
+VTEP.
+
+MAC migrations will be applied from the VxLAN Gateway Service as soon as the
+OVSDB notifies about them, the new MacLocations will be propagated to VTEPs and
+NSDB, and traffic from agents and other VTEPs will now flow through the new
+VTEP.
+
+.VTEP HA
+image::vtep-ha_931x648.png[scaledwidth="100%"]

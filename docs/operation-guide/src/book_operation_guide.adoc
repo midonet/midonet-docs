@@ -117,6 +117,7 @@ include::{sourcedir}/vxlan/section_vxlan_flooding_proxy_{lang}.adoc[leveloffset=
 include::{sourcedir}/vxlan/section_connect_vtep_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/vxlan/section_connect_vtep_to_neutron_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/vxlan/section_connect_vtep_to_midonet_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/vxlan/section_vtep_ha_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/vxlan/section_troubleshooting_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/vxlan/section_cli_commands_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/vxlan/section_cli_list_vteps_{lang}.adoc[leveloffset=+3]
