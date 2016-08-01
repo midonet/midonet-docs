@@ -15,7 +15,7 @@
 
     <groupId>org.midonet</groupId>
     <artifactId>midonet-docs-quick-start-guide-ubuntu-1404-liberty-en</artifactId>
-    <version>5.0-rev7-SNAPSHOT</version>
+    <version>5.0-rev7</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId} v${project.version}</name>

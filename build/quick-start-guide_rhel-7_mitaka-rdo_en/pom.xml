@@ -15,7 +15,7 @@
 
     <groupId>org.midonet</groupId>
     <artifactId>midonet-docs-quick-start-guide-rhel-7-mitaka-rdo-en</artifactId>
-    <version>5.0-SNAPSHOT</version>
+    <version>5.0</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId} v${project.version}</name>
