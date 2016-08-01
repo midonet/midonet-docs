@@ -15,7 +15,7 @@
 
     <groupId>org.midonet</groupId>
     <artifactId>midonet-docs-quick-start-guide-ubuntu-1604-mitaka-en</artifactId>
-    <version>5.1-SNAPSHOT</version>
+    <version>5.1</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId} v${project.version}</name>
