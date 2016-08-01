@@ -4,6 +4,7 @@
 [source]
 ----
 # zypper install java-1_8_0-openjdk
+# zypper install log4j
 # zypper install zookeeper
 ----
 ====
