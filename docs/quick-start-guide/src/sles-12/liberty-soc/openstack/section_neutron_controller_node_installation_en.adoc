@@ -113,7 +113,7 @@ contain the following:
 ----
 [MIDONET]
 # MidoNet API URL
-midonet_uri = http://*_controller_*:8080/midonet-api
+midonet_uri = http://*_controller_*:8181/midonet-api
 # MidoNet administrative user in Keystone
 username = *_midonet_*
 password = *_MIDONET_PASS_*
