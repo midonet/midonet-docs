@@ -121,11 +121,11 @@ password = *_MIDONET_PASS_*
 project_id = service
 ----
 +
-.. Create a symbolic link to direct Neutron to the MidoNet configuration:
+.. Edit the `/etc/sysconfig/neutron` file to contain the following:
 +
 [source]
 ----
-# ln -s /etc/neutron/plugins/midonet/midonet.ini /etc/neutron/plugin.ini
+NEUTRON_PLUGIN_CONF="/etc/neutron/plugins/midonet/midonet.ini"
 ----
 ====
 
