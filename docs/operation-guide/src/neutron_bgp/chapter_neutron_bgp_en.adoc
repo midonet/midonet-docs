@@ -116,8 +116,8 @@ BGP Speaker ID: 5ef786aa-7f83-4762-bbbe-8d0dd51a7704
    --tenant-id admin \
    --local-as 4000 \
    --ip-version 4 \
-   --router-id=14ce01e6-af80-11e5-aca9-6730c321a8c7 \
-   BGP-Speaker
+   BGP-Speaker \
+   --logical-router 14ce01e6-af80-11e5-aca9-6730c321a8c7
 ----
 
 BGP Speaker ID: 5ef786aa-7f83-4762-bbbe-8d0dd51a7704
