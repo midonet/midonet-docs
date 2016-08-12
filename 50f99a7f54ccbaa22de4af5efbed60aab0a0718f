@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_50c2e634",
+        "filename": "docs/operation-guide/src/neutron_bgp/chapter_neutron_bgp_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1005043
+      },
+      "writtenOn": "2016-08-12T08:57:12Z",
+      "side": 1,
+      "message": "it only works in the tests if you use --logical-router switch after BGP-speaker, i.e. \nneutron bgp-speaker-create    --tenant-id admin    --local-as 4000    --ip-version 4 BGPSpeaker2 --logical-router a8ac6aca-6b28-4246-8708-9b8b4a898746",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 14
+      },
+      "revId": "50f99a7f54ccbaa22de4af5efbed60aab0a0718f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
