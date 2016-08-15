@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>Midokura Docs: Pods</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="/"></a>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <a href="http://docs.midonet.org/">OSS Docs</a>
+        </li>
+        <li>
+          <a href="http://docs.midokura.com/">MEM Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Pods</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="../getting_started.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Getting Started"></i></a>
+    
+    
+    <a href="namespaces.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Namespaces"></i></a>
+    
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-08-15 19:38</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Pods</a><ul>
+<li><a class="reference internal" href="#creating-a-pod">Creating a Pod</a></li>
+<li><a class="reference internal" href="#deleting-a-pod">Deleting a Pod</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="pods">
+<h1>Pods<a class="headerlink" href="#pods" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="creating-a-pod">
+<h2>Creating a Pod<a class="headerlink" href="#creating-a-pod" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://kubernetes.io/docs/user-guide/pods/">Pod</a> is the base entity to run on Kubernetes and merge the entity to Neutron
+is maybe the main action that Raven does. Raven watches on pods <a class="reference external" href="http://kubernetes.io/docs/api-reference/v1/operations/">events</a> (there
+is no more accurate URL on API reference) and reacts accordingly. Basically, the
+steps are the following:</p>
+<ol class="arabic simple">
+<li><strong class="command">User creates a Pod</strong>: When a user creates a Pod, Kubernetes takes
+care of schedule it and spawn the containers that conform a Pod to a Node
+worker.</li>
+<li><strong class="command">Raven sees the event</strong>: Raven receives the event of Pod creation,
+then it <cite>creates a port</cite> in Neutron (in the appropriate <a class="reference external" href="./namespaces.html">namespace network</a>)
+and receives the IP address reserved for this port as a response.</li>
+<li><strong class="command">Raven updates the Pod</strong>: Then, Raven updates the Kubernetes Pod entity
+(Kubernetes let you write on any of the entities by updating some metadata field)</li>
+<li><strong class="command">CNI receives the order of bind the Pod</strong> CNI driver receives the command
+of bind a Pod. This Pod has the information of the Neutron port and hence, the IP
+of the container. CNI driver does the binding.</li>
+</ol>
+<p>Due to the asynchronous nature of this actions, it may happen that CNI driver
+tries to read the IP address from Pod&#8217;s metadata but Raven hasn&#8217;t written yet
+the Neutron info. When that happens, CNI driver fails. But K8s API is very
+stubborn and will try again, so eventually (in 1 or 2 seconds) the binding will
+be done.</p>
+<p>To see an illustrative example, let&#8217;s create a simple Pod that deploys an nginx
+server:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># STEP 1: User creates a Pod</span>
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  spec:
+    containers:
+      - name: nginx
+        image: nginx
+</pre></div>
+</div>
+<p>Saving this contents in a file and running:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">kubectl create -f pod.yaml</div>
+</div>
+</div></blockquote>
+<p>That will create a port on neutron, as we can see:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># STEP 2: Raven catches the event and creates a port on Neutron</span>
+
+user@kuryr &gt; neutron port-list --name nginx -c name -c mac_address -c fixed_ips
+    +-------+-------------------+------------------------------------------------------------------------------------+
+    <span class="p">|</span> name  <span class="p">|</span> mac_address       <span class="p">|</span> fixed_ips                                                                          <span class="p">|</span>
+    +-------+-------------------+------------------------------------------------------------------------------------+
+    <span class="p">|</span> nginx <span class="p">|</span> fa:16:3e:36:47:de <span class="p">|</span> <span class="o">{</span><span class="s2">&quot;subnet_id&quot;</span>: <span class="s2">&quot;397f6de9-bee3-4e66-8056-f9e54a7ec5e0&quot;</span>, <span class="s2">&quot;ip_address&quot;</span>: <span class="s2">&quot;192.168.0.2&quot;</span><span class="o">}</span> <span class="p">|</span>
+    +-------+-------------------+------------------------------------------------------------------------------------+
+</pre></div>
+</div>
+<p>Please note that the port name in neutron is the same name as the Pod, it is a handy way to troubleshoot.</p>
+<p>Then, we can see that the Pod on Kubernetes API has the metadata according to the Neutron port:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># STEP 3: Raven writes Neutron data on kubernetes</span>
+<span class="c1"># (Data here was been formatted for a better understanding, don&#39;t expect</span>
+<span class="c1"># this &#39;beautiful&#39; output).</span>
+
+user@kuryr:~ &gt; kubectl get pod nginx -o template --template<span class="o">={{</span>.metadata.annotations<span class="o">}}</span>
+
+    map<span class="o">[</span>kuryr.org/neutron-port:<span class="o">{</span><span class="s2">&quot;admin_state_up&quot;</span>: true, <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;nginx&quot;</span>, <span class="s2">&quot;port_security_enabled&quot;</span>: true, <span class="s2">&quot;tenant_id&quot;</span>: <span class="s2">&quot;253cbc7015b344bb8d31b980fda6fe60&quot;</span>,
+                            <span class="s2">&quot;security_groups&quot;</span>: <span class="o">[</span><span class="s2">&quot;04662319-b305-4652-9299-9f517375c880&quot;</span><span class="o">]</span>, <span class="s2">&quot;binding:vnic_type&quot;</span>: <span class="s2">&quot;normal&quot;</span>, <span class="s2">&quot;device_id&quot;</span>: <span class="s2">&quot;&quot;</span>,
+                            <span class="s2">&quot;binding:profile&quot;</span>: null, <span class="s2">&quot;allowed_address_pairs&quot;</span>: <span class="o">[]</span>, <span class="s2">&quot;device_owner&quot;</span>: <span class="s2">&quot;kuryr:container&quot;</span>, <span class="s2">&quot;binding:host_id&quot;</span>: null,
+                            <span class="s2">&quot;network_id&quot;</span>: <span class="s2">&quot;8321a4a7-65f8-4e87-885d-8625549ab51c&quot;</span>, <span class="s2">&quot;status&quot;</span>: <span class="s2">&quot;ACTIVE&quot;</span>, <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;b345e440-b9c8-48d8-9d1c-07b91d066b08&quot;</span>,
+                            <span class="s2">&quot;binding:vif_details&quot;</span>: <span class="o">{</span><span class="s2">&quot;port_filter&quot;</span>: true<span class="o">}</span>, <span class="s2">&quot;fixed_ips&quot;</span>: <span class="o">[{</span><span class="s2">&quot;ip_address&quot;</span>: <span class="s2">&quot;192.168.0.2&quot;</span>,
+                            <span class="s2">&quot;subnet_id&quot;</span>: <span class="s2">&quot;397f6de9-bee3-4e66-8056-f9e54a7ec5e0&quot;</span><span class="o">}]</span>, <span class="s2">&quot;binding:vif_type&quot;</span>: <span class="s2">&quot;midonet&quot;</span>, <span class="s2">&quot;mac_address&quot;</span>: <span class="s2">&quot;fa:16:3e:36:47:de&quot;</span><span class="o">}</span>
+kuryr.org/neutron-subnet:<span class="o">{</span><span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;default-subnet&quot;</span>, <span class="s2">&quot;host_routes&quot;</span>: <span class="o">[]</span>, <span class="s2">&quot;tenant_id&quot;</span>: <span class="s2">&quot;253cbc7015b344bb8d31b980fda6fe60&quot;</span>,
+                          <span class="s2">&quot;allocation_pools&quot;</span>: <span class="o">[{</span><span class="s2">&quot;start&quot;</span>: <span class="s2">&quot;192.168.0.2&quot;</span>, <span class="s2">&quot;end&quot;</span>: <span class="s2">&quot;192.168.0.254&quot;</span><span class="o">}]</span>, <span class="s2">&quot;cidr&quot;</span>: <span class="s2">&quot;192.168.0.0/24&quot;</span>, <span class="s2">&quot;ipv6_ra_mode&quot;</span>: null,
+                          <span class="s2">&quot;gateway_ip&quot;</span>: <span class="s2">&quot;192.168.0.1&quot;</span>, <span class="s2">&quot;subnetpool_id&quot;</span>: <span class="s2">&quot;0928df83-4984-4079-a457-1280a3a65dbe&quot;</span>,
+                          <span class="s2">&quot;network_id&quot;</span>: <span class="s2">&quot;8321a4a7-65f8-4e87-885d-8625549ab51c&quot;</span>, <span class="s2">&quot;enable_dhcp&quot;</span>: true, <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;397f6de9-bee3-4e66-8056-f9e54a7ec5e0&quot;</span>,
+                          <span class="s2">&quot;dns_nameservers&quot;</span>: <span class="o">[]</span>, <span class="s2">&quot;ip_version&quot;</span>: 4, <span class="s2">&quot;ipv6_address_mode&quot;</span>: null<span class="o">}]</span>~
+</pre></div>
+</div>
+<p>Finally, we can check out the container is running and the ip address matches with the Neutron one:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># STEP 4: Container matches the IP with Neutron one looking at pod ip</span>
+
+user@kuryr &gt; docker <span class="nb">exec</span> <span class="k">$(</span>docker ps -f <span class="nv">ancestor</span><span class="o">=</span>nginx -q<span class="k">)</span> ip - <span class="m">4</span> a
+    1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span class="m">65536</span> qdisc noqueue state UNKNOWN group default qlen 1
+       link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+       inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+       inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+    2: gre0@NONE: &lt;NOARP&gt; mtu <span class="m">1476</span> qdisc noop state DOWN group default qlen 1
+       link/gre 0.0.0.0 brd 0.0.0.0
+    3: gretap0@NONE: &lt;BROADCAST,MULTICAST&gt; mtu <span class="m">1462</span> qdisc noop state DOWN group default qlen 1000
+       link/ether 00:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff
+    143: eth0@if144: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc noqueue state UP group default qlen 1000
+       link/ether fa:16:3e:36:47:de brd ff:ff:ff:ff:ff:ff
+       inet 192.168.0.2/24 scope global eth0
+               valid_lft forever preferred_lft forever
+       inet6 fe80::f816:3eff:fe36:47de/64 scope link
+               valid_lft forever preferred_lft forever
+</pre></div>
+</div>
+<p>Or you can also look at the pod definition:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># STEP 4: Container matches the IP with Neutron one looking at pod ip</span>
+
+    user@kuryr &gt; kubectl get pod nginx -o template --template <span class="o">{{</span>.status.podIP<span class="o">}}</span>
+    192.168.0.2
+</pre></div>
+</div>
+</div>
+<div class="section" id="deleting-a-pod">
+<h2>Deleting a Pod<a class="headerlink" href="#deleting-a-pod" title="Permalink to this headline">¶</a></h2>
+<p>The Neutron port will be deleted once you remove the Pod:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>user@kuryr &gt; kubectl delete pod nginx
+pod <span class="s2">&quot;nginx&quot;</span> deleted
+user@kuryr &gt; neutron port-list --name nginx -c name -c mac_address -c fixed_ips
+list index out of range
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="../getting_started.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Getting Started"></i></a>
+          
+          
+            <a href="namespaces.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Namespaces"></i></a>
+          
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-08-15 19:38</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+    <button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">Midonet Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/rhel-7_mitaka-rdo/content/index.html">Midonet RDO Mitaka</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/ubuntu-1604_mitaka/content/index.html">Midonet Ubuntu Mitaka</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/rhel-7_liberty-rdo/content/index.html">Midonet RDO Liberty</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/ubuntu-1404_liberty/content/index.html">Midonet Ubuntu Liberty</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/reference-architecture/content/index.html">Midonet Reference Architecture</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/operations-guide/content/index.html">Midonet Operations Guide</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../limitations.html">Current Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Pods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-pod">Creating a Pod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deleting-a-pod">Deleting a Pod</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="namespaces.html">Namespaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="services.html">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security_groups.html">Map to Neutron Security Groups</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: ";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Pods in Operations Guide";
+    var fieldTags = "";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-08-15 19:38";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+
+
+
+  </body>
+</html>
