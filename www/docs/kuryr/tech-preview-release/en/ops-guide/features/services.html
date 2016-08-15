@@ -1,0 +1,500 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>Midokura Docs: Services</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="/"></a>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <a href="http://docs.midonet.org/">OSS Docs</a>
+        </li>
+        <li>
+          <a href="http://docs.midokura.com/">MEM Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Services</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="namespaces.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Namespaces"></i></a>
+    
+    
+    <a href="security_groups.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Map to Neutron Security Groups"></i></a>
+    
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-08-15 19:38</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Services</a><ul>
+<li><a class="reference internal" href="#creating-a-service">Creating a service</a></li>
+<li><a class="reference internal" href="#external-services">External Services</a></li>
+<li><a class="reference internal" href="#delete-service">Delete Service</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="services">
+<h1>Services<a class="headerlink" href="#services" title="Permalink to this headline">¶</a></h1>
+<p>An application developer can choose how many replicas of the same service wants
+to run. Due the volatile nature of containers, a <a class="reference external" href="http://kubernetes.io/docs/user-guide/replicasets/">Replica Set</a> keeps the number
+of replicas constant, by scheduling new containers when it detects some of them
+are dead. <a class="reference internal" href="#services">Services</a> are an abstraction layer on top of <a class="reference external" href="http://kubernetes.io/docs/user-guide/deployments/">Deployment</a> (which is
+the <a class="reference external" href="http://kubernetes.io/docs/user-guide/replicasets/">Replica Set</a> controller) to access to these containers, regardless of how
+many of them or where they are deployed.</p>
+<p>Raven maps services into <a class="reference external" href="http://developer.openstack.org/api-ref/networking/v2-ext/index.html#lbaas-1-0-deprecated">LBaaS v1</a> Neutron entities.  In Neutron we can see
+<a class="reference external" href="http://kubernetes.io/docs/user-guide/replicasets/">Replica Set</a> as Load Balancer Pool, and <a class="reference internal" href="#services">Services</a> as Load Balancer VIPs.
+<a class="reference external" href="http://kubernetes.io/docs/user-guide/pods/">Pod</a>s are the Load Balancer Members.</p>
+<p>As described on <a class="reference external" href="../limitations.html">limitations</a> section, we only support the <em>ClusterIP</em>
+service type.</p>
+<div class="section" id="creating-a-service">
+<h2>Creating a service<a class="headerlink" href="#creating-a-service" title="Permalink to this headline">¶</a></h2>
+<p>Create a service involves several steps:</p>
+<ol class="arabic simple">
+<li><strong class="command">User creates a Deployment</strong>: Kubernetes creates the entities and its
+corresponding <a class="reference external" href="http://kubernetes.io/docs/user-guide/replicasets/">Replica Set</a>. It also schedules all the replicated <a class="reference external" href="http://kubernetes.io/docs/user-guide/pods/">Pod</a>s.</li>
+<li><strong class="command">Raven watches Pods</strong>: There is not actual watcher on Deployment
+API endpoint, but since Kubernetes will create some <a class="reference external" href="http://kubernetes.io/docs/user-guide/pods/">Pod</a>s (according to
+the number of replicas), Raven will see the events of these <a class="reference external" href="http://kubernetes.io/docs/user-guide/pods/">Pod</a>s and will
+create the corresponding Neutron entities (see <a class="reference external" href="./pods.html">the Pods guide</a>
+documentation).</li>
+<li><strong class="command">User creates a Service associated to the Deployment</strong>: When a
+Service is created, Kubernetes chooses a ClusterIP from where the service
+will be accessible.</li>
+<li><strong class="command">Raven watches Services</strong>: and creates the LB Pool and the LB VIP
+in Neutron, using the <a class="reference external" href="http://developer.openstack.org/api-ref/networking/v2-ext/index.html#lbaas-1-0-deprecated">LBaaS v1</a> API. The VIP will belong to the
+<em>raven-default-service</em> Neutron network, configured via
+<em>cluster_service_subnet</em> (see <a class="reference external" href="../getting_started.html">Getting Started</a>)</li>
+<li><strong class="command">Raven writes LB data entities on Services</strong>: Neutron LB Pool and
+LB VIP info will be added on Service metadata annotation.</li>
+<li><strong class="command">Raven watches Endpoints</strong>: Kubenetes writes a new entry on the
+Endpoints API for each member of the <a class="reference external" href="http://kubernetes.io/docs/user-guide/deployments/">Deployment</a> . Raven sees the events
+and creates the corresponding LB Members.</li>
+</ol>
+<p>This is an example of a <cite>Deployment</cite> replicating three nginx servers:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># STEP 1: Create a deployment</span>
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: demo
+spec:
+  replicas: 3
+   template:
+     metadata:
+       labels:
+         app: demo
+     spec:
+       containers:
+       - name: nginx
+         image: nginx
+         resources:
+           requests:
+             cpu: 100m
+             memory: 100Mi
+         ports:
+         - containerPort: 80
+</pre></div>
+</div>
+<p>Copying the contents of this block on a file and run the following command:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">kubectl create -f deployment.yaml</div>
+</div>
+</div></blockquote>
+<p>Should create three <a class="reference external" href="http://kubernetes.io/docs/user-guide/pods/">Pod</a>s in Kubernetes and three ports on Neutron (see
+<a class="reference external" href="./pods.html">the Pods guide</a> explanation if you wish to check out what happens behind
+scenes)</p>
+<p>Then, if we use this data to create a service:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># STEP 3: Create a service</span>
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo
+spec:
+  ports:
+    -
+      port: 80
+  selector:
+    app: demo
+</pre></div>
+</div>
+<p>Copying the contents on a file and run the creation:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">kubectl create -f service.yaml</div>
+</div>
+</div></blockquote>
+<p>Will trigger the Raven service and endpoint watchers.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># STEP 4 and 6: Raven creates LB entities on neutron</span>
+
+user@kuryr &gt; neutron lb-vip-list -c name -c address -c protocol -c status
++------+------------+----------+--------+
+<span class="p">|</span> name <span class="p">|</span> address    <span class="p">|</span> protocol <span class="p">|</span> status <span class="p">|</span>
++------+------------+----------+--------+
+<span class="p">|</span> demo <span class="p">|</span> 10.0.0.228 <span class="p">|</span> TCP      <span class="p">|</span> ACTIVE <span class="p">|</span>
++------+------------+----------+--------+
+user@kuryr &gt; neutron lb-pool-list -c name -c provider -c protocol -c status
++------+----------+----------+--------+
+<span class="p">|</span> name <span class="p">|</span> provider <span class="p">|</span> protocol <span class="p">|</span> status <span class="p">|</span>
++------+----------+----------+--------+
+<span class="p">|</span> demo <span class="p">|</span> midonet  <span class="p">|</span> TCP      <span class="p">|</span> ACTIVE <span class="p">|</span>
++------+----------+----------+--------+
+user@kuryr &gt; neutron lb-member-list -c address -c protocol_port -c status
++-------------+---------------+--------+
+<span class="p">|</span> address     <span class="p">|</span> protocol_port <span class="p">|</span> status <span class="p">|</span>
++-------------+---------------+--------+
+<span class="p">|</span> 192.168.0.3 <span class="p">|</span>            <span class="m">80</span> <span class="p">|</span> ACTIVE <span class="p">|</span>
+<span class="p">|</span> 192.168.0.5 <span class="p">|</span>            <span class="m">80</span> <span class="p">|</span> ACTIVE <span class="p">|</span>
+<span class="p">|</span> 192.168.0.4 <span class="p">|</span>            <span class="m">80</span> <span class="p">|</span> ACTIVE <span class="p">|</span>
++-------------+---------------+--------+
+</pre></div>
+</div>
+<p>Please note the VIP is taken from the <em>raven-default-service</em> network and the
+members&#8217; IPs (Pods) belongs to the namespace network.</p>
+<p>These entities data are written on Service metadata:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># STEP 5: Raven writes metadata on K8s service entity</span>
+
+user@kuryr &gt; kubectl get service demo -o template --template<span class="o">={{</span>.metadata.annotations<span class="o">}}</span>
+
+map<span class="o">[</span>kuryr.org/neutron-pool:
+    <span class="o">{</span><span class="s2">&quot;members&quot;</span>: <span class="o">[]</span>, <span class="s2">&quot;status_description&quot;</span>: null, <span class="s2">&quot;status&quot;</span>: <span class="s2">&quot;ACTIVE&quot;</span>, <span class="s2">&quot;subnet_id&quot;</span>: <span class="s2">&quot;67c6c4f0-49ca-4619-9c94-07092635fb2c&quot;</span>, <span class="s2">&quot;id&quot;</span>:
+     <span class="s2">&quot;72cf1c69-a70b-4b76-b3f8-de5baae12934&quot;</span>, <span class="s2">&quot;provider&quot;</span>: <span class="s2">&quot;midonet&quot;</span>, <span class="s2">&quot;description&quot;</span>: <span class="s2">&quot;&quot;</span>, <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;demo&quot;</span>, <span class="s2">&quot;lb_method&quot;</span>: <span class="s2">&quot;ROUND_ROBIN&quot;</span>,
+     <span class="s2">&quot;protocol&quot;</span>: <span class="s2">&quot;TCP&quot;</span>, <span class="s2">&quot;health_monitors_status&quot;</span>: <span class="o">[]</span>, <span class="s2">&quot;tenant_id&quot;</span>: <span class="s2">&quot;48a5b6b9a0db414592aced182af6f89a&quot;</span>, <span class="s2">&quot;vip_id&quot;</span>: null,
+     <span class="s2">&quot;health_monitors&quot;</span>: <span class="o">[]</span>, <span class="s2">&quot;admin_state_up&quot;</span>: true<span class="o">}</span>
+    kuryr.org/neutron-vip:
+    <span class="o">{</span><span class="s2">&quot;port_id&quot;</span>: <span class="s2">&quot;d70fac2f-0564-4533-878e-e2e045e5614c&quot;</span>, <span class="s2">&quot;connection_limit&quot;</span>: -1, <span class="s2">&quot;status_description&quot;</span>: null,
+     <span class="s2">&quot;status&quot;</span>: <span class="s2">&quot;PENDING_CREATE&quot;</span>, <span class="s2">&quot;subnet_id&quot;</span>: <span class="s2">&quot;ff13afd0-640b-40ba-bfb7-620812064c21&quot;</span>, <span class="s2">&quot;protocol_port&quot;</span>: 80, <span class="s2">&quot;id&quot;</span>:
+     <span class="s2">&quot;953228bb-e8c8-42ad-be28-3f55220e8468&quot;</span>, <span class="s2">&quot;description&quot;</span>: <span class="s2">&quot;&quot;</span>, <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;demo&quot;</span>, <span class="s2">&quot;pool_id&quot;</span>: <span class="s2">&quot;72cf1c69-a70b-4b76-b3f8-de5baae12934&quot;</span>,
+     <span class="s2">&quot;protocol&quot;</span>: <span class="s2">&quot;TCP&quot;</span>, <span class="s2">&quot;address&quot;</span>: <span class="s2">&quot;10.0.0.228&quot;</span>, <span class="s2">&quot;tenant_id&quot;</span>: <span class="s2">&quot;48a5b6b9a0db414592aced182af6f89a&quot;</span>,
+     <span class="s2">&quot;session_persistence&quot;</span>: null, <span class="s2">&quot;admin_state_up&quot;</span>: true<span class="o">}]</span>~
+</pre></div>
+</div>
+</div>
+<div class="section" id="external-services">
+<h2>External Services<a class="headerlink" href="#external-services" title="Permalink to this headline">¶</a></h2>
+<p>Kubernetes services can have one or more external IP which allow traffic from
+outside the cluster.</p>
+<p>Raven maps external IP&#8217;s to Neutron <a class="reference external" href="http://docs.openstack.org/user-guide/cli-manage-ip-addresses.html">Floating Ip</a>s. As described on
+<a class="reference external" href="../limitations.html">limitations</a> section, only one external IP per service is presently supported.</p>
+<p>When Raven detects the &#8220;externalIPs&#8221; field in a Service, it will create the
+Floating IP on Neutron that matches with the <em>first</em> &#8220;externalIPs&#8221; on the list.</p>
+<p>That &#8220;externalIP&#8221; <strong>MUST</strong> belong to the IP range defined on
+<em>cluster_external_subnet</em> Raven configuration variable.  To create an external
+IP, it must be on that range. In case the IP does not belong to that range, the
+external IP <strong>will be ignored</strong>.</p>
+<p>Let&#8217;s add an external IP on the Service created on the previous section by using
+the <em>kubectl patch</em> utility.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>user@kuryr &gt; kubectl patch service demo -p <span class="s1">&#39;{&quot;spec&quot;: {&quot;externalIPs&quot;: [&quot;172.16.0.4&quot;]}}&#39;</span>
+</pre></div>
+</div>
+<p>Since the FloatingIP is in the range of the <em>cluster_external_subnet</em>, we can
+check that has been created on Neutron:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>user@kuryr &gt; neutron floatingip-list
++--------------------------------------+------------------+---------------------+
+<span class="p">|</span> id                                   <span class="p">|</span> fixed_ip_address <span class="p">|</span> floating_ip_address <span class="p">|</span>
++--------------------------------------+------------------+---------------------+
+<span class="p">|</span> 18696206-b472-4fa7-805b-52a2e50da977 <span class="p">|</span> 10.0.0.228       <span class="p">|</span> 172.16.0.4          <span class="p">|</span>
++--------------------------------------+------------------+---------------------+
+</pre></div>
+</div>
+<p>Please note the <em>fixed_ip_address</em> belongs to the LoadBalancer VIP created in
+the previous section.</p>
+</div>
+<div class="section" id="delete-service">
+<h2>Delete Service<a class="headerlink" href="#delete-service" title="Permalink to this headline">¶</a></h2>
+<p>Deleting a Service deletes all the Load Balancer entities:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>~ &gt; kubectl delete service demo
+service <span class="s2">&quot;demo&quot;</span> deleted
+~ &gt; neutron lb-vip-list
+
+~ &gt; neutron lb-pool-list
+
+~ &gt; neutron lb-member-list
+</pre></div>
+</div>
+<p>But does not delete the <a class="reference external" href="http://kubernetes.io/docs/user-guide/pods/">Pod</a>s neither the ports:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>user@kuryr &gt; neutron port-list -c name -c fixed_ips
++----------------------+------------------------------------------------------------------------------------+
+<span class="p">|</span> name                 <span class="p">|</span> fixed_ips                                                                          <span class="p">|</span>
++----------------------+------------------------------------------------------------------------------------+
+<span class="p">|</span> demo-914545731-ralez <span class="p">|</span> <span class="o">{</span><span class="s2">&quot;subnet_id&quot;</span>: <span class="s2">&quot;67c6c4f0-49ca-4619-9c94-07092635fb2c&quot;</span>, <span class="s2">&quot;ip_address&quot;</span>: <span class="s2">&quot;192.168.0.5&quot;</span><span class="o">}</span> <span class="p">|</span>
+<span class="p">|</span> demo-914545731-6l59z <span class="p">|</span> <span class="o">{</span><span class="s2">&quot;subnet_id&quot;</span>: <span class="s2">&quot;67c6c4f0-49ca-4619-9c94-07092635fb2c&quot;</span>, <span class="s2">&quot;ip_address&quot;</span>: <span class="s2">&quot;192.168.0.3&quot;</span><span class="o">}</span> <span class="p">|</span>
+<span class="p">|</span> demo-914545731-0xewm <span class="p">|</span> <span class="o">{</span><span class="s2">&quot;subnet_id&quot;</span>: <span class="s2">&quot;67c6c4f0-49ca-4619-9c94-07092635fb2c&quot;</span>, <span class="s2">&quot;ip_address&quot;</span>: <span class="s2">&quot;192.168.0.4&quot;</span><span class="o">}</span> <span class="p">|</span>
++----------------------+------------------------------------------------------------------------------------+
+
+user@kuryr &gt; kubectl get pod
+NAME                   READY     STATUS    RESTARTS   AGE
+demo-914545731-0xewm   1/1       Running   <span class="m">0</span>          1h
+demo-914545731-6l59z   1/1       Running   <span class="m">0</span>          1h
+demo-914545731-ralez   1/1       Running   <span class="m">0</span>          1h
+</pre></div>
+</div>
+<p>To do so, you have to delete the deployment:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>user@kuryr &gt; kubectl delete delpoyment demo
+deployment <span class="s2">&quot;demo&quot;</span> deleted
+user@kuryr &gt; kubectl get pod
+NAME                   READY     STATUS    RESTARTS   AGE
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="namespaces.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Namespaces"></i></a>
+          
+          
+            <a href="security_groups.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Map to Neutron Security Groups"></i></a>
+          
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-08-15 19:38</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+    <button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">Midonet Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/rhel-7_mitaka-rdo/content/index.html">Midonet RDO Mitaka</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/ubuntu-1604_mitaka/content/index.html">Midonet Ubuntu Mitaka</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/rhel-7_liberty-rdo/content/index.html">Midonet RDO Liberty</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/ubuntu-1404_liberty/content/index.html">Midonet Ubuntu Liberty</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/reference-architecture/content/index.html">Midonet Reference Architecture</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/operations-guide/content/index.html">Midonet Operations Guide</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../limitations.html">Current Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pods.html">Pods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="namespaces.html">Namespaces</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-service">Creating a service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#external-services">External Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#delete-service">Delete Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="security_groups.html">Map to Neutron Security Groups</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: ";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Services in Operations Guide";
+    var fieldTags = "";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-08-15 19:38";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+
+
+
+  </body>
+</html>
