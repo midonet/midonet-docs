@@ -1,0 +1,66 @@
+[[l2insertion_object]]
+= L2Insertion Object
+
+The L2Insertion object has these fields (see the REST documentation for more
+detail):
+
+. inspected VM port UUID
+. inspected VM MAC
+. service port UUID
+. VLAN tag
+. fail-open (true/false)
+. position
+
+The first 3 fields are the most important to consider. Imagine an L2Insertion
+configured as described by the following diagram.
+
+The position is an absolute position in the list of insertions. If two
+insertions have the same position the order is undefined. When we load the
+insertions we basically sort by the position field. In many ways, it acts more
+like a weight.
+
+image::l2insertion_1st_650x300.png[scaledwidth="100%"]
+
+In such a scenario, MidoNet will set up redirect logic as shown in the diagram
+below. When VM2 sends a packet to VM1 (and specifically to VM1's MAC), at the
+point labelled "redirect logic" (after port-level firewall, not shown) the
+packet is redirected to the service function (red arrow 1). If the service
+function allows the packet and therefore re-emits it, the redirect logic at the
+service function redirects the packet so that it completes its journey to VM1
+(red arrow 2).
+
+image::l2insertion_2nd_650x300.png[scaledwidth="100%"]
+
+The next diagram shows how packets from the protected port (and MAC) are
+redirected.
+
+image::l2insertion_3rd_650x300.png[scaledwidth="100%"]
+
+The diagrams do now show how field number 4, the VLAN tag, is used. If the VLAN
+tag is set to a value above zero, then MidoNet will push a VLAN tag with that
+value onto packets redirected into the service function. MidoNet will also
+expect the VLAN tag to be left on the packet if it is re-emitted from the
+service function. MidoNet also uses the PCP bits in the VLAN header for its own
+purposes, these should not be modified by the service function.
+
+The use of field number 5, fail-open, is illustrated in the diagram below. If
+fail-open is false, then when the service function fails all redirect traffic is
+essentially dropped. If fail-open is true, there are cases when MidoNet can
+detect failure of the service function link (link status only, we do not yet
+have active monitoring neither in-band or out-of band) and the redirection logic
+will automatically allow the traffic to skip the failed service function.
+
+image::l2insertion_4th_650x300.png[scaledwidth="100%"]
+
+Finally, the sixth field of L2Insertion, position, allows specifying the order
+in which service functions should be traversed if there are multiple L2Insertion
+objects with the same inspected port and mac but different service ports.
+
+[IMPORTANT]
+You can set L2Insertion's "port" (inspected port) field to a non-Neutron port's
+UUID, like that of a router port or a L2GW port. But remember that it's not the
+device, but the endpoint connected to the device (router or bridge) that's
+protected (and therefore whose MAC should be configured in the L2Insertion). If
+you want to protect a router port, you must put the L2Insertion object on the
+bridge port facing the router port. Therefore it’s not possible to protect the
+exterior ports of a router (like those of the Edge Router).

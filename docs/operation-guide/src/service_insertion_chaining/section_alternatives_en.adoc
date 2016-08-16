@@ -1,0 +1,48 @@
+[[l2insertion_alternatives]]
+= Alternatives
+
+These alternative mechanisms are often used in service-chaining use-cases:
+
+With *port mirroring* the service function receives a copy of the traffic's
+packets. Compared to L2Insertion:
+
+* Only L2Insertion supports VLAN tagging; port mirroring does not.
+
+* Only port mirroring supports classification; L2Insertion does not.
+
+* Both allow multiple service functions (but the term "chain" would only be
+accurate for L2Insertion because in the case of port mirroring each service
+function would receive a separate copy of the packets)
+
+* Both allow the service function to be inserted at any port in the logical topology.
+
+You can find more information about port mirroring in xref:port_mirroring[].
+
+MidoNet also supports *source routing* (a flavor of policy routing). Source
+routes can be used to steer traffic through a router differently depending on
+where the traffic is coming from. MidoNet's source routing matches on the source
+IP address of the packet headers, NOT the port at which the packet ingresses the
+router. Source routing is a traditional way (popular in physical networks) of
+inserting a network service function when traffic between two endpoints must
+traverse a router.
+
+MidoNet also supports ECMP (Equal Cost MultiPath) routing. ECMP allows the
+forwarding table to contain multiple routes with identical source, destination
+and weight (but differing in their next hop). ECMP can therefore be used to
+load-balance flows to several service function instances.
+
+MidoNet selects a route by:
+
+. Find the matching routes whose destination prefix mask is longest (longest
+  prefix match, LPM)
+
+. Filter for routes whose source matches the packet.
+
+. Filter for route(s) that has/have the highest weight.
+
+. Perform ECMP calculation (hash mod N) to select 1 of the routes.
+
+More information about routing in MidoNet can be found in xref:routing[].
+
+The limitations of MidoNet's ECMP load-balancing are further described in
+xref:ecmp_limitations[].
