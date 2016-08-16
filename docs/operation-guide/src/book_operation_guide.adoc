@@ -133,6 +133,13 @@ include::{sourcedir}/l2_gateway/chapter_l2_gateway_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/l2_gateway/section_configuration_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/l2_gateway/section_failover_{lang}.adoc[leveloffset=+2]
 
+// Chapter: Service Function Chaining
+include::{sourcedir}/service_insertion_chaining/chapter_service_insertion_chaining_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/service_insertion_chaining/section_service_function_model_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/service_insertion_chaining/section_l2insertion_object_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/service_insertion_chaining/section_l2insertion_cli_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/service_insertion_chaining/section_alternatives_{lang}.adoc[leveloffset=+2]
+
 // Chapter: Working with the MidoNet CLI
 include::{sourcedir}/mn_cli/chapter_mn_cli_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/mn_cli/section_mn_cli_usage_{lang}.adoc[leveloffset=+2]
