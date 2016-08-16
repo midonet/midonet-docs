@@ -1,0 +1,18 @@
+[[service_function_model]]
+= Service Function Model
+
+The L2Insertion assumes a Service Function has:
+
+* an addressable management interface (not managed or referenced from
+  L2Insertion)
+** Assign a Floating IP to allow access from outside the cloud.
+
+* an unnumbered inspection interface
+** receives the traffic of inspected VMs
+** MidoNet can add a VLAN tag to signal policy, and PCP bits indicate direction
+   (in-to/out-of VM)
+
+image::security_function_237x321.png[]
+
+Note that MidoNet drops all non-insertion traffic on an inspection port of a
+network function.

@@ -1,0 +1,20 @@
+[[l2insertion_cli]]
+= L2Insertion in MidoNet CLI
+
+The following example inserts two service functions (located on Bridge1's port0
+and port1) at Bridge0's port0. Only traffic to/from MAC fa:16:3e:a4:dd:58 is
+protected. Different VLANs are used for the different service functions - this
+is not required by MidoNet, the example assumes that the VM is protected by
+different policies (or policies represented by different VLAN tag values) in the
+different service functions.
+
+[source]
+----
+midonet> l2insertion add fail-open true mac fa:16:3e:a4:dd:58 port bridge0:port0 pos 0 srv-port bridge1:port0 vlan 10
+l2insertion0
+midonet> l2insertion add fail-open true mac fa:16:3e:a4:dd:58 port bridge0:port0 pos 1 srv-port bridge1:port1 vlan 20
+l2insertion1
+midonet> l2insertion list
+l2insertion l2insertion0 port bridge0:port0 srv-port bridge1:port0 vlan 10 pos 0 fail-open true mac fa:16:3e:a4:dd:58
+l2insertion l2insertion1 port bridge0:port0 srv-port bridge1:port1 vlan 20 pos 1 fail-open true mac fa:16:3e:a4:dd:58
+----

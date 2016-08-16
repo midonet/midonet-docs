@@ -1,0 +1,10 @@
+[[service_insertion_and_chaining]]
+= Service Insertion and Chaining
+
+Starting in version 5.0, MidoNet has a *Technical Preview* API for inserting and
+chaining network service functions. The API is mostly provided by a single
+object, L2Insertion, whose fields are documented in the REST API documentation.
+
+++++
+<?dbhtml stop-chunking?>
+++++
