@@ -7,28 +7,32 @@ set -e
 #
 BUILD_DIRS=(
     'operation-guide_en'
-    'operation-guide_ja'
     'quick-start-guide_rhel-7_kilo-osp_en'
-    'quick-start-guide_rhel-7_kilo-osp_ja'
     'quick-start-guide_rhel-7_kilo-rdo_en'
-    'quick-start-guide_rhel-7_kilo-rdo_ja'
     'quick-start-guide_rhel-7_liberty-osp_en'
     'quick-start-guide_rhel-7_liberty-rdo_en'
-    'quick-start-guide_rhel-7_liberty-rdo_ja'
     'quick-start-guide_rhel-7_mitaka-rdo_en'
     'quick-start-guide_sles-12_liberty-soc_en'
     'quick-start-guide_ubuntu-1404_kilo_en'
-    'quick-start-guide_ubuntu-1404_kilo_ja'
     'quick-start-guide_ubuntu-1404_liberty_en'
-    'quick-start-guide_ubuntu-1404_liberty_ja'
     'quick-start-guide_ubuntu-1404_mitaka_en'
     'quick-start-guide_ubuntu-1604_mitaka_en'
     'reference-architecture_en'
-    'reference-architecture_ja'
     'rest-api_en'
     'troubleshooting-guide_en'
-    'troubleshooting-guide_ja'
 )
+
+###
+# Japanese language docs currently not maintained:
+#    'operation-guide_ja'
+#    'quick-start-guide_rhel-7_kilo-osp_ja'
+#    'quick-start-guide_rhel-7_kilo-rdo_ja'
+#    'quick-start-guide_rhel-7_liberty-rdo_ja'
+#    'quick-start-guide_ubuntu-1404_kilo_ja'
+#    'quick-start-guide_ubuntu-1404_liberty_ja'
+#    'reference-architecture_ja'
+#    'troubleshooting-guide_ja'
+###
 
 #
 # Copy PDFs and create ZIPs for HTML.
@@ -50,13 +54,13 @@ for BUILD_DIR in "${BUILD_DIRS[@]}"; do
 done
 
 mkdir -p ${SCRIPT_DIR}/target/EN
-mkdir -p ${SCRIPT_DIR}/target/JA
+#mkdir -p ${SCRIPT_DIR}/target/JA
 
 mv ${SCRIPT_DIR}/target/*_EN_* ${SCRIPT_DIR}/target/EN
-mv ${SCRIPT_DIR}/target/*_JA_* ${SCRIPT_DIR}/target/JA
+#mv ${SCRIPT_DIR}/target/*_JA_* ${SCRIPT_DIR}/target/JA
 
 ls -alh target/EN
-ls -alh target/JA
+#ls -alh target/JA
 
 echo "---------------------------------------------------------------"
 echo "SUCCESS"
