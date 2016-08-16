@@ -1,6 +1,17 @@
 [[routing_process_overview]]
 = Routing process overview
 
+MidoNet selects a route by:
+
+. Find the matching routes whose destination prefix mask is longest (longest
+  prefix match, LPM)
+
+. Filter for routes whose source matches the packet.
+
+. Filter for route(s) that has/have the highest weight.
+
+. Perform ECMP calculation (hash mod N) to select 1 of the routes.
+
 For traffic that ingresses a router port, the router does the following:
 
 * Attempts to match a given packet's destination with a route in its routing
