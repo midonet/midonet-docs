@@ -140,6 +140,11 @@ include::{sourcedir}/service_containers/section_container_management_{lang}.adoc
 include::{sourcedir}/service_containers/section_container_scheduling_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/service_containers/section_container_troubleshooting_{lang}.adoc[leveloffset=+2]
 
+// Chapter: Service Function Chaining
+include::{sourcedir}/service_function_chaining/chapter_service_function_chaining_{lang}.adoc[leveloffset=+1]
+include::{sourcedir}/service_function_chaining/section_service_model_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/service_function_chaining/section_l2insertion_api_{lang}.adoc[leveloffset=+2]
+
 // Chapter: Router Peering
 include::{sourcedir}/router_peering/chapter_router_peering_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/router_peering/section_diagrams_{lang}.adoc[leveloffset=+2]
