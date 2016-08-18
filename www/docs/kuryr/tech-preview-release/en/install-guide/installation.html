@@ -1,0 +1,583 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>Midokura Docs: Kuryr-Kubernetes Installation</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="/"></a>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <a href="http://docs.midonet.org/">OSS Docs</a>
+        </li>
+        <li>
+          <a href="http://docs.midokura.com/">MEM Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Kuryr-Kubernetes Installation</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="index.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Kuryr-Kubernetes Installation Guide"></i></a>
+    
+    
+    <a href="devstack.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: DevStack Installation quick guide"></i></a>
+    
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-08-18 11:46</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Kuryr-Kubernetes Installation</a><ul>
+<li><a class="reference internal" href="#openstack-controller">OpenStack controller</a></li>
+<li><a class="reference internal" href="#kubernetes-controller">Kubernetes controller</a></li>
+<li><a class="reference internal" href="#kubernetes-workers">Kubernetes Workers</a></li>
+<li><a class="reference internal" href="#checking-health">Checking Health</a></li>
+<li><a class="reference internal" href="#running-your-first-containers">Running your first containers</a></li>
+<li><a class="reference internal" href="#exposing-a-service">Exposing a service</a></li>
+<li><a class="reference internal" href="#exposing-your-services-to-the-external-world">Exposing your services to the external world</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="kuryr-kubernetes-installation">
+<h1>Kuryr-Kubernetes Installation<a class="headerlink" href="#kuryr-kubernetes-installation" title="Permalink to this headline">¶</a></h1>
+<p>This document describes how to install and test Kuryr-Kubernetes.
+It assumes you have a running installation of OpenStack&#8217;s Neutron
+using <a class="reference external" href="https://www.midonet.org/">Midonet</a> as network providers. If not, see <a class="reference external" href="./devstack.html">DevStack Installation</a>
+for a quick guide to install and configure <a class="reference external" href="http://docs.openstack.org/developer/devstack/">DevStack</a> the development
+version of OpenStack.</p>
+<p>In this guide, we will refer to three different environments, which
+can be physical or virtual: the OpenStack controller node (ost-controller),
+the Kubernetes cluster control1er (k8s-controller) and one or more Kubernetes
+workers (k8s-worker1, k8s-worker2, ...).</p>
+<p>This guide assumes that you have <a class="reference external" href="https://docs.docker.com/engine/installation/linux/">Docker</a> installed in the Kubernetes
+nodes (controller and workers).</p>
+<p>To facilitate the installation process, we provide the scripts to configure
+the k8s nodes (controller and workers) using <a class="reference external" href="https://coreos.com/os/docs/latest/cloud-config.html">coreos-cloudinit</a> utility.
+Refer to the <a class="reference external" href="./cloudinit.html">CoreOS Cloud Init Installation</a> for  instructions on how to
+install it.</p>
+<p>Finally, this guide assumes all nodes have connectivity between them and
+access to the Internet for package installation.</p>
+<div class="section" id="openstack-controller">
+<h2>OpenStack controller<a class="headerlink" href="#openstack-controller" title="Permalink to this headline">¶</a></h2>
+<p>At the ost-controller, the only step needed is to create one midonet
+tunnel zone to allow the communication between the K8s workers and the
+service load balancing agent, running in the ost-controller.</p>
+<p>First, create the tunnel-zone:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ midonet-cli -e tunnel-zone create name demo <span class="nb">type</span> vxlan
+  282d7315-382c-4736-a567-afa57009d942
+</pre></div>
+</div>
+<p>The name used is important because the k8s-workers will add themselves to it
+based on this name.</p>
+<p>With the uuid for the tunnel zone that was returned, we should proceed to
+add the ost-controller host to the tunnel zone. This will allow the haproxy
+loadbalancer agent to communicate with the pods in the worker instances.</p>
+<p>Check your host uuid:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ midonet-cli -e host list
+host bd6a3fe1-a655-49af-bd77-d3b2a5356af4 name ost-controller alive <span class="nb">true</span> addresses fe80:0:0:0:0:11ff:fe00:1101,169.254.123.1,fe80:0:0:0:4001:aff:fe8e:2,10.142.0.2,172.17.0.1,fe80:0:0:0:fc6c:38ff:fe47:f864,127.0.0.1,0:0:0:0:0:0:0:1,fe80:0:0:0:0:11ff:fe00:1102,fe80:0:0:0:c4fd:6dff:fe99:7a6d,172.19.0.2 flooding-proxy-weight <span class="m">1</span> container-weight <span class="m">1</span> container-limit no-limit enforce-container-limit <span class="nb">false</span>
+</pre></div>
+</div>
+<p>Then add it to the tunnel zone, using the internal IP:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ midonet-cli -e tunnel-zone 282d7315-382c-4736-a567-afa57009d942 add <span class="se">\</span>
+  member host bd6a3fe1-a655-49af-bd77-d3b2a5356af4 address 10.142.0.2
+zone 282d7315-382c-4736-a567-afa57009d942 host bd6a3fe1-a655-49af-bd77-d3b2a5356af4 address 10.142.0.2
+</pre></div>
+</div>
+</div>
+<div class="section" id="kubernetes-controller">
+<h2>Kubernetes controller<a class="headerlink" href="#kubernetes-controller" title="Permalink to this headline">¶</a></h2>
+<p>The configuration file <a class="reference download internal" href="_downloads/cloud-config-k8s-controller.yaml"><tt class="xref download docutils literal"><span class="pre">cloud-config-k8s-controller.yaml</span></tt></a> automates the deployment
+of all the components required by the kubernetes controller. In this process, the Kuryr contanier
+is downloaded and installed as a <em>systemctl</em> service:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>[Unit]
+Description=Kuryr Kubernetes API watcher and translator of events to \
+  Neutron entities.
+Documentation=https://github.com/midonet/kuryr/tree/k8s
+Requires=kube-apiserver.service docker.service
+After=kube-apiserver.service docker.service
+
+[Service]
+EnvironmentFile=/etc/conf.d/k8s-master
+ExecStartPre=/opt/bin/wupiao ${K8S_CONTROLLER}:8080
+ExecStartPre=-/usr/bin/docker kill %n
+ExecStartPre=-/usr/bin/docker rm %n
+ExecStart=/usr/bin/docker run --name %n \
+  -e SERVICE_CLUSTER_IP_RANGE=10.0.0.0/24 \
+  -e SERVICE_USER=${OS_USERNAME} \
+  -e SERVICE_TENANT_NAME=${OS_TENANT_NAME} \
+  -e SERVICE_PASSWORD=${OS_PASSWORD} \
+  -e IDENTITY_URL=http://${OST_CONTROLLER}:35357/v2.0 \
+  -e OS_URL=http://${OST_CONTROLLER}:9696 \
+  -e K8S_API=http://${K8S_CONTROLLER}:8080 \
+  -v /var/log/kuryr:/var/log/kuryr \
+  midonet/raven:0.5.2
+ExecStop=/usr/bin/docker kill %n
+ExecStopPost=/usr/bin/docker rm -f %n
+Restart=no
+RestartSec=3
+</pre></div>
+</div>
+<p>The installation process uses the <em>/etc/conf.d/k8s-controller</em> file to hold configuration
+information. Create it and add the information about the IP for the ost-controller node and the
+k8s-controller node itself, as well as the credentials to access Openstack services:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ mkdir /etc/conf.d
+$ cat &gt;&gt; /etc/conf.d/k8s-controller <span class="s">&lt;&lt;EOF</span>
+<span class="s">  OST_CONTROLLER_IP=10.142.0.2</span>
+<span class="s">  K8S_CONTROLLER_IP=10.142.0.3</span>
+<span class="s">  OS_USERNAME=admin</span>
+<span class="s">  OS_PASSWORD=admin</span>
+<span class="s">  OS_TENANT_NAME=admin</span>
+<span class="s">  EOF</span>
+</pre></div>
+</div>
+<p>Now, proceed to deploy and configure the components:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ coreos-cloudinit --from-file cloud-config-k8s-controller.yaml
+</pre></div>
+</div>
+</div>
+<div class="section" id="kubernetes-workers">
+<h2>Kubernetes Workers<a class="headerlink" href="#kubernetes-workers" title="Permalink to this headline">¶</a></h2>
+<p>Similarly to the k8s-controller, the K8s workers can be configured with a
+cloud-config file <a class="reference download internal" href="_downloads/cloud-config-k8s-worker.yaml"><tt class="xref download docutils literal"><span class="pre">cloud-config-k8s-worker.yaml</span></tt></a>. The same file can be used for multiple workers.</p>
+<p>The installation process intalls the Midonet&#8217;s flavor of Kubelet, the Kubernetes worker service, which has
+the required integration with Kuryr:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>[Unit]
+Description=Kubernetes kubelet with kuryr CNI driver and MidoNet \
+            port binding tool
+Documentation=https://github.com/midonet/midonet-docker
+Requires=docker.service prepare-config.service
+After=docker.service prepare-config.service
+
+[Service]
+EnvironmentFile=/etc/conf.d/k8s-worker
+ExecStartPre=/usr/bin/docker pull midonet/kubelet
+ExecStartPre=/opt/bin/wupiao ${K8S_CONTROLLER}:8080
+ExecStartPre=-/usr/bin/docker kill %n
+ExecStartPre=-/usr/bin/docker rm %n
+ExecStart=/usr/bin/docker run --name %n \
+      -e MASTER_IP=${K8S_CONTROLLER} \
+      -e ZK_ENDPOINTS=${OST_CONTROLLER}:2181 \
+      -e UUID=&quot;${UUID}&quot; \
+      --volume=/:/rootfs:ro \
+      --volume=/sys:/sys:ro \
+      --volume=/var/lib/docker/:/var/lib/docker:rw \
+      --volume=/var/lib/kubelet/:/var/lib/kubelet:rw \
+      --volume=/var/run:/var/run:rw \
+      --volume=/var/log/kuryr:/var/log/kuryr \
+      --net=host \
+      --privileged=true \
+      --pid=host \
+      midonet/kubelet
+ExecStop=/usr/bin/docker kill %n
+ExecStopPost=/usr/bin/docker rm -f %n
+Restart=always
+RestartSec=3
+After=midonet-agent.service
+</pre></div>
+</div>
+<p>The installation script expects some configuration information in the
+<em>/etc/conf.d/k8s-worker</em> file. The IP addresses of the openstack and k8s controllers
+are needed. Also, to automate the setup, the name of the tunnel zone defined
+in the OpenStack controller, as well as the local ip for the worker.</p>
+<p>Create it and complete the required information:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ mkdir /etc/conf.d
+$ cat &gt;&gt; /etc/conf.d/k8s-worker <span class="s">&lt;&lt;EOF</span>
+<span class="s"> OST_CONTROLLER_IP=10.142.0.2</span>
+<span class="s"> K8S_CONTROLLER_IP=10.142.0.3</span>
+<span class="s"> LOCAL_IP=10.142.0.4</span>
+<span class="s"> TUNNEL_ZONE=demo</span>
+<span class="s"> EOF</span>
+</pre></div>
+</div>
+<p>Now, proceed to deploy and configure the components:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ coreos-cloudinit --from-file cloud-config-k8s-worker.yaml
+</pre></div>
+</div>
+<p>Once the installation process ends, run the midonet setup script to join the tunnel zone
+and allow communication between workers and the open stack controller node:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ /opt/bin/midonet-setup.sh
+</pre></div>
+</div>
+<p>The previous steps can be repeated for each worker. The rest of this document assumes you
+have at least two workers.</p>
+</div>
+<div class="section" id="checking-health">
+<h2>Checking Health<a class="headerlink" href="#checking-health" title="Permalink to this headline">¶</a></h2>
+<p>From the k8s-controller node check that the nodes are up:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ kubectl get nodes
+NAME                                            STATUS    AGE
+k8s-worker1.c.my_gce_project_name.internal      Ready     13h
+k8s-worker2.c.my_gce_project_name.internal      Ready     13h
+</pre></div>
+</div>
+<p>If you see both of your workers, that&#8217;s good. Then we check that all the
+services are running:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ sudo systemctl status kube-scheduler
+● kube-scheduler.service - Kubernetes Scheduler
+   Loaded: loaded <span class="o">(</span>/etc/systemd/system/kube-scheduler.service<span class="p">;</span> static<span class="p">;</span>
+   vendor preset: disabled<span class="o">)</span>
+      Active: active <span class="o">(</span>running<span class="o">)</span> since Wed 2016-07-06 17:13:38 UTC<span class="p">;</span> 20h ago
+$ sudo systemctl status kube-controller-manager
+● kube-controller-manager.service - Kubernetes Controller Manager
+   Loaded: loaded <span class="o">(</span>/etc/systemd/system/kube-controller-manager.service<span class="p">;</span> static<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+   Active: active <span class="o">(</span>running<span class="o">)</span> since Wed 2016-07-06 17:13:33 UTC<span class="p">;</span> 20h ago
+$ sudo systemctl status kuryr-watcher
+● kuryr-watcher.service - Kuryr Kubernetes API watcher
+   Loaded: loaded <span class="o">(</span>/etc/systemd/system/kuryr-watcher.service<span class="p">;</span> static<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+   Active: active <span class="o">(</span>running<span class="o">)</span> since Wed 2016-07-06 21:46:02 UTC<span class="p">;</span> 15h ago
+</pre></div>
+</div>
+<p>If you see it as active, even though some <em>ExecStartPre</em> or <em>ExecStop</em> processes
+may be exited in failure, it is in a healthy state. This is because these
+failed tasks are there to clean up things and will fail if there is nothing to
+clean up.</p>
+</div>
+<div class="section" id="running-your-first-containers">
+<h2>Running your first containers<a class="headerlink" href="#running-your-first-containers" title="Permalink to this headline">¶</a></h2>
+<p>With all the cluster healthy, let&#8217;s run our first containers:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ kubectl run --image nginx --replicas <span class="m">2</span> my-nginx
+deployment <span class="s2">&quot;my-nginx&quot;</span> created
+</pre></div>
+</div>
+<p>After a moment, they should show as running:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ kubectl get pods
+NAME                        READY     STATUS    RESTARTS   AGE
+my-nginx-1830394127-mazlo   1/1       Running   <span class="m">0</span>          24s
+my-nginx-1830394127-uyh8d   1/1       Running   <span class="m">0</span>          24s
+</pre></div>
+</div>
+<p>Once they is running, we can get their IPs:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ kubectl <span class="nb">exec</span> my-nginx-1830394127-mazlo -- ip -4 a show dev eth0
+15: eth0@if16: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc noqueue state UP group default qlen 1000
+    inet 192.168.0.14/24 scope global eth0
+       valid_lft forever preferred_lft forever
+$ kubectl <span class="nb">exec</span> my-nginx-1830394127-uyh8d -- ip -4 a show dev eth0
+21: eth0@if22: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc noqueue state UP group default qlen 1000
+    inet 192.168.0.6/24 scope global eth0
+       valid_lft forever preferred_lft forever
+</pre></div>
+</div>
+<p>Having seen the ips, let&#8217;s verify connectivity:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ kubectl <span class="nb">exec</span> my-nginx-1830394127-uyh8d ping 192.168.0.14
+</pre></div>
+</div>
+</div>
+<div class="section" id="exposing-a-service">
+<h2>Exposing a service<a class="headerlink" href="#exposing-a-service" title="Permalink to this headline">¶</a></h2>
+<p>Now that se have the pods deployed, we will expose them as a service and show how they can
+be accessed from an external network. In order to do so, we will use the same ost-controller
+node as external node, as it is not part of the cluster of workers.</p>
+<p>Kuryr creates automatically an external network for services <cite>raven-default-external-net</cite> and
+a subnet for the default namespace <cite>raven-default-external-subnet</cite>. For the purpose of this demo,
+it is necessary that this subnet be accessible from the ost-controller host.</p>
+<p>First,create an interface to link the ost-controller&#8217;s network with Raven&#8217;s default services subnet:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ neutron router-interface-add <span class="k">$(</span>neutron router-list  <span class="p">|</span> awk <span class="s1">&#39;$4==&quot;mn-edge&quot; {print $2}&#39;</span><span class="k">)</span> <span class="k">$(</span>neutron subnet-list <span class="p">|</span> awk <span class="s1">&#39;$4==&quot;raven-default-external-subnet&quot; {print $2}&#39;</span><span class="k">)</span>
+Added interface 56d9ab50-e527-4fcb-884b-a51ae02dddb4 to router af96d950-97aa-473f-87a3-328830a5f774
+</pre></div>
+</div>
+<p>Secondly, create the appropiated routes:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ip -4 route add 172.16.0.0/16 via 172.19.0.1 dev mn-uplink-host
+$ iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -j MASQUERADE
+</pre></div>
+</div>
+<p>It should be possible to reach the gateway of the default service network:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ping -c <span class="m">3</span> 172.16.0.1
+PING 172.16.0.1 <span class="o">(</span>172.16.0.1<span class="o">)</span> 56<span class="o">(</span>84<span class="o">)</span> bytes of data.
+<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>4.56 ms
+<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">2</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>3.61 ms
+<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">3</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>3.49 ms
+
+--- 172.16.0.1 ping statistics ---
+<span class="m">3</span> packets transmitted, <span class="m">3</span> received, 0% packet loss, <span class="nb">time</span> 2002ms
+rtt min/avg/max/mdev <span class="o">=</span> 3.498/3.892/4.566/0.481 ms
+</pre></div>
+</div>
+</div>
+<div class="section" id="exposing-your-services-to-the-external-world">
+<h2>Exposing your services to the external world<a class="headerlink" href="#exposing-your-services-to-the-external-world" title="Permalink to this headline">¶</a></h2>
+<p>From the k8s-controller instance, create a service to expose the pods with and ip
+address obtained from external network:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ kubectl expose deployment my-nginx --external-ip 172.16.0.12 --port<span class="o">=</span>80
+service <span class="s2">&quot;my-nginx&quot;</span> exposed
+
+$ kubectl get services my-nginx
+kubectl get services
+NAME         CLUSTER-IP   EXTERNAL-IP   PORT<span class="o">(</span>S<span class="o">)</span>   AGE
+my-nginx     10.0.0.137   172.16.0.12   80/TCP    11s
+</pre></div>
+</div>
+<p>You can check this association has also be made in neutron:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ neutron floatingip-list -c fixed_ip_address -c floating_ip_address
++------------------+---------------------+
+<span class="p">|</span> fixed_ip_address <span class="p">|</span> floating_ip_address <span class="p">|</span>
++------------------+---------------------+
+<span class="p">|</span> 10.0.0.137       <span class="p">|</span> 172.16.0.12         <span class="p">|</span>
++------------------+---------------------+
+</pre></div>
+</div>
+<p>The service should now be accessible from the ost-controller instance:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ wget 172.16.0.12 -nv --method<span class="o">=</span>HEAD
+  2016-07-27 13:42:36 URL: http://172.16.0.12/ <span class="m">200</span> OK
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="index.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Kuryr-Kubernetes Installation Guide"></i></a>
+          
+          
+            <a href="devstack.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: DevStack Installation quick guide"></i></a>
+          
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-08-18 11:46</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+    <button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">Midonet Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/rhel-7_mitaka-rdo/content/index.html">Midonet RDO Mitaka</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/ubuntu-1604_mitaka/content/index.html">Midonet Ubuntu Mitaka</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/rhel-7_liberty-rdo/content/index.html">Midonet RDO Liberty</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/ubuntu-1404_liberty/content/index.html">Midonet Ubuntu Liberty</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/reference-architecture/content/index.html">Midonet Reference Architecture</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="https://docs.midonet.org/docs/latest-en/operations-guide/content/index.html">Midonet Operations Guide</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Kuryr-Kubernetes Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#openstack-controller">OpenStack controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kubernetes-controller">Kubernetes controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kubernetes-workers">Kubernetes Workers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#checking-health">Checking Health</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-your-first-containers">Running your first containers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exposing-a-service">Exposing a service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exposing-your-services-to-the-external-world">Exposing your services to the external world</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="devstack.html">DevStack Installation quick guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloudinit.html">CoreOS Cloud Init Installation</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: ";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Kuryr-Kubernetes Installation in Operations Guide";
+    var fieldTags = "";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-08-18 11:46";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+
+
+
+  </body>
+</html>

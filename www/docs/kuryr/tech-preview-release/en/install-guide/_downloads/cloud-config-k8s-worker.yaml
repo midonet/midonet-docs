@@ -1,0 +1,141 @@
+
+#cloud-config
+
+---
+write-files:
+
+  - path: /opt/bin/prepare-config
+    #prepares the node after first boot
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+      # setups the environment after boot for configuration
+
+      source /etc/conf.d/k8s-worker
+
+      if [[ -z $UUID ]]; then
+         echo "UUID=$(uuidgen)" >> /etc/conf.d/k8s-worker
+      fi
+
+      if [[ -z $LOCAL_IP ]]; then
+         IP=$(ip -f inet -o addr show $INTERFACE | grep  -o  -E "inet ([0-9]{1,3}\.){3}[0-9]{1,3}" | cut -d ' ' -f 2)
+
+         echo "LOCAL_IP=$IP" >> /etc/conf.d/k8s-worker
+      fi
+  - path: /opt/bin/wupiao
+    # Small bash utility that allows us to wait for an HTTP service to be
+    # responsive before resuming operations.
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+      # [w]ait [u]ntil [p]ort [i]s [a]ctually [o]pen
+      [ -n "$1" ] && \
+          until curl -o /dev/null -sIf http://${1}; do \
+          sleep 1 && echo .;
+        done;
+      exit $?
+  - path: /opt/bin/midonet-cli
+    #
+    permissions: '0755'
+    content: |
+      #!/bin/sh
+      #
+      # Adapter for using midonet-cli from midonet/utils
+
+      source /etc/conf.d/k8s-worker
+      docker run --rm \
+        -e CLUSTER_URL="http://${OST_CONTROLLER}:8181/midonet-api" \
+        -e PASSWORD=pass \
+        midonet/utils cli "$@"
+  - path: /opt/bin/midonet-setup
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+      # midonet setup
+
+      source /etc/conf.d/k8s-worker
+      TUNNEL_ZONE_ID=$(midonet-cli -e tunnel-zone list| grep $TUNNEL_ZONE | cut -d ' ' -f 2)
+
+      /opt/bin/midonet-cli -e tunnel-zone $TUNNEL_ZONE_ID add member host $UUID address $LOCAL_IP
+coreos:
+  fleet:
+    metadata: "role=worker"
+  units:
+    - name: fleet.service
+      command: start
+    - name: docker.service
+      command: start
+    - name: prepare-config.service
+      command: start
+      content: |
+        [Unit]
+        Description=Node preparation
+
+        [Service]
+        Type=oneshot
+        EnvironmentFile=/etc/conf.d/k8s-worker
+        ExecStart=/opt/bin/prepare-config
+    - name: midonet-agent.service
+      command: start
+      content: |
+        [Unit]
+        Description=MidoNet Agent
+        Documentation=https://docs.midonet.org/docs/latest/operations-guide/content/_configuration_sources.html
+        Requires=docker.service prepare-config.service
+        After=docker.service prepare-config.service
+
+        [Service]
+        Restart=always
+        EnvironmentFile=/etc/conf.d/k8s-worker
+        ExecStartPre=/usr/sbin/modprobe openvswitch
+        ExecStartPre=-/usr/bin/docker kill %n
+        ExecStartPre=-/usr/bin/docker rm %n
+        ExecStartPre=/usr/bin/docker pull midonet/agent
+        ExecStart=/usr/bin/docker run --name %n --net=host \
+          --cap-add=NET_ADMIN \
+          -e ZK_ENDPOINTS=${OST_CONTROLLER}:2181 \
+          -e UUID=${UUID} \
+          --volume=/var/log/midolman:/var/log/midolman:rw \
+          --volume=/var/run:/var/run:rw \
+          midonet/agent
+        ExecStartPost=/opt/bin/midonet-setup
+        ExecStop=/usr/bin/docker kill %n
+        ExecStopPost=/usr/bin/docker rm -f %n
+        Restart=always
+        RestartSec=3
+    - name: kubelet.service
+      command: start
+      content: |
+        [Unit]
+        Description=Kubernetes kubelet with kuryr CNI driver and MidoNet \
+          port binding tool
+        Documentation=https://github.com/midonet/midonet-docker
+        Requires=docker.service prepare-config.service
+        After=docker.service prepare-config.service
+
+        [Service]
+        EnvironmentFile=/etc/conf.d/k8s-worker
+        ExecStartPre=/usr/bin/docker pull midonet/kubelet
+        ExecStartPre=/opt/bin/wupiao ${K8S_CONTROLLER}:8080
+        ExecStartPre=-/usr/bin/docker kill %n
+        ExecStartPre=-/usr/bin/docker rm %n
+        ExecStart=/usr/bin/docker run --name %n \
+          -e MASTER_IP=${K8S_CONTROLLER} \
+          -e ZK_ENDPOINTS=${OST_CONTROLLER}:2181 \
+          -e UUID="${UUID}" \
+          --volume=/:/rootfs:ro \
+          --volume=/sys:/sys:ro \
+          --volume=/var/lib/docker/:/var/lib/docker:rw \
+          --volume=/var/lib/kubelet/:/var/lib/kubelet:rw \
+          --volume=/var/run:/var/run:rw \
+          --volume=/var/log/kuryr:/var/log/kuryr \
+          --net=host \
+          --privileged=true \
+          --pid=host \
+          midonet/kubelet
+        ExecStop=/usr/bin/docker kill %n
+        ExecStopPost=/usr/bin/docker rm -f %n
+        Restart=always
+        RestartSec=3
+        After=midonet-agent.service
+
