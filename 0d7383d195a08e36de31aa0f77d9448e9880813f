@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_2fd6d5f1",
+        "filename": "docs/operation-guide/src/service_insertion_chaining/section_l2insertion_object_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-08-18T02:02:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_e6337a12",
+      "revId": "0d7383d195a08e36de31aa0f77d9448e9880813f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_c63876f1",
         "filename": "docs/operation-guide/src/service_insertion_chaining/section_l2insertion_object_en.adoc",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-17T09:09:35Z",
       "side": 1,
       "message": "the position is an absolute position in the list of insertions. If two insertions have the same position the order is undefined. \n\nWhen we load the insertions we basically sort by the position field. In many ways, it acts more like a weight.",
+      "revId": "0d7383d195a08e36de31aa0f77d9448e9880813f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_cffbe97a",
+        "filename": "docs/operation-guide/src/service_insertion_chaining/section_l2insertion_object_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-08-18T02:02:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_c63876f1",
       "revId": "0d7383d195a08e36de31aa0f77d9448e9880813f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -70,6 +106,48 @@
       "writtenOn": "2016-08-17T09:09:35Z",
       "side": 1,
       "message": "missing )",
+      "revId": "0d7383d195a08e36de31aa0f77d9448e9880813f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_6fccdd61",
+        "filename": "docs/operation-guide/src/service_insertion_chaining/section_service_function_model_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-08-18T02:02:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_062f7ea8",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 12
+      },
+      "revId": "0d7383d195a08e36de31aa0f77d9448e9880813f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_4fd91922",
+        "filename": "docs/operation-guide/src/service_insertion_chaining/section_service_function_model_en.adoc",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2016-08-18T02:02:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_2653a23b",
       "revId": "0d7383d195a08e36de31aa0f77d9448e9880813f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
