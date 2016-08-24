@@ -8,55 +8,180 @@ The install_plugins.sh script can configure all the relevant Munin plugins.
 
 Below are descriptions of the graphs resulting from the example Munin
 configurations provided in the MidoNet deployment repository. The graphs are
-built from a subset of the Midolman JMX service. The available graphs are:
+built from a subset of the Midolman JMX service.
 
-*Current Pended Packets*
+These metrics are available using JMX in the `metrics` domain. The name of each
+JMX MBean is prefixed by `org.midonet.midolman.monitoring.metrics`. To access a
+particular metric, prepend the above prefix to the metric names listed below.
+For example, the full name of a JMX metric is:
 
-Midolman simulates a single packet for each wildcard-flow match. When a packet A
-is being simulated, if another packet B with the same flow match appears, it
-will be pended until A finishes its simulation. At this point, B will be sent
-straight to the datapath with the same actions as A applied. This metric
-displays the total count of pended packets at a given point in time. Ideally,
-this value should be as low as possible. Large values indicate that Midolman is
-being flooded with packets with identical matches. A steadily growing figure may
-also indicate that pended packets are not being executed, which is likely caused
-by a bug.
+Additionally, some graphs are provided to monitor the state of the JVM running
+the MidoNet Agent.
 
-*Datapath Flows*
+== Datapath Metrics
 
-Shows the count of currently active flows in the datapath, and the rate of
-creation. This depends significantly on the nature of the traffic.
+These metrics include meters for the created and deleted datapath flows, and
+errors that occur while changing these flows.
 
-*Wildcard Flows*
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Name |Description
+|`DatapathMeter.flows.created`
+|A meter for the created datapath flows.
+|`DatapathMeter.flows.createErrors`
+|A meter for the errors occurring during the creation of a datapath flow.
+|`DatapathMeter.flows.createDupeErrors`
+|A meter for the errors occurring during the creation of a duplicate
+datapath flow.
+|`DatapathMeter.flows.deleted`
+|A meter for the deleted datapath flows.
+|`DatapathMeter.flows.deleteErrors`
+|A meter for the errors occurring during the deletion of a datapath flow.
+|=======================================================================
 
-Shows the count of currently active wildcard flows inside Midolman. This number
-should be similar to the Datapath Flow count, but not necessarily equal.
+== Netlink Metrics
 
-*Simulation Latency*
+These metrics include meters for Netlink messages.
 
-Shows the time taken by Midolman to run the simulation of packets through the
-virtual topology. This value is fundamental for network latency.
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Name |Description
+|`NetlinkMeter.notifications`
+|A meter for the notifications received from the OVS datapath via
+Netlink.
+|`NetlinkMeter.errors`
+|A meter for the errors received from the OVS datapath via Netlink.
+|`NetlinkMeter.htbDrops`
+|A meter for the packets dropped because of the MidoNet Agent rate
+limiting mechanism.
+|=======================================================================
 
-*Wildcard Flow Table Latency*
+== Packet Pipeline Metrics
 
-Shows the access times to Midolman's internal wildcard-flow table. This value is
-relevant for network latency.
+These metrics expose counters and meters for the simulation packet pipeline.
+The MidoNet Agent exposes certain metrics for each packet worker, where the
+worker index is included in the metric name. For example, when configuring
+MidoNet to use two (2) packet workers, the following distinct metrics are
+available: `PacketPipelineHistogram.worker-0.packetsProcessed` and
+`PacketPipelineHistogram.worker-1.packetsProcessed`.
 
-*Throughput*
+*Global Metrics*
 
-Shows the packets per second that are being processed and dropped. When Midolman
-becomes saturated, the expected behavior is to stabilize processed packets in a
-relatively flat line, increasing the dropped rate with any additional traffic.
-However, pressure from the Netlink queue may cause performance degradation.
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Name |Description
+|`PacketPipelineCounter.contextsAllocated`
+|The number of allocated packet context. A packet context is an internal
+variable that tracks the simulation progress for a packet that is being
+processed. Since each packet context requires a certain amount of memory,
+the counter reflects the memory consumption of the MidoNet agent when
+processing the user-space packets.
+|`PacketPipelineCounter.contextsPooled`
+|The number of packet contexts that have been pooled to be reused on
+subsequent packets.
+|`PacketPipelineCounter.contextsBeingProcessed`
+|The number of packet contexts corresponding to packets that are
+currently simulated in the pipeline.
+|=======================================================================
 
-Additionally, some graphs are provided to monitor the state of the JVM running Midolman.
+*Packet Worker Metrics*
 
-*JVM Non-Heap Summary*
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Name |Description
+|`PacketPipelineCounter.worker-{id}.packetsOnHold`
+|The number of packets on hold, that are waiting for the agent to
+read the virtual topology data from the Network State Database.
+|`PacketPipelineMeter.worker-{id}.packetsPostponed`
+|A meter for the packets that were postponed because their corresponding
+virtual topology devices was not yet available at the agent.
+|`PacketPipelineMeter.worker-{id}.packetsDropped`
+|A meter for the packets dropped during simulation. These packets are
+dropped because the current virtual topology does not allow them to
+reach their intended destination.
+|`PacketPipelineHistogram.worker-{id}.packetsProcessed`
+|A histogram for the simulation latency of the processed packets. This
+value is fundamental for network latency.
+|`PacketPipelineHistogram.executor-{id}.packetsExecuted`
+|A histogram for the packet execution latency, which includes sending back
+a processed packet to the OVS datapath.
+|`PacketPipelineMeter.worker-{id}.statePacketsProcessed`
+|A meter for the processed packets that carried flow state data.
+|`PacketPipelineMeter.worker-{id}.packetQueue.overflow`
+|A meter for the packet queue overflows.
+|`FlowTablesGauge.worker-{id}.currentDatapathFlows`
+|A gauge for the current datapath flows.
+|`FlowTablesMeter.worker-{id}.datapathFlowsCreated`
+|A meter for created datapath flows.
+|`FlowTablesMeter.worker-{id}.datapathFlowsRemoved`
+|A meter for removed datapath flows.
+|=======================================================================
+
+== Topology Metrics
+
+The metrics measure the virtual topology cached by a given MidoNet Agent. The
+virtual topology consists of virtual devices, such as bridges, routers, ports,
+chains, rules, etc. When a device is requested in order to process a packet
+that must traverse or otherwise requires that device, the MidoNet Agent loads
+the device from the Network State Database, and caches it for later usage. In
+addition, the agent keeps a notification stream open to the NSDB for that
+devices, such that future changes of the device are notified to the agent,
+updating its internal cache and invalidating any flows that have previously
+been established using that device's older configuration.
+
+Some virtual topology metrics are global, whereas others are reported for each
+device class, which can be one of the following: `Bridge`, `Chain`, `Host`,
+`IPAddrGroup`, `LoadBalancer`, `Mirror`, `Pool`, `PoolHealthMonitorMap`,
+`Port`, `PortGroup`, `Router`, `RuleLogger` and `TunnelZone`.
+
+*Global Metrics*
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Name |Description
+|`VirtualTopologyGauge.devices`
+|A gauge for the number of devices stored in the virtual topology cache.
+|`VirtualTopologyGauge.observables`
+|A gauge for the number of open observable streams that report changes
+for the devices stored in the virtual topology cache.
+|`VirtualTopologyGauge.cacheHit`
+|A gauge for the cache hits when a device was requested by the packet
+pipeline when simulating a packet. A cache hit means that the device was
+available immediately, and the packet simulation was not interrupted.
+|`VirtualTopologyGauge.cacheMiss`
+|A gauge for the cache misses when a device was requested by the packet
+pipeline when simulating a packet. A cache miss means that the device
+needed to be loaded from the NSDB, requiring the packet simulation to be
+postponed until the device became available. Cache misses lead to higher
+packet processing latencies.
+|`VirtualTopologyCounter.deviceUpdate`
+|The number of updates the virtual topology caches receives for all
+cached devices.
+|`VirtualTopologyCounter.deviceError`
+|The number of errors the virtual topology caches receives for all cached
+devices.
+|`VirtualTopologyCounter.deviceComplete`
+|A counter for the cached devices that were deleted.
+|`VirtualTopologyMeter.deviceUpdate`
+|A meter for the device updates received by the virtual topology for the
+cached devices.
+|`VirtualTopologyMeter.deviceError`
+|A meter for the device errors received by the virtual topology for the
+cached devices.
+|`VirtualTopologyMeter.deviceComplete`
+|A meter for the devices deleted from the virtual topology.
+|`VirtualTopologyHistogram.deviceLatency`
+|A histogram with the latency of loading a device from the NSDB.
+|`VirtualTopologyHistogram.deviceLifetime`
+|A histogram with the lifetime of a device in the virtual topology cache.
+|=======================================================================
+
+== JVM Non-Heap Summary
 
 Shows off-heap memory usage, which consists of mainly buffer pools used for
 messages to/from the Netlink layer.
 
-*JVM Heap Summary*
+== JVM Heap Summary
 
 Shows per-generation stats. Midolman has very specific memory-usage constraints
 because it aims for a very low memory and CPU footprint. At the same time,
@@ -88,7 +213,7 @@ the work is done concurrently. The main impact is in CPU "stolen" from Midolman.
 Munin offers some generic metrics that are very relevant to understanding the
 performance of Midolman.
 
-*CPU Usage*
+== CPU Usage
 
 Under high traffic, Midolman should tend to saturate all CPUs, reflecting in the
 graph as high "user" utilization and little or no "idle". Note that "user" may
