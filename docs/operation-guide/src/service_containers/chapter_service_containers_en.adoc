@@ -35,12 +35,22 @@ executed inside it, while a _configuration identifier_ keeps a reference to an
 object in the MidoNet topology that indicates how the namespaces and the
 container processes are configured.
 
-The container scheduling policy is specified using a _service container group_
+The container _scheduling policy_ is specified using a _service container group_
 object. Therefore, several containers can share the same scheduling policy by
 referencing the same container group. The MidoNet Cluster uses the policy as
 defined by the container group to determine the physical compute where a
 container is launched. This scheduling is controlled via the binding of the
-container port on a given host.
+container port on a given host. For more information see
+xref:service_container_scheduling_policies[].
+
+In addition, a service container group specifies an _allocation policy_, which
+specifies how existing compute hosts are allocated to new containers given the
+host pool determined from the _scheduling policy_. Whereas the scheduling
+policy considers configurable properties of the hosts, such as membership to
+a particular host or port group, the allocation policy uses live attributes of
+the hosts, such as their _container weight_ or number of launched containers.
+For more information see
+xref:service_container_allocation_policies[].
 
 When a MidoNet Agent launches a scheduled container, it runs a set of routines
 that are customized for a particular container type, and which configures and
@@ -111,4 +121,6 @@ policies see xref:service_container_scheduling[].
 scheduling policy.
 |`portGroupId` |UUID |The identifier of the port group when using port group
 scheduling policy.
+|`policy` |String |The hosts allocation policy for the containers
+belonging to this group.
 |=======================================================================

@@ -33,9 +33,9 @@ To list information about all service container groups, enter the command:
 
 [source]
 midonet> list container-group
-cgroup cgroup0
-cgroup cgroup1
-cgroup cgroup2
+cgroup cgroup0 policy least
+cgroup cgroup1 policy least
+cgroup cgroup2 policy least
 
 == Viewing the Container Status Message
 
