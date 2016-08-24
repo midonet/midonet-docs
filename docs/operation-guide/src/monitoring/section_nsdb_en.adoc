@@ -1,10 +1,162 @@
 [[nsdb]]
 = Monitoring Network State Database
 
-The Network State Database is deployed with Cassandra and ZooKeeper instances.
-Both offer JMX bindings.
+The Network State Database is deployed with ZooKeeper and optionally, Cassandra,
+instances. Both offer JMX bindings.
 
 The configuration provided with MidoNet uses only a subset of the most relevant
 for our use cases. Details in the sections below provide additional information
 about the metrics configured by MidoNet's deployment scripts, as well as an
 explanation about what to watch.
+
+== JXM Metrics
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+In addition to monitoring ZooKeeper and Cassandra directly, both the MidoNet
+Agent and the MidoNet Cluster expose a set of internal metrics that you can use
+to monitor the performance and health of the connection to the ZooKeeper Network
+State Database, as well as gaining visibility into various statistics such as
+the number of reads and writes.
+
+These metrics are available using JMX in the `metrics` domain. The name of each
+JMX MBean is prefixed by `org.midonet.cluster.monitoring.metrics`. To access a
+particular metric, prepend the above prefix to the metric names listed below.
+For example, the full name of a JMX metric is:
+
+[source]
+metrics:name=org.midonet.cluster.monitoring.metrics.StorageGauge.connectionState
+
+=== General Metrics
+
+These metrics are gauges for the current ZooKeeper connection state
+and open observables to the topology objects.
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Name |Description
+|`StorageGauge.connectionState`
+|The state of the connection to ZooKeeper used for normal reading and
+writing.
+|`StorageGauge.failFastConnectionState`
+|The state of the fail fast connection to ZooKeeper, which is used by
+some services to detect whether a certain node has lost connectivity to
+the NSDB with a low latency.
+|`StorageGauge.objectObservables`
+|The number of open observables for topology objects.
+|`StorageGauge.classObservables`
+|The number of open observables for topology classes.
+|`StorageGauge.objectObservables.*`
+|The number of open observables for topology objects of a particular
+class.
+|=======================================================================
+
+=== Error Metrics
+
+These metrics expose counters for errors that occurred while writing or
+reading the topology or state data in ZooKeeper.
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Name |Description
+|`StorageCounter.concurrentModificationException`
+|The number of exceptions thrown because a topology object was modified
+concurrently by two or more clients.
+|`StorageCounter.conflictException`
+|The number of exceptions thrown because an attempt was made to modify
+a topology object that conflicted with the current references to/from
+that object.
+|`StorageCounter.objectReferencedException`
+|The number of exceptions thrown because an attempt was made to delete
+a topology object that was still referenced by another object.
+|`StorageCounter.objectExistsException`
+|The number of exceptions thrown because an attempt was made to create
+a topology object with an identifier that already exists.
+|`StorageCounter.objectNotFoundException`
+|The number of exceptions thrown because an attempt was made to access
+(update or delete) a topology object that does not exist.
+|`StorageCounter.nodeExistsException`
+|The number of exceptions thrown because an attempt was made to create
+a ZooKeeper node that already exists.
+|`StorageCounter.nodeNotFoundException`
+|The number of exceptions thrown because an attempt was made to access
+(update or delete) a ZooKeeper node that does not exist.
+|`StorageCounter.objectObservableClosed`
+|The number of occurrences where at attempt was made to read a topology
+object via an observable stream that was already closed. This measures
+the degree of concurrent access to the same objects and it is automatically
+recovered by opening a new observable.
+|`StorageCounter.classObservableClosed`
+|The number of occurrences where an attempt was made to read all the
+objects in a topology class via an observable stream that was already
+closed. This measures the degree of concurrent access to the same
+objects and it is automatically recovered by opening a new observable.
+|`StorageCounter.stateObservableClosed`
+|The number of occurrences where an attempt was made to read the state
+of a topology object via an observable stream that was already closed.
+This measures the degree of concurrent access to the same object state
+and it is automatically recovered by opening a new observable.
+|`StorageCounter.objectObservableError`
+|The number of unrecoverable errors that were emitted via the
+observable stream of a topology object.
+|`StorageCounter.classObservableError`
+|The number of unrecoverable errors that were emitted via the
+observable stream of a topology class.
+|`StorageCounter.stateObservableError`
+|The number of unrecoverable errors that were emitted via the
+observable stream of a topology object state.
+|=======================================================================
+
+=== Performance Metrics
+
+These metrics expose information about the ZooKeeper connection changes
+and data operations.
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Name |Description
+|`StorageMeter.connectionsCreated`
+|A meter for the number of created ZooKeeper connections.
+|`StorageMeter.connectionsLost`
+|A meter for the number of lost ZooKeeper connections.
+|`StorageTimer.read`
+|A timer for the number of ZooKeeper node reads.
+|`StorageTimer.readChildren`
+|A timer for the number of ZooKeeper node children reads.
+|`StorageTimer.write`
+|A timer for the number of ZooKeeper node writes.
+|`StorageTimer.multi`
+|A timer for the number of ZooKeeper transaction writes.
+|`StorageHistogram.notificationLatency`
+|A histogram for the ZooKeeper notification latency.
+|=======================================================================
+
+=== Session Metrics
+
+These metrics expose statistics for the ZooKeeper connection.
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Name |Description
+|`StorageHistogram.timeConnected`
+|A histogram for the duration of the ZooKeeper connection.
+|`StorageHistogram.timeDisconnected`
+|A histogram for the duration of the ZooKeeper connection loss.
+|=======================================================================
+
+=== Watcher Metrics
+
+These metrics expose statistics for the watcher triggered by changes to
+the topology or state data from ZooKeeper.
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Name |Description
+|`StorageCounter.nodeTriggeredWatchers`
+|The number of triggered watchers for changes to ZooKeeper node data.
+|`StorageCounter.childrenTriggeredWatchers`
+|The number of triggered watchers for changes to ZooKeeper node
+children.
+|=======================================================================
