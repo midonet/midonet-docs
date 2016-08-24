@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_2c66d129",
+        "filename": "docs/operation-guide/src/monitoring/section_midolman_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1005043
+      },
+      "writtenOn": "2016-08-24T11:02:48Z",
+      "side": 1,
+      "message": "We should remove these paragraphs, I can\u0027t find the install_plugins.sh and is better to not mention any monitoring tool to avoid confusion. I don\u0027t know if we can do this in this patch or open a bug to do this",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "e576f33f0cb5cad6d9cdd5b647e1379a6d7a858c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
