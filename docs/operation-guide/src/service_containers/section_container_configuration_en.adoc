@@ -28,6 +28,10 @@ specific compute hosts. The default is `true`.
 default is 30 seconds.
 |`shutdown_grace_time` |Duration |The timeout for all containers to stop
 gracefully when the containers service is stopped. The default is 30 seconds.
+|`thread_count` |Integer |The number of threads that manage the containers
+executing at this agent.  This determines the number of containers that can be
+changed in parallel.  Once created a container is bound to the same thread on
+which it was created.
 |`log_directory` |String |The name of the log directory where the agent writes a
 record of all container operations. The log is used to cleanup containers
 following an agent failure. The default value is `containers`. The directory
@@ -77,6 +81,13 @@ specific cluster nodes. The default is `true`.
 |`scheduler_timeout` |Duration |The timeout for a container to reach `running`
 state when scheduled at a compute host. The default is 10 seconds. For more
 information on container scheduling see xref:service_container_scheduling[].
+|`scheduler_retry` |Duration |Indicates the time interval after which the
+scheduler attempts to reschedule a down container.
+|`scheduler_max_retries` |Integer |The maximum number of attempts the scheduler
+will retry to schedule a down container. Once this number is reached, the
+scheduler will schedule a new container only as a response to an external event,
+such as the available hosts have changed or the operator triggered a manual
+scheduling.
 |`scheduler_bad_host_lifetime` |Duration |When an agent fails to start a
 container within the expected timeout interval, that host is considered bad
 and not used for subsequent scheduling operations of the same container. This
