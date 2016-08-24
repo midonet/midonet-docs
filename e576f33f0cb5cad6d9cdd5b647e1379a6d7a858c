@@ -22,6 +22,30 @@
       "revId": "e576f33f0cb5cad6d9cdd5b647e1379a6d7a858c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_4c48f58a",
+        "filename": "docs/operation-guide/src/monitoring/section_midolman_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2016-08-24T11:10:31Z",
+      "side": 1,
+      "message": "Right, I didn\u0027t remove them because had no idea what these were. Is it okay to go with Jan\u0027s suggestion and address this separately?",
+      "parentUuid": "baa041b7_2c66d129",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "e576f33f0cb5cad6d9cdd5b647e1379a6d7a858c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
