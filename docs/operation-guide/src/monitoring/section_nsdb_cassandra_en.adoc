@@ -12,10 +12,6 @@ For a rich reference into Cassandra monitoring, visit the official documentation
 (go to http://www.datastax.com/, and search for "monitoring a Cassandra
 cluster").
 
-Below are descriptions of the graphs resulting from the example Munin
-configurations provided in the MidoNet deployment repository. The graphs are
-built from a subset of the Cassandra JMX service. The available graphs are:
-
 *Cache Reqs vs. Hits*
 
 This is self-descriptive, ideally you want the cache hits to be as close to the
@@ -112,17 +108,6 @@ Shows overall read/write latency in the cluster. Watch for big discrepancies
 between NAT Column Family (CF) Latency and this metric, because that would help
 determine whether problems are related to a single CF or the entire storage.
 More importantly: it indicates what features may be impacted in Midolman agents.
-
-In the aggregated view, an additional "clock" category configured in Munin shows
-the result of the time command in each of the nodes. Expect to see a straight
-line, as close as possible with the lines of all Cassandra nodes overlapping.
-Otherwise, this indicates divergences in the host's clocks that will almost
-certainly end up causing problems on conflict resolution. You should attend to
-this urgently and ensure that all hosts are using the Network Time Protocol
-(NTP).
-
-The installation script also provides graphs to monitor the state of Cassandra's
-Java virtual machine (JVM):
 
 * JVM garbage-collection (GC) times
 

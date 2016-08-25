@@ -2,9 +2,6 @@
 = MidoNet monitoring
 
 MidoNet is composed of various services; each service exposes a variety of
-metrics that can be fetched from typical monitoring services, such as Zabbix™,
-Munin, and so on.
+metrics that can be fetched from typical monitoring services.
 
-This chapter describes the main available metrics for each service, as well as a
-procedure to configure a basic monitoring infrastructure based on Munin, based
-on scripts provided with the MidoNet deployment package.
+This chapter describes the main available metrics for each service.

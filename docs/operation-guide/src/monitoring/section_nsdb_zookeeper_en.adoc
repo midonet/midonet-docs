@@ -1,12 +1,6 @@
 [[zookeeper]]
 = ZooKeeper
 
-The install_plugins.sh script also installs a set of Munin plugins and
-configuration files to generate graphs from ZooKeeper's exposed JMX metrics.
-
-However, on each node, you need to indicate the ZooKeeper replica number; the
-script provides clear guidance on how to do this.
-
 You can find ZooKeeper stats in the "zookeeper" category of the MidoStorage
 group. ZooKeeper classifies metrics in separate MBeans for leader/follower, so
 each node will report some values twice, one in the "Follower" role, another in
@@ -15,10 +9,6 @@ example, if the leader shuts down, a follower node may be promoted to leader).
 You can easily spot these events. For example, the line in the "Connection Count
 as Follower" will suddenly blank out, and another will appear in the "Connection
 Count as Leader" graph.
-
-Below are descriptions of the graphs resulting from the example Munin
-configurations provided in the MidoNet deployment repository. The graphs are
-built from a subset of the ZooKeeper JMX service. The available graphs are:
 
 *Connection Count (as Follower/Leader)*
 

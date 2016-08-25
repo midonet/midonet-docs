@@ -4,12 +4,6 @@
 MidoNet Agents expose a set of internal metrics that you can use to monitor the
 performance and health of agent nodes.
 
-The install_plugins.sh script can configure all the relevant Munin plugins.
-
-Below are descriptions of the graphs resulting from the example Munin
-configurations provided in the MidoNet deployment repository. The graphs are
-built from a subset of the Midolman JMX service.
-
 These metrics are available using JMX in the `metrics` domain. The name of each
 JMX MBean is prefixed by `org.midonet.midolman.monitoring.metrics`. To access a
 particular metric, prepend the above prefix to the metric names listed below.
