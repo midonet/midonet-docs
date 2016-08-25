@@ -12,8 +12,14 @@ enable or disable the service at the agent.
 * The configuration of the agent host in the NSDB should have a positive value
 for the _service container weight_. See xref:service_container_weight[].
 
+* The configuration of the agent host in the NSDB should have a positive value
+for the _service container limit_. See xref:service_container_limit[].
+
 * The container service scheduling policy as defined by the service container
 group. See xref:service_container_scheduling_policies[].
+
+* The container service host allocation policy as defined by the service
+container group. See xref:service_container_allocation_policies[].
 
 * The container status reported by the last host where the container has been
 scheduled.
@@ -37,8 +43,9 @@ _state_ changes. By host state, we understand whether the agent at that host
 is running the container service and its corresponding _container weight_.
 
 A host is selected to run a container if it is _eligible_, that is it meets the
-first two criteria from above about running the container service and having a
-positive _container weight_, and if the host has not been previously marked as
+first three criteria from above about running the container service, having a
+positive _container weight_, does not currently run more containers than its
+_container limit_, and if the host has not been previously marked as
 _bad_ for the same container. A _bad_ host is a host that has previously failed
 to launch a container. This may happen when the host is overloaded, or it does
 not have installed the necessary software that is needed to launch the
@@ -62,12 +69,9 @@ creation of containers with a small number of compute hosts. In such cases, we
 recommend increasing the `scheduler_timeout` or setting the
 `scheduler_bad_host_lifetime` to zero.
 
-A host is selected from the eligible hosts using a random selection, where the
-probability of selecting a given host is weighted by its _container weight_.
-
-Example: Three hosts with the container weights 1, 3 and 4 will have 12.5%,
-37.5% and 50% probability in the statistical sense, respectively, of being
-selected to run a container.
+A host is selected from the eligible hosts using the current allocation policy,
+specified by the service container group. See
+xref:service_container_allocation_policies[].
 
 [NOTE]
 
@@ -107,9 +111,9 @@ To view the container weight assigned to all hosts, use the command:
 
 [source]
 midonet> host list
-host host1 name host1 alive true addresses 10.0.0.1 flooding-proxy-weight 1 container-weight 0
-host host2 name host2 alive true addresses 10.0.0.2 flooding-proxy-weight 1 container-weight 5
-host host3 name host3 alive true addresses 10.0.0.3 flooding-proxy-weight 1 container-weight 10
+host host1 name host1 alive true addresses 10.0.0.1 flooding-proxy-weight 1 container-weight 0 container-limit no-limit
+host host2 name host2 alive true addresses 10.0.0.2 flooding-proxy-weight 1 container-weight 5 container-limit no-limit
+host host3 name host3 alive true addresses 10.0.0.3 flooding-proxy-weight 1 container-weight 10 container-limit no-limit
 
 To set the container weight to a different value, use the command:
 
@@ -122,6 +126,52 @@ Modifying the container weight on hosts takes an immediate effect on the
 container scheduling. If the weight is set to zero, all containers that are
 running or have been scheduled to run at that host will be migrated to other
 eligible hosts.
+
+[[service_container_limit]]
+== Host Container Limit
+
+Compute hosts can be configured to run up to a configurable number of service
+containers. By default, a host does not have an upper limit for how many
+container can be launched.
+
+To view the container limit assigned to each host, use the command:
+
+[source]
+midonet> host list
+host host1 name host1 alive true addresses 10.0.0.1 flooding-proxy-weight 1 container-weight 0 container-limit no-limit
+host host2 name host2 alive true addresses 10.0.0.2 flooding-proxy-weight 1 container-weight 5 container-limit no-limit
+host host3 name host3 alive true addresses 10.0.0.3 flooding-proxy-weight 1 container-weight 10 container-limit 100
+
+In the host listing, the `container-limit` property indicates the container
+limit for each host. For the hosts that do not have a container limit, the
+value of the property is `no-limit`, whereas for the hosts with a limit the
+property is an integer representing the maximum number of service containers
+that can be launched by that host.
+
+To set the container limit to a different value, use the command:
+
+[source]
+midonet> host host1 set container-limit <new-value>
+
+[NOTE]
+
+In this version of MidoNet the container limit is enforced only for new
+containers launched by a host, and existing containers are not affected. This is
+unlike that container weight, which takes immediate effect when set to zero,
+forcing the migration of all containers running at that host.
+
+[IMPORTANT]
+
+If you want to gracefully migrate all container from a host, for example in
+order to take down a compute host for maintenance, use the `container-weight`
+property of a host rather than the `container-limit`. The latter is intended
+to established a container capacity for the hosts and it does not trigger a
+container migration.
+
+To unset the container limit for a host use the command:
+
+[source]
+midonet> host host1 clear container-limit
 
 [[service_container_scheduling_policies]]
 == Scheduling Policies
@@ -153,3 +203,82 @@ To ensure host-to-host traffic, all eligible hosts for a particular scheduling
 policy must be configured in the same tunnel zone. The Containers Service
 does not use the tunnel zone membership as an eligibility requirement during
 the host selection.
+
+[[service_container_allocation_policies]]
+== Allocation Policies
+
+MidoNet supports two host allocation policies for service containers. These
+policies specify how a host is selected to launch a container from the pool of
+hosts determined by the scheduling policy. For a host to be selected with a
+given allocation policy, it otherwise must meet the eligibility requirements for
+launching a new container: it has a positive container weight, it does not
+exceed its container limit, it is not marked as a bad host, it is active and it
+currently runs the containers service.
+
+* _Least Scheduler_: The `least` policy selects the host from the pool that has
+the smallest number of containers.
+
+* _Weighted Scheduler_: The `weighted` policy selects a host from the pool
+randomly, with each host having a probability of being selected proportional to
+its container weight relative to all other hosts. For example, three hosts with
+the container weights 1, 3 and 4 will have 12.5%, 37.5% and 50% probability
+in the statistical sense, respectively, of being selected to run a container.
+
+You can view the current allocation policy by typing:
+
+[source]
+midonet> list container-group
+cgroup cgroup0 policy least
+cgroup cgroup1 policy least
+cgroup cgroup2 policy weighted
+
+To change the current allocation policy, use:
+
+[source]
+midonet> container-group cgroup0 set policy <policy-name>
+
+Setting the allocation policy will apply to scheduling new containers belonging
+to this service container group, and whenever existing containers are being
+rescheduled. However, running containers are not affected.
+
+[[service_container_manual_scheduling]]
+== Manual Scheduling
+
+By default, the MidoNet Cluster manages the service container scheduling
+automatically for all new service containers using both the scheduling policy
+and the allocation policy specified by the service container group. Launching
+the service containers once created is therefore transparent to the user, who
+does not have to take any other action.
+
+However, sometimes you may want to control the location of a container manually,
+for example to troubleshoot a problem with a particular container. When this is
+the case, MidoNet offers you the possibility to control the container scheduling
+at the service container granularity.
+
+To this end, the service container API allows you to _suggest_ a host to launch a
+given service container. If the suggestion is accepted by the service container
+scheduler, the container will be immediately migrated to the selected host.
+
+To request that a service container be scheduled at a particular host, type:
+
+[source]
+midonet> container <container-id> set host <host-id>
+
+[IMPORTANT]
+
+The manual scheduling of a container is only a request by the operator to
+MidoNet to run a service container at a particular host. The request will be
+ignored if the host does not meet the eligibility criteria to launch the
+container, or if the host fails to start the container. When this is the case,
+the MidoNet container scheduling algorithm will migrate the container at an
+alternative host or leave the container at its current location.
+
+It is also possible to request to the MidoNet container scheduler to re-trigger
+the automatic scheduling for a particular service container. This allows you to
+troubleshoot a malfunctioning container but relying on the automatic scheduling
+to select the container location.
+
+To re-trigger the automatic scheduling for a service container, type:
+
+[source]
+midonet> container <container-id> clear host
