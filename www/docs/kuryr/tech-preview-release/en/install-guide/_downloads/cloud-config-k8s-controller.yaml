@@ -2,7 +2,7 @@
 
 ---
 write-files:
-
+  - path: /etc/conf.d/kubectl
     # Configuration for users of kubectl so that it points to the Kubernetes
     # API server that is served by this instance.
     permissions: '0644'
