@@ -2,7 +2,14 @@
 
 ---
 write-files:
-
+  - path: /etc/conf.d/k8s-controller-defaults
+    #Default configuration parameters
+    permissions: '0644'
+    content: |
+        OS_USERNAME=neutron
+        OS_PASSWORD=neutron
+        OS_TENANT_NAME=service
+  - path: /etc/conf.d/kubectl
     # Configuration for users of kubectl so that it points to the Kubernetes
     # API server that is served by this instance.
     permissions: '0644'
@@ -10,7 +17,7 @@ write-files:
       apiVersion: v1
       clusters:
       - cluster:
-          server: http://${K8S_CONTROLLER}:8080
+          server: http://${LOCAL_IP}:8080
         name: default-cluster
       contexts:
       - context:
@@ -21,6 +28,17 @@ write-files:
       kind: Config
       preferences: {}
       users: []
+  - path: /opt/bin/prepare-config
+    #prepares the node after first boot
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+
+      #merge default config and (optional) provided pararmeters
+      CFG_FILE="k8s-controller"
+      touch -a /etc/conf.d/$CFG_FILE_
+      cp /etc/conf.d/$CFG_FILE /tmp/$CFG_FILE
+      awk -F '=' '!a[$1]++' /tmp/$CFG_FILE /etc/conf.d/"$CFG_FILE"-defaults > /etc/conf.d/$CFG_FILE
   - path: /opt/bin/wupiao
     # Small bash utility that allows us to wait for an HTTP service to be
     # responsive before resuming operations.
@@ -52,7 +70,7 @@ write-files:
       if [[ ! -f ${HOME}/.kube/config ]]; then
           mkdir -p "${HOME}/.kube"
           #setup the environment (sourcing the file doesn't work!)
-          export $(cat /etc/conf.d/k8s-master)
+          export $(cat /etc/conf.d/k8s-controller)
           envsubst  < /etc/conf.d/kubectl > "${HOME}/.kube/config"
       fi
       /opt/bin/_kubectl $@
@@ -71,6 +89,15 @@ coreos:
   fleet:
     metadata: "role=master"  # In case the user wants to fleet schedule things
   units:
+    - name: prepare-config.service
+      command: start
+      content: |
+        [Unit]
+        Description=Node preparation
+
+        [Service]
+        Type=oneshot
+        ExecStart=/opt/bin/prepare-config
     - name: etcd3.service
       # Sets up an Etcd 3 cluster composed of k8s-controller
       # If you want to setup a HA cluster, use DNS or token discovery, refer to:
@@ -80,11 +107,11 @@ coreos:
         [Unit]
         Description=Etcd3
         Documentation=https://github.com/coreos/etcd
-        Requires=docker.service
-        After=docker.service
+        Requires=docker.service prepare-config.service
+        After=docker.service prepare-config.service
 
         [Service]
-        EnvironmentFile=/etc/conf.d/k8s-master
+        EnvironmentFile=/etc/conf.d/k8s-controller
         ExecStartPre=-/usr/bin/docker kill %n
         ExecStartPre=-/usr/bin/docker rm %n
         ExecStartPre=/usr/bin/docker pull quay.io/coreos/etcd:v3.0.1
@@ -95,16 +122,16 @@ coreos:
           /usr/local/bin/etcd \
             --name k8s-controller \
             --data-dir /var/etcd/data \
-            --initial-advertise-peer-urls http://${K8S_CONTROLLER}:2380 \
+            --initial-advertise-peer-urls http://${LOCAL_IP}:2380 \
             --listen-peer-urls http://0.0.0.0:2380 \
             --listen-client-urls http://0.0.0.0:2379 \
-            --advertise-client-urls http://${K8S_CONTROLLER}:2379 \
+            --advertise-client-urls http://${LOCAL_IP}:2379 \
             --initial-cluster-token etcd-cluster-1 \
-            --initial-cluster k8s-controller=http://${K8S_CONTROLLER}:2380 \
+            --initial-cluster k8s-controller=http://${LOCAL_IP}:2380 \
             --initial-cluster-state new
         ExecStop=/usr/bin/docker kill %n
         ExecStopPost=/usr/bin/docker rm -f %n
-        Restart=no
+        Restart=always
         RestartSec=10
     - name: docker.service
       command: start
@@ -116,11 +143,11 @@ coreos:
            configuration needed by the Kubernetes API Server and the \
            Kubernetes Controller Manager
         Documentation=https://github.com/kubernetes/kubernetes
-        Requires=docker.service
-        After=docker.service
+        Requires=docker.service prepare-config.service
+        After=docker.service prepare-config.service
 
         [Service]
-        EnvironmentFile=/etc/conf.d/k8s-master
+        EnvironmentFile=/etc/conf.d/k8s-controller
         ExecStartPre=-/usr/bin/docker kill %n
         ExecStartPre=-/usr/bin/docker rm %n
         ExecStartPre=/usr/bin/docker pull gcr.io/google_containers/hyperkube-amd64:v1.3.0
@@ -128,7 +155,7 @@ coreos:
           --volume=/data:/data \
           gcr.io/google_containers/hyperkube-amd64:v1.3.0 \
             /setup-files.sh \
-            IP:${K8S_CONTROLLER},DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster.local
+            IP:${LOCAL_IP},DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster.local
         ExecStop=/usr/bin/docker kill %n
         ExecStopPost=/usr/bin/docker rm -f %n
     - name: kube-apiserver.service
@@ -138,11 +165,11 @@ coreos:
         Description=Kubernetes API Server
         Documentation=https://github.com/kubernetes/kubernetes
         Requires=etcd3.service kubernetes-setup-files.service docker.service
-        After=etcd3.service kubernetes-setup-files.service docker.service
+        After=prepare-config.service etcd3.service kubernetes-setup-files.service docker.service
 
         [Service]
-        EnvironmentFile=/etc/conf.d/k8s-master
-        ExecStartPre=/opt/bin/wupiao ${K8S_CONTROLLER}:2379/v2/machines
+        EnvironmentFile=/etc/conf.d/k8s-controller
+        ExecStartPre=/opt/bin/wupiao ${LOCAL_IP}:2379/v2/machines
         ExecStartPre=-/usr/bin/docker kill %n
         ExecStartPre=-/usr/bin/docker rm %n
         ExecStartPre=/usr/bin/docker pull gcr.io/google_containers/hyperkube-amd64:v1.3.0
@@ -153,7 +180,7 @@ coreos:
             --service-cluster-ip-range=10.0.0.1/24 \
             --insecure-bind-address=0.0.0.0 \
             --insecure-port=8080 \
-            --etcd-servers=http://${K8S_CONTROLLER}:2379 \
+            --etcd-servers=http://${LOCAL_IP}:2379 \
             --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota \
             --client-ca-file=/srv/kubernetes/ca.crt \
             --basic-auth-file=/srv/kubernetes/basic_auth.csv \
@@ -166,7 +193,7 @@ coreos:
             --logtostderr=true
         ExecStop=/usr/bin/docker kill %n
         ExecStopPost=/usr/bin/docker rm -f %n
-        Restart=no
+        Restart=always
         RestartSec=10
     - name: kube-controller-manager.service
       command: start
@@ -175,11 +202,11 @@ coreos:
         Description=Kubernetes Controller Manager
         Documentation=https://github.com/kubernetes/kubernetes
         Requires=kube-apiserver.service docker.service
-        After=kube-apiserver.service docker.service
+        After=prepare-config.service kube-apiserver.service docker.service
 
         [Service]
-        EnvironmentFile=/etc/conf.d/k8s-master
-        ExecStartPre=/opt/bin/wupiao ${K8S_CONTROLLER}:8080`
+        EnvironmentFile=/etc/conf.d/k8s-controller
+        ExecStartPre=/opt/bin/wupiao ${LOCAL_IP}:8080`
         ExecStartPre=-/usr/bin/docker kill %n
         ExecStartPre=-/usr/bin/docker rm %n
         ExecStartPre=/usr/bin/docker pull gcr.io/google_containers/hyperkube-amd64:v1.3.0
@@ -187,7 +214,7 @@ coreos:
           --volume=/data:/srv/kubernetes \
           gcr.io/google_containers/hyperkube-amd64:v1.3.0 \
           /hyperkube controller-manager \
-            --master=${K8S_CONTROLLER}:8080 \
+            --master=${LOCAL_IP}:8080 \
             --service-account-private-key-file=/srv/kubernetes/server.key \
             --root-ca-file=/srv/kubernetes/ca.crt \
             --min-resync-period=3m \
@@ -195,7 +222,7 @@ coreos:
             --logtostderr=true
         ExecStop=/usr/bin/docker kill %n
         ExecStopPost=/usr/bin/docker rm -f %n
-        Restart=no
+        Restart=always
         RestartSec=10
     - name: kube-scheduler.service
       command: start
@@ -204,23 +231,23 @@ coreos:
         Description=Kubernetes Scheduler
         Documentation=https://github.com/kubernetes/kubernetes
         Requires=kube-apiserver.service docker.service
-        After=kube-apiserver.service docker.service
+        After=prepare-config.service kube-apiserver.service docker.service
 
         [Service]
-        EnvironmentFile=/etc/conf.d/k8s-master
-        ExecStartPre=/opt/bin/wupiao ${K8S_CONTROLLER}:8080`
+        EnvironmentFile=/etc/conf.d/k8s-controller
+        ExecStartPre=/opt/bin/wupiao ${LOCAL_IP}:8080`
         ExecStartPre=-/usr/bin/docker kill %n
         ExecStartPre=-/usr/bin/docker rm %n
         ExecStartPre=/usr/bin/docker pull gcr.io/google_containers/hyperkube-amd64:v1.3.0
         ExecStart=/usr/bin/docker run --name %n --net=host \
           gcr.io/google_containers/hyperkube-amd64:v1.3.0 \
           /hyperkube scheduler \
-            --master=${K8S_CONTROLLER}:8080 \
+            --master=${LOCAL_IP}:8080 \
             --v=2 \
             --logtostderr=true
         ExecStop=/usr/bin/docker kill %n
         ExecStopPost=/usr/bin/docker rm -f %n
-        Restart=no
+        Restart=always
         RestartSec=10
     - name: kuryr-watcher.service
       command: start
@@ -230,11 +257,11 @@ coreos:
           Neutron entities.
         Documentation=https://github.com/midonet/kuryr/tree/k8s
         Requires=kube-apiserver.service docker.service
-        After=kube-apiserver.service docker.service
+        After=prepare-config.service kube-apiserver.service docker.service
 
         [Service]
-        EnvironmentFile=/etc/conf.d/k8s-master
-        ExecStartPre=/opt/bin/wupiao ${K8S_CONTROLLER}:8080
+        EnvironmentFile=/etc/conf.d/k8s-controller
+        ExecStartPre=/opt/bin/wupiao ${LOCAL_IP}:8080
         ExecStartPre=-/usr/bin/docker kill %n
         ExecStartPre=-/usr/bin/docker rm %n
         ExecStart=/usr/bin/docker run --name %n \
@@ -244,10 +271,10 @@ coreos:
           -e SERVICE_PASSWORD=${OS_PASSWORD} \
           -e IDENTITY_URL=http://${OST_CONTROLLER}:35357/v2.0 \
           -e OS_URL=http://${OST_CONTROLLER}:9696 \
-          -e K8S_API=http://${K8S_CONTROLLER}:8080 \
+          -e K8S_API=http://${LOCAL_IP}:8080 \
           -v /var/log/kuryr:/var/log/kuryr \
           midonet/raven:0.5.2
         ExecStop=/usr/bin/docker kill %n
         ExecStopPost=/usr/bin/docker rm -f %n
-        Restart=no
+        Restart=always
         RestartSec=3

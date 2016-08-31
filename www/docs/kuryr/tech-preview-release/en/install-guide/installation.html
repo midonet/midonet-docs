@@ -80,12 +80,12 @@ ga('send', 'pageview');
     <a href="index.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Kuryr-Kubernetes Installation Guide"></i></a>
     
     
-    <a href="devstack.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: DevStack Installation quick guide"></i></a>
+    <a href="cloud-install.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Installation in Cloud Environments"></i></a>
     
   </div>
 </div>
           <div class="row docs-byline">
-            <div class="docs-updated">updated: 2016-08-18 11:46</div>
+            <div class="docs-updated">updated: 2016-08-31 12:31</div>
           </div>
           <div class="row">
             <div class="col-lg-12">
@@ -94,13 +94,26 @@ ga('send', 'pageview');
 <h5><a href="index.html">Contents</a></h5>
 <ul>
 <li><a class="reference internal" href="#">Kuryr-Kubernetes Installation</a><ul>
-<li><a class="reference internal" href="#openstack-controller">OpenStack controller</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#openstack-controller">OpenStack controller</a><ul>
+<li><a class="reference internal" href="#post-installation-configuration">Post-installation configuration</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#kubernetes-controller">Kubernetes controller</a></li>
-<li><a class="reference internal" href="#kubernetes-workers">Kubernetes Workers</a></li>
+<li><a class="reference internal" href="#kubernetes-workers">Kubernetes Workers</a><ul>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#post-installation">Post-Installation</a><ul>
+<li><a class="reference internal" href="#service-load-balancing-configuration">Service Load balancing Configuration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#post-installation-verification">Post-installation verification</a><ul>
 <li><a class="reference internal" href="#checking-health">Checking Health</a></li>
 <li><a class="reference internal" href="#running-your-first-containers">Running your first containers</a></li>
-<li><a class="reference internal" href="#exposing-a-service">Exposing a service</a></li>
 <li><a class="reference internal" href="#exposing-your-services-to-the-external-world">Exposing your services to the external world</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -110,55 +123,190 @@ ga('send', 'pageview');
 
   <div class="section" id="kuryr-kubernetes-installation">
 <h1>Kuryr-Kubernetes Installation<a class="headerlink" href="#kuryr-kubernetes-installation" title="Permalink to this headline">¶</a></h1>
-<p>This document describes how to install and test Kuryr-Kubernetes.
-It assumes you have a running installation of OpenStack&#8217;s Neutron
-using <a class="reference external" href="https://www.midonet.org/">Midonet</a> as network providers. If not, see <a class="reference external" href="./devstack.html">DevStack Installation</a>
-for a quick guide to install and configure <a class="reference external" href="http://docs.openstack.org/developer/devstack/">DevStack</a> the development
-version of OpenStack.</p>
+<p>This document describes how to install and test Kuryr-Kubernetes.</p>
 <p>In this guide, we will refer to three different environments, which
-can be physical or virtual: the OpenStack controller node (ost-controller),
-the Kubernetes cluster control1er (k8s-controller) and one or more Kubernetes
+can be physical or virtual: the OpenStack controler node (ost-controller),
+the Kubernetes cluster controller (k8s-controller) and one or more Kubernetes
 workers (k8s-worker1, k8s-worker2, ...).</p>
-<p>This guide assumes that you have <a class="reference external" href="https://docs.docker.com/engine/installation/linux/">Docker</a> installed in the Kubernetes
-nodes (controller and workers).</p>
+<p>Please notice this guide will install a Kubernetes controller node.
+This is required even if you have a running cluster, due to the needed
+integration of Kuryr with Kuberlets.</p>
 <p>To facilitate the installation process, we provide the scripts to configure
 the k8s nodes (controller and workers) using <a class="reference external" href="https://coreos.com/os/docs/latest/cloud-config.html">coreos-cloudinit</a> utility.
-Refer to the <a class="reference external" href="./cloudinit.html">CoreOS Cloud Init Installation</a> for  instructions on how to
+Refer to the <a class="reference external" href="cloudinit.html">CoreOS Cloud Init Installation</a> for  instructions on how to
 install it.</p>
+<p>These files can be used to configure nodes provisioned from cloud providers.
+The <a class="reference external" href="cloud-install.html">Cloud Installation Guide</a> explains how to adapt this
+installation guide when using in cloud. This is particularly interesting when
+launching multiple worker nodes.</p>
+<div class="section" id="requirements">
+<span id="id1"></span><h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>The actual physical resources required by each node depend on the workload
+you plan to execute. Following are some recomendations:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="58%" />
+<col width="17%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Node</th>
+<th class="head">CPUs</th>
+<th class="head">Memory</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ost-controller</td>
+<td>4</td>
+<td>16Gb</td>
+</tr>
+<tr class="row-odd"><td>k8s-controller</td>
+<td>4</td>
+<td>8Gb</td>
+</tr>
+<tr class="row-even"><td>k8s-worker</td>
+<td>8</td>
+<td>8Gb</td>
+</tr>
+</tbody>
+</table>
+<p>This guide assumes that you have <a class="reference external" href="https://docs.docker.com/engine/installation/linux/">Docker</a> installed in all nodes.</p>
 <p>Finally, this guide assumes all nodes have connectivity between them and
 access to the Internet for package installation.</p>
+</div>
 <div class="section" id="openstack-controller">
-<h2>OpenStack controller<a class="headerlink" href="#openstack-controller" title="Permalink to this headline">¶</a></h2>
-<p>At the ost-controller, the only step needed is to create one midonet
-tunnel zone to allow the communication between the K8s workers and the
-service load balancing agent, running in the ost-controller.</p>
-<p>First, create the tunnel-zone:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ midonet-cli -e tunnel-zone create name demo <span class="nb">type</span> vxlan
-  282d7315-382c-4736-a567-afa57009d942
+<span id="ost-install"></span><h2>OpenStack controller<a class="headerlink" href="#openstack-controller" title="Permalink to this headline">¶</a></h2>
+<p>The configuration file <tt class="xref download docutils literal"><span class="pre">cloud-config-ost.yaml</span></tt> automates
+the deployment of an OpenStack Neutron controller node integrated with Midonet.
+It installs and configures the supporting services such as MariadDB, Cassandra,
+Zookeeper, and RabbitMQ.</p>
+<p>The installation process uses the configuration parameters defined in the
+<em>/etc/conf.d/ost-controller-defaults</em> file which is part of the cloud config file:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">write-files</span><span class="p p-Indicator">:</span>
+<span class="nn">...</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">path</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/conf.d/ost-controller-defaults</span>
+    <span class="l l-Scalar l-Scalar-Plain">permissions</span><span class="p p-Indicator">:</span> <span class="s">&#39;0644&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">content</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">|</span>
+      <span class="no">DB_HOST=127.0.0.1</span>
+      <span class="no">DB_USERNAME=root</span>
+      <span class="no">DB_PASSWORD=root</span>
+      <span class="no">OS_DEBUG=True</span>
+      <span class="no">OS_VERBOSE=Fals4</span>
+      <span class="no">DB_NAME=openstack</span>
+      <span class="no">OS_TOKEN=admin</span>
+      <span class="no">OS_AUTH_URL=http://127.0.0.1:35357/v2.0</span>
+      <span class="no">OS_AUTH_URI=http://127.0.0.1:5000/v2.0</span>
+      <span class="no">OS_NEUTRON_URL=http://127.0.0.1:9696</span>
+      <span class="no">OS_USERNAME=neutron</span>
+      <span class="no">OS_PASSWORD=neutron</span>
+      <span class="no">OS_RPC_BACKEND=rabbit</span>
+      <span class="no">RB_HOST=127.0.0.1</span>
+      <span class="no">RB_USERNAME=guest</span>
+      <span class="no">RB_PASSWORD=guest</span>
+      <span class="no">OS_TENANT_NAME=service</span>
+      <span class="no">OS_REGION_NAME=RegionOne</span>
+      <span class="no">MN_CLUSTER_URL=http://127.0.0.1:8181/midonet-api</span>
+      <span class="no">MN_TUNNEL_ZONE=demo</span>
+      <span class="no">MN_USERNAME=admin</span>
+      <span class="no">MN_PASSWORD=admin</span>
+      <span class="no">MN_PROJECT=admin</span>
+      <span class="no">ZK_QUORUM=&quot;127.0.0.1:1&quot;</span>
+      <span class="no">ZK_CLUSTER=&quot;127.0.0.1:2181&quot;</span>
+      <span class="no">ZK_ID=1</span>
+      <span class="no">C_SERVERS=&quot;127.0.0.1&quot;</span>
+      <span class="no">C_FACTOR=1</span>
 </pre></div>
 </div>
-<p>The name used is important because the k8s-workers will add themselves to it
-based on this name.</p>
-<p>With the uuid for the tunnel zone that was returned, we should proceed to
-add the ost-controller host to the tunnel zone. This will allow the haproxy
-loadbalancer agent to communicate with the pods in the worker instances.</p>
-<p>Check your host uuid:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ midonet-cli -e host list
-host bd6a3fe1-a655-49af-bd77-d3b2a5356af4 name ost-controller alive <span class="nb">true</span> addresses fe80:0:0:0:0:11ff:fe00:1101,169.254.123.1,fe80:0:0:0:4001:aff:fe8e:2,10.142.0.2,172.17.0.1,fe80:0:0:0:fc6c:38ff:fe47:f864,127.0.0.1,0:0:0:0:0:0:0:1,fe80:0:0:0:0:11ff:fe00:1102,fe80:0:0:0:c4fd:6dff:fe99:7a6d,172.19.0.2 flooding-proxy-weight <span class="m">1</span> container-weight <span class="m">1</span> container-limit no-limit enforce-container-limit <span class="nb">false</span>
+<p>In general, the values provided in the file can be left untouched, but they can be easily  overriden
+if you create an initial <em>/etc/conf.d/ost-controller</em> file. The installation process merges both
+files, giving precedense to the values provided by you.</p>
+<p>For example, the local IP can be provided as follows:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ mkdir /etc/conf.d
+$ cat &gt;&gt; /etc/conf.d/ost-controller <span class="s">&lt;&lt;EOF</span>
+<span class="s">  LOCAL_IP=10.142.0.2</span>
+<span class="s">  EOF</span>
 </pre></div>
 </div>
-<p>Then add it to the tunnel zone, using the internal IP:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ midonet-cli -e tunnel-zone 282d7315-382c-4736-a567-afa57009d942 add <span class="se">\</span>
-  member host bd6a3fe1-a655-49af-bd77-d3b2a5356af4 address 10.142.0.2
-zone 282d7315-382c-4736-a567-afa57009d942 host bd6a3fe1-a655-49af-bd77-d3b2a5356af4 address 10.142.0.2
+<p>To proceed deploying and configuring the components run the coreos-cloudinit command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ coreos-cloudinit --from-file cloud-config-ost.yaml
+2016/08/22 23:22:52 Checking availability of <span class="s2">&quot;local-file&quot;</span>
+2016/08/22 23:22:52 Fetching user-data from datasource of <span class="nb">type</span> <span class="s2">&quot;local-file&quot;</span>
+2016/08/22 23:22:52 Fetching meta-data from datasource of <span class="nb">type</span> <span class="s2">&quot;local-file&quot;</span>
+2016/08/22 23:22:52 Parsing user-data as cloud-config
+2016/08/22 23:22:52 Merging cloud-config from meta-data and user-data
+2016/08/22 23:22:52 Writing file to <span class="s2">&quot;/etc/conf.d/ost-controller-defaults&quot;</span>
+2016/08/22 23:22:52 Wrote file to <span class="s2">&quot;/etc/conf.d/ost-controller-defaults&quot;</span>
+2016/08/22 23:22:52 Wrote file /etc/conf.d/ost-controller-defaults to filesystem
+2016/08/22 23:22:52 Writing file to <span class="s2">&quot;/opt/bin/neutron&quot;</span>
+2016/08/22 23:22:52 Wrote file to <span class="s2">&quot;/opt/bin/neutron&quot;</span>
+2016/08/22 23:22:52 Wrote file /opt/bin/neutron to filesystem
+2016/08/22 23:22:52 Writing file to <span class="s2">&quot;/opt/bin/prepare-config&quot;</span>
+.
+.
+.
+2016/08/22 23:22:53 Result of <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;keystone.service&quot;</span>: <span class="k">done</span>
+2016/08/22 23:22:53 Calling unit <span class="nb">command</span> <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;neutron.service&quot;</span><span class="s1">&#39;</span>
+<span class="s1">2016/08/22 23:22:53 Result of &quot;start&quot; on &quot;neutron.service&quot;: done</span>
+<span class="s1">2016/08/22 23:22:53 Calling unit command &quot;start&quot; on &quot;neutron-lbaas.service&quot;&#39;</span>
+2016/08/22 23:22:57 Result of <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;neutron-lbaas.service&quot;</span>: <span class="k">done</span>
+2016/08/22 23:22:57 Calling unit <span class="nb">command</span> <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;midonet-agent.service&quot;</span><span class="s1">&#39;</span>
+<span class="s1">2016/08/22 23:22:57 Result of &quot;start&quot; on &quot;midonet-agent.service&quot;: done</span>
+<span class="s1">2016/08/22 23:22:57 Calling unit command &quot;start&quot; on &quot;midonet-cluster.service&quot;&#39;</span>
+2016/08/22 23:23:14 Result of <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;midonet-cluster.service&quot;</span>: <span class="k">done</span>
 </pre></div>
+</div>
+<div class="section" id="post-installation-configuration">
+<span id="ost-post-install"></span><h3>Post-installation configuration<a class="headerlink" href="#post-installation-configuration" title="Permalink to this headline">¶</a></h3>
+<p>After the installation process fineshes, it is necessary to create the users and
+service endpoints in Keystone, using the script created by the installation process:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ /opt/bin/keystone-provisioning.sh
++-------------+----------------------------------+
+<span class="p">|</span> Field       <span class="p">|</span> Value                            <span class="p">|</span>
++-------------+----------------------------------+
+<span class="p">|</span> description <span class="p">|</span> None                             <span class="p">|</span>
+<span class="p">|</span> enabled     <span class="p">|</span> True                             <span class="p">|</span>
+<span class="p">|</span> id          <span class="p">|</span> 822505779e514e6d8746b4f33e26e4a5 <span class="p">|</span>
+<span class="p">|</span> name        <span class="p">|</span> admin                            <span class="p">|</span>
++-------------+----------------------------------+
++-------+----------------------------------+
+<span class="p">|</span> Field <span class="p">|</span> Value                            <span class="p">|</span>
++-------+----------------------------------+
+<span class="p">|</span> id    <span class="p">|</span> 6ae2e49a00c342fdaeb17d13daf767d2 <span class="p">|</span>
+<span class="p">|</span> name  <span class="p">|</span> admin                            <span class="p">|</span>
++-------+----------------------------------+
+<span class="p">|</span> name        <span class="p">|</span> service                          <span class="p">|</span>
++-------------+----------------------------------+
+<span class="p">|</span> name        <span class="p">|</span> keystone                         <span class="p">|</span>
+<span class="p">|</span> <span class="nb">type</span>        <span class="p">|</span> identity                         <span class="p">|</span>
++-------------+----------------------------------+
+.
+.
+.
++--------------+----------------------------------+
+<span class="p">|</span> adminurl     <span class="p">|</span> http://127.0.0.1:9696            <span class="p">|</span>
+<span class="p">|</span> id           <span class="p">|</span> 4d45f85304dc4f298401ff23c7320924 <span class="p">|</span>
+<span class="p">|</span> internalurl  <span class="p">|</span> http://127.0.0.1:9696            <span class="p">|</span>
+<span class="p">|</span> publicurl    <span class="p">|</span> http://127.0.0.1:9696            <span class="p">|</span>
+<span class="p">|</span> region       <span class="p">|</span> RegionOne                        <span class="p">|</span>
+<span class="p">|</span> service_id   <span class="p">|</span> 0d255909e555431b8ef2f770df62e247 <span class="p">|</span>
+<span class="p">|</span> service_name <span class="p">|</span> neutron                          <span class="p">|</span>
+<span class="p">|</span> service_type <span class="p">|</span> network                          <span class="p">|</span>
++--------------+----------------------------------+
+</pre></div>
+</div>
+<p>Finally, we need to create one Midonet tunnel zone to allow the communication between the K8s
+workers and the service load balancing agent, running in the ost-controller.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ /opt/bin/setup-midonet.sh
+zone 33102da5-a7a7-43b7-b904-a46faecb0f1b host 5a1bb683-704f-4ce9-8c38-45a8ec174b41 address 192.168.1.124
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="kubernetes-controller">
-<h2>Kubernetes controller<a class="headerlink" href="#kubernetes-controller" title="Permalink to this headline">¶</a></h2>
+<span id="k8s-install"></span><h2>Kubernetes controller<a class="headerlink" href="#kubernetes-controller" title="Permalink to this headline">¶</a></h2>
 <p>The configuration file <a class="reference download internal" href="_downloads/cloud-config-k8s-controller.yaml"><tt class="xref download docutils literal"><span class="pre">cloud-config-k8s-controller.yaml</span></tt></a> automates the deployment
 of all the components required by the kubernetes controller. In this process, the Kuryr contanier
-is downloaded and installed as a <em>systemctl</em> service:</p>
+is downloaded and installed as a <em>systemctl</em> service using the <cite>Docker image from Midonet project&lt;https://hub.docker.com/r/midonet/raven/&gt;</cite>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[Unit]
 Description=Kuryr Kubernetes API watcher and translator of events to \
   Neutron entities.
@@ -167,7 +315,7 @@ Requires=kube-apiserver.service docker.service
 After=kube-apiserver.service docker.service
 
 [Service]
-EnvironmentFile=/etc/conf.d/k8s-master
+EnvironmentFile=/etc/conf.d/k8s-controller
 ExecStartPre=/opt/bin/wupiao ${K8S_CONTROLLER}:8080
 ExecStartPre=-/usr/bin/docker kill %n
 ExecStartPre=-/usr/bin/docker rm %n
@@ -189,28 +337,59 @@ RestartSec=3
 </div>
 <p>The installation process uses the <em>/etc/conf.d/k8s-controller</em> file to hold configuration
 information. Create it and add the information about the IP for the ost-controller node and the
-k8s-controller node itself, as well as the credentials to access Openstack services:</p>
+k8s-controller node itself:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ mkdir /etc/conf.d
 $ cat &gt;&gt; /etc/conf.d/k8s-controller <span class="s">&lt;&lt;EOF</span>
+<span class="s">  LOCAL_IP=10.142.0.3</span>
 <span class="s">  OST_CONTROLLER_IP=10.142.0.2</span>
-<span class="s">  K8S_CONTROLLER_IP=10.142.0.3</span>
-<span class="s">  OS_USERNAME=admin</span>
-<span class="s">  OS_PASSWORD=admin</span>
-<span class="s">  OS_TENANT_NAME=admin</span>
 <span class="s">  EOF</span>
+</pre></div>
+</div>
+<p>You can also modify any of the default parameters defined in the <em>/etc/conf.d/k8s-controller-defaults</em>
+file in the <em>write-file</em> section of the cloud-config file</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">write-files</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">-path</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/conf.d/k8s-controller-defaults</span>
+   <span class="l l-Scalar l-Scalar-Plain">#Default configuration parameters</span>
+   <span class="l l-Scalar l-Scalar-Plain">content</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">|</span>
+     <span class="no">OS_USERNAME=neutron</span>
+     <span class="no">OS_PASSWORD=neutron</span>
+     <span class="no">OS_TENANT_NAME=service</span>
 </pre></div>
 </div>
 <p>Now, proceed to deploy and configure the components:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ coreos-cloudinit --from-file cloud-config-k8s-controller.yaml
+2016/08/03 09:18:39 Checking availability of <span class="s2">&quot;local-file&quot;</span>
+2016/08/03 09:18:39 Fetching user-data from datasource of <span class="nb">type</span> <span class="s2">&quot;local-file&quot;</span>
+2016/08/03 09:18:39 Fetching meta-data from datasource of <span class="nb">type</span> <span class="s2">&quot;local-file&quot;</span>
+2016/08/03 09:18:39 Parsing user-data as cloud-config
+.
+.
+.
+2016/08/03 09:19:01 Result of <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;demo-prepare-cli-tools.service&quot;</span>: <span class="k">done</span>
+2016/08/03 09:19:01 Calling unit <span class="nb">command</span> <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;etcd3.service&quot;</span><span class="s1">&#39;</span>
+<span class="s1">2016/08/03 09:19:04 Result of &quot;start&quot; on &quot;etcd3.service&quot;: done</span>
+<span class="s1">2016/08/03 09:19:04 Calling unit command &quot;start&quot; on &quot;fleet.service&quot;&#39;</span>
+2016/08/03 09:19:04 Result of <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;fleet.service&quot;</span>: <span class="k">done</span>
+2016/08/03 09:19:04 Calling unit <span class="nb">command</span> <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;docker.service&quot;</span><span class="s1">&#39;</span>
+<span class="s1">2016/08/03 09:19:04 Result of &quot;start&quot; on &quot;docker.service&quot;: done</span>
+<span class="s1">2016/08/03 09:19:04 Calling unit command &quot;start&quot; on &quot;kubernetes-setup-files.service&quot;&#39;</span>
+2016/08/03 09:19:29 Result of <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;kubernetes-setup-files.service&quot;</span>: <span class="k">done</span>
+2016/08/03 09:19:29 Calling unit <span class="nb">command</span> <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;kube-apiserver.service&quot;</span><span class="s1">&#39;</span>
+<span class="s1">2016/08/03 09:19:29 Result of &quot;start&quot; on &quot;kube-apiserver.service&quot;: done</span>
+<span class="s1">2016/08/03 09:19:29 Calling unit command &quot;start&quot; on &quot;kube-controller-manager.service&quot;&#39;</span>
+2016/08/03 09:19:42 Result of <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;kube-controller-manager.service&quot;</span>: <span class="k">done</span>
+2016/08/03 09:19:42 Calling unit <span class="nb">command</span> <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;kube-scheduler.service&quot;</span><span class="s1">&#39;</span>
+<span class="s1">2016/08/03 09:19:42 Result of &quot;start&quot; on &quot;kube-scheduler.service&quot;: done</span>
+<span class="s1">2016/08/03 09:19:42 Calling unit command &quot;start&quot; on &quot;kuryr-watcher.service&quot;&#39;</span>
+2016/08/03 09:19:42 Result of <span class="s2">&quot;start&quot;</span> on <span class="s2">&quot;kuryr-watcher.service&quot;</span>: <span class="k">done</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="kubernetes-workers">
-<h2>Kubernetes Workers<a class="headerlink" href="#kubernetes-workers" title="Permalink to this headline">¶</a></h2>
+<span id="worker-install"></span><h2>Kubernetes Workers<a class="headerlink" href="#kubernetes-workers" title="Permalink to this headline">¶</a></h2>
 <p>Similarly to the k8s-controller, the K8s workers can be configured with a
 cloud-config file <a class="reference download internal" href="_downloads/cloud-config-k8s-worker.yaml"><tt class="xref download docutils literal"><span class="pre">cloud-config-k8s-worker.yaml</span></tt></a>. The same file can be used for multiple workers.</p>
-<p>The installation process intalls the Midonet&#8217;s flavor of Kubelet, the Kubernetes worker service, which has
-the required integration with Kuryr:</p>
+<p>The installation process intalls the <cite>Midonet&#8217;s flavor of Kubelet&lt;https://hub.docker.com/r/midonet/kubelet/&gt;</cite>, the Kubernetes worker service, which has the required integration with Kuryr:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[Unit]
 Description=Kubernetes kubelet with kuryr CNI driver and MidoNet \
             port binding tool
@@ -219,11 +398,7 @@ Requires=docker.service prepare-config.service
 After=docker.service prepare-config.service
 
 [Service]
-EnvironmentFile=/etc/conf.d/k8s-worker
-ExecStartPre=/usr/bin/docker pull midonet/kubelet
-ExecStartPre=/opt/bin/wupiao ${K8S_CONTROLLER}:8080
-ExecStartPre=-/usr/bin/docker kill %n
-ExecStartPre=-/usr/bin/docker rm %n
+...
 ExecStart=/usr/bin/docker run --name %n \
       -e MASTER_IP=${K8S_CONTROLLER} \
       -e ZK_ENDPOINTS=${OST_CONTROLLER}:2181 \
@@ -238,31 +413,40 @@ ExecStart=/usr/bin/docker run --name %n \
       --privileged=true \
       --pid=host \
       midonet/kubelet
-ExecStop=/usr/bin/docker kill %n
-ExecStopPost=/usr/bin/docker rm -f %n
-Restart=always
-RestartSec=3
-After=midonet-agent.service
 </pre></div>
 </div>
 <p>The installation script expects some configuration information in the
 <em>/etc/conf.d/k8s-worker</em> file. The IP addresses of the openstack and k8s controllers
-are needed. Also, to automate the setup, the name of the tunnel zone defined
-in the OpenStack controller, as well as the local ip for the worker.</p>
+are needed. Also, the ip address to be used for joining the  tunnel zone defined
+in the ost-controller:</p>
 <p>Create it and complete the required information:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ mkdir /etc/conf.d
 $ cat &gt;&gt; /etc/conf.d/k8s-worker <span class="s">&lt;&lt;EOF</span>
 <span class="s"> OST_CONTROLLER_IP=10.142.0.2</span>
 <span class="s"> K8S_CONTROLLER_IP=10.142.0.3</span>
 <span class="s"> LOCAL_IP=10.142.0.4</span>
-<span class="s"> TUNNEL_ZONE=demo</span>
 <span class="s"> EOF</span>
 </pre></div>
 </div>
 <p>Now, proceed to deploy and configure the components:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ coreos-cloudinit --from-file cloud-config-k8s-worker.yaml
+  2016/08/03 10:49:24 Checking availability of &quot;local-file&quot;
+  2016/08/03 10:49:24 Fetching user-data from datasource of type &quot;local-file&quot;
+  2016/08/03 10:49:24 Fetching meta-data from datasource of type &quot;local-file&quot;
+  2016/08/03 10:49:24 Parsing user-data as cloud-config
+  .
+  .
+  .
+  2016/08/03 10:49:24 Calling unit command &quot;start&quot; on &quot;prepare-config.service&quot;&#39;
+  2016/08/03 10:49:25 Result of &quot;start&quot; on &quot;prepare-config.service&quot;: done
+  2016/08/03 10:49:25 Calling unit command &quot;start&quot; on &quot;midonet-agent.service&quot;&#39;
+  2016/08/03 10:51:46 Result of &quot;start&quot; on &quot;midonet-agent.service&quot;: done
+  2016/08/03 10:51:46 Calling unit command &quot;start&quot; on &quot;kubelet.service&quot;&#39;
+  2016/08/03 10:53:12 Result of &quot;start&quot; on &quot;kubelet.service&quot;: done
 </pre></div>
 </div>
+<div class="section" id="setup">
+<span id="k8s-worker-setup"></span><h3>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h3>
 <p>Once the installation process ends, run the midonet setup script to join the tunnel zone
 and allow communication between workers and the open stack controller node:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ /opt/bin/midonet-setup.sh
@@ -271,8 +455,48 @@ and allow communication between workers and the open stack controller node:</p>
 <p>The previous steps can be repeated for each worker. The rest of this document assumes you
 have at least two workers.</p>
 </div>
+</div>
+<div class="section" id="post-installation">
+<span id="id2"></span><h2>Post-Installation<a class="headerlink" href="#post-installation" title="Permalink to this headline">¶</a></h2>
+<p>Once the instances are installed, some post-installation setup is required.</p>
+<div class="section" id="service-load-balancing-configuration">
+<h3>Service Load balancing Configuration<a class="headerlink" href="#service-load-balancing-configuration" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If this were an standard step, the installation procedure should generate an script for this step.</p>
+</div>
+<p>If you plan to expose Kubernetes Services outside the Kubernetes cluster, it is necesary to configure your network so that the service load balancer that runs on the OST Controller has access to the service network.</p>
+<p>Kuryr <a href="#id3"><span class="problematic" id="id4">`automatically creates an external network for services&lt;../../en/ops-guide/getting_started.html#neutron-topology&gt;`_</span></a> <cite>raven-default-external-net</cite> and
+a subnet for the default namespace <cite>raven-default-external-subnet</cite>. By deafult
+this subnet is assigned the range 172.16.0.0/16 for external addresses (FIPs).</p>
+<p>First,create an interface to link the ost-controller&#8217;s network with Raven&#8217;s default services subnet:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ neutron router-interface-add <span class="k">$(</span>neutron router-list  <span class="p">|</span> awk <span class="s1">&#39;$4==&quot;mn-edge&quot; {print $2}&#39;</span><span class="k">)</span> <span class="k">$(</span>neutron subnet-list <span class="p">|</span> awk <span class="s1">&#39;$4==&quot;raven-default-external-subnet&quot; {print $2}&#39;</span><span class="k">)</span>
+Added interface 56d9ab50-e527-4fcb-884b-a51ae02dddb4 to router af96d950-97aa-473f-87a3-328830a5f774
+</pre></div>
+</div>
+<p>Secondly, create the appropiated routes:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ip -4 route add 172.16.0.0/16 via 172.19.0.1 dev mn-uplink-host
+$ iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -j MASQUERADE
+</pre></div>
+</div>
+<p>It should be possible to reach the gateway of the default service network:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ping -c <span class="m">3</span> 172.16.0.1
+PING 172.16.0.1 <span class="o">(</span>172.16.0.1<span class="o">)</span> 56<span class="o">(</span>84<span class="o">)</span> bytes of data.
+<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>4.56 ms
+<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">2</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>3.61 ms
+<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">3</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>3.49 ms
+
+--- 172.16.0.1 ping statistics ---
+<span class="m">3</span> packets transmitted, <span class="m">3</span> received, 0% packet loss, <span class="nb">time</span> 2002ms
+rtt min/avg/max/mdev <span class="o">=</span> 3.498/3.892/4.566/0.481 ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="post-installation-verification">
+<span id="post-installiation-verification"></span><h2>Post-installation verification<a class="headerlink" href="#post-installation-verification" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="checking-health">
-<h2>Checking Health<a class="headerlink" href="#checking-health" title="Permalink to this headline">¶</a></h2>
+<h3>Checking Health<a class="headerlink" href="#checking-health" title="Permalink to this headline">¶</a></h3>
 <p>From the k8s-controller node check that the nodes are up:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ kubectl get nodes
 NAME                                            STATUS    AGE
@@ -303,7 +527,7 @@ failed tasks are there to clean up things and will fail if there is nothing to
 clean up.</p>
 </div>
 <div class="section" id="running-your-first-containers">
-<h2>Running your first containers<a class="headerlink" href="#running-your-first-containers" title="Permalink to this headline">¶</a></h2>
+<h3>Running your first containers<a class="headerlink" href="#running-your-first-containers" title="Permalink to this headline">¶</a></h3>
 <p>With all the cluster healthy, let&#8217;s run our first containers:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ kubectl run --image nginx --replicas <span class="m">2</span> my-nginx
 deployment <span class="s2">&quot;my-nginx&quot;</span> created
@@ -332,39 +556,11 @@ $ kubectl <span class="nb">exec</span> my-nginx-1830394127-uyh8d -- ip -4 a show
 </pre></div>
 </div>
 </div>
-<div class="section" id="exposing-a-service">
-<h2>Exposing a service<a class="headerlink" href="#exposing-a-service" title="Permalink to this headline">¶</a></h2>
-<p>Now that se have the pods deployed, we will expose them as a service and show how they can
+<div class="section" id="exposing-your-services-to-the-external-world">
+<h3>Exposing your services to the external world<a class="headerlink" href="#exposing-your-services-to-the-external-world" title="Permalink to this headline">¶</a></h3>
+<p>Now that we have deployed the pods, we will expose them as a service and show how they can
 be accessed from an external network. In order to do so, we will use the same ost-controller
 node as external node, as it is not part of the cluster of workers.</p>
-<p>Kuryr creates automatically an external network for services <cite>raven-default-external-net</cite> and
-a subnet for the default namespace <cite>raven-default-external-subnet</cite>. For the purpose of this demo,
-it is necessary that this subnet be accessible from the ost-controller host.</p>
-<p>First,create an interface to link the ost-controller&#8217;s network with Raven&#8217;s default services subnet:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ neutron router-interface-add <span class="k">$(</span>neutron router-list  <span class="p">|</span> awk <span class="s1">&#39;$4==&quot;mn-edge&quot; {print $2}&#39;</span><span class="k">)</span> <span class="k">$(</span>neutron subnet-list <span class="p">|</span> awk <span class="s1">&#39;$4==&quot;raven-default-external-subnet&quot; {print $2}&#39;</span><span class="k">)</span>
-Added interface 56d9ab50-e527-4fcb-884b-a51ae02dddb4 to router af96d950-97aa-473f-87a3-328830a5f774
-</pre></div>
-</div>
-<p>Secondly, create the appropiated routes:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ip -4 route add 172.16.0.0/16 via 172.19.0.1 dev mn-uplink-host
-$ iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -j MASQUERADE
-</pre></div>
-</div>
-<p>It should be possible to reach the gateway of the default service network:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ping -c <span class="m">3</span> 172.16.0.1
-PING 172.16.0.1 <span class="o">(</span>172.16.0.1<span class="o">)</span> 56<span class="o">(</span>84<span class="o">)</span> bytes of data.
-<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>4.56 ms
-<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">2</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>3.61 ms
-<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">3</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>3.49 ms
-
---- 172.16.0.1 ping statistics ---
-<span class="m">3</span> packets transmitted, <span class="m">3</span> received, 0% packet loss, <span class="nb">time</span> 2002ms
-rtt min/avg/max/mdev <span class="o">=</span> 3.498/3.892/4.566/0.481 ms
-</pre></div>
-</div>
-</div>
-<div class="section" id="exposing-your-services-to-the-external-world">
-<h2>Exposing your services to the external world<a class="headerlink" href="#exposing-your-services-to-the-external-world" title="Permalink to this headline">¶</a></h2>
 <p>From the k8s-controller instance, create a service to expose the pods with and ip
 address obtained from external network:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ kubectl expose deployment my-nginx --external-ip 172.16.0.12 --port<span class="o">=</span>80
@@ -376,7 +572,7 @@ NAME         CLUSTER-IP   EXTERNAL-IP   PORT<span class="o">(</span>S<span class
 my-nginx     10.0.0.137   172.16.0.12   80/TCP    11s
 </pre></div>
 </div>
-<p>You can check this association has also be made in neutron:</p>
+<p>You can check this association has also been made in neutron:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ neutron floatingip-list -c fixed_ip_address -c floating_ip_address
 +------------------+---------------------+
 <span class="p">|</span> fixed_ip_address <span class="p">|</span> floating_ip_address <span class="p">|</span>
@@ -385,10 +581,6 @@ my-nginx     10.0.0.137   172.16.0.12   80/TCP    11s
 +------------------+---------------------+
 </pre></div>
 </div>
-<p>The service should now be accessible from the ost-controller instance:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ wget 172.16.0.12 -nv --method<span class="o">=</span>HEAD
-  2016-07-27 13:42:36 URL: http://172.16.0.12/ <span class="m">200</span> OK
-</pre></div>
 </div>
 </div>
 </div>
@@ -402,11 +594,11 @@ my-nginx     10.0.0.137   172.16.0.12   80/TCP    11s
             <a href="index.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Kuryr-Kubernetes Installation Guide"></i></a>
           
           
-            <a href="devstack.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: DevStack Installation quick guide"></i></a>
+            <a href="cloud-install.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Installation in Cloud Environments"></i></a>
           
           </div>
           <div class="row docs-byline bottom">
-            <div class="docs-updated">updated: 2016-08-18 11:46</div>
+            <div class="docs-updated">updated: 2016-08-31 12:31</div>
           </div>
           <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
@@ -444,16 +636,17 @@ my-nginx     10.0.0.137   172.16.0.12   80/TCP    11s
       <a href="index.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
       <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Kuryr-Kubernetes Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#openstack-controller">OpenStack controller</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kubernetes-controller">Kubernetes controller</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kubernetes-workers">Kubernetes Workers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#checking-health">Checking Health</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-your-first-containers">Running your first containers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#exposing-a-service">Exposing a service</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#exposing-your-services-to-the-external-world">Exposing your services to the external world</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#post-installation">Post-Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#post-installation-verification">Post-installation verification</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="devstack.html">DevStack Installation quick guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloud-install.html">Installation in Cloud Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="os-install.html">Installation in OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gce-install.html">Installation in Google Compute Engine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloudinit.html">CoreOS Cloud Init Installation</a></li>
 </ul>
 
@@ -553,7 +746,7 @@ my-nginx     10.0.0.137   172.16.0.12   80/TCP    11s
     /* "last_updated" is the build date and time. It relies on the
        conf.py variable "html_last_updated_fmt", which should include
        year/month/day as well as hours and minutes                   */
-    var buildstring = "Release: 0.0.1 on 2016-08-18 11:46";
+    var buildstring = "Release: 0.0.1 on 2016-08-31 12:31";
 
     var fieldComment = encodeURI(buildstring) +
                        lineFeed + encodeURI(gitSha) +

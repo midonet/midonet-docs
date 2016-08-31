@@ -3,7 +3,7 @@
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 
-    <title>Midokura Docs: CoreOS Cloud Init Installation</title>
+    <title>Midokura Docs: Installation in Google Compute Engine</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -73,12 +73,14 @@ ga('send', 'pageview');
         <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
 <div class="row">
   <div class="col-lg-8">
-    <h2>CoreOS Cloud Init Installation</h2>
+    <h2>Installation in Google Compute Engine</h2>
   </div>
   <div class="docs-actions">
     
-    <a href="gce-install.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Installation in Google Compute Engine"></i></a>
+    <a href="os-install.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Installation in OpenStack"></i></a>
     
+    
+    <a href="cloudinit.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: CoreOS Cloud Init Installation"></i></a>
     
   </div>
 </div>
@@ -89,31 +91,119 @@ ga('send', 'pageview');
             <div class="col-lg-12">
               <div class="docs-top-contents">
 
+<h5><a href="index.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Installation in Google Compute Engine</a><ul>
+<li><a class="reference internal" href="#creating-a-network">Creating a network</a></li>
+<li><a class="reference internal" href="#ost-controller">OST Controller</a></li>
+<li><a class="reference internal" href="#kubernetes-controller">Kubernetes controller</a></li>
+<li><a class="reference internal" href="#worker-nodes">Worker nodes</a></li>
+<li><a class="reference internal" href="#post-installation">Post-Installation</a></li>
+</ul>
+</li>
+</ul>
+
               </div>
               <div class="docs-body">
 
-  <div class="section" id="coreos-cloud-init-installation">
-<h1>CoreOS Cloud Init Installation<a class="headerlink" href="#coreos-cloud-init-installation" title="Permalink to this headline">¶</a></h1>
-<p>The coreos-cloudinit tool allows the automation of
-service deployment using systemd. This document offers a
-guide to install it from sources.</p>
-<p>First, install go language according to the <a class="reference external" href="https://golang.org/doc/install">official guide</a>
-The rest of this guide assumes you have configured <em>$GOPATH</em> environment variable to point to
-go language&#8217;s root directory:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> <span class="nv">$GOPATH</span>
+  <div class="section" id="installation-in-google-compute-engine">
+<h1>Installation in Google Compute Engine<a class="headerlink" href="#installation-in-google-compute-engine" title="Permalink to this headline">¶</a></h1>
+<p>This document describes how to install Kuryr-Kubernetes using
+instances provided by Google Compute Engine.</p>
+<p>The procedure is a variation of the general procedure described
+in the <a class="reference external" href="cloud-install.html">Cloud Installation Guide</a>.
+Only the relevant steps will be explained, so be sure you
+read the guide before attempting a gce-backed deployment.</p>
+<div class="section" id="creating-a-network">
+<h2>Creating a network<a class="headerlink" href="#creating-a-network" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s create a network for the GCE instances that we&#8217;ll use as the underlay for
+this deployment:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ gcloud compute networks create --range 10.142.0.0/24 demo
 </pre></div>
 </div>
-<p>Download the coreos-cloudinit sources into the go working directory:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ git clone https://github.com/coreos/coreos-cloudinit.git src/github.com/coreos/coreos-cloudinit/
+<p>Once it is created, we should allow ssh and mosh access to the instances in the
+deployment:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ gcloud compute firewall-rules create terminal --network demo --allow \
+  tcp:22,udp:60000-61000
 </pre></div>
 </div>
-<p>Now build the tool:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ go install github.com/coreos/coreos-cloudinit
+<p>We should allow internal access too:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ gcloud compute firewall-rules create demo-allow-internal \
+  --network demo --allow tcp:1-65535,udp:1-65535 \
+  --source-ranges &quot;10.142.0.0/24&quot;
 </pre></div>
 </div>
-<p>Make the resulting binary accessible:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ln -s <span class="nv">$GOPATH</span>/bin/coreos-cloudinit /opt/bin/coreos-cloudinit
+</div>
+<div class="section" id="ost-controller">
+<h2>OST Controller<a class="headerlink" href="#ost-controller" title="Permalink to this headline">¶</a></h2>
+<p>First, edit the <a class="reference download internal" href="_downloads/cloud-config-ost-controller.yaml"><tt class="xref download docutils literal"><span class="pre">cloud-config-ost-controller.yaml</span></tt></a> as described in the <a class="reference external" href="cloud-install.html#ost-config">Cloud installation guide</a>.</p>
+<p>Let&#8217;s provision an instance for the OST Controller</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ gcloud compute --project <span class="s2">&quot;my_gce_project_name&quot;</span> instances create <span class="se">\</span>
+  <span class="s2">&quot;ost-controller&quot;</span> --zone <span class="s2">&quot;us-east1-b&quot;</span> <span class="se">\</span>
+  --custom-memory 16GiB --custom-cpu <span class="m">4</span> <span class="se">\</span>
+  --network <span class="s2">&quot;demo&quot;</span> --can-ip-forward <span class="se">\</span>
+  --image-project <span class="s2">&quot;coreos-cloud&quot;</span> --image-family <span class="s2">&quot;coreos-stable&quot;</span> <span class="se">\</span>
+  --boot-disk-size <span class="s2">&quot;200&quot;</span> <span class="se">\</span>
+  --private-network-ip 10.142.0.2  <span class="se">\</span>
+  --maintenance-policy <span class="s2">&quot;MIGRATE&quot;</span>   <span class="se">\</span>
+  --metadata-from-file user-data<span class="o">=</span>cloud-config-ost-controller.yaml
 </pre></div>
+</div>
+<p>Then we enter the instance to set it up:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ gcloud compute ssh --zone us-east1-b &quot;ost-controller&quot;
+</pre></div>
+</div>
+<p>Follow the same post-installation steps defined in the installation guide.</p>
+</div>
+<div class="section" id="kubernetes-controller">
+<h2>Kubernetes controller<a class="headerlink" href="#kubernetes-controller" title="Permalink to this headline">¶</a></h2>
+<p>Edit the <a class="reference download internal" href="_downloads/cloud-config-k8s-controller.yaml"><tt class="xref download docutils literal"><span class="pre">cloud-config-k8s-controller.yaml</span></tt></a> file
+according to the <a class="reference external" href="cloud-install.html#k8s-config">Cloud Installation Guide</a>.</p>
+<p>Then create the controller instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ gcloud compute --project &quot;my_gce_project_name&quot; instances create \
+  &quot;k8s-controller&quot; --zone &quot;us-east1-b&quot; \
+  --custom-memory 8GiB --custom-cpu 4 \
+  --network &quot;demo&quot; \
+  --image-project &quot;coreos-cloud&quot; --image-family &quot;coreos-stable&quot; \
+  --boot-disk-size &quot;200&quot; \
+  --maintenance-policy &quot;MIGRATE&quot; \
+  --private-network-ip 10.142.0.3 \
+  --metadata-from-file user-data=cloud-config-k8s-controller.yaml
+Created
+[https://www.googleapis.com/compute/v1/projects/my_gce_project_name/zones/us-east1-b/instances/k8s-controller].
+NAME            ZONE        MACHINE_TYPE               PREEMPTIBLE
+INTERNAL_IP  EXTERNAL_IP      STATUS
+k8s-controller  us-east1-b  custom (2 vCPU, 8.00 GiB)
+10.142.0.3   104.196.134.170  RUNNING
+</pre></div>
+</div>
+</div>
+<div class="section" id="worker-nodes">
+<h2>Worker nodes<a class="headerlink" href="#worker-nodes" title="Permalink to this headline">¶</a></h2>
+<p>Edit the <a class="reference download internal" href="_downloads/cloud-config-k8s-worker.yaml"><tt class="xref download docutils literal"><span class="pre">cloud-config-k8s-worker.yaml</span></tt></a> file
+according to the <a class="reference external" href="cloud-install.html#worker-config">Cloud Configuration Guide</a>:</p>
+<p>Using this cloud-config file you can create as many worker instances as you decide:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ gcloud compute --project <span class="s2">&quot;my_gce_project_name&quot;</span> instances create <span class="se">\</span>
+  <span class="s2">&quot;k8s-worker1&quot;</span> --zone <span class="s2">&quot;us-east1-b&quot;</span> <span class="se">\</span>
+  --custom-memory 12GiB --custom-cpu <span class="m">6</span> <span class="se">\</span>
+  --network <span class="s2">&quot;demo&quot;</span> <span class="se">\</span>
+  --image-project <span class="s2">&quot;coreos-cloud&quot;</span> --image-family <span class="s2">&quot;coreos-stable&quot;</span> <span class="se">\</span>
+  --boot-disk-size <span class="s2">&quot;200&quot;</span> <span class="se">\</span>
+  --maintenance-policy <span class="s2">&quot;MIGRATE&quot;</span> <span class="se">\</span>
+  --private-network-ip 10.142.0.4 <span class="se">\</span>
+  --metadata-from-file user-data<span class="o">=</span>cloud-config-k8s-worker.yaml
+Created
+<span class="o">[</span>https://www.googleapis.com/compute/v1/projects/my_gce_project_name/zones/us-east1-b/instances/k8s-worker1<span class="o">]</span>.
+NAME            ZONE        MACHINE_TYPE               PREEMPTIBLE
+INTERNAL_IP  EXTERNAL_IP      STATUS
+k8s-worker1  us-east1-b  custom <span class="o">(</span><span class="m">2</span> vCPU, 8.00 GiB<span class="o">)</span>
+10.142.0.4   104.196.134.170  RUNNING
+</pre></div>
+</div>
+</div>
+<div class="section" id="post-installation">
+<h2>Post-Installation<a class="headerlink" href="#post-installation" title="Permalink to this headline">¶</a></h2>
+<p>Now you can go to the <a class="reference external" href="installation.html#post-installation">Installation guide</a> and continue with the installation procedure.</p>
 </div>
 </div>
 
@@ -123,8 +213,10 @@ go language&#8217;s root directory:</p>
           </div>
           <div class="docs-actions">
           
-            <a href="gce-install.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Installation in Google Compute Engine"></i></a>
+            <a href="os-install.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Installation in OpenStack"></i></a>
           
+          
+            <a href="cloudinit.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: CoreOS Cloud Init Installation"></i></a>
           
           </div>
           <div class="row docs-byline bottom">
@@ -168,8 +260,15 @@ go language&#8217;s root directory:</p>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Kuryr-Kubernetes Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud-install.html">Installation in Cloud Environments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="os-install.html">Installation in OpenStack</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gce-install.html">Installation in Google Compute Engine</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">CoreOS Cloud Init Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Installation in Google Compute Engine</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-network">Creating a network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ost-controller">OST Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kubernetes-controller">Kubernetes controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#worker-nodes">Worker nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#post-installation">Post-Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cloudinit.html">CoreOS Cloud Init Installation</a></li>
 </ul>
 
     </div>
@@ -262,7 +361,7 @@ go language&#8217;s root directory:</p>
     /* gitsha, project and bug_tag rely on variables in conf.py */
     var gitSha = "SHA: ";
         var bugProject = "openstack-manuals";
-        var bugTitle = "CoreOS Cloud Init Installation in Operations Guide";
+        var bugTitle = "Installation in Google Compute Engine in Operations Guide";
     var fieldTags = "";
 
     /* "last_updated" is the build date and time. It relies on the

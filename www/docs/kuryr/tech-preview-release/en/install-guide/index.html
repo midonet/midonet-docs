@@ -83,7 +83,7 @@ ga('send', 'pageview');
   </div>
 </div>
           <div class="row docs-byline">
-            <div class="docs-updated">updated: 2016-08-18 11:46</div>
+            <div class="docs-updated">updated: 2016-08-31 12:31</div>
           </div>
           <div class="row">
             <div class="col-lg-12">
@@ -98,16 +98,54 @@ ga('send', 'pageview');
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Kuryr-Kubernetes Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#openstack-controller">OpenStack controller</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#kubernetes-controller">Kubernetes controller</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#kubernetes-workers">Kubernetes Workers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#checking-health">Checking Health</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#running-your-first-containers">Running your first containers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#exposing-a-service">Exposing a service</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#exposing-your-services-to-the-external-world">Exposing your services to the external world</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#openstack-controller">OpenStack controller</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#post-installation-configuration">Post-installation configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="devstack.html">DevStack Installation quick guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#kubernetes-controller">Kubernetes controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#kubernetes-workers">Kubernetes Workers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#setup">Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#post-installation">Post-Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#service-load-balancing-configuration">Service Load balancing Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#post-installation-verification">Post-installation verification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#checking-health">Checking Health</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#running-your-first-containers">Running your first containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#exposing-your-services-to-the-external-world">Exposing your services to the external world</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cloud-install.html">Installation in Cloud Environments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cloud-install.html#creating-a-network">Creating a network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud-install.html#ost-controller">OST Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud-install.html#kubernetes-controller">Kubernetes controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud-install.html#worker-nodes">Worker nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud-install.html#post-installation">Post-Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="os-install.html">Installation in OpenStack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="os-install.html#setup-os-credentials">Setup OS credentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os-install.html#creating-a-network">Creating a network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os-install.html#selecting-images-and-flavors">Selecting Images and Flavors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os-install.html#creating-ost-controller-instance">Creating OST Controller instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os-install.html#kubernetes-controller">Kubernetes controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os-install.html#worker-nodes">Worker nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os-install.html#post-installation">Post-Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gce-install.html">Installation in Google Compute Engine</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gce-install.html#creating-a-network">Creating a network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gce-install.html#ost-controller">OST Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gce-install.html#kubernetes-controller">Kubernetes controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gce-install.html#worker-nodes">Worker nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gce-install.html#post-installation">Post-Installation</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="cloudinit.html">CoreOS Cloud Init Installation</a></li>
 </ul>
 </div>
@@ -124,7 +162,7 @@ ga('send', 'pageview');
           
           </div>
           <div class="row docs-byline bottom">
-            <div class="docs-updated">updated: 2016-08-18 11:46</div>
+            <div class="docs-updated">updated: 2016-08-31 12:31</div>
           </div>
           <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
@@ -162,7 +200,9 @@ ga('send', 'pageview');
       <a href="#" class="docs-sidebar-section-title"><h4>Contents</h4></a>
       <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Kuryr-Kubernetes Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="devstack.html">DevStack Installation quick guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloud-install.html">Installation in Cloud Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="os-install.html">Installation in OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gce-install.html">Installation in Google Compute Engine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloudinit.html">CoreOS Cloud Init Installation</a></li>
 </ul>
 
@@ -262,7 +302,7 @@ ga('send', 'pageview');
     /* "last_updated" is the build date and time. It relies on the
        conf.py variable "html_last_updated_fmt", which should include
        year/month/day as well as hours and minutes                   */
-    var buildstring = "Release: 0.0.1 on 2016-08-18 11:46";
+    var buildstring = "Release: 0.0.1 on 2016-08-31 12:31";
 
     var fieldComment = encodeURI(buildstring) +
                        lineFeed + encodeURI(gitSha) +

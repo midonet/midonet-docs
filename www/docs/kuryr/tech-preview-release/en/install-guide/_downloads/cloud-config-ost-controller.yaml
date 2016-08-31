@@ -1,0 +1,448 @@
+#cloud-config
+
+---
+write-files:
+  - path: /etc/conf.d/ost-controller-defaults
+    # Used for setting all the OpenStack and Kubernetes configuration.
+    # After initial configuration, content can be modified and will be
+    # reflected when launching services and supporting scripts
+    permissions: '0644'
+    content: |
+      DB_HOST=127.0.0.1
+      DB_USERNAME=root
+      DB_PASSWORD=root
+      OS_DEBUG=True
+      OS_VERBOSE=False
+      DB_NAME=openstack
+      OS_TOKEN=admin
+      OS_AUTH_URL=http://127.0.0.1:35357/v2.0
+      OS_AUTH_URI=http://127.0.0.1:5000/v2.0
+      OS_NEUTRON_URL=http://127.0.0.1:9696
+      OS_USERNAME=neutron
+      OS_PASSWORD=neutron
+      OS_RPC_BACKEND=rabbit
+      RB_HOST=127.0.0.1
+      RB_USERNAME=guest
+      RB_PASSWORD=guest
+      OS_TENANT_NAME=service
+      OS_REGION_NAME=RegionOne
+      MN_CLUSTER_URL=http://127.0.0.1:8181/midonet-api
+      MN_TUNNEL_ZONE=demo
+      ZK_QUORUM="127.0.0.1:1"
+      ZK_CLUSTER="127.0.0.1:2181"
+      ZK_ID=1
+      C_SERVERS="127.0.0.1"
+      C_FACTOR=1
+  - path: /opt/bin/neutron
+    # runs neutron client in neutron containr
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+
+      #assumes container has the environment variables already set
+      docker exec neutron.service neutron "$@"
+  - path: /opt/bin/prepare-config
+    #prepares the node after first boot
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+
+      #ensure modprobe is accessible
+      ln -s $(which modprobe) /opt/bin/modprobe
+
+      #merge default config and (optional) provided pararmeters
+      CFG_FILE="ost-controller"
+      touch -a /etc/conf.d/$CFG_FILE_
+      cp /etc/conf.d/$CFG_FILE /tmp/$CFG_FILE
+      awk -F '=' '!a[$1]++' /tmp/$CFG_FILE /etc/conf.d/"$CFG_FILE"-defaults > /etc/conf.d/$CFG_FILE
+
+      # setups the environment after boot for configuration
+
+      source /etc/conf.d/ost-controller
+
+      if [[ -z $UUID ]]; then
+         echo "UUID=$(uuidgen)" >> /etc/conf.d/ost-controller
+      fi
+
+      if [[ -z $LOCAL_IP ]]; then
+         if [[ ! -z $INTERFACE ]];then
+             IP=$(ip -f inet -o addr show $INTERFACE | grep -v -e 'lo.*inet' | grep  -o  -E "inet ([0-9]{1,3}\.){3}[0-9]{1,3}" | cut -d ' ' -f 2)
+         else
+            #pick first interface
+            IP=$(hostname -I | cut -d ' ' -f 1)
+         fi
+         echo "LOCAL_IP=$IP" >> /etc/conf.d/ost-controller
+      fi
+  - path: /opt/bin/wupiao
+    # Small bash utility that allows us to wait for an HTTP service to be
+    # responsive before resuming operations.
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+      # [w]ait [u]ntil [p]ort [i]s [a]ctually [o]pen
+      [ -n "$1" ] && \
+        until curl -o /dev/null -sIf http://${1}; do \
+          sleep 1 && echo .;
+        done;
+      exit $?
+  - path: /opt/bin/waitdb.sh
+    # Small bash utility that allows us to wait for mysql service to be
+    # responsive before resuming operations.
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+
+      source /etc/conf.d/ost-controller
+
+      docker exec mariadb.service mysqladmin -h $DB_HOST -u$DB_USER -pDB_PASSWORD \
+             --wait --connect-timeout 30 ping
+
+  - path: /opt/bin/midonet-cli
+    # handy comand to start midonet-cli locally
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+      #
+      # Adapter for using midonet-cli from midonet/utils
+
+      source /etc/conf.d/ost-controller
+
+      #use --net=host to allow connecting to localhost
+      docker run --rm --net=host\
+        -e CLUSTER_URL="$MN_CLUSTER_URL" \
+        -e PASSWORD=${OS_PASSWORD} \
+        -e USERNAME=${OS_USERNAME} \
+        -e PROJECT=${OS_TENANT_NAME}    \
+        midonet/utils cli "$@"
+  - path: /opt/bin/setup-osdb.sh
+    #setups neutron db
+    permissions: '0755'
+    content: |
+        #!/bin/bash -x
+
+        source /etc/conf.d/ost-controller
+
+        MYSQL="docker exec mariadb.service mysql -h $DB_HOST -u$DB_USERNAME -p$DB_PASSWORD"
+
+        $MYSQL -e"create database IF NOT EXISTS $DB_NAME"
+
+
+  - path: /opt/bin/keystone-provisioning.sh
+    #provision resources oneshot neutron
+    permissions: '0755'
+    content: |
+        #!/bin/bash -x
+
+        source /etc/conf.d/ost-controller
+
+        INDOCKER="docker exec keystone.service"
+
+        #$INDOCKER keystone-manage --log-dir=/var/log db_sync
+
+        OPENSTACK="$INDOCKER openstack --os-url=$OS_AUTH_URL --os-token=$OS_TOKEN"
+        $OPENSTACK project create admin
+        $OPENSTACK role create admin
+        $OPENSTACK user create admin --password admin
+        $OPENSTACK role add admin --user admin --project admin
+
+        $OPENSTACK project create service --description 'Service apis'
+        $OPENSTACK user create $OS_USERNAME --password $OS_PASSWORD
+        $OPENSTACK role add admin --user $OS_USERNAME --project $OS_TENANT_NAME
+
+        $OPENSTACK service create --name keystone identity
+        $OPENSTACK service create --name neutron network
+
+        $OPENSTACK endpoint create \
+            --publicurl $OS_AUTH_URI \
+            --internalurl $OS_AUTH_URI \
+            --adminurl $OS_AUTH_URL \
+            --region $OS_REGION_NAME \
+            keystone
+
+        $OPENSTACK endpoint create \
+            --publicurl $OS_NEUTRON_URL \
+            --internalurl $OS_NEUTRON_URL \
+            --adminurl $OS_NEUTRON_URL \
+            --region $OS_REGION_NAME \
+            neutron
+  - path: /opt/bin/midonet-setup
+    # setup midonet. adding host to tunnel zone
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+      # midonet setup
+
+      source /etc/conf.d/ost-controller
+
+      #if needed, create tunnel zone
+      if [[ -z $MN_TUNNEL_ZONE_ID ]];then
+         MN_TUNNEL_ZONE_ID=$(/opt/bin/midonet-cli -e tunnel-zone create name $MN_TUNNEL_ZONE type vxlan)
+         echo "MN_TUNNEL_ZONE_ID=$MN_TUNNEL_ZONE_ID" >> /etc/conf.d/ost-controller
+      fi
+
+      #add node to tunnel zone using local address
+      /opt/bin/midonet-cli -e tunnel-zone $MN_TUNNEL_ZONE_ID add member host $UUID address $LOCAL_IP
+coreos:
+  fleet:
+    # In case the user wants to fleet schedule things
+    metadata: "role=master"
+  units:
+    - name: prepare-config.service
+      command: start
+      content: |
+        [Unit]
+        Description=Node preparation
+
+        [Service]
+        Type=oneshot
+        ExecStart=/opt/bin/prepare-config
+    - name: mariadb.service
+      command: start
+      content: |
+        [Unit]
+        Description=MariaDB service
+        Documentation=https://hub.docker.com/_/mariadb
+        Requires=docker.service prepare-config.service
+        After=docker.service
+
+        [Service]
+        EnvironmentFile=/etc/conf.d/ost-controller
+        ExecStartPre=-/usr/bin/docker kill %n
+        ExecStartPre=-/usr/bin/docker rm %n
+         ExecStartPre=/usr/bin/docker pull mariadb
+        ExecStart=/usr/bin/docker run --name %n \
+                 --net=host -v /var/log/%n:/var/log \
+                 -v /var/lib/%n:/var/lib/mysql      \
+                 -e MYSQL_ROOT_PASSWORD=${DB_PASSWORD}     \
+                 mariadb
+        ExecStop=/usr/bin/docker kill %n
+        ExecStopPost=/usr/bin/docker rm -f %n
+        Restart=always
+        RestartSec=10
+    - name: cassandra.service
+      command: start
+      content: |
+        [Unit]
+        Description=Cassandra service
+        Documentation=https://hub.docker.com/_/cassandra
+        Requires=docker.service prepare-config.service
+        After=docker.service
+
+        [Service]
+        EnvironmentFile=/etc/conf.d/ost-controller
+        ExecStartPre=-/usr/bin/docker kill %n
+        ExecStartPre=-/usr/bin/docker rm %n
+         ExecStartPre=/usr/bin/docker pull cassandra
+        ExecStart=/usr/bin/docker run --name %n \
+                 --net=host -v /var/log/%n:/var/log/cassandra \
+                 -v /var/lib/%n:/var/lib/cassandra  \
+                 cassandra
+        ExecStop=/usr/bin/docker kill %n
+        ExecStopPost=/usr/bin/docker rm -f %n
+        Restart=always
+        RestartSec=10
+    - name: zookeeper.service
+      command: start
+      content: |
+        [Unit]
+        Description=Zookeeper Service
+        Documentation=https://zookeeper.apache.org/
+        Requires=docker.service prepare-config.service
+        After=docker.service
+
+        [Service]
+        EnvironmentFile=/etc/conf.d/ost-controller
+        ExecStartPre=-/usr/bin/docker kill %n
+        ExecStartPre=-/usr/bin/docker rm %n
+        ExecStartPre=/usr/bin/docker pull midonet/zookeeper:3.4.5
+        ExecStart=/usr/bin/docker run --name %n \
+                 --net=host -v /var/log/%n:/var/log \
+                 -e ZK_QUORUM=${ZK_QUORUM} \
+                 -e ZK_ID=${ZK_ID} \
+                 midonet/zookeeper:3.4.5
+        ExecStop=/usr/bin/docker kill %n
+        ExecStopPost=/usr/bin/docker rm -f %n
+        Restart=always
+        RestartSec=10
+    - name: rabbitmq.service
+      command: start
+      content: |
+        [Unit]
+        Description=RabbitMQ service
+        Documentation=https://hub.docker.com/_/rabbitmq
+        Requires=docker.service prepare-config.service
+        After=docker.service
+
+        [Service]
+        EnvironmentFile=/etc/conf.d/ost-controller
+        ExecStartPre=-/usr/bin/docker kill %n
+        ExecStartPre=-/usr/bin/docker rm %n
+        ExecStartPre=/usr/bin/docker pull rabbitmq
+        ExecStart=/usr/bin/docker run --name %n \
+                 --net=host -v /var/log/%n:/var/log \
+                 -e RABBITMQ_DEFAULT_USER=${RB_USERNAME} \
+                 -e RABBITMQ_DEFAULT_PASS=${RB_PASSWORD} \
+                 rabbitmq
+        ExecStop=/usr/bin/docker kill %n
+        ExecStopPost=/usr/bin/docker rm -f %n
+        Restart=always
+        RestartSec=10
+    - name: setup-osdb.service
+      command: start
+      content: |
+        [Unit]
+        Description=Setups db shared by OpenStack services
+        Requires=mariadb.service docker.service
+        After=mariadb.service
+
+        [Service]
+        EnvironmentFile=/etc/conf.d/ost-controller
+        ExecStart=/opt/bin/setup-osdb.sh
+        Restart=no
+    - name: keystone.service
+      command: start
+      content: |
+        [Unit]
+        Description=openstack Keystone Server
+        Documentation=http://docs.openstack.org/developer/keystone/
+        Requires=mariadb.service docker.service
+        After=mariadb.service setup-osdb.service
+
+        [Service]
+        EnvironmentFile=/etc/conf.d/ost-controller
+        ExecStartPre=-/usr/bin/docker kill %n
+        ExecStartPre=-/usr/bin/docker rm %n
+        ExecStartPre=/usr/bin/docker pull midonet/keystone:liberty
+        ExecStartPre=/opt/bin/waitdb.sh
+        ExecStartPre=/opt/bin/setup-osdb.sh
+        ExecStart=/usr/bin/docker run --name %n   \
+               --net=host -v /var/log/%n:/var/log \
+               -e ADMIN_TOKEN=${OS_TOKEN}      \
+               -e OS_DEBUG=${OS_DEBUG}          \
+               -e DB_USER=${DB_USERNAME}       \
+               -e DB_PASSWORD=${DB_PASSWORD}   \
+               -e DB_HOST=${DB_HOST}           \
+               -e DB_NAME=${DB_NAME}         \
+               midonet/keystone:liberty
+        ExecStop=/usr/bin/docker kill %n
+        ExecStopPost=/usr/bin/docker rm -f %n
+        Restart=always
+        RestartSec=10
+    - name: neutron.service
+      command: start
+      content: |
+        [Unit]
+        Description=OpenStack Neutron Service
+        Documentation=https://github.com/openstack/neutron
+        Requires=keystone.service docker.service
+        After=docker.service mariadb.service rabbitmq.service keystone.service
+
+        [Service]
+        EnvironmentFile=/etc/conf.d/ost-controller
+        ExecStartPre=-/usr/bin/docker kill %n
+        ExecStartPre=-/usr/bin/docker rm %n
+        ExecStartPre=/usr/bin/docker pull midonet/neutron:liberty
+        ExecStartPre=/opt/bin/setup-osdb.sh
+        ExecStart=/usr/bin/docker run --name %n            \
+                 --net=host -v /var/log/%n:/var/log/neutron \
+                 -e OS_AUTH_URL=${OS_AUTH_URL} \
+                 -e OS_AUTH_URI=${OS_AUTH_URI} \
+                 -e OS_USERNAME=${OS_USERNAME} \
+                 -e OS_PASSWORD=${OS_PASSWORD} \
+                 -e OS_PROJECT_NAME=${OS_PROJECT_NAME} \
+                 -e OS_DEBUG=${OS_DEBUG}       \
+                 -e DB_USERNAME=${DB_USERNAME} \
+                 -e DB_PASSWORD=${DB_PASSWORD} \
+                 -e DB_HOST=${DB_HOST}         \
+                 -e DB_NAME=${DB_NAME}       \
+                 -e RB_USERNAME=${RB_USERNAME} \
+                 -e RB_PASSWORD=${RB_PASSWORD} \
+                 -e RB_HOST=${RB_HOST}         \
+                 -e MN_URI=${MN_CLUSTER_URL}           \
+                 -e MN_USERNAME=${OS_USERNAME} \
+                 -e MN_PASSWORD=${OS_PASSWORD} \
+                 -e MN_PROJECT=${OS_TENANT_NAME} \
+                  midonet/neutron:liberty
+        ExecStop=/usr/bin/docker kill %n
+        ExecStopSost=/usr/bin/docker rm -f %n
+        Restart=always
+        RestartSec=10
+    - name: neutron-lbaas.service
+      command: start
+      content: |
+        [Unit]
+        Description=OpenStack Neutron LBaaS Service
+        Documentation=https://github.com/openstack/neutron
+        Requires=docker.service rabbitmq.service neutron.service
+
+        [Service]
+        EnvironmentFile=/etc/conf.d/ost-controller
+        ExecStartPre=-/usr/bin/docker kill %n
+        ExecStartPre=-/usr/bin/docker rm %n
+        ExecStartPre=/usr/bin/docker pull midonet/neutron-lbaas:liberty
+
+        ExecStart=/usr/bin/docker run --name %n   \
+                 --net=host -v /var/log/%n:/var/log \
+                 -e RB_HOST=${RB_HOST}            \
+                 -e RB_USERNAME=${RB_USERNAME}    \
+                 -e RB_PASSWORD=${RB_PASSWORD}    \
+                 -e UUID=$UUID                    \
+                 midonet/neutron-lbaas:liberty
+        ExecStop=/usr/bin/docker kill %n
+        ExecStopSost=/usr/bin/docker rm -f %n
+        Rrstart=always
+        RestartSec=10
+    - name: midonet-agent.service
+      command: start
+      content: |
+        [Unit]
+        Description=MidoNet Agent
+        Documentation=https://docs.midonet.org/docs/latest/operations-guide/content/_configuration_sources.html
+        Requires=docker.service zookeeper.service midonet-cluster.service
+
+        [Service]
+        EnvironmentFile=/etc/conf.d/ost-controller
+        ExecStartPre=/opt/bin/modprobe openvswitch
+        ExecStartPre=-/usr/bin/docker kill %n
+        ExecStartPre=-/usr/bin/docker rm %n
+        ExecStartPre=/usr/bin/docker pull midonet/agent
+        ExecStart=/usr/bin/docker run --name %n \
+            -v /var/log/%n:/var/log/midolman \
+            -v /var/run:/var/run:rw \
+            --net=host --cap-add=NET_ADMIN \
+            -e ZK_ENDPOINTS=${ZK_CLUSTER} \
+            -e UUID=${UUID} \
+            midonet/agent
+        #ExecStartPost=/opt/bin/midonet-setup
+        ExecStop=/usr/bin/docker kill %n
+        ExecStopPost=/usr/bin/docker rm -f %n
+        Restart=always
+        RestartSec=3
+    - name: midonet-cluster.service
+      command: start
+      content: |
+        [Unit]
+        Description=Midonet Cluster Service
+        Documentation=https://hub.docker.com/r/midonet/cluster/
+        Requires=neutron.service docker.service
+        After=cassandra.service rabbitmq.service zookeeper.service keystone.service
+
+        [Service]
+        EnvironmentFile=/etc/conf.d/ost-controller
+        ExecStartPre=-/usr/bin/docker kill %n
+        ExecStartPre=-/usr/bin/docker rm %n
+        ExecStartPre=/usr/bin/docker pull midonet/cluster
+        ExecStart=/usr/bin/docker run --name %n \
+            --net=host -v /var/log/%n:/var/log  \
+            -e ZK_ENDPOINTS=${ZK_CLUSTER}       \
+            -e KEYSTONE_URL=${OS_AUTH_URL}      \
+            -e KEYSTONE_TENANT_NAME=${OS_PROJECT_NAME} \
+            -e KEYSTONE_ADMIN_TOKEN=${OS_TOKEN} \
+            -e C_FACTOR=${C_FACTOR}             \
+            -e C_SERVERS=${C_SERVERS}           \
+            -e UUID=${UUID}                     \
+             midonet/cluster
+        ExecStop=/usr/bin/docker kill %n
+        ExecStopPost=/usr/bin/docker rm -f %n
+        Restart=always
+        RestartSec=10
