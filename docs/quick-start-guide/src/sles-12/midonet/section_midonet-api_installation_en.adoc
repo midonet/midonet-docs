@@ -57,19 +57,41 @@ $ echo "cassandra.replication_factor : *_3_*" | mn-conf set -t default
 This step needs to happen only once, it will set up access to Keystone for the
 MidoNet Cluster node(s).
 
-This step will configure the local Midonet Cluster node to be able to use
-Keystone.
+Determine `domain_name` and `domain_id` to be used for Keystone authentication:
+
+[literal,subs="verbatim,quotes"]
+----
+# openstack domain list
++---------+---------+---------+----------------------------------------------------------------------+
+| ID      | Name    | Enabled | Description                                                          |
++---------+---------+---------+----------------------------------------------------------------------+
+| *_default_* | *_Default_* | True    | Owns users and tenants (i.e. projects) available on Identity API v2. |
++---------+---------+---------+----------------------------------------------------------------------+
+----
+
+For `tenant_name`, use the project/tenant that the `midonet` user belongs to, as
+configured during xref:keystone_midonet_user[user creation].
+
+Configure the authentication parameters for MidoNet Cluster via `mn-conf`:
 
 [literal,subs="verbatim,quotes"]
 ----
 $ cat << EOF | mn-conf set -t default
 cluster.auth {
-    provider_class = "org.midonet.cluster.auth.keystone.KeystoneService"
-    admin_role = "admin"
-    keystone.tenant_name = "admin"
-    keystone.admin_token = "*_ADMIN_TOKEN_*"
-    keystone.host = *_controller_*
-    keystone.port = 35357
+   admin_role = "admin"
+   provider_class = "org.midonet.cluster.auth.keystone.KeystoneService"
+   keystone {
+      admin_token = ""
+      protocol = "http"
+      host = "*_controller_*"
+      port = 35357
+      domain_name = "*_Default_*"
+      domain_id = "*_default_*"
+      tenant_name = "*_$MIDONET_TENANT_*"
+      user_name = "midonet"
+      user_password = "*_$MIDONET_PASS_*"
+      version = 3
+   }
 }
 EOF
 ----
