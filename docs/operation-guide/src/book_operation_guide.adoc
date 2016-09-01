@@ -171,6 +171,9 @@ include::{sourcedir}/neutron_bgp/chapter_neutron_bgp_{lang}.adoc[leveloffset=+1]
 // Chapter: VPNaaS
 include::{sourcedir}/vpnaas/chapter_vpnaas_{lang}.adoc[leveloffset=+1]
 
+// Chapter: State Proxy
+include::{sourcedir}/state_proxy/chapter_state_proxy_{lang}.adoc[leveloffset=+1]
+
 // Chapter: Working with the MidoNet CLI
 include::{sourcedir}/mn_cli/chapter_mn_cli_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/mn_cli/section_mn_cli_usage_{lang}.adoc[leveloffset=+2]
