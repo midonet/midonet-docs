@@ -1,0 +1,160 @@
+[[state_proxy]]
+= State Proxy
+
+The State Proxy is a feature introduced in MidoNet v5.2.1 that has been designed
+to improve the scalability and reduce the load that MidoNet Agents impose
+on ZooKeeper nodes.
+
+In previous versions, a MidoNet Agent subscribed to a router or bridge receives
+continuous updates for the corresponding control plane tables, such as MAC-port,
+ARP, and peering tables. With the current control plane design and due to
+ZooKeeper limitations, agents will read the entire contents of the table for
+every changed table entry.
+
+The State Proxy adds a new service, running inside the MidoNet Cluster, that
+will proxy state table data from ZooKeeper to the MidoNet Agents. The service
+consolidates the state table changes through differential updates in order to
+significantly reduce the bandwidth needed for the agents. This makes it
+technically possible to support tens of thousands of ports on a single bridge
+without degrading performance.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Configuration
+
+The State Proxy feature is enabled by default, where all cluster nodes will run
+the State Proxy service and the MidoNet Agents (Midolman) will subscribe to the
+cluster for reading the state tables. The discovery of cluster nodes running the
+State Proxy service is done automatically using service discovery.
+
+When the State Proxy service becomes unavailable, either because all cluster
+nodes are down or because the service has been administratively disabled, the
+MidoNet Agents will fallback to the legacy mode of operation, where they connect
+and read the state tables directly from ZooKeeper.
+
+The State Proxy configuration can be inspected and customized
+using `mn-conf(1)`.
+
+[IMPORTANT]
+After changing the State Proxy configuration, you must restart the MidoNet
+Agents on the affected controller or compute nodes for the changes to take
+effect.
+
+=== Network State Database Configuration
+
+This configuration controls whether the MidoNet Agents (and certain services
+inside the MidoNet Cluster) will read bridge and router state tables from the
+State Proxy service instead of ZooKeeper.
+
+==== Enabling and Disabling
+
+Use the following command to enable or disable the State Proxy deployment-wide:
+
+  $ echo "state_proxy.enabled : {true | false}" | mn-conf set -t default
+
+You may also choose to enable or disable the feature for specific nodes, using
+the `-h` switch of the `mn-conf(1)` command.
+
+The State Proxy is enabled at all NSDB clients by default (`true`)
+
+==== Advanced Options
+
+The client features an automatic reconnection mechanism with fallback to
+ZooKeeper when no MidoNet Cluster nodes running the State Proxy service can be
+reached after a specified time interval.
+
+When there are no servers available, or when an existing connection to a server
+is lost, the service enters the _soft_ reconnection state. During this phase,
+the subscriptions to the state tables are maintained while the client tries to
+contact other proxy servers. To avoid flooding a server with requests, there is
+a configurable interval between connection attempts.
+
+After a fixed number of unsuccessful retries, the client enters the _hard_
+reconnection phase during which the State Proxy feature is disabled at the NSDB
+client and reading the state tables falls-back to ZooKeeper. The client will
+periodically attempt to reconnect and if successful, the feature is re-enabled.
+
+You can use the following configuration options to tune the client connection
+behavior during the _soft_ and _hard_ phases.
+
+[options="header"]
+|=============================
+| Name | Default value | description
+| state_proxy.soft_reconnect_delay | 1 second | The interval between reconnect
+attempts while in _soft_ phase.
+| state_proxy.max_soft_reconnect_attempts | 30 | The maximum number of reconnect
+attempts before deeming the service unavailable.
+| state_proxy.hard_reconnect_delay | 30 seconds | The delay between reconnection
+attempts when the service is unavailable.
+|=============================
+
+The State Proxy client uses a configurable number of threads to handle updates
+received from the State Proxy service. You can change the number of allocated
+threads using the following configuration option:
+
+[options="header"]
+|=================================
+| Name | Default | description
+| state_proxy.network_threads | 2 | The number of threads used to handle network
+events
+|=================================
+
+=== State Proxy Service Configuration
+
+The State Proxy service runs on the MidoNet Cluster nodes.
+
+==== Enabling and Disabling
+
+Use the following command to enable or disable the State Proxy service on the
+cluster.
+
+  $ echo "cluster.state_proxy.enabled : { true | false }" | mn-conf set -t default
+
+You can also use the `-h` switch of the `mn-conf(1)` command to enable or
+disable the service on specific cluster nodes.
+
+[IMPORTANT]
+The State Proxy service at the cluster can be enabled or disabled independently
+of enabling or disabling the feature on the NSDB clients, mainly the MidoNet
+Agents. However, if you disable the State Proxy service while keeping the
+feature enabled at the client, the clients will automatically fallback to using
+ZooKeeper.
+
+==== Advanced Options
+
+[options="header"]
+|============================================================
+| Name | Default value | Description
+| state_proxy.cluster.cache_threads | 4 | Number of threads used to handle
+updates for the state tables. Increase this value on large deployments if big
+latencies are experienced.
+| state_proxy.cluster.notify_batch_size | 64 | This option specifies the maximum
+number of state table entry updates that can be sent to subscribed clients in a
+single notification message.
+| state_proxy.cluster.initial_subscriber_queue_size | 16 | Default size for the
+queue of messages for a subscriber.
+| state_proxy.cluster.server.address | 0.0.0.0 | The local-interface IP address.
+| state_proxy.cluster.server.port | 2346 | The listening TCP port number.
+| state_proxy.cluster.server.supervisor_threads | 1 | Number of threads used to
+accept inbound connections.
+| state_proxy.cluster.server.worker_threads | 4 | The number of threads used to
+handle client requests.
+| state_proxy.cluster.server.max_pending_connections | 1024 | The maximum number
+of half-opened incoming connections (backlog).
+| state_proxy.cluster.server.bind_retry_interval | 60s | The retry interval if
+the service fails to bind to a local TCP port because the port is already
+in use. Set to 0 to disable retries.
+| state_proxy.cluster.server.channel_timeout | 15s | The timeout for a channel
+operation such as closing a connection.
+| state_proxy.cluster.server.shutdown_quiet_period | 0s | The interval during
+server shutdown when the server may continue accepting new connections or
+requests.  If new connections or requests are received during the quiet period,
+the server guarantees to process them and the quiet period starts over
+postponing the shutdown.
+| state_proxy.cluster.server.shutdown_timeout | 15s | The shutdown timeout
+interval, which begins after the expiration of the quiet period.  The timeout
+interval allows tasks that are in progress to complete before the server
+shuts down.
+|============================================================
