@@ -85,7 +85,7 @@ ga('send', 'pageview');
   </div>
 </div>
           <div class="row docs-byline">
-            <div class="docs-updated">updated: 2016-08-31 12:31</div>
+            <div class="docs-updated">updated: 2016-09-02 10:29</div>
           </div>
           <div class="row">
             <div class="col-lg-12">
@@ -105,7 +105,7 @@ ga('send', 'pageview');
 </ul>
 </li>
 <li><a class="reference internal" href="#post-installation">Post-Installation</a><ul>
-<li><a class="reference internal" href="#service-load-balancing-configuration">Service Load balancing Configuration</a></li>
+<li><a class="reference internal" href="#connecting-ost-controller-to-raven-external-network">Connecting ost-controller to Raven External Network</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#post-installation-verification">Post-installation verification</a><ul>
@@ -176,7 +176,7 @@ access to the Internet for package installation.</p>
 </div>
 <div class="section" id="openstack-controller">
 <span id="ost-install"></span><h2>OpenStack controller<a class="headerlink" href="#openstack-controller" title="Permalink to this headline">¶</a></h2>
-<p>The configuration file <tt class="xref download docutils literal"><span class="pre">cloud-config-ost.yaml</span></tt> automates
+<p>The configuration file <a class="reference download internal" href="_downloads/cloud-config-ost-controller.yaml"><tt class="xref download docutils literal"><span class="pre">cloud-config-ost-controller.yaml</span></tt></a> automates
 the deployment of an OpenStack Neutron controller node integrated with Midonet.
 It installs and configures the supporting services such as MariadDB, Cassandra,
 Zookeeper, and RabbitMQ.</p>
@@ -296,7 +296,7 @@ service endpoints in Keystone, using the script created by the installation proc
 </div>
 <p>Finally, we need to create one Midonet tunnel zone to allow the communication between the K8s
 workers and the service load balancing agent, running in the ost-controller.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ /opt/bin/setup-midonet.sh
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ sudo /opt/bin/midonet-setup
 zone 33102da5-a7a7-43b7-b904-a46faecb0f1b host 5a1bb683-704f-4ce9-8c38-45a8ec174b41 address 192.168.1.124
 </pre></div>
 </div>
@@ -306,7 +306,7 @@ zone 33102da5-a7a7-43b7-b904-a46faecb0f1b host 5a1bb683-704f-4ce9-8c38-45a8ec174
 <span id="k8s-install"></span><h2>Kubernetes controller<a class="headerlink" href="#kubernetes-controller" title="Permalink to this headline">¶</a></h2>
 <p>The configuration file <a class="reference download internal" href="_downloads/cloud-config-k8s-controller.yaml"><tt class="xref download docutils literal"><span class="pre">cloud-config-k8s-controller.yaml</span></tt></a> automates the deployment
 of all the components required by the kubernetes controller. In this process, the Kuryr contanier
-is downloaded and installed as a <em>systemctl</em> service using the <cite>Docker image from Midonet project&lt;https://hub.docker.com/r/midonet/raven/&gt;</cite>:</p>
+is downloaded and installed as a <em>systemctl</em> service using the <a class="reference external" href="https://hub.docker.com/r/midonet/raven/">Docker image from Midonet project</a>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[Unit]
 Description=Kuryr Kubernetes API watcher and translator of events to \
   Neutron entities.
@@ -422,8 +422,8 @@ in the ost-controller:</p>
 <p>Create it and complete the required information:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ mkdir /etc/conf.d
 $ cat &gt;&gt; /etc/conf.d/k8s-worker <span class="s">&lt;&lt;EOF</span>
-<span class="s"> OST_CONTROLLER_IP=10.142.0.2</span>
-<span class="s"> K8S_CONTROLLER_IP=10.142.0.3</span>
+<span class="s"> OST_CONTROLLER=10.142.0.2</span>
+<span class="s"> K8S_CONTROLLER=10.142.0.3</span>
 <span class="s"> LOCAL_IP=10.142.0.4</span>
 <span class="s"> EOF</span>
 </pre></div>
@@ -459,32 +459,47 @@ have at least two workers.</p>
 <div class="section" id="post-installation">
 <span id="id2"></span><h2>Post-Installation<a class="headerlink" href="#post-installation" title="Permalink to this headline">¶</a></h2>
 <p>Once the instances are installed, some post-installation setup is required.</p>
-<div class="section" id="service-load-balancing-configuration">
-<h3>Service Load balancing Configuration<a class="headerlink" href="#service-load-balancing-configuration" title="Permalink to this headline">¶</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">If this were an standard step, the installation procedure should generate an script for this step.</p>
-</div>
-<p>If you plan to expose Kubernetes Services outside the Kubernetes cluster, it is necesary to configure your network so that the service load balancer that runs on the OST Controller has access to the service network.</p>
-<p>Kuryr <a href="#id3"><span class="problematic" id="id4">`automatically creates an external network for services&lt;../../en/ops-guide/getting_started.html#neutron-topology&gt;`_</span></a> <cite>raven-default-external-net</cite> and
+<div class="section" id="connecting-ost-controller-to-raven-external-network">
+<h3>Connecting ost-controller to Raven External Network<a class="headerlink" href="#connecting-ost-controller-to-raven-external-network" title="Permalink to this headline">¶</a></h3>
+<p>We will use the ost-controller as external host to test the access to services.
+It is necesary to configure your network so that the ost-controller has access
+to the service network.</p>
+<p>Kuryr <a class="reference external" href="https://docs.midonet.org/docs/kuryr/tech-preview-release/en/ops-guide/getting_started.html">automatically creates an external network for services</a> <em>raven-default-external-net</em> and
 a subnet for the default namespace <cite>raven-default-external-subnet</cite>. By deafult
 this subnet is assigned the range 172.16.0.0/16 for external addresses (FIPs).</p>
-<p>First,create an interface to link the ost-controller&#8217;s network with Raven&#8217;s default services subnet:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ neutron router-interface-add <span class="k">$(</span>neutron router-list  <span class="p">|</span> awk <span class="s1">&#39;$4==&quot;mn-edge&quot; {print $2}&#39;</span><span class="k">)</span> <span class="k">$(</span>neutron subnet-list <span class="p">|</span> awk <span class="s1">&#39;$4==&quot;raven-default-external-subnet&quot; {print $2}&#39;</span><span class="k">)</span>
+<p>The fitst step is to create an uplink at the ost-controller, using the script provided in
+the installation. See <a class="reference external" href="https://docs.midonet.org/docs/latest-en/quick-start-guide/ubuntu-1404_liberty/content/edge_router_setup.html">Edge Router Setup at the Midonet Quick Start Guide</a> for more details.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ sudo /opt/bin/create_uplink
+Created a new router:
++-----------------------+--------------------------------------+
+<span class="p">|</span> Field                 <span class="p">|</span> Value                                <span class="p">|</span>
++-----------------------+--------------------------------------+
+<span class="p">|</span> admin_state_up        <span class="p">|</span> True                                 <span class="p">|</span>
+<span class="p">|</span> external_gateway_info <span class="p">|</span>                                      <span class="p">|</span>
+<span class="p">|</span> id                    <span class="p">|</span> a8b55de2-5b6c-4de1-bae2-a8a954146434 <span class="p">|</span>
+<span class="p">|</span> name                  <span class="p">|</span> mn-edge                              <span class="p">|</span>
+<span class="p">|</span> routes                <span class="p">|</span>                                      <span class="p">|</span>
+<span class="p">|</span> status                <span class="p">|</span> ACTIVE                               <span class="p">|</span>
+<span class="p">|</span> tenant_id             <span class="p">|</span> 75067bca32054921a657e53a1cffdbec     <span class="p">|</span>
++-----------------------+--------------------------------------+
+.
+.
+.
+Added interface 2d087d3f-fdd0-4228-a048-b1c6ede1649a to router mn-edge.
+Updated router: mn-edge
+</pre></div>
+</div>
+<p>Then, create an interface to link the ost-controller host with Raven&#8217;s default services subnet:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ sudo /opt/bin/link_raven_network
 Added interface 56d9ab50-e527-4fcb-884b-a51ae02dddb4 to router af96d950-97aa-473f-87a3-328830a5f774
 </pre></div>
 </div>
-<p>Secondly, create the appropiated routes:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ip -4 route add 172.16.0.0/16 via 172.19.0.1 dev mn-uplink-host
-$ iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -j MASQUERADE
-</pre></div>
-</div>
 <p>It should be possible to reach the gateway of the default service network:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ping -c <span class="m">3</span> 172.16.0.1
-PING 172.16.0.1 <span class="o">(</span>172.16.0.1<span class="o">)</span> 56<span class="o">(</span>84<span class="o">)</span> bytes of data.
-<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>4.56 ms
-<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">2</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>3.61 ms
-<span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">3</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>3.49 ms
+<div class="highlight-bash"><div class="highlight"><pre><span></span> $ ping -c <span class="m">3</span> 172.16.0.1
+ PING 172.16.0.1 <span class="o">(</span>172.16.0.1<span class="o">)</span> 56<span class="o">(</span>84<span class="o">)</span> bytes of data.
+ <span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>4.56 ms
+ <span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">2</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>3.61 ms
+ <span class="m">64</span> bytes from 172.16.0.1: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">3</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">64</span> <span class="nv">time</span><span class="o">=</span>3.49 ms
 
 --- 172.16.0.1 ping statistics ---
 <span class="m">3</span> packets transmitted, <span class="m">3</span> received, 0% packet loss, <span class="nb">time</span> 2002ms
@@ -581,6 +596,12 @@ my-nginx     10.0.0.137   172.16.0.12   80/TCP    11s
 +------------------+---------------------+
 </pre></div>
 </div>
+<p>if you follwed the post intallation procedure and created a link to Raven&#8217;s external network,
+the service should now be accessible from the ost-controller instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ wget 172.16.0.12 -nv --method=HEAD
+     2016-07-27 13:42:36 URL: http://172.16.0.12/ 200 OK
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -598,7 +619,7 @@ my-nginx     10.0.0.137   172.16.0.12   80/TCP    11s
           
           </div>
           <div class="row docs-byline bottom">
-            <div class="docs-updated">updated: 2016-08-31 12:31</div>
+            <div class="docs-updated">updated: 2016-09-02 10:29</div>
           </div>
           <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
@@ -746,7 +767,7 @@ my-nginx     10.0.0.137   172.16.0.12   80/TCP    11s
     /* "last_updated" is the build date and time. It relies on the
        conf.py variable "html_last_updated_fmt", which should include
        year/month/day as well as hours and minutes                   */
-    var buildstring = "Release: 0.0.1 on 2016-08-31 12:31";
+    var buildstring = "Release: 0.0.1 on 2016-09-02 10:29";
 
     var fieldComment = encodeURI(buildstring) +
                        lineFeed + encodeURI(gitSha) +

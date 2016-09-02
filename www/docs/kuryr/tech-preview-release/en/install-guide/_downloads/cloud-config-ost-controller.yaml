@@ -52,12 +52,13 @@ write-files:
 
       #merge default config and (optional) provided pararmeters
       CFG_FILE="ost-controller"
-      touch -a /etc/conf.d/$CFG_FILE_
+      touch -a /etc/conf.d/$CFG_FILE
       cp /etc/conf.d/$CFG_FILE /tmp/$CFG_FILE
       awk -F '=' '!a[$1]++' /tmp/$CFG_FILE /etc/conf.d/"$CFG_FILE"-defaults > /etc/conf.d/$CFG_FILE
+      #allow sourcing of file
+      chmod +x /etc/conf.d/$CFG_FILE
 
       # setups the environment after boot for configuration
-
       source /etc/conf.d/ost-controller
 
       if [[ -z $UUID ]]; then
@@ -165,6 +166,70 @@ write-files:
             --adminurl $OS_NEUTRON_URL \
             --region $OS_REGION_NAME \
             neutron
+  - path: /opt/bin/create_uplink
+    # creates an uplink in neutron
+    # https://docs.midonet.org/docs/latest-en/quick-start-guide/ubuntu-1404_liberty/content/edge_router_setup.html
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+      HOST_ID=${HOST_ID:-$(hostname)}
+      PUBLIC_SUBNET_NAME=${PUBLIC_SUBNET_NAME:-"public-subnet"}
+      EDGE_ROUTER_NAME=${EDGE_ROUTER_NAME:-"mn-edge"}
+
+      # Neutron net/subnet/port for uplink
+      UPLINK_NET_NAME=${UPLINK_NET_NAME:-"mn-uplink-net"}
+      UPLINK_SUBNET_NAME=${UPLINK_SUBNET_NAME:-"mn-uplink-subnet"}
+      UPLINK_PORT_NAME=${UPLINK_PORT_NAME:-"mn-uplink-port"}
+      # Veth pair
+      UPLINK_VIRT_IFNAME=${UPLINK_VIRT_IFNAME:-"mn-uplink-virt"}
+      UPLINK_HOST_IFNAME=${UPLINK_HOST_IFNAME:-"mn-uplink-host"}
+      UPLINK_CIDR=${UPLINK_CIDR:-"172.19.0.0/30"}
+      UPLINK_PREFIX_LEN=${UPLINK_PREFIX_LEN:-"30"}
+      UPLINK_VIRT_IP=${UPLINK_VIRT_IP:-"172.19.0.1"}
+      UPLINK_HOST_IP=${UPLINK_HOST_IP:-"172.19.0.2"}
+
+      sudo ip link add name ${UPLINK_HOST_IFNAME} type veth \
+          peer name ${UPLINK_VIRT_IFNAME}
+
+      for name in ${UPLINK_HOST_IFNAME} ${UPLINK_VIRT_IFNAME}; do
+          sudo ip addr flush ${name}
+          sudo ip link set dev ${name} up
+      done
+
+      # Configure edge router and uplink network
+      neutron router-create ${EDGE_ROUTER_NAME}
+      neutron router-interface-add ${EDGE_ROUTER_NAME} ${PUBLIC_SUBNET_NAME}
+      neutron net-create ${UPLINK_NET_NAME} --provider:network_type uplink
+      neutron subnet-create --disable-dhcp --name ${UPLINK_SUBNET_NAME} \
+              ${UPLINK_NET_NAME} ${UPLINK_CIDR}
+      neutron port-create ${UPLINK_NET_NAME} \
+              --name ${UPLINK_PORT_NAME} \
+              --binding:host_id ${HOST_ID} \
+              --binding:profile type=dict interface_name=${UPLINK_VIRT_IFNAME} \
+              --fixed-ip ip_address=${UPLINK_VIRT_IP}
+      neutron router-interface-add \
+              ${EDGE_ROUTER_NAME} port=${UPLINK_PORT_NAME}
+      neutron router-update ${EDGE_ROUTER_NAME} \
+              --routes type=dict list=true \
+              destination=0.0.0.0/0,nexthop=${UPLINK_HOST_IP}
+
+      # Configure host side
+      sudo ip addr add ${UPLINK_HOST_IP}/${UPLINK_PREFIX_LEN} \
+            dev ${UPLINK_HOST_IFNAME}
+
+  - path: /opt/bin/link_raven_network
+    # links host to raven's external network
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+
+      # Create an interface to link to Raven's default services subnet:
+      neutron router-interface-add $(neutron router-list  | awk '$4=="mn-edge" {print $2}') $(neutron subnet-list | awk '$4=="raven-default-external-subnet" {print $2}')
+
+      # Create routes to the network
+      sudo ip -4 route add 172.16.0.0/16 via 172.19.0.1 dev mn-uplink-host
+      sudo iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -j MASQUERADE
+
   - path: /opt/bin/midonet-setup
     # setup midonet. adding host to tunnel zone
     permissions: '0755'
@@ -382,11 +447,13 @@ coreos:
         ExecStartPre=/usr/bin/docker pull midonet/neutron-lbaas:liberty
 
         ExecStart=/usr/bin/docker run --name %n   \
-                 --net=host -v /var/log/%n:/var/log \
+                 --net=host --privileged \
+                 -v /var/log/%n:/var/log \
+                 -v /var/run/midolman:/var/run/midolman \
                  -e RB_HOST=${RB_HOST}            \
                  -e RB_USERNAME=${RB_USERNAME}    \
                  -e RB_PASSWORD=${RB_PASSWORD}    \
-                 -e UUID=$UUID                    \
+                 -e UUID=${UUID}                    \
                  midonet/neutron-lbaas:liberty
         ExecStop=/usr/bin/docker kill %n
         ExecStopSost=/usr/bin/docker rm -f %n

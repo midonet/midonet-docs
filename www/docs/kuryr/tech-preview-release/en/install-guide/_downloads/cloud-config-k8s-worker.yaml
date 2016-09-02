@@ -17,9 +17,13 @@ write-files:
       #!/bin/bash
 
       #merge default config and (optional) provided pararmeters
-      touch -a /etc/conf.d/k8s-worker
-      cp /etc/conf.d/k8s-worker /tmp/k8s-worker
-      awk -F '=' '!a[$1]++' /tmp/k8s-worker /etc/conf.d/k8s-worker-defaults > /etc/conf.d/k8s-worker
+      CFG_FILE="k8s-worker"
+      touch -a /etc/conf.d/$CFG_FILE
+      cp /etc/conf.d/$CFG_FILE /tmp/$CFG_FILE
+      awk -F '=' '!a[$1]++' /tmp/$CFG_FILE /etc/conf.d/"$CFG_FILE"-defaults > /etc/conf.d/$CFG_FILE
+
+      #allow sourcing of file
+      chmod +x /etc/conf.d/$CFG_FILE
 
       # setups the environment after boot for configuration
 

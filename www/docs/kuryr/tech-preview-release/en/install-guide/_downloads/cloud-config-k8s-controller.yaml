@@ -36,9 +36,11 @@ write-files:
 
       #merge default config and (optional) provided pararmeters
       CFG_FILE="k8s-controller"
-      touch -a /etc/conf.d/$CFG_FILE_
+      touch -a /etc/conf.d/$CFG_FILE
       cp /etc/conf.d/$CFG_FILE /tmp/$CFG_FILE
       awk -F '=' '!a[$1]++' /tmp/$CFG_FILE /etc/conf.d/"$CFG_FILE"-defaults > /etc/conf.d/$CFG_FILE
+      #allow sourcing of file
+      chmod +x /etc/conf.d/$CFG_FILE
   - path: /opt/bin/wupiao
     # Small bash utility that allows us to wait for an HTTP service to be
     # responsive before resuming operations.
