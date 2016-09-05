@@ -1,0 +1,156 @@
+[[flowstate_storage]]
+= Flow State Storage
+
+Flow state is flow-scoped data that agents need to query when processing a
+packet to make decisions that depend on other previously seen packets belonging
+to the same connection.
+
+These previous packets may belong to the same flow (have the same or equivalent
+flow match) or they may belong to traffic that flows in the opposite direction
+within the same connection.
+
+We call this stateful packet processing. And we call these pieces of state
+__state keys__, because not only do they keep state of the flow, but are
+globally unique across all of MidoNet.
+
+Some examples of such state keys are:
+
+* *NAT mappings.* Which keep record network/transport address translations that a
+virtual device may perform on a connection.
+* *Connection tracking keys.* Which tell MidoNet's virtual devices whether a
+packet belongs to a "forward flow" (the direction of traffic that initiated a
+particular connection) or to a "return flow" (the opposite direction).
+
+Because packets belonging to the same connection may be simulated at different
+hosts, MidoNet Agents need a mechanism to share this data. MidoNet Agents push
+this state to each other proactively over the underlay network but the
+details are out of scope of this document. We refer the reader to the
+https://github.com/midonet/midonet/blob/master/docs/stateful-packet-processing.md[development documentation]
+for a more detailed explanation of how this flow state is shared among MidoNet
+Agents.
+
+Even though this __state keys__ are pushed among MidoNet Agents and kept in
+in-memory volatile tables, there are a couple of corner cases that require these
+keys to be pushed to durable storage: i) after an agent reboot, in which case
+the state keys will be lost; and ii) upon a port migration, in which case the
+new owner will be missing the state keys for connections that were active on
+that port before the migration occurred.
+
+Starting in MidoNet v5.2.1, these flow state keys are stored on disk locally
+on each agent instead of storing them to Cassandra, which is now considered
+optional and not necessary for the normal operation of the MidoNet Agents.
+
+Among other benefits, storing flow state locally simplifies the operation of
+MidoNet as operators don't need to configure and monitor a separate Cassandra
+cluster.
+
+== Configuration
+
+Storing state keys locally on persistent disk on the agents is enabled by
+default starting from MidoNet v5.2.1. State keys are stored under the
+``/var/db/midolman/flowstate`` directory by default
+(see <<advanced-configuration-options,Advanced Configuration Options>> section
+for options to change it). Each active port on the MidoNet Agent will have a
+local file under this directory identified with the UUID of the port.
+
+Each of these files contain the associated flow state keys in binary compressed
+format. These files are of fixed size according to the configuration and
+implement a log rotation mechanism by which older keys are overwritten by new
+keys when the file is full so we don't waste storage space.
+
+The Flow State Storage configuration can be inspected and customized
+using `mn-conf(1)`. The relevant keys start with ``agent.minions.flow_state``.
+
+[IMPORTANT]
+After changing the Flow State Storage configuration, you must restart the
+MidoNet Agents on the affected controller or compute nodes for the changes to
+take effect.
+
+=== Compute Nodes
+
+The default configuration on the `mn-conf` schema is meant to be used by compute
+nodes. These nodes are meant to have a high number of ports of small size,
+meaning that each port attached to a VM generate a rather low rate of flow
+state. We encourage operators to query those values through the `mn-conf` tool.
+
+=== Gateway Nodes
+
+However, gateway nodes are meant to have usually only one uplink port from/to
+which all north-south traffic pass through. This means that the MidoNet Agent
+need to store all flow state corresponding to a single port (one file) that
+writes to storage at a higher rate. For that purpose, the
+``agent-gateway-{medium|large}`` `mn-conf` templates MUST be used on those nodes.
+How to setup and apply a given template to a specific host is out of scope of
+this document and we refer operators to the `mn-conf(1)`.
+
+== Seamless Upgrade from a Previous Version
+
+Prior to v5.2.1, the Agent stored flow state keys on Cassandra, which is no
+longer mandatory. To support a seamless upgrade from previous versions and for
+backwards compatibility, the MidoNet Agent read state keys upon reboot or after
+a port migration from Cassandra and from local storage.
+
+Thus, the upgrade path is the same as the operator would expect in normal
+circumstances, i.e. install the new package version and reboot the MidoNet
+Agent. After reboot, the agent will start writing to local disk and stop storing
+data on Cassandra. After all agents have been upgraded to the new version, it
+is safe to shut down the Cassandra daemons and repurpose the nodes for other
+functionalities.
+
+== Reverting to Cassandra Storage
+
+Use the following commands to disable the local storage and revert to Cassandra
+and reboot all MidoNet Agents afterwards:
+
+  $ echo "agent.minions.flow_state.legacy_push_state : true" | mn-conf set -t default
+  $ echo "agent.minions.flow_state.local_push_state : false" | mn-conf set -t default
+
+[[advanced-configuration-options]]
+== Advanced Configuration Options
+
+A complete list of the configuration options (under the
+``agent.minions.flow_state`` mn-conf key) available for the service is as follows:
+
+[options="header"]
+|============================================================
+| Name | Default value | Description
+| legacy_push_state | false | Whether the FlowState minion will save incoming
+flow state messages Cassandra.
+| local_push_state | true | Whether the FlowState minion will save incoming
+flow state messages to local storage on the MidoNet Agent.
+| port | 6688 | The value of the UDP and TCP ports used to
+listen for incoming flow state messages from the parent Agent
+process through the loopback interface, and flow state transfer
+requests.
+| connection_timeout | 2s | Timeout for TCP requests during flow state exchanges.
+| block_size | 262144 | The size in bytes of the compressed block for the flow
+state storage. Changing this has an impact on the amount of memory used as well
+as the compression ratio achieved by the snappy algorithm. Setting a higher
+value implies an increased memory usage and potentially a higher compression
+ratio. Defaults to 256 KB.
+| blocks_per_port | 512 | The number of allowed blocks of compressed flow state
+per virtual port. By default, it will use up to 128 MB (512 blocks of 256 KB)
+per virtual port. It does not pre-allocate blocks so disk space will not be
+used unless it's filled with data. With this space, we can hold around 500k
+messages at a rate of 4k flows per second for a given port (not considering
+compression).
+| expiration_time | 120s | How long should we keep flow state stored. Flow
+state entries older than this period of time will be eligible for removal.
+| expiration_delay | 30s | The delay between consecutive flow state
+invalidation tasks that remove and clear the blocks that are older than the
+expiration time. This task only marks the block headers as invalid if they are
+expired so the overhead is minimum.
+| clean_unused_files_delay | 12h | The delay between consecutive runs of the
+flow state file cleaner task. This is a background task that looks into the
+current list of flow state files and removes those not being used (written to
+or reading from). This is a background housekeeping activity to prevent storage
+from being used needlessly.
+| log_directory | flowstate | The name of the flow state log directory.
+The MidoNet Agent will write to this directory the records of the current flow
+state associated to the ports bound to this agent. This directory will be
+created in /var/db/midolman by default. You can change the location of the base
+directory by specifying it in the MIDO_DB_DIR environment variable.
+|============================================================
+
+
+
