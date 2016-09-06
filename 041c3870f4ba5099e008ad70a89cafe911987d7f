@@ -48,6 +48,52 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_3bb5bbcf",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1008328
+      },
+      "writtenOn": "2016-09-06T08:24:03Z",
+      "side": 1,
+      "message": "proactively?",
+      "range": {
+        "startLine": 26,
+        "startChar": 25,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_1bb8b7c6",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1008328
+      },
+      "writtenOn": "2016-09-06T08:24:03Z",
+      "side": 1,
+      "message": "\"of the scope\"",
+      "range": {
+        "startLine": 27,
+        "startChar": 16,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_9b45e716",
         "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
         "patchSetId": 1
@@ -232,6 +278,29 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_fbae3380",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1008328
+      },
+      "writtenOn": "2016-09-06T08:24:03Z",
+      "side": 1,
+      "message": "remove?",
+      "range": {
+        "startLine": 79,
+        "startChar": 71,
+        "endLine": 79,
+        "endChar": 74
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_7b6b4386",
         "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
         "patchSetId": 1
@@ -248,6 +317,29 @@
         "startChar": 33,
         "endLine": 81,
         "endChar": 40
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_dbb12fe2",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1008328
+      },
+      "writtenOn": "2016-09-06T08:24:03Z",
+      "side": 1,
+      "message": "\"of the scope\"",
+      "range": {
+        "startLine": 82,
+        "startChar": 66,
+        "endLine": 82,
+        "endChar": 74
       },
       "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
