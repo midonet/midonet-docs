@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_7b190322",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_db424f0f",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_9b1a8717",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_bb4aeb25",
+      "range": {
+        "startLine": 25,
+        "startChar": 59,
+        "endLine": 25,
+        "endChar": 66
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_3bb5bbcf",
         "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
         "patchSetId": 1
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_7bf10395",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_3bb5bbcf",
+      "range": {
+        "startLine": 26,
+        "startChar": 25,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_1bb8b7c6",
         "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-09-06T08:24:03Z",
       "side": 1,
       "message": "\"of the scope\"",
+      "range": {
+        "startLine": 27,
+        "startChar": 16,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_5becffba",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "I\u0027ve always seen it like this, without the article :S",
+      "parentUuid": "baa041b7_1bb8b7c6",
       "range": {
         "startLine": 27,
         "startChar": 16,
@@ -140,6 +236,54 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_3bd25b35",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_9b45e716",
+      "range": {
+        "startLine": 39,
+        "startChar": 12,
+        "endLine": 39,
+        "endChar": 19
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_5b14ffe7",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_1b60b7a3",
+      "range": {
+        "startLine": 39,
+        "startChar": 61,
+        "endLine": 39,
+        "endChar": 63
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_fb5633cd",
         "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
         "patchSetId": 1
@@ -186,6 +330,54 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_1bd5571a",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_fb5633cd",
+      "range": {
+        "startLine": 41,
+        "startChar": 52,
+        "endLine": 41,
+        "endChar": 54
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_fbdbd34d",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_7b5463c9",
+      "range": {
+        "startLine": 41,
+        "startChar": 55,
+        "endLine": 41,
+        "endChar": 62
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_5b4f5f34",
         "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
         "patchSetId": 1
@@ -197,6 +389,30 @@
       "writtenOn": "2016-09-06T07:54:03Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 7
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_dbdecf3d",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_5b4f5f34",
       "range": {
         "startLine": 44,
         "startChar": 0,
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_bbe66b14",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_db592fff",
+      "range": {
+        "startLine": 50,
+        "startChar": 22,
+        "endLine": 50,
+        "endChar": 29
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_bb71cb79",
         "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
         "patchSetId": 1
@@ -243,6 +483,30 @@
       "writtenOn": "2016-09-06T07:54:03Z",
       "side": 1,
       "message": "Use ``?",
+      "range": {
+        "startLine": 70,
+        "startChar": 33,
+        "endLine": 70,
+        "endChar": 40
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_5bebdfdc",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_bb71cb79",
       "range": {
         "startLine": 70,
         "startChar": 33,
@@ -278,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_1bbc37da",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_9b6cc79e",
+      "range": {
+        "startLine": 73,
+        "startChar": 64,
+        "endLine": 73,
+        "endChar": 71
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_fbae3380",
         "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
         "patchSetId": 1
@@ -289,6 +577,30 @@
       "writtenOn": "2016-09-06T08:24:03Z",
       "side": 1,
       "message": "remove?",
+      "range": {
+        "startLine": 79,
+        "startChar": 71,
+        "endLine": 79,
+        "endChar": 74
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_1b2d57fd",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_fbae3380",
       "range": {
         "startLine": 79,
         "startChar": 71,
@@ -324,6 +636,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_fbb2b305",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_7b6b4386",
+      "range": {
+        "startLine": 81,
+        "startChar": 33,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_dbb12fe2",
         "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
         "patchSetId": 1
@@ -335,6 +671,30 @@
       "writtenOn": "2016-09-06T08:24:03Z",
       "side": 1,
       "message": "\"of the scope\"",
+      "range": {
+        "startLine": 82,
+        "startChar": 66,
+        "endLine": 82,
+        "endChar": 74
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_fb33d360",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "ditto",
+      "parentUuid": "baa041b7_dbb12fe2",
       "range": {
         "startLine": 82,
         "startChar": 66,
@@ -370,6 +730,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_1ba317b3",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_1b0797ca",
+      "range": {
+        "startLine": 85,
+        "startChar": 3,
+        "endLine": 85,
+        "endChar": 43
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_fb0d13e9",
         "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
         "patchSetId": 1
@@ -381,6 +765,30 @@
       "writtenOn": "2016-09-06T07:54:03Z",
       "side": 1,
       "message": "Ditto. also the title is too long, maybe something shorter such as Reverting to Cassandra Storage?",
+      "range": {
+        "startLine": 99,
+        "startChar": 3,
+        "endLine": 99,
+        "endChar": 61
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_fba99391",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_fb0d13e9",
       "range": {
         "startLine": 99,
         "startChar": 3,
@@ -439,6 +847,54 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_9b8f272e",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_bbf8abc5",
+      "range": {
+        "startLine": 103,
+        "startChar": 67,
+        "endLine": 103,
+        "endChar": 74
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_db9a4f62",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_7b0223b6",
+      "range": {
+        "startLine": 102,
+        "startChar": 69,
+        "endLine": 103,
+        "endChar": 42
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_1b2e7742",
         "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
         "patchSetId": 1
@@ -450,6 +906,30 @@
       "writtenOn": "2016-09-06T07:54:03Z",
       "side": 1,
       "message": "Remove quotes.",
+      "range": {
+        "startLine": 148,
+        "startChar": 18,
+        "endLine": 148,
+        "endChar": 29
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_bba2eb98",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_1b2e7742",
       "range": {
         "startLine": 148,
         "startChar": 18,
@@ -501,6 +981,54 @@
         "startChar": 28,
         "endLine": 151,
         "endChar": 38
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_3b87fb13",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "You can specify it with an env var. Added.",
+      "parentUuid": "baa041b7_3b2b7b35",
+      "range": {
+        "startLine": 151,
+        "startChar": 28,
+        "endLine": 151,
+        "endChar": 38
+      },
+      "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_1b8af71a",
+        "filename": "docs/operation-guide/src/flowstate_storage/chapter_flowstate_storage_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2016-09-06T09:02:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_5bfd1fb0",
+      "range": {
+        "startLine": 151,
+        "startChar": 39,
+        "endLine": 151,
+        "endChar": 42
       },
       "revId": "041c3870f4ba5099e008ad70a89cafe911987d7f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
