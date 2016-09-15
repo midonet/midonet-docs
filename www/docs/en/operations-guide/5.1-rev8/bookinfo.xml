@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<products xmlns:xlink="http://www.w3.org/1999/xlink">
+   <latestpdf>MidoNet_Operations_Guide_EN_5.1-rev8-latest.pdf</latestpdf>
+   <pdfoutname>MidoNet_Operations_Guide_EN_5.1-rev8.pdf</pdfoutname>
+   <docname>MidoNet Operations Guide</docname>
+   <productname>MidoNet Operations Guide</productname>
+   <webappname>operations-guide_en</webappname>
+   <pominfo>
+      <groupid>org.midonet</groupid>
+      <artifactid>midonet-docs-operations-guide-en</artifactid>
+      <version>5.1-rev8</version>
+      <pomname>midonet-docs-operations-guide-en v5.1-rev8</pomname>
+   </pominfo>
+</products>
