@@ -8,7 +8,7 @@
 ----
 [midonet]
 name=MidoNet
-baseurl=http://builds.midonet.org/midonet-5.2/stable/el7/
+baseurl=http://builds.midonet.org/midonet-5.3/stable/el7/
 enabled=1
 gpgcheck=1
 gpgkey=https://builds.midonet.org/midorepo.key
