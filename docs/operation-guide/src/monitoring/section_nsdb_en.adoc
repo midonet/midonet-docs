@@ -129,8 +129,19 @@ and data operations.
 |A timer for the number of ZooKeeper node writes.
 |`StorageTimer.multi`
 |A timer for the number of ZooKeeper transaction writes.
-|`StorageHistogram.notificationLatency`
-|A histogram for the ZooKeeper notification latency.
+|`StorageHistogram.stateTable.readLatency`
+|A histogram for the latency of reading the entire list of entries of a
+state table from ZooKeeper.
+|`StorageHistogram.stateTable.addLatency`
+|A histogram for the latency of adding a new entry to a state table by
+writing directly to ZooKeeper.
+|`StorageHistogram.stateTable.roundTripLatency`
+|A histogram for the latency between adding a new entry to a state
+table and receiving a notification the entry was accepted by the NSDB.
+When the _state proxy_ service is disabled, this latency measures the
+round-trip refresh of a state table via ZooKeeper. When the _state proxy_
+service is enabled, this latency measures the delay of writing the entry
+to ZooKeeper and reading the updated table via the state table proxy.
 |=======================================================================
 
 === Session Metrics
