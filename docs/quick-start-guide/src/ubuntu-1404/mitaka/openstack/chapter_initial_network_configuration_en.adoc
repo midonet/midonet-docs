@@ -195,6 +195,27 @@ Created a new subnet:
 | tenant_id         | cdef0071a0194d19ac6bb63802dc9bae                     |
 +-------------------+------------------------------------------------------+
 ----
+====
+
+. *Create a router on the tenant network and attach the external and tenant networks to it*
++
+====
+[source]
+----
+$ neutron router-create demo-router
+Created a new router:
++-----------------------+--------------------------------------+
+| Field                 | Value                                |
++-----------------------+--------------------------------------+
+| admin_state_up        | True                                 |
+| external_gateway_info |                                      |
+| id                    | 635660ae-a254-4feb-8993-295aa9ec6418 |
+| name                  | demo-router                          |
+| routes                |                                      |
+| status                | ACTIVE                               |
+| tenant_id             | cdef0071a0194d19ac6bb63802dc9bae     |
++-----------------------+--------------------------------------+
+----
 
 Attach the router to the demo tenant subnet:
 
