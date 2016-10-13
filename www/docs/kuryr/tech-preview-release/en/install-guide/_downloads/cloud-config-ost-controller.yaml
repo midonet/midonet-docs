@@ -322,6 +322,7 @@ coreos:
         ExecStartPre=/usr/bin/docker pull midonet/zookeeper:3.4.5
         ExecStart=/usr/bin/docker run --name %n \
                  --net=host -v /var/log/%n:/var/log \
+                 -v /var/lib/%n:/var/lib/zookeeper  \
                  -e ZK_QUORUM=${ZK_QUORUM} \
                  -e ZK_ID=${ZK_ID} \
                  midonet/zookeeper:3.4.5
