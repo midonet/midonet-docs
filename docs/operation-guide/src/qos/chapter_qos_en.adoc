@@ -1,0 +1,124 @@
+[[neutron_bgp]]
+= Quality of Service (QoS)
+
+Quality of Service (QoS) is used to provide differentiated services (DS) on
+network traffic. This will allow policies to be created to filter and govern
+network traffic flow.  When applied to a virtual network environment, this
+filtering and policing takes place at the Network Port level, specifically the
+port to which the virtual machine or container is connected to the virtual
+network. This effectively policies all traffic exiting the VM and entering the
+virtual network.
+
+QoS is configured with standard Neutron operations via the MidoNet Neutron
+plugin or directly via the MidoNet CLI. Note that using the MidoNet CLI will
+bypass the Neutron operations and end up with policies and rules that are not
+tracked in the neutron database. For this reason, it is highly suggested to use
+the standard Neutron QoS commands when the virtual environment is based on
+OpenStack, and MidoNet CLI when OpenStack is not present.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Creating Quality of Service Policies
+
+In order to use QoS policies, a policy must be created, rules added to it, and
+then that policy must be applied to a Port (or to all ports on a Network).
+
+== Creating a QoS Policy object
+
+=== Neutron
+
+QoS policies can be created via the Neutron command:
+
+[source]
+neutron qos-policy-create --description <desc> --shared <true|false> <name>
+
+Where desc is an optional description, shared can be set to true (share this
+policy among all tenants) or false (make this policy available only to this
+tenant), and name will name this policy (the name is the only required field).
+
+=== MidoNet CLI
+
+If the MidoNet CLI is used to create a QoS policy directly, use the command:
+
+[source]
+qos-policy create name <name> description <desc> shared <true|false>
+
+The parameters have the same meaning as in the neutron command. This will create
+a QoS policy in the MidoNet system (bypassing Neutron, so this should only be
+used when OpenStack is not present, or in advanced use cases only).
+
+== Creating QoS Policy Rules for a Policy
+
+Even though a QoS policy is created, it's just an empty box with no rules set
+until some rules are created on the policy. Rules must be created directly on a
+specific policy, and the rule type must be decided ahead of time. Rules cannot
+be created standalone nor can they be shared between policies. Rules are only
+applicable to the policy on which they were created.
+
+=== Bandwidth Limit Rules
+
+A Bandwidth Limit type rule will limit data throughput on a port. There are two
+meters that can be applied via a bandwidth limit rule: maximum data rate over a
+long period of time (referred to as "max_kbps"), and maximum data burst allowed
+with a very short window (referred to as "max_burst_kbps", which unfortunately
+implies a data rate, when in practice, this is a maximum limit on data sent at a
+particular time).
+
+*Short Explanation of How Linux Meters Traffic*
+
+The best way to contextualize this is to actually explain briefly how the
+mechanics of how Linux implements data rate limiting. Basically, picture a box
+with tokens. The max_kbps represents how many tokens put into the box each
+second (e.g. 1,000 kbps means 1,000 tokens are put into the box every second).
+The max_burst_kbps represents the maximum number of tokens allowed in the box.
+For every byte of data that passes through the port, a token is removed from the
+box. If there are not enough tokens in the box for the packet to take, the
+packet is dropped.
+
+This means that the tokens can fill up over time up to a maximum of
+max_burst_kbps, which can then allow a large packet to pass through, however if
+the traffic is constant at max_kbps, this means tokens are being removed from
+the bucket as fast as they are being added, and larger packets will be dropped
+as there will never be enough tokens available.
+
+image::qos_box_with_tokens.png[]
+
+*Creating a Bandwidth Limit Rule in Neutron*
+
+QoS policies can be created via the Neutron command:
+
+[source]
+neutron qos-bandwidth-limit-rule-create --max-kbps <max_kbps> --max-burst-kbps <max_burst_kbps> <policy_id>
+
+Where policy ID is the UUID of the policy to add the rule to, max_kbps is the
+maximum sustained data rate allowed (rate to fill the token bucket in the
+example above), and max_burst_kbps is the maximum packet size allowed (maximum
+tokens allowed in the token bucket in the example above).
+
+*Creating a Bandwidth Limit Rule in MidoNet*
+
+If the MidoNet CLI is used to add a rule directly, use the command:
+
+[source]
+qos-policy <policy_id> bw-limit-rule create max-kbps <max_kbps> max-burst-kbps <max_burst_kbps>
+
+Where the parameters are the same as in the neutron command, except that policy
+ID is the UUID or ID specifier* of the policy to be updated.
+
+* An ID specifier is the short ID given for a policy in the `qos-policy list`
+command inside the CLI. It is usually of the form `qos-policyN` (where N is an
+increasing number from 0). Other objects also have ID specifiers when using the
+interactive CLI. Note that the ID specifier is neither returned nor can it be
+used when using `midonet-cli -e` option to run a single command from the shell.
+In this case, use the UUID instead.
+
+
+
+
+
+
+
+
+
