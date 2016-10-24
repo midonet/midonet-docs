@@ -8,7 +8,7 @@
 
     <groupId>org.midonet</groupId>
     <artifactId>midonet-docs-parent-pom</artifactId>
-    <version>5.3-SNAPSHOT</version>
+    <version>5.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId} v${project.version}</name>
