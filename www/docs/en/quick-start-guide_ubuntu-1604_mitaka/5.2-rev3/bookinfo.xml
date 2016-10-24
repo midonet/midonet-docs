@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<products xmlns:xlink="http://www.w3.org/1999/xlink">
+   <latestpdf>MidoNet_Quick_Start_Guide_Ubuntu-1604_Mitaka_EN_5.2-rev3-latest.pdf</latestpdf>
+   <pdfoutname>MidoNet_Quick_Start_Guide_Ubuntu-1604_Mitaka_EN_5.2-rev3.pdf</pdfoutname>
+   <docname>MidoNet Quick Start Guide for Ubuntu 16.04 / Mitaka</docname>
+   <productname>MidoNet Quick Start Guide</productname>
+   <webappname>quick-start-guide/ubuntu-1604_mitaka_en</webappname>
+   <pominfo>
+      <groupid>org.midonet</groupid>
+      <artifactid>midonet-docs-quick-start-guide-ubuntu-1604-mitaka-en</artifactid>
+      <version>5.2-rev3</version>
+      <pomname>midonet-docs-quick-start-guide-ubuntu-1604-mitaka-en v5.2-rev3</pomname>
+   </pominfo>
+</products>
