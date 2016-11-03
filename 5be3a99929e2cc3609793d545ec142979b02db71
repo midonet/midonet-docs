@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_52288785",
+        "filename": "docs/operation-guide/src/qos/chapter_qos_en.adoc",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003629
+      },
+      "writtenOn": "2016-11-03T04:47:07Z",
+      "side": 1,
+      "message": "Another cut and paste error in my doc: This should say \"Bandwidth limit rules\"",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 12
+      },
+      "revId": "5be3a99929e2cc3609793d545ec142979b02db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
