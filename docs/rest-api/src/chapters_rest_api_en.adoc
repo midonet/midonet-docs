@@ -1471,7 +1471,7 @@ balancer.
 |A unique identifier of the resource. If this field is omitted in the POST
 request, a random UUID is generated.
 
-|routerId |UUID |POST/PUT |Yes
+|routerId |UUID | |
 |The identifier of the associated router.
 
 |adminStateUp |Boolean |POST/PUT |No
@@ -3169,7 +3169,7 @@ routing.
 |inboundMirrorIds |Array of UUID |POST/PUT |No
 |The list of IDs for the mirrors applied to ingress packets.
 
-|loadBalancerId |UUID | |
+|loadBalancerId |UUID |POST/PUT |No
 |The layer 4 load balancer for this router.
 
 |name |String |POST/PUT |No
