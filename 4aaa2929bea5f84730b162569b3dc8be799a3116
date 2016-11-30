@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7aaa499b_7eada630",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 3172,
+      "author": {
+        "id": 1003629
+      },
+      "writtenOn": "2016-11-30T02:27:47Z",
+      "side": 1,
+      "message": "Quick question.  I don\u0027t know if it\u0027s related, but as far as the direct Scala API goes, it looks like I can call setRouterId on the MidoNet LB object before building it, however I cannot setLoadBalancerId on the router object after I create the LB.  \n\nFor example, this code works:\n\n        // Create the router for this LB\n        val newRouter \u003d Router.newBuilder()\n                              .setId(newRouterId)\n                              .setAdminStateUp(nLb.getAdminStateUp)\n                              .build\n\n        // Create load balancer object with this new router\n        val lb \u003d LoadBalancer.newBuilder()\n            .setId(nLb.getId)\n            .setAdminStateUp(nLb.getAdminStateUp)\n            .setRouterId(newRouterId)\n            .build\n\n\nwhile this code failed:\n\n\n        // Create load balancer object with this new router\n        val lb \u003d LoadBalancer.newBuilder()\n            .setId(nLb.getId)\n            .setAdminStateUp(nLb.getAdminStateUp)\n            .build\n\n        // Create the router for this LB\n        val newRouter \u003d Router.newBuilder()\n                              .setId(newRouterId)\n                              .setLoadBalancerId(lb.getId)\n                              .setAdminStateUp(nLb.getAdminStateUp)\n                              .build\n\n\nDoes this mean anything w.r.t. to the REST API?",
+      "range": {
+        "startLine": 3172,
+        "startChar": 23,
+        "endLine": 3172,
+        "endChar": 31
+      },
+      "revId": "4aaa2929bea5f84730b162569b3dc8be799a3116",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
