@@ -22,6 +22,30 @@
       "revId": "4aaa2929bea5f84730b162569b3dc8be799a3116",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aaa499b_5931e4eb",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 3172,
+      "author": {
+        "id": 1002740
+      },
+      "writtenOn": "2016-11-30T06:04:06Z",
+      "side": 1,
+      "message": "What was the error?",
+      "parentUuid": "7aaa499b_7eada630",
+      "range": {
+        "startLine": 3172,
+        "startChar": 23,
+        "endLine": 3172,
+        "endChar": 31
+      },
+      "revId": "4aaa2929bea5f84730b162569b3dc8be799a3116",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
