@@ -46,6 +46,54 @@
       "revId": "4aaa2929bea5f84730b162569b3dc8be799a3116",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aaa499b_b9d108fe",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 3172,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2016-11-30T09:08:40Z",
+      "side": 1,
+      "message": "I made a mistake when documenting the REST API, it allows you to include the `loadBalancerId` field in a POST/PUT on a router, not the `routerId` in a POST/PUT on a load-balancer.",
+      "parentUuid": "7aaa499b_5931e4eb",
+      "range": {
+        "startLine": 3172,
+        "startChar": 23,
+        "endLine": 3172,
+        "endChar": 31
+      },
+      "revId": "4aaa2929bea5f84730b162569b3dc8be799a3116",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aaa499b_19e23cd6",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 3172,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2016-11-30T09:08:40Z",
+      "side": 1,
+      "message": "I haven\u0027t tried this, but at first I don\u0027t see any reason why it should fail. What was the error? I assume you were trying to create both objects in ZOOM?",
+      "parentUuid": "7aaa499b_7eada630",
+      "range": {
+        "startLine": 3172,
+        "startChar": 23,
+        "endLine": 3172,
+        "endChar": 31
+      },
+      "revId": "4aaa2929bea5f84730b162569b3dc8be799a3116",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
