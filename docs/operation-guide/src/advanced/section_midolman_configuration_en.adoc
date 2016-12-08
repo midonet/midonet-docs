@@ -81,6 +81,38 @@ zookeeper {
 }
 ----
 
+=== Considerations for network partitions and ZooKeeper failure and maintenance
+
+For the MidoNet Agents that run at compute hosts or L2GW hosts, setting the
+session gracetime is primarily dictated by tradeoffs between maintaining
+liveness of the datapath and maintaining consistency relative to the
+authoritative network topology and security policy.
+
+For L3GW hosts with BGP enabled, the considerations are more difficult. While
+the MidoNet Agent at the L3GW continues to operate disconnected, it continues to
+announce routes to its BGP peers. If the disconnection from ZooKeeper is due to
+a network partition that also separates the L3GW from a majority of compute
+hosts (rather than ZooKeeper failure/maintenance), then it is practically
+black-holing the traffic destined to computes that are outside its partition.
+Hence session gracetime presents a tradeoff between increasing L3GW tolerance to
+ZooKeeper failure (by increasing gracetime) and reducing duration of traffic
+blackholing (by reducing gracetime).
+
+MidoNet currently does not have a good solution to this tradeoff. In the future
+we intend to build a blackhole detection mechanism at the L3GW so that it can
+shut down its BGP session during gracetime if it determines that it cannot
+deliver most of the traffic it receives.
+
+=== Scheduling ZooKeeper maintenance
+
+When it's necessary to take all (or a majority) of ZooKeeper Quorum nodes down
+for maintenance, the best practice is to increase the session_gracetime to a
+value higher than the anticipated maintenance. This should be done for all
+MidoNet Agents, both on computes and gateway hosts. After the maintenance event
+the session_gracetime should be returned to the usual values, targeted at the
+desired tradeoffs of consistency, ZooKeeper failure-tolerance and blackhole
+duration (see discussion above).
+
 == Cassandra configuration
 
 You may use the Cassandra configuration section to adjust:
