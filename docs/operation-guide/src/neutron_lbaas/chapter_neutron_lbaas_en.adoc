@@ -1,0 +1,90 @@
+[[neutron_lbaas]]
+= Load Balancing as a Service (LBaaS)
+
+Load Balancers are used to distribute traffic to a set of members based on a
+configured algorithm.  It can be used for fault tolerance, high availability,
+performance improvements, as well as in many other situations.  Load balancers
+can  be configured in a cloud environment (Load Balancer as a Service, or
+LBaaS).
+
+== Neutron LBaaS Support ==
+
+Neutron and MidoNet has supported LBaaS for some time, but the first
+implementation of LBaaS was suboptimal, especially for scaling and performance
+purposes.  Thus, Neutron released a second version of the LBaaS standard, and
+MidoNet now also supports the newer LBaaS V2 model as well as the older,
+deprecated LBaaS V1 model.
+
+There have been many changes from LBaaS V1 to V2, so this guide will both cover
+LBaaS V2 from a fresh-starter perspective, as well as offering guides on using
+V2 for those familiar with those familiar with V1.
+
+Regarding LBaaS configuration, in order for load balancing to work in terms of a
+virtually defined network, there must be a route from the network on which the
+load balancer resides to each individual pool member.  This also means no
+network address translation should be performed in between the load balancer
+and the pool members.  Note that this is a general configuration requirement for
+load balancing, and not only limited to MidoNet.
+
+=== Neutron LBaaS V1 Specification Support ===
+
+MidoNet supports the Neutron LBaaS V1 specification
+(as documented in https://wiki.openstack.org/wiki/Neutron/LBaaS/API_1.0). To
+set up and use load balancers, users can set up and manipulate load balancers,
+pools, members, health monitors, etc. via the standard Neutron commands.
+
+*MidoNet load balancer limitations*
+
+Although MidoNet supports the Neutron LBaaS V1 API, not all Neutron
+LBaaS features are supported in MidoNet:
+
+* L7 load balancing is not supported.
+
+* There are no pool statistics.
+
+* Only round robin is supported for the load balancer method.
+
+* The Neutron provider model is not supported (for example, assigning a specific
+provider for each pool is not supported).
+
+* Only one health monitor per pool (the first one in the list).
+
+* Only TCP health check (no UDP, HTTP, also no ICMP/pings).
+
+* Only Source IP session persistence (no cookie or URL).
+
+* You cannot associate a floating IP to a virtual IP address (VIP).
+
+* A VIP must not be on the same subnet as the pool member IF health monitoring
+is enabled.
+
+* There is no connection limit.
+
+* Only TCP load balancing is supported.
+
+* When using sticky-source IP, directly connecting to the selected back-end host
+on the same port that is being used by the load balancer is not possible.
+
+* To use an external network for VIPs, it has to be "shared".
+
+=== Neutron LBaaS V2 Specification Support ===
+
+MidoNet also supports the Neutron LBaaS V2 specification
+(as documented in https://wiki.openstack.org/wiki/Neutron/LBaaS/API_2.0). To
+set up and use load balancers, users can set up and manipulate load balancers,
+pools, members, health monitors, etc. via the standard Neutron commands as
+outlined in http://docs.openstack.org/mitaka/networking-guide/config-lbaas.html.
+
+*MidoNet load balancer limitations*
+
+Although MidoNet supports the Neutron LBaaS V2 API, not all Neutron
+LBaaS features are supported in MidoNet:
+
+* L7 load balancing is not supported, which means several parameters for
+Layer 7 options, such as `sni-container-refs` and `default-tls-container-ref`,
+are not supported.  Also, the protocol field for listeners, pools, and health
+monitor type can only be set as *`TCP`*.
+
+* Only round robin is supported for the load balancer method.
+
+* Only Source IP session persistence is supported.
