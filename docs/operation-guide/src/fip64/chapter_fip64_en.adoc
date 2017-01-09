@@ -1,0 +1,356 @@
+[[fip64]]
+= Floating IPv6 to Fixed IPv4
+
+Starting with release v5.4, MidoNet supports mapping a floating IPv6 address to
+a host with a fixed IPv4 address. This capability allows IPv6 Internet
+clients to reach virtual instances in IPv4 tenant networks.
+
+This feature works with virtual network topologies where the edge router
+is linked to an IPv6 external network from which IPv6 floating IP addresses
+are assigned to tenant instances. The edge router is also required to have
+an IPv6 uplink interface.
+
+The feature implements stateful NAT64 as specified by
+https://tools.ietf.org/html/rfc6146[RFC 6146], which is a mechanism for
+IPv4-IPv6 transition and IPv4-IPv6 coexistence. It allows an IPv6 client
+from the Internet to initiate communication with an IPv4-only server.
+MidoNet does not support communication initiated by the IPv4-only hosts
+through statically configured bindings in the stateful NAT64.
+
+[NOTE]
+Floating IPv6-IPv4 works alongside floating IPv4, and you can use this
+dual-stack configuration to support communication with both IPv4 and IPv6
+hosts from a tenant network. Similarly, the physical uplink interfaces
+work simultaneously with IPv4 and IPv6.
+
+[IMPORTANT]
+Floating IPv6-IPv4 is only supported for virtual topologies where the IPv6
+external network is directly connected to the edge router.
+
+++++
+<?dbhtml stop-chunking?>
+++++
+
+== Setup
+
+Floating IPv6-IPv4 is configured from Neutron. Use the following commands to
+create a virtual topology with floating IPv6-IPv4. You can skip certain steps
+if you already have an existing network topology.
+
+. Create an edge router.
++
+[source]
+neutron router-create edge-router
+
+. Create an IPv6 uplink network and subnet. In principle, these will use a
+globally routable IPv6 prefix. In this example, we use `2001::/64` as the
+uplink IPv6 prefix.
++
+[source]
+neutron net-create uplink-network \
+  --tenant_id admin \
+  --provider:network_type uplink
++
+[source]
+neutron subnet-create \
+  --tenant_id admin \
+  --disable-dhcp \
+  --ip-version 6 \
+  --name uplink-subnet-6 \
+  uplink-network 2001::0/64
+
+. Create a port on the uplink network. This port will be bound to the
+physical uplink interface, `<UPLINK>`. The IPv6 address assigned to the port
+will be an address from the uplink IPv6 address, in this example we use
+`2001::2`. We denote by <UPLINK-PORT-ID> the identifier of the uplink port,
+and by `<HOST-ID>` the name of the gateway host.
++
+[source]
+neutron port-create uplink-network \
+  --binding:host_id <HOST-ID> \
+  --binding:profile type=dict interface_name=<UPLINK> \
+  --fixed-ip ip_address=2001::2
++
+[NOTE]
+If you setup the uplink port for a dual-stack IPv4-IPv6 configuration, during
+this step you can specify multiple fixed IP addresses for the uplink port, one
+for each subnet created on the uplink network. For example, to setup a
+dual-stack configuration where the IPv4 uplink subnet is 200.0.0.0/30, create
+a second IPv4 subnet on the uplink network and then assign both an IPv4 and
+IPv6 address to the uplink port.
++
+[source]
+neutron subnet-create \
+  --tenant_id admin \
+  --disable-dhcp --ip-version 4 \
+  --name uplink-subnet-4 \
+  uplink-network 200.0.0.0/30
++
+[source]
+neutron port-create uplink-network \
+  --binding:host_id <HOST-ID> \
+  --binding:profile type=dict interface_name=<UPLINK> \
+  --fixed-ip ip_address=2001::2 \
+  --fixed-ip ip_address=200.0.0.2
+
+. Add a router interface from the edge router to the uplink network.
++
+[source]
+neutron router-interface-add edge-router \
+  port=<UPLINK-PORT-ID>
++
+At the point you should be able to ping the IPv6 address of the uplink port
+from the uplink network.
+
+. Add to the edge router one or more static routes to allow the tenants to
+communicate with other IPv6 networks. For example, to add a default route for
+the IPv6 Internet, use:
++
+[source]
+neutron router-update \
+  --route destination=::/0,nexthop=2001::1 \
+  edge-router
++
+To add a specific route for an IPv6 network, for instance `3001::/64`, use:
++
+[source]
+neutron router-update \
+  --route destination=3001::/64,nexthop=2001::1 \
+  edge-router
++
+[IMPORTANT]
+The MidoNet 5.4 BGP implementation does not support IPv6. Therefore, all IPv6
+routes must be configured statically on the edge router.
+
+. Create an external network to interconnect the edge and tenant routers.
+For floating IPv6-IPv4, this network must have an IPv6 subnet that is also
+globally routable. In this example, we use `1000::/120` as the public IPv6
+prefix.
++
+[source]
+neutron net-create public-network \
+  --router:external true
++
+[source]
+neutron subnet-create \
+  --name public-subnet-6 \
+  --ip-version 6 \
+  public-network 1000::/120
++
+[NOTE]
+If you setup a dual-stack IPv4 and IPv6 external network to allow both IPv4 and
+IPv6 communication for the tenant network, during this step you can also create
+an IPv4 subnet on the external network. Subsequently, this will allow you to
+create both IPv4 and IPv6 floating IPs. Alternatively, you can also create
+multiple external networks with one subnet, one for each IP version.
+
+. Add a router interface from the edge router to the external network.
++
+[source]
+neutron router-interface-add edge-router public-subnet-6
+
+. Create a tenant router.
++
+[source]
+neutron router-create tenant-router
+
+. Set the gateway for the tenant router to the external network.
++
+[source]
+neutron router-gateway-set tenant-router public-network
++
+[NOTE]
+If the external network is configured with dual-stack IPv4 and IPv6 subnets,
+this step will create a network port with multiple IP addresses, one for each
+subnet from the external network.
+
+. Create an IPv4 tenant network. In this example, we use `192.168.0.0/24` for
+the tenant network.
++
+[source]
+neutron net-create tenant-network
++
+[source]
+neutron subnet-create \
+  --name tenant-subnet \
+  tenant-network 192.168.0.0/24
+
+. Add a router interface from the tenant router to the tenant network.
++
+[source]
+neutron router-interface-add tenant-router tenant-subnet
+
+. Create a floating IP on the external network.
++
+[source]
+neutron floatingip-create public-network
++
+[IMPORTANT]
+If the external network is configured with dual-stack IPv4 and IPv6 subnets,
+you must specify a subnet in the previous command that indicates the subnet for
+which the floating IP is created. Otherwise, Neutron will select the first
+subnet as the default one.
++
+[source]
+neutron floatingip-create --subnet public-subnet-6 public-network
+
+. Associate the floating IP with identifier `<FIP-ID>` created in the
+previous step to an instance port `<VIF-PORT-ID>`.
++
+[source]
+neutron floatingip-associate <FIP-ID> <VIF-PORT-ID>
++
+[NOTE]
+You may also create and associate a floating IP to a port during the same
+command.
++
+[source]
+neutron floatingip-create \
+  --port-id <VIF-PORT-ID> \
+  --subnet public-subnet-6 \
+  public-network
+
+== Cleanup
+
+Use the following steps to tear-down a virtual network topology that uses
+floating IPv6-IPv4.
+
+. Disassociate any floating IPs associated with virtual ports on the tenant
+network.
++
+[source]
+neutron floatingip-disassociate <FIP-ID>
+
+. Delete all ports from the tenant network (delete any corresponding
+  compute instances as needed).
+
+. Delete the router interface from the tenant router to the tenant network.
++
+[source]
+neutron router-interface-delete tenant-router tenant-subnet
+
+. Delete the tenant network
++
+[source]
+neutron subnet-delete tenant-subnet
+neutron net-delete tenant-network
+
+. Clear the tenant router gateway.
++
+[source]
+neutron router-gateway-clear tenant-router
+
+. Delete the tenant router.
++
+[source]
+neutron router-delete tenant-router
+
+. Delete the router interfaces from the edge router to the external
+network.
++
+[source]
+neutron router-interface-delete edge-router public-subnet-6
++
+[NOTE]
+If the external network has multiple subnets, delete the router interfaces for
+all subnets, as needed.
+
+. Delete the external network.
++
+[source]
+neutron subnet-delete public-subnet-6
+neutron net-delete public-network
++
+[NOTE]
+If the external network has multiple subnets, delete all subnets from the
+external network, as needed.
+
+. Delete the static routes from the edge router.
++
+[source]
+neutron router-update --no-routes edge-router
+
+. Delete the router interface from the edge router to the uplink network.
++
+[source]
+neutron router-interface-delete edge-router \
+  port=<UPLINK-PORT-ID>
+
+. Delete the uplink network.
++
+[source]
+neutron subnet-delete uplink-subnet-6
+neutron net-delete uplink-network
++
+[NOTE]
+If the uplink network has multiple subnets, delete all subnet from the uplink
+network, as needed.
+
+. Delete the edge router.
++
+[source]
+neutron router-delete edge-router
+
+== Stateful NAT64
+
+Floating IPv6 to fixed IPv4 uses NAT64 implemented between the edge and
+tenant routers, where inbound IPv6 traffic is translated to IPv4 according
+to IPv6-IPv4 translation mappings stored in an internal Binding Information
+Base (BIB) [https://tools.ietf.org/html/rfc6146[RFC 6146]]. These mappings are
+allocated on demand for new flows on a first-come-first-served basis, such that:
+
+* The destination floating IPv6 address maps to the corresponding IPv4 address
+from the tenant network.
+
+* The source IPv6 address maps to an allocated IPv4 address from a special
+IPv4 subnet called a NAT64 pool.
+
+=== NAT64 Pool
+
+There exists a separate NAT64 IPv4 address pool for each tenant router using
+the Shared Address Space for Carrier-Grade NAT with the IPv4 address range
+100.64.0.0/10, as defined by https://tools.ietf.org/html/rfc6598[RFC 6598].
+
+[IMPORTANT]
+Floating IPv6-IPv4 cannot be used with IPv4 tenant networks that use address
+ranges overlapping with the NAT64 IPv4 address pool.
+
+The following diagram illustrates the NAT64 address translation for the
+addresses configured in the previous steps. The IP addresses are as follows:
+
+* The floating IPv6 address associated to an instance from a tenant network is
+`1000::100`.
+
+* The remote IPv6 address of a host from the IPv6 Internet is `3000:cccc::10`.
+
+* The IPv6 address of the instance from the tenant network is `192.168.0.20`.
+
+* The allocated IPv4 address from the NAT64 pool is `100.64.5.32`.
+
+Translation for traffic inbound to the tenant network.
+[source]
+IPv6                    IPv4
+Src: 3000:cccc::10  ->  Src: 100.64.5.32
+Dst: 1000::100          Dst: 192.168.0.20
+
+Translation for traffic outbound from the tenant network.
+[source]
+IPv4                    IPv6
+Src: 192.168.0.20   ->  Src: 1000::100
+Dst: 100.64.5.32        Dst: 3000:cccc::10
+
+=== NAT64 State Sharing
+
+MidoNet supports scalable layer 3 gateways where an edge router may have
+several physical uplink ports distributed across different physical hosts. This
+allows ingress and egress traffic for a floating IPv6-IPv4 flow to use
+different paths and it requires MidoNet running on different gateways to
+exchange the changes to their Binding Information Bases.
+
+MidoNet uses port groups to determine the gateways that must exchange floating
+IPv6 flow state for a given set of uplink ports. For the edge routers created
+with Neutron, all uplink ports are added by default to the same stateful
+port group ensuring that they exchange flow state.
+
+You can use the MidoNet CLI to view and modify the port group configuration.
+For more information, see: xref:stateful_port_groups[].
