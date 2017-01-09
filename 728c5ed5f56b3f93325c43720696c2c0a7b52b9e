@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_a0e4173b",
+        "filename": "docs/operation-guide/src/fip64/chapter_fip64_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2017-01-09T17:48:16Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 6,
+        "startChar": 35,
+        "endLine": 6,
+        "endChar": 41
+      },
+      "revId": "728c5ed5f56b3f93325c43720696c2c0a7b52b9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_60d5df41",
+        "filename": "docs/operation-guide/src/fip64/chapter_fip64_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2017-01-09T17:48:16Z",
+      "side": 1,
+      "message": "remove the version here. when/if we add ipv6 well need to review the fip64 stuff anyhow.",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "728c5ed5f56b3f93325c43720696c2c0a7b52b9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_004ce340",
+        "filename": "docs/operation-guide/src/fip64/chapter_fip64_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2017-01-09T17:48:16Z",
+      "side": 1,
+      "message": "from the uplink/external network. I guess we should say uplink, since external means something else elsewhere in this document.",
+      "range": {
+        "startLine": 101,
+        "startChar": 71,
+        "endLine": 101,
+        "endChar": 75
+      },
+      "revId": "728c5ed5f56b3f93325c43720696c2c0a7b52b9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_805eb3e7",
+        "filename": "docs/operation-guide/src/fip64/chapter_fip64_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2017-01-09T17:48:16Z",
+      "side": 1,
+      "message": "I wouldn\u0027t say this is optional. People tend to skip over optional steps, and very little would work in this case.",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 12
+      },
+      "revId": "728c5ed5f56b3f93325c43720696c2c0a7b52b9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_205da7e9",
+        "filename": "docs/operation-guide/src/fip64/chapter_fip64_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2017-01-09T17:48:16Z",
+      "side": 1,
+      "message": "It would be good to have a piece on having multiple gateways, and port groups, etc.",
+      "revId": "728c5ed5f56b3f93325c43720696c2c0a7b52b9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
