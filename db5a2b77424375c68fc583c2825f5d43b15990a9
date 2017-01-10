@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_f3130b5b",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 3060,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2017-01-10T05:24:35Z",
+      "side": 1,
+      "message": "QoS",
+      "range": {
+        "startLine": 3060,
+        "startChar": 2,
+        "endLine": 3060,
+        "endChar": 5
+      },
+      "revId": "db5a2b77424375c68fc583c2825f5d43b15990a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_7326dbbb",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 3101,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2017-01-10T05:24:35Z",
+      "side": 1,
+      "message": "QoS",
+      "range": {
+        "startLine": 3101,
+        "startChar": 2,
+        "endLine": 3101,
+        "endChar": 5
+      },
+      "revId": "db5a2b77424375c68fc583c2825f5d43b15990a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_b34b5359",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 3160,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2017-01-10T05:24:35Z",
+      "side": 1,
+      "message": "description",
+      "range": {
+        "startLine": 3160,
+        "startChar": 13,
+        "endLine": 3160,
+        "endChar": 24
+      },
+      "revId": "db5a2b77424375c68fc583c2825f5d43b15990a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
