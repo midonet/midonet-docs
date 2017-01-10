@@ -1770,15 +1770,30 @@ services provided by MidoNet REST API.
 |floating_ips |URI | |
 |A GET against this URI returns the list of Neutron floating IP addresses.
 
+|health_monitors_v2 |URI | |
+|A GET against this URI returns the list of Neutron LBaaS V2 Health Monitors.
+
 |ipsec_site_conns |Object | |
 |A GET against this URI returns the list of Neutron IPSec site connections.
+
+|listeners_v2 |URI | |
+|A GET against this URI returns the list of Neutron LBaaS V2 Listeners.
 
 |load_balancer |Object | |
 |Object that has the URIs of the load balancer objects: `pools`, `vips`,
 `members` and `health_monitors`.
 
+|load_balancers_v2 |URI | |
+|A GET against this URI returns the list of Neutron LBaaS V2 Load Balancers.
+
 |networks |URI | |
 |A GET against this URI returns the list of Neutron networks.
+
+|pools_v2 |URI | |
+|A GET against this URI returns the list of Neutron LBaaS V2 Pools.
+
+|pool_members_v2 |URI | |
+|A GET against this URI returns the list of Neutron LBaaS V2 Pool Members.
 
 |ports |URI | |
 |A GET against this URI returns the list of Neutron ports.
@@ -1808,11 +1823,26 @@ interface.
 |floating_ip_template |String | |
 |URI Template that represents the location of a Neutron floating IP address.
 
+|health_monitor_v2_template |URI | |
+|URI Template that represents the location of a Neutron LBaaS V2 Health Monitor.
+
 |ipsec_site_conn_template |URI | |
 |URI Template that represents the location of a Neutron IPSec site connection.
 
+|listener_v2_template |URI | |
+|URI Template that represents the location of a Neutron LBaaS V2 Listener.
+
+|load_balancer_v2_template |URI | |
+|URI Template that represents the location of a Neutron LBaaS V2 Load Balancer.
+
 |network_template |String | |
 |URI template that represents the location of a Neutron network.
+
+|pool_v2_template |URI | |
+|URI Template that represents the location of a Neutron LBaaS V2 Pool.
+
+|pool_member_v2_template |URI | |
+|URI Template that represents the location of a Neutron LBaaS V2 Pool Member.
 
 |port_template |String | |
 |URI Template that represents the location of a Neutron port.
@@ -1973,6 +2003,7 @@ times out.
 `HTTPS`. This determines the type of packet sent for the health check.
 |=======================================================================
 
+
 [[neutron-l2-gateway-connection]]
 === Neutron L2 Gateway Connection
 
@@ -2036,6 +2067,227 @@ DELETE   /neutron/l2_gateway_connections/:l2GatewayConnections
 |segmentationId |Integer |POST |No
 |Indicates the segmentation identifier of the network.
 |=======================================================================
+
+
+[[neutron-health-monitor-v2]]
+=== Neutron LBaaS V2 Health Monitor
+
+_Media Type_:::
+  `[application/vnd.org.midonet.neutron.lb.HealthMonitorV2-v1+json]`
+_Collection Media Type_:::
+  `[application/vnd.org.midonet.neutron.lb.HealthMonitorsV2-v1+json]`
+
+------------------------------------------------------------------
+GET     NOT ALLOWED
+GET     NOT ALLOWED
+POST    /neutron/health_monitors_v2
+PUT     /neutron/health_monitors_v2/:hmId
+DELETE  /neutron/health_monitors_v2/:hmId
+------------------------------------------------------------------
+
+[width="100%",cols="25%,10%,11%,11%,43%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|id |UUID |POST |No |A unique identifier of the resource. If this field
+is omitted in the POST request, a random UUID is generated.
+
+|tenant_id |String |POST |Yes
+|The identifier of the tenant that owns the pool.
+
+|admin_state_up |Boolean |POST/PUT |No
+|The administrative state of the pool. Default is `true` (up).
+
+|delay |Integer |POST/PUT |Yes
+|The delay (in seconds) in between health checks
+
+|timeout |Integer |POST/PUT |Yes
+|The amount of time (in seconds) with no reply before a check is marked as
+missed.
+
+|max_retries |Integer |POST/PUT |Yes
+|The number of missed checks before a member is labelled as down.
+
+|pools |array of pool ID sub-objects |POST |Yes
+|A list of Pools to attach this health monitor to.  Each item in the list should
+be it's own sub-object dictionary, but it should only have an "id" key with a
+value of the pool Id.
+|=======================================================================
+
+
+[[neutron-listener-v2]]
+=== Neutron LBaaS V2 Listener
+
+_Media Type_:::
+  `[application/vnd.org.midonet.neutron.lb.ListenerV2-v1+json]`
+_Collection Media Type_:::
+  `[application/vnd.org.midonet.neutron.lb.ListenersV2-v1+json]`
+
+------------------------------------------------------------------
+GET     NOT ALLOWED
+GET     NOT ALLOWED
+POST    /neutron/listeners_v2
+PUT     /neutron/listeners_v2/:listenerId
+DELETE  /neutron/listeners_v2/:listenerId
+------------------------------------------------------------------
+
+[width="100%",cols="25%,10%,11%,11%,43%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|id |UUID |POST |No |A unique identifier of the resource. If this field
+is omitted in the POST request, a random UUID is generated.
+
+|tenant_id |String |POST |Yes
+|The identifier of the tenant that owns the pool.
+
+|admin_state_up |Boolean |POST/PUT |No
+|The administrative state of the pool. Default is `true` (up).
+
+|default_pool_id |UUID |POST/PUT |No
+|The ID of the pool to connect this listener to, if provided (default is to not
+connect to any pool).
+
+|protocol_port |Integer |POST |Yes
+|The TCP port this listener will listen on to accept requests for the load
+balancer and connected pools.
+
+|loadbalancers |array of LB ID sub-objects |POST |Yes
+|The load balancer to connect this listener to.  This should be in the form of
+a sub-object dictionary with a single key "id" and the string value of the
+load balancer ID which this listener should bleong to.
+|=======================================================================
+
+
+[[neutron-loadbalancer-v2]]
+=== Neutron LBaaS V2 Load Balancer
+
+_Media Type_:::
+  `[application/vnd.org.midonet.neutron.lb.LoadBalancerV2-v1+json]`
+_Collection Media Type_:::
+  `[application/vnd.org.midonet.neutron.lb.LoadBalancersV2-v1+json]`
+
+------------------------------------------------------------------
+GET     NOT ALLOWED
+GET     NOT ALLOWED
+POST    /neutron/load_balancers_v2
+PUT     /neutron/load_balancers_v2/:lbId
+DELETE  /neutron/load_balancers_v2/:lbId
+------------------------------------------------------------------
+
+[width="100%",cols="25%,10%,11%,11%,43%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|id |UUID |POST |No |A unique identifier of the resource. If this field
+is omitted in the POST request, a random UUID is generated.
+
+|tenant_id |String |POST |Yes
+|The identifier of the tenant that owns the pool.
+
+|admin_state_up |Boolean |POST/PUT |No
+|The administrative state of the pool. Default is `true` (up).
+
+|vip_address |String |POST |Yes
+|The IP address representing the Virtual IP for this load balancer.
+
+|vip_port_id |UUID |POST |Yes
+|The ID of the port which will operate as the incoming port for the load
+balancer.  This port must have already been created.
+
+|vip_subnet_id |UUID |POST |Yes
+|The ID for the VIP port's subnet.
+|=======================================================================
+
+
+[[neutron-pool-v2]]
+=== Neutron LBaaS V2 Pool
+
+_Media Type_:::
+  `[application/vnd.org.midonet.neutron.lb.PoolV2-v1+json]`
+_Collection Media Type_:::
+  `[application/vnd.org.midonet.neutron.lb.PoolsV2-v1+json]`
+
+------------------------------------------------------------------
+GET     NOT ALLOWED
+GET     NOT ALLOWED
+POST    /neutron/pools_v2
+PUT     /neutron/pools_v2/:poolId
+DELETE  /neutron/pools_v2/:poolId
+------------------------------------------------------------------
+
+[width="100%",cols="25%,10%,11%,11%,43%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|id |UUID |POST |No |A unique identifier of the resource. If this field
+is omitted in the POST request, a random UUID is generated.
+
+|tenant_id |String |POST |Yes
+|The identifier of the tenant that owns the pool.
+
+|admin_state_up |Boolean |POST/PUT |No
+|The administrative state of the pool. Default is `true` (up).
+
+|lb_algorithm |String |POST/PUT |No
+|The load balancing method. Only `ROUND_ROBIN` is supported at this time.
+
+|listener_id |UUID |POST |No
+|The UUID of the listener to associate with this pool (default is no listener).
+
+|loadbalancers |array of LB ID sub-objects |POST |Yes
+|The load balancer to connect this pool to.  This should be a sub-object
+dictionary with only a single key "id" and the UUID of the load balancer
+to use for this pool.
+
+|protocol |String |POST |No
+|The protocol for which the pool will load balance. Only `TCP` is currently
+supported.
+
+|session_persistence |Session Persistence Object |POST/PUT |No
+|The session persistence method to be used by this pool.  This must be a sub-
+object dictionary with a single key "type" and a string value of the type
+of session persistence to use.  Currently only a string value of "SOURCE_IP"
+is supported.
+|=======================================================================
+
+
+[[neutron-pool-member-v2]]
+=== Neutron LBaaS V2 Pool Member
+
+_Media Type_:::
+  `[application/vnd.org.midonet.neutron.lb.PoolMemberV2-v1+json]`
+_Collection Media Type_:::
+  `[application/vnd.org.midonet.neutron.lb.PoolMembersV2-v1+json]`
+
+------------------------------------------------------------------
+GET     NOT ALLOWED
+GET     NOT ALLOWED
+POST    /neutron/pool_members_v2
+DELETE  /neutron/pool_members_v2/:memberId
+------------------------------------------------------------------
+
+[width="100%",cols="25%,10%,11%,11%,43%",options="header",]
+|=======================================================================
+|Field Name |Type |POST/PUT |Required |Description
+|id |UUID |POST |No |A unique identifier of the resource. If this field
+is omitted in the POST request, a random UUID is generated.
+
+|tenant_id |String |POST |Yes
+|The identifier of the tenant that owns the pool.
+
+|admin_state_up |Boolean |POST/PUT |No
+|The administrative state of the pool. Default is `true` (up).
+
+|weight |Integer |POST/PUT |No
+|The weight for this pool member (default is '1').
+
+|protocol_port |Integer |POST |Yes
+|The port this pool member will be communicating on.
+
+|address |String |POST |Yes
+|The IP address for this member.
+
+|pool_id |UUID |POST |Yes
+|The ID of the Neutron LBaaS V2 pool to connect this member to.
+|=======================================================================
+
 
 [[neutron-member]]
 === Neutron Member
