@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_277259e6",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 3056,
+      "author": {
+        "id": 1002741
+      },
+      "writtenOn": "2017-01-11T05:33:44Z",
+      "side": 1,
+      "message": "PUT also.",
+      "range": {
+        "startLine": 3056,
+        "startChar": 0,
+        "endLine": 3056,
+        "endChar": 4
+      },
+      "revId": "027fb4891c0bba94481225fb830615c887363e1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_676851f6",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 3077,
+      "author": {
+        "id": 1002741
+      },
+      "writtenOn": "2017-01-11T05:33:44Z",
+      "side": 1,
+      "message": "PUT also.",
+      "range": {
+        "startLine": 3077,
+        "startChar": 19,
+        "endLine": 3077,
+        "endChar": 23
+      },
+      "revId": "027fb4891c0bba94481225fb830615c887363e1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_8763651a",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 3097,
+      "author": {
+        "id": 1002741
+      },
+      "writtenOn": "2017-01-11T05:33:44Z",
+      "side": 1,
+      "message": "PUT also",
+      "range": {
+        "startLine": 3097,
+        "startChar": 0,
+        "endLine": 3097,
+        "endChar": 4
+      },
+      "revId": "027fb4891c0bba94481225fb830615c887363e1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_476d4d03",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 3118,
+      "author": {
+        "id": 1002741
+      },
+      "writtenOn": "2017-01-11T05:33:44Z",
+      "side": 1,
+      "message": "PUT also.",
+      "range": {
+        "startLine": 3118,
+        "startChar": 26,
+        "endLine": 3118,
+        "endChar": 30
+      },
+      "revId": "027fb4891c0bba94481225fb830615c887363e1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
