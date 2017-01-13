@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fabf19d9_aebf5acf",
+        "filename": "docs/operation-guide/src/fip64/chapter_fip64_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2017-01-13T09:01:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fabf19d9_4b979090",
+      "range": {
+        "startLine": 5,
+        "startChar": 57,
+        "endLine": 6,
+        "endChar": 7
+      },
+      "revId": "467f9a94000aaea0419550faade441474bf251be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fabf19d9_2b945c89",
         "filename": "docs/operation-guide/src/fip64/chapter_fip64_en.adoc",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-01-13T01:19:26Z",
       "side": 1,
       "message": "edge router",
+      "range": {
+        "startLine": 8,
+        "startChar": 61,
+        "endLine": 8,
+        "endChar": 76
+      },
+      "revId": "467f9a94000aaea0419550faade441474bf251be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_eec5525b",
+        "filename": "docs/operation-guide/src/fip64/chapter_fip64_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2017-01-13T09:01:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fabf19d9_2b945c89",
       "range": {
         "startLine": 8,
         "startChar": 61,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "fabf19d9_cea16eab",
+        "filename": "docs/operation-guide/src/fip64/chapter_fip64_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2017-01-13T09:01:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fabf19d9_0b919899",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "467f9a94000aaea0419550faade441474bf251be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fabf19d9_8bf3680a",
         "filename": "docs/operation-guide/src/fip64/chapter_fip64_en.adoc",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2017-01-13T01:19:26Z",
       "side": 1,
       "message": "edge router",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 68
+      },
+      "revId": "467f9a94000aaea0419550faade441474bf251be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_4e967e4d",
+        "filename": "docs/operation-guide/src/fip64/chapter_fip64_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002751
+      },
+      "writtenOn": "2017-01-13T09:01:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fabf19d9_8bf3680a",
       "range": {
         "startLine": 28,
         "startChar": 46,
