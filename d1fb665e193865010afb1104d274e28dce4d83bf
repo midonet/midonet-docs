@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_ab874c60",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 1773,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2017-01-13T00:55:51Z",
+      "side": 1,
+      "message": "Should be \"|health_monitors_v2 |URI | |\" (trailing pipe missing).\n\nSame in other places.",
+      "range": {
+        "startLine": 1773,
+        "startChar": 0,
+        "endLine": 1773,
+        "endChar": 26
+      },
+      "revId": "d1fb665e193865010afb1104d274e28dce4d83bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
