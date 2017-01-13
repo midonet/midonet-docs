@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_eb69c48c",
+        "filename": "docs/rest-api/src/chapters_rest_api_en.adoc",
+        "patchSetId": 3
+      },
+      "lineNbr": 2112,
+      "author": {
+        "id": 1002753
+      },
+      "writtenOn": "2017-01-13T03:02:19Z",
+      "side": 1,
+      "message": "\"id\" key",
+      "range": {
+        "startLine": 2112,
+        "startChar": 62,
+        "endLine": 2112,
+        "endChar": 69
+      },
+      "revId": "14e0e6579bb09bec489e55425013cf71fa046c46",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
