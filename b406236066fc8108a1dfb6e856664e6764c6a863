@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_68724f4b",
+        "filename": "docs/operation-guide/src/neutron_lbaas/chapter_neutron_lbaas_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1005043
+      },
+      "writtenOn": "2017-01-16T09:05:08Z",
+      "side": 1,
+      "message": "We don\u0027t support cookie or URL session persistence, do we?",
+      "range": {
+        "startLine": 54,
+        "startChar": 38,
+        "endLine": 54,
+        "endChar": 55
+      },
+      "revId": "b406236066fc8108a1dfb6e856664e6764c6a863",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_8877e339",
+        "filename": "docs/operation-guide/src/neutron_lbaas/chapter_neutron_lbaas_en.adoc",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1005043
+      },
+      "writtenOn": "2017-01-16T09:05:08Z",
+      "side": 1,
+      "message": "Duplicated in L50",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 35
+      },
+      "revId": "b406236066fc8108a1dfb6e856664e6764c6a863",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
