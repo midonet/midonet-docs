@@ -81,6 +81,9 @@ include::{sourcedir}/l4lb/section_configuration_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/l4lb/section_sticky_source_ip_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/l4lb/section_health_monitor_{lang}.adoc[leveloffset=+2]
 
+// Chapter: Layer 4 Load Balancing
+include::{sourcedir}/neutron_lbaas/chapter_neutron_lbaas_{lang}.adoc[leveloffset=+1]
+
 // Chapter: L2 address masking
 include::{sourcedir}/l2_masking/chapter_l2_masking_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/l2_masking/section_rule_chain_example_{lang}.adoc[leveloffset=+2]
