@@ -1,5 +1,5 @@
-[[quality_of_service]]
-= MidoNet - Quality of Service (QoS)
+[[nquality_of_service]]
+= Neutron - Quality of Service (QoS)
 
 Quality of Service (QoS) is used to provide differentiated services (DS) on
 network traffic. This will allow policies to be created to filter and govern
@@ -14,8 +14,8 @@ plugin or directly via the MidoNet CLI. Note that using the MidoNet CLI will
 bypass the Neutron operations and end up with policies and rules that are not
 tracked in the Neutron database. For this reason, it is highly suggested to use
 the standard Neutron QoS commands when the virtual environment is based on
-OpenStack (<<nquality_of_service>>),
-and MidoNet CLI (this document) when OpenStack is not present.
+OpenStack (this doc), and MidoNet CLI (<<quality_of_service>>)
+when OpenStack is not present.
 
 ++++
 <?dbhtml stop-chunking?>
@@ -28,16 +28,17 @@ then that policy must be applied to a _Port_ (or to all ports on a _Network_).
 
 === Creating a QoS Policy object
 
-If the MidoNet CLI is used to create a QoS policy directly, use the command:
+QoS policies can be created via the Neutron command:
 
 [source]
-midonet> qos-policy create name <name> description <desc> shared <true|false>
+$ neutron qos-policy-create --description <desc> --shared <true|false> <name>
 
-The parameters have the same meaning as in the Neutron command. This will create
-a QoS policy in the MidoNet system (bypassing Neutron, so this should only be
-used when OpenStack is not present, or in advanced use cases only).
+Where _desc_ is an optional description, _shared_ can be set to *true* (share
+this policy among all tenants) or *false* (make this policy available only to
+this tenant), and _name_ will name this policy (the name is the only required
+field).
 
-[[qos_create_policy_rule]]
+[[nqos_create_policy_rule]]
 === Creating QoS Policy Rules for a Policy
 
 Even though a QoS policy is created, it's just an empty box with no rules set
@@ -77,20 +78,17 @@ dropped as there will never be enough tokens available.
 image::qos_token_bucket_773x954.png[scaledwidth="100%"]
 ========================
 
-To add a rule directly, use the command:
+*Creating a Bandwidth Limit Rule*
+
+Bandwidth limit rules can be created via the Neutron command:
 
 [source]
-midonet> qos-policy <policy_id> bw-limit-rule create max-kbps <max_kbps> max-burst-kbps <max_burst_kbps>
+$ neutron qos-bandwidth-limit-rule-create --max-kbps <max_kbps> --max-burst-kbps <max_burst_kbps> <policy_id>
 
-Where the parameters are the same as in the Neutron command, except that _policy
-ID_ is the UUID or ID specifier of the policy to be updated.
-
-An ID specifier is the short ID given for a policy in the `qos-policy list`
-command inside the CLI. It is usually of the form `qos-policyN` (where N is an
-increasing number from 0). Other objects also have ID specifiers when using the
-interactive CLI. _Note that the ID specifier is neither returned nor can it be
-used when using `midonet-cli -e` option to run a single command from the shell.
-In this case, use the UUID instead._
+Where _policy ID_ is the UUID of the policy to add the rule to, _max_kbps_ is
+the maximum sustained data rate allowed (rate to fill the token bucket in the
+example above), and _max_burst_kbps_ is the maximum packet size allowed (maximum
+tokens allowed in the token bucket in the example above).
 
 ==== DSCP Marking Rules
 
@@ -103,15 +101,15 @@ replace the ToS field with its marking value, overwriting any previous values
 set (even by other DSCP marking rules). This is to say that it really only makes
 sense to have a single DSCP marking rule on any QoS policy.
 
-*Creating a DSCP Marking Rule in MidoNet*
+*Creating a DSCP Marking Rule*
 
-To add a rule directly, use the command:
+DSCP marking rules can be created via the Neutron command:
 
 [source]
-midonet> qos-policy <policy_id> dscp-rule create dscp-mark <dscp-mark>
+$ neutron qos-dscp-marking-rule-create --dscp-mark <dscp_mark>
 
-Where the parameters are the same as in the Neutron command, except that
-_policy ID_ is the UUID or ID specifier of the policy to be updated.
+Where _policy ID_ is the UUID of the policy to add the rule to and _dscp_mark_
+is the value that will be written to each IPv4 packet's ToS field.
 
 == Applying QoS Policies
 
@@ -150,22 +148,22 @@ Note that, unlike rules, the QoS policy object *can* be set on many ports or
 networks, in which case the policy's rules will apply in the same way to each
 port with the policy.
 
-To create a QoS policy directly, use the command:
+A port can be updated to have a QoS policy via the Neutron command:
 
 [source]
-midonet> port <port_id> set qos-policy <policy-id>
+$ neutron port-update --qos-policy <policy_id> <port_id>
 
-The parameters are the same as in the neutron command, except that _port ID_ is
-the UUID or ID specifier of the port to be updated.
+The _policy ID_ is the UUID of the created QoS policy object, and the port ID is
+the UUID of the port to be updated.
 
-Likewise, ports can be created with the QoS policy set:
+Ports can also be created with the QoS policy set:
 
 [source]
-midonet> bridge <bridge_id> port create <...other params...> qos-policy <policy-id>
+$ neutron port-create <...other params...> --qos-policy <policy_id> <network_id>
 
-Where _bridge ID_ is the UUID or ID specifier of the MidoNet bridge (i.e.
-network) and _policy ID_ is the UUID or ID specifier of the QoS policy object.
-Other parameters for port-creation can be specified in this command as well.
+Where _policy ID_ is the UUID of the policy object and network ID is the UUID of
+the network on which to create the port. Other parameters can be specified along
+with _qos-policy_.
 
 === Applying a QoS Policy to All Ports on a Network
 
@@ -178,22 +176,21 @@ any time by: a) If the port has a policy, use that, otherwise b) if the network
 has a policy, use that, otherwise c) use no QoS policy. Any updates to either
 the port's or network's QoS policy settings will take effect immediately.
 
-To create a QoS policy directly, use the command:
+A network can be updated to have a QoS policy via the Neutron command:
 
 [source]
-midonet> bridge <bridge_id> set qos-policy <policy-id>
+$ neutron net-update --qos-policy <policy_id> <port_id>
 
-The _bridge ID_ is the UUID or ID specifier of the MidoNet bridge (i.e. network)
-to update and the _policy ID_ is the UUID or ID specifier of the QoS policy
-object.
+The _policy ID_ is the UUID of the created QoS policy object, and the _network
+ID_ is the UUID of the network to be updated.
 
-Likewise, bridges can be created with the QoS policy set:
+Networks can also be created with the QoS policy set:
 
 [source]
-midonet> bridge create <...other params...> qos-policy <policy-id>
+$ neutron net-create <...other params...> --qos-policy <policy_id> <name>
 
-Where _policy ID_ is the UUID or ID specifier of the QoS policy object. Other
-parameters for bridge-creation can be specified in this command as well.
+Where _policy ID_ is the UUID of the policy object and name is the desired name
+of the network. Other parameters can be specified along with _qos-policy_.
 
 == Listing Active Policies and their Rules
 
@@ -204,43 +201,39 @@ QoS policies and their rules can be listed, displaying their parameters.
 These commands will list all policy objects.
 
 [source]
-midonet> qos-policy list
+$ neutron qos-policy-list
 
-This will list all policies. To list rules on a MidoNet QoS policy object, see
-the next section.
+This will list all policies along with their rules.
 
 === Listing Rules on a Policy
 
 These commands will list all rules for a given policy.
 
-[source]
-midonet> qos-policy <policy_id> bw-limit-rules list
+$ neutron qos-bandwidth-limit-rule-list <policy_id>
 
-[source]
-midonet> qos-policy <policy_id> dscp-rules list
-
-Where _policy ID_ is a UUID or ID specifier of the policy object to list the
-rules from. This will list all Bandwidth Limit or DSCP Marking rules on the
-given policy.
+Where _policy ID_ is the UUID of the policy object to list the rules from.
 
 === Listing the Policy Active for a Port or Network
 
 These commands show the configured QoS policy for a port or network.
 
 [source]
-midonet> port <port_id> qos-policy show
+$ neutron port-show <port_id>
 
-Where _port ID_ is the UUID or ID specifier for the port to show the configured
-QoS policy. This will show the QoS policy information configured for the bridge.
-If no QoS policy is set on the port, this will just print out the port's
-information.
+Where _port ID_ is the UUID of the port to show the configured QoS policy. This
+will display the port information. The UUID of the configured QoS policy will be
+set under the "qos_policy_id" field. If the field is absent or not set, then no
+QoS policy is set on the port.
+
+For a network, the process is the same:
 
 [source]
-midonet> bridge <bridge_id> qos-policy show
+$ neutron net-show <network_id>
 
-Where _bridge ID_ is the UUID or ID specifier for the MidoNet bridge (i.e.
-network) to show the configured QoS policy. This will show the QoS policy
-information configured for the bridge.
+Where _network ID_ is the UUID of the network to show the configured QoS policy.
+This will display the network information. The UUID of the configured QoS policy
+will be set under the "qos_policy_id" field. If the field is absent or not set,
+then no QoS policy is set on the network.
 
 == Updating Policies
 
@@ -255,13 +248,14 @@ directly, which means bulk updates of rules are not supported.
 General policy information includes the name of the policy, it's description and
 whether or not it' shared across tenants.
 
-To update a policy, use the command:
+To update a policy, simply issue the command:
 
 [source]
-midonet> qos-policy <policy_id> set name <name> description <desc> shared <true|false>
+$ neutron qos-policy-update --name <name> --description <desc> --shared <true|false> <policy_id>
 
-Where the _policy ID_ is the UUID or ID specifier of the QoS policy to update,
-and the other parameters are the same as the Neutron command. If a parameter is
+Where _name_ is the name of the policy, _desc_ is an optional short description,
+_shared_ specifies whether to allow other tenants to access this policy, and
+_policy ID_ is the UUID of the QoS policy object to update. If a parameter is
 omitted, it will not be updated and will remain unchanged.
 
 === Updating Rules on a Policy
@@ -275,27 +269,25 @@ take effect immediately upon the update.
 
 These commands update the Bandwidth Limit rules for a QoS policy.
 
-To update a rule directly, use the command:
-
 [source]
-midonet> qos-policy <policy_id> bw-limit-rule <rule_id> set max-kbps <max_kbps> max-burst-kbps <max_burst_kbps>
+$ neutron qos-bandwidth-limit-rule-update --max-kbps <max_kbps> --max-burst-kbps <max_burst_kbps> <rule_id> <policy_id>
 
-Where the parameters are the same as in the Neutron command, except that
-_rule ID_ is the UUID or ID specifier of the rule to be updated, and _policy ID_
-is the UUID or ID specifier of the policy the rule belongs to.
+Where _rule ID_ is the UUID of the rule to update, _policy ID_ is the UUID of
+the policy the rule belongs to, _max_kbps_ is the maximum sustained data rate
+allowed (rate to fill the token bucket in the example above), and
+_max_burst_kbps_ is the maximum packet size allowed (maximum tokens allowed in
+the token bucket in the example above).
 
 ==== Updating a DSCP Marking Rule
 
 These commands update the DSCP marking rules for a QoS policy.
 
-To update a rule directly, use the command:
-
 [source]
-midonet> qos-policy <policy_id> dscp-rule <rule_id> set dscp-mark <dscp_mark>
+$ neutron qos-dscp-marking-rule-update --dscp-mark <dscp_mark>
 
-Where the parameters are the same as in the Neutron command, except that
-_rule ID_ is the UUID or ID specifier of the rule to be updated, and _policy ID_
-is the UUID or ID specifier of the policy the rule belongs to.
+Where _rule ID_ is the UUID of the rule to update, _policy ID_ is the UUID of
+the policy the rule belongs to, and _dscp_mark_ is the value to set in each IPv4
+packet's ToS field.
 
 === Changing Rules on a Policy
 
@@ -315,7 +307,7 @@ deleted, all rules that belong to that object are also deleted. If a deleted QoS
 policy is attached to a port or network, that link is cleared and the
 _qos-policy-id_ field of the port or network object is set to empty.
 
-[[qos_delete_policy_rule]]
+[[nqos_delete_policy_rule]]
 === Deleting a Rule on a Policy
 
 A single rule on a QoS policy object can be deleted to remove its effects from
@@ -323,18 +315,16 @@ the policy. Once a rule is deleted from a policy, traffic through any associated
 ports or networks will cease to be affected by the rule's parameters immediately
 after it is deleted.
 
-To delete a rule directly, use the command:
-
 [source]
-midonet> qos-policy <policy_id> bw-limit-rule <rule_id> delete
+$ neutron qos-bandwidth-limit-rule-delete <rule_id> <policy_id>
 
 Or:
 
 [source]
-midonet> qos-policy <policy_id> dscp-rule <rule_id> delete
+$ neutron qos-dscp-marking-rule-delete <rule_id> <policy_id>
 
-Where _rule ID_ is the UUID or ID specifier of the rule to be deleted, and
-_policy ID_ is the UUID or ID specifier of the policy the rule belongs to.
+Where _rule ID_ is the UUID of the rule to delete, _policy ID_ is the UUID of
+the policy the rule belongs to.
 
 === Deleting an Entire Policy
 
@@ -344,9 +334,7 @@ to have any effect on any network traffic. All rules created on the deleted
 policy will be cleaned up and removed, and all networks and ports attached to
 this policy will have their _qos-policy-id_ fields cleared.
 
-To delete a policy directly, use the command:
-
 [source]
-midonet> qos-policy <policy_id> delete
+$ neutron qos-policy-delete <policy_id>
 
-Where _policy ID_ is the UUID or ID specifier of the policy to delete.
+Where _policy ID_ is the UUID of the policy to delete.

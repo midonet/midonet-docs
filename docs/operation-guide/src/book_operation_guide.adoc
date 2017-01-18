@@ -177,6 +177,9 @@ include::{sourcedir}/vpnaas/chapter_vpnaas_{lang}.adoc[leveloffset=+1]
 // Chapter: QoS
 include::{sourcedir}/qos/chapter_qos_{lang}.adoc[leveloffset=+1]
 
+// Chapter: Neutron QoS
+include::{sourcedir}/neutron_qos/chapter_neutron_qos_{lang}.adoc[leveloffset=+1]
+
 // Chapter: State Proxy
 include::{sourcedir}/state_proxy/chapter_state_proxy_{lang}.adoc[leveloffset=+1]
 
