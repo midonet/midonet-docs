@@ -1,0 +1,4 @@
+This guide assumes that you follow the instructions in
+http://docs.openstack.org/newton/install-guide-rdo/environment-networking.html[Host networking]
+of the OpenStack Documentation.
+

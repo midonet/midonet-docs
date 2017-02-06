@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/newton/install-guide-rdo/nova.html[Compute service]
+instructions, but *note the following differences*.
+

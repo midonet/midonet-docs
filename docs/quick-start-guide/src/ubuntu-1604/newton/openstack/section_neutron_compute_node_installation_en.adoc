@@ -1,0 +1,45 @@
+[[neutron_compute_node]]
+= Compute Node
+
+[IMPORTANT]
+Follow the OpenStack documentation's
+http://docs.openstack.org/newton/install-guide-ubuntu/neutron-compute-install.html[Install and configure compute node]
+instructions, but *note the following differences*.
+
+. *Install the components*
++
+====
+Do *not* apply.
+====
+
+. *Configure the common component*
++
+====
+Do *not* apply.
+====
+
+. *Configure networking options*
++
+====
+Do *not* apply.
+====
+
+. *Configure Compute to use Networking*
++
+====
+Apply as is.
+====
+
+. *Finalize installation*
++
+====
+Do *not* apply.
+
+.. Instead, restart the following service:
++
+[source]
+----
+# service nova-compute restart
+----
++
+====

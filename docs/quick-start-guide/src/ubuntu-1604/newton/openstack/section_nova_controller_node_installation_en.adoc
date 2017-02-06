@@ -1,0 +1,6 @@
+= Controller Node
+
+[NOTE]
+Follow the OpenStack documentation's
+http://docs.openstack.org/newton/install-guide-ubuntu/nova-controller-install.html[Install and configure controller node]
+instructions as is.

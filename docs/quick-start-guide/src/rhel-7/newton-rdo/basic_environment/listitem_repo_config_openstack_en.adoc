@@ -1,0 +1,20 @@
+. *Enable additional Red Hat repositories*
++
+====
+
+[source]
+----
+# subscription-manager repos --enable=rhel-7-server-extras-rpms
+# subscription-manager repos --enable=rhel-7-server-optional-rpms
+----
+====
+
+. *Enable RDO repository*
++
+====
+
+[source]
+----
+# yum install https://rdoproject.org/repos/openstack-newton/rdo-release-newton.rpm
+----
+====

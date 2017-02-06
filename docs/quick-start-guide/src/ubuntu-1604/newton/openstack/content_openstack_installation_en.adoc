@@ -1,0 +1,4 @@
+[IMPORTANT]
+Follow the
+http://docs.openstack.org/newton/install-guide-ubuntu/index.html[OpenStack newton Installation Guide for Ubuntu]
+, but *note the following differences*.
