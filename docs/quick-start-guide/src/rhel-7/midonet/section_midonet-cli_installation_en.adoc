@@ -18,8 +18,8 @@ Create the `~/.midonetrc` file and edit it to contain the following:
 ----
 [cli]
 api_url = http://*_controller_*:8181/midonet-api
-username = admin
-password = *_ADMIN_PASS_*
-project_id = admin
+username = *_MIDONET_USER_*
+password = *_MIDONET_PASS_*
+project_id = service
 ----
 ====

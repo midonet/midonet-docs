@@ -39,6 +39,9 @@ the parameters `dataDir` and `dataLogDir` in `zoo.cfg`. In addition we
 advice to use an SSD drive for the commit log.
 
 .. *Node-specific Configuration*
++
+[IMPORTANT]
+If using `CentOS 7.3` please use `/var/lib/zookeeper/myid` as the path for the host ID
 
 ... *NSDB Node 1*
 +
