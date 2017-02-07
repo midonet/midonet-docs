@@ -30,7 +30,7 @@ router router1 name test-router state up
 +
 [source]
 midonet> router router1 list port
-port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24
+port port0 device router1 state up mac 02:a6:81:08:ab:5d addresses 10.100.1.1/24
 
 . 適切なブリッジポート（例えばbridge1のport0）に、適切なルーターポート（例えば、router1のport0）をバインドするためのコマンドを入力してください。
 +
@@ -41,7 +41,7 @@ midonet> router router1 port port0 set peer bridge1:port0
 +
 [source]
 midonet> router router1 list port
-port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24 peer bridge1:port0
+port port0 device router1 state up mac 02:a6:81:08:ab:5d addresses 10.100.1.1/24 peer bridge1:port0
 +
 上記のアウトプットはrouter1のport0が bridge1のport0に接続されたことを示しています。
 

@@ -12,7 +12,7 @@ means to access the desired tenant.
 IP address and network for the port:
 +
 [source]
-midonet> router router1 add port address 10.100.1.1 net 10.0.0.0/24
+midonet> router router1 add port addresses 10.100.1.1/24
 router1:port0
 +
 The above output shows the alias ("port0") assigned to the new port.
@@ -21,7 +21,7 @@ The above output shows the alias ("port0") assigned to the new port.
 +
 [source]
 midonet> router router1 list port
-port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24
+port port0 device router1 state up mac 02:a6:81:08:ab:5d addresses 10.100.1.1/24
 +
 The above output shows the:
 
@@ -29,4 +29,4 @@ The above output shows the:
 * Device the port is attached to (router1)
 * Port's state (up)
 * Port's MAC address
-* Port's IP and network addresses
+* Port's IP and network prefix length

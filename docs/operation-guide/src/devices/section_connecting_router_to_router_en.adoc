@@ -21,14 +21,14 @@ router router1 name test-router state up
 +
 [source]
 midonet> router router1 list port
-port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24 peer bridge1:port0
-port port1 device router1 state up mac 02:fa:5f:87:bb:d2 address 10.100.1.2 net 10.0.0.0/24
+port port0 device router1 state up mac 02:a6:81:08:ab:5d addresses 10.100.1.1/24 peer bridge1:port0
+port port1 device router1 state up mac 02:fa:5f:87:bb:d2 addresses 10.100.1.2/24
 
 . Enter the command to list the ports on the router you want to connect it to:
 +
 [source]
 midonet> router router3 list port
-port port0 device router3 state up mac 02:df:24:5b:19:9b address 10.100.1.128 net 10.0.0.0/24
+port port0 device router3 state up mac 02:df:24:5b:19:9b addresses 10.100.1.128/24
 
 . Enter the command to bind the port on one router (for example, port 1 on
 router1) to the port on another router (for example, port0 on router3):
@@ -40,7 +40,7 @@ midonet> router router1 port port1 set peer router3:port0
 +
 [source]
 midonet> router router1 list port
-port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24 peer bridge1:port0
-port port1 device router1 state up mac 02:fa:5f:87:bb:d2 address 10.100.1.2 net 10.0.0.0/24 peer router3:port0
+port port0 device router1 state up mac 02:a6:81:08:ab:5d addresses 10.100.1.1/24 peer bridge1:port0
+port port1 device router1 state up mac 02:fa:5f:87:bb:d2 addresses 10.100.1.2/24 peer router3:port0
 +
 The above output shows that port1 on router1 is connected to port0 on router3.

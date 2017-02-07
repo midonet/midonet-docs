@@ -10,7 +10,7 @@ MidoNet CLIを使う時は、適切なテナントにアクセスするために
 .適切なルーターにポートを加えるコマンドを入力して、ポートに適切なIPアドレスとネットワークを特定します。
 +
 [source]
-midonet> router router1 add port address 10.100.1.1 net 10.0.0.0/24
+midonet> router router1 add port addresses 10.100.1.1/24
 router1:port0
 +
 上記のアウトプットは、新しいポートにエイリアス（”port0”）をアサインしていることを示しています。
@@ -19,7 +19,7 @@ router1:port0
 +
 [source]
 midonet> router router1 list port
-port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24
+port port0 device router1 state up mac 02:a6:81:08:ab:5d addresses 10.100.1.1/24
 +
 上記のアウトプットは以下を示しています。
 
@@ -27,5 +27,4 @@ port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 
 * (router1)にアタッチされたデバイス、ポート
 * ポートの状態 (up)
 * ポートのMACアドレス
-* ポートのIPとネットワークアドレス
-
+* ポートのIPとネットワークプレフィックス長

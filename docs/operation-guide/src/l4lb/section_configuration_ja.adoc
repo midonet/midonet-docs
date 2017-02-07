@@ -60,10 +60,10 @@ vip vip0 load-balancer lb0 address 203.0.113.2 protocol-port 8080 persistence SO
 +
 [source]
 midonet> router router1 list port
-port port0 device router1 state up mac 02:c2:0f:b0:f2:68 address 100.100.100.1 net 100.100.100.0/30
-port port1 device router1 state up mac 02:cb:3d:85:89:2a address 172.168.0.1 net 172.168.0.0/16
-port port2 device router1 state up mac 02:46:87:89:49:41 address 200.200.200.1 net 200.200.200.0/24 peer bridge0:port0
-port port3 device router1 state up mac 02:6b:9f:0d:c4:a8 address 203.0.113.2 net 203.0.113.0/30 peer router0:port0
+port port0 device router1 state up mac 02:c2:0f:b0:f2:68 addresses 100.100.100.1/30
+port port1 device router1 state up mac 02:cb:3d:85:89:2a addresses 172.168.0.1/16
+port port2 device router1 state up mac 02:46:87:89:49:41 addresses 200.200.200.1/24 peer bridge0:port0
+port port3 device router1 state up mac 02:6b:9f:0d:c4:a8 addresses 203.0.113.2/30 peer router0:port0
 ...
 +
 トラフィックをテナントルーター(router0)にルートする為に使用されるプロバイダールーターのポートを示しているリストを見てください。これはルーターport3です。

@@ -32,12 +32,12 @@ midonet>
 最初のステップは、第2のルーターのポートを追加することです：
 
 [source]
-midonet> router router0 add port address 10.22.22.1 net 10.22.22.0/24
+midonet> router router0 add port addresses 10.22.22.1/24
 router0:port1
 midonet>
 midonet> router router0 list port
-port port0 device router0 state up plugged no mac ac:ca:ba:ab:ed:b8 address 10.12.12.1 net 10.12.12.0/24
-port port1 device router0 state up plugged no mac ac:ca:ba:5e:0a:02 address 10.22.22.1 net 10.22.22.0/24
+port port0 device router0 state up plugged no mac ac:ca:ba:ab:ed:b8 addresses 10.12.12.1/24
+port port1 device router0 state up plugged no mac ac:ca:ba:5e:0a:02 addresses 10.22.22.1/24
 
 新しいポートを介して到達可能であるBGPピアを追加することができます：
 

@@ -70,8 +70,8 @@ VMが外部ネットワークにリーチする為に、以下のトポロジー
 ----
 $ midonet-cli
 midonet> router list
-router router0 name MidoNet Provider Router state up 
-midonet> router router0 add port address 172.19.0.2 net 172.19.0.0/30
+router router0 name MidoNet Provider Router state up
+midonet> router router0 add port addresses 172.19.0.2/30
 router0:port0
 midonet> router router0 add route src 0.0.0.0/0 dst 0.0.0.0/0 type normal port router router0 port port0 gw 172.19.0.1
 midonet> host list

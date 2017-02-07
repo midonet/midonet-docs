@@ -38,8 +38,8 @@ port port0 device bridge0 state up plugged no vlan 0 peer router0:port0
 port port1 device bridge0 state up plugged no vlan 0
 port port2 device bridge0 state up plugged no vlan 0
 midonet> router router0 list port
-port port0 device router0 state up plugged no mac ac:ca:ba:73:9c:05 address 192.168.1.1 net 192.168.1.0/24 peer bridge0:port0
-port port1 device router0 state up plugged no mac ac:ca:ba:a0:6b:43 address 10.0.0.1 net 10.0.0.0/24
+port port0 device router0 state up plugged no mac ac:ca:ba:73:9c:05 addresses 192.168.1.1/24 peer bridge0:port0
+port port1 device router0 state up plugged no mac ac:ca:ba:a0:6b:43 addresses 10.0.0.1/24
 midonet>
 
 オペレーターは、このオーバーレイトポロジーの中でトラフィックを見たり監視したいとします。VMが稼働しているハイパーバイザーにログインし、VMが接続しているtapデバイス上でtcpdumpを実行するという手もあるかもしれません。ただしこのやり方は、特定のハイバーバイザとtapを見つける必要があり、面倒でエラーが起きやすいと言う問題があります。さらに、この方法は柔軟性がありません。つまり、複数のVMに属するトラフィックを監視したい場合や、トポロジーの中でトラフィックが仮想ルータを経由するのをそのままの姿で監視したい、というような場合に対応できません。

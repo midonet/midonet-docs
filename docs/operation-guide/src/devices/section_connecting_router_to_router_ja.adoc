@@ -19,14 +19,14 @@ router router1 name test-router state up
 +
 [source]
 midonet> router router1 list port
-port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24 peer bridge1:port0
-port port1 device router1 state up mac 02:fa:5f:87:bb:d2 address 10.100.1.2 net 10.0.0.0/24
+port port0 device router1 state up mac 02:a6:81:08:ab:5d addresses 10.100.1.1/24 peer bridge1:port0
+port port1 device router1 state up mac 02:fa:5f:87:bb:d2 addresses 10.100.1.2/24
 
 . 接続したいルーターの一つのポートをリスト化するコマンドを入力してください。
 +
 [source]
 midonet> router router3 list port
-port port0 device router3 state up mac 02:df:24:5b:19:9b address 10.100.1.128 net 10.0.0.0/24
+port port0 device router3 state up mac 02:df:24:5b:19:9b addresses 10.100.1.128/24
 
 . あるルーターのポート（例えば、router1のport1）から、別のルーターのポート（例えば、router3のport0）にバインドする為のコマンドを入力してください。
 +
@@ -37,8 +37,8 @@ midonet> router router1 port port1 set peer router3:port0
  +
 [source]
 midonet> router router1 list port
-port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24 peer bridge1:port0
-port port1 device router1 state up mac 02:fa:5f:87:bb:d2 address 10.100.1.2 net 10.0.0.0/24 peer router3:port0
+port port0 device router1 state up mac 02:a6:81:08:ab:5d addresses 10.100.1.1/24 peer bridge1:port0
+port port1 device router1 state up mac 02:fa:5f:87:bb:d2 addresses 10.100.1.2/24 peer router3:port0
 +
 
 上記のアウトプットは、router1のport1とrouter3のport0が繋がったことを示しています。

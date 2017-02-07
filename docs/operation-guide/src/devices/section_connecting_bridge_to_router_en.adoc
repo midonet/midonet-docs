@@ -33,7 +33,7 @@ router router1 name test-router state up
 +
 [source]
 midonet> router router1 list port
-port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24
+port port0 device router1 state up mac 02:a6:81:08:ab:5d addresses 10.100.1.1/24
 
 . Enter the command to bind the desired router port (for example, port0 on
 router1) to the desired bridge port (for example, port0 on bridge1):
@@ -45,6 +45,6 @@ midonet> router router1 port port0 set peer bridge1:port0
 +
 [source]
 midonet> router router1 list port
-port port0 device router1 state up mac 02:a6:81:08:ab:5d address 10.100.1.1 net 10.0.0.0/24 peer bridge1:port0
+port port0 device router1 state up mac 02:a6:81:08:ab:5d addresses 10.100.1.1/24 peer bridge1:port0
 +
 The above output shows that port0 on router1 is connected to port0 on bridge1.

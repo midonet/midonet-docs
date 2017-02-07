@@ -32,7 +32,7 @@ router2:route2
 上記のルートを追加する前に、下記のコマンドを使ってルーター2が追加されました。
 
 [source]
-midonet> router router2 add port address 169.254.255.3 net 169.254.255.0/30
+midonet> router router2 add port addresses 169.254.255.3/30
 router2:port2
 ====
 

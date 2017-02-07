@@ -38,7 +38,7 @@ Prior to adding the above route, a port was added to router2 using the following
 command:
 
 [source]
-midonet> router router2 add port address 169.254.255.3 net 169.254.255.0/30
+midonet> router router2 add port addresses 169.254.255.3/30
 router2:port2
 ====
 
