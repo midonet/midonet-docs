@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_ba671fe8",
+        "filename": "docs/operation-guide/src/devices/section_router_add_port_ja.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1008620
+      },
+      "writtenOn": "2017-02-07T12:16:03Z",
+      "side": 1,
+      "message": "from Google Translate, please check",
+      "range": {
+        "startLine": 30,
+        "startChar": 15,
+        "endLine": 30,
+        "endChar": 23
+      },
+      "revId": "004ce52c084d1ea71e9bb7aa88fc07c51fe5cd73",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
