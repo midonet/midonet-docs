@@ -1,0 +1,47 @@
+[[configure_qos]]
+= Configure Quality of Service (QoS)
+
+. *Enable the QoS plug-in*
++
+====
+Enable the QoS plug-in by using the `service_plugins` option in the
+`[DEFAULT]` section of the `/etc/neutron/neutron.conf` file:
+
+[source]
+----
+[DEFAULT]
+service_plugins = qos
+----
+
+[NOTE]
+=====
+When using multiple service plugins, separate them with commas:
+
+[source]
+----
+[DEFAULT]
+service_plugins = foo,bar,qos
+----
+=====
+====
+
+. *Enable the MidoNet QoS notification driver*
++
+====
+Enable the MidoNet QoS notification driver by using the `notification_drivers`
+option in the `qos` section of `/etc/neutron/neutron.conf` file:
+
+
+[source]
+----
+[qos]
+notification_drivers = midonet
+----
+====
+
+. *To finalize installation*
++
+====
+Finalize the installation as described in
+xref:neutron_controller_node_installation_finalize[Neutron Controller Node Installation].
+====
