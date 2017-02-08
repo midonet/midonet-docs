@@ -50,16 +50,8 @@ service_plugins = foo,bar,lbaasv2
 . *Enable load balancing in the dashboard*
 +
 ====
-Change the `enable_lb` option to `True` in the
-`/etc/openstack-dashboard/local_settings.py` file:
-
-[source]
-----
-OPENSTACK_NEUTRON_NETWORK = {
-   'enable_lb': True,
-   ...
-}
-----
+Follow the instructions in
+http://docs.openstack.org/newton/networking-guide/config-lbaas.html[LBaaS Newton documentation].
 ====
 
 . *To finalize installation*
