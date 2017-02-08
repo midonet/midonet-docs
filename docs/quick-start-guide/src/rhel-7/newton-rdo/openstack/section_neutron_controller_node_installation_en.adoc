@@ -47,6 +47,12 @@ auth_strategy = keystone
 notify_nova_on_port_status_changes = True
 notify_nova_on_port_data_changes = True
 nova_url = http://**_controller_**:8774/v2.1
+...
+# In order to enable 'fip64' extension feature, the API extension path must
+# be specified.  The path depends on the directory location in which
+# python-networking-midonet-ext is installed.  For example, if the installation
+# path is /usr/lib/python2.7/dist-packages/midonet-ext, add the following:
+api_extensions_path = /usr/lib/python2.7/dist-packages/midonet-ext/neutron/extensions
 
 [database]
 ...
