@@ -21,7 +21,7 @@ Do *not* apply.
 +
 [source]
 ----
-# apt-get install neutron-server python-networking-midonet python-neutronclient
+# apt-get install neutron-server python-networking-midonet-ext python-neutronclient
 # apt-get purge neutron-plugin-ml2
 ----
 +

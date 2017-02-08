@@ -21,7 +21,7 @@ Do *not* apply.
 +
 [source]
 ----
-# yum install openstack-neutron python-networking-midonet python-neutronclient
+# yum install openstack-neutron python-networking-midonet-ext python-neutronclient
 # yum erase openstack-neutron-ml2
 ----
 +
