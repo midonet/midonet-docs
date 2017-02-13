@@ -1,0 +1,13 @@
+<xi:include href="docinfo_productname_{lang}.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<copyright>
+    <year>2017</year>
+    <holder>Midokura SARL</holder>
+</copyright>
+<releaseinfo>{buildVersion}</releaseinfo>
+<pubdate>{buildTimestamp}</pubdate>
+<legalnotice role="apache2">
+    <annotation>
+        <remark>Copyright details are filled in by the midonet-docs-maven-plugin template.</remark>
+    </annotation>
+</legalnotice>
+<xi:include href="docinfo_abstract_{lang}.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>

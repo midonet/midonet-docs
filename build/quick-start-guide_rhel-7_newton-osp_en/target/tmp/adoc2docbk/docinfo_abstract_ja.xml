@@ -1,0 +1,25 @@
+<abstract xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <para>
+        MidoNetは、Infrastructure-as-a-Service (IaaS)のためのネットワーク仮想化ソフトウェアです。
+    </para>
+    <para>
+	これにより、ネットワークハードウェアとIaaSクラウドを切り離すことができ、ホストと物理ネットワークの間に、インテリジェントなソフトウェア抽象レイヤーを作成することができます。
+    </para>
+    <para>
+        このガイドでは、MidonetとOpenStackを使用するために必要な最小限のインストールと設定の手順を説明しています。
+    </para>
+    <para>
+        <!-- For SNAPSHOT versions, a DRAFT warning gets inserted here automatically. -->
+        {draftWarningJA}
+
+        <!-- Link to Mailing Lists and Chat. -->
+        <note>
+            <para>
+                援助を必要とする場合は、
+                <link xlink:href="https://github.com/midonet/midonet/wiki/Communication">MidoNetメーリングリストやチャット</link>
+                までご連絡ください。
+            </para>
+        </note>
+    </para>
+</abstract>
+
