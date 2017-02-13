@@ -13,6 +13,7 @@ BUILD_DIRS=(
     'quick-start-guide_rhel-7_liberty-rdo_en'
     'quick-start-guide_rhel-7_mitaka-rdo_en'
     'quick-start-guide_rhel-7_newton-rdo_en'
+    'quick-start-guide_rhel-7_newton-osp_en'
     'quick-start-guide_sles-12_liberty-soc_en'
     'quick-start-guide_ubuntu-1404_kilo_en'
     'quick-start-guide_ubuntu-1404_liberty_en'

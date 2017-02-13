@@ -1,0 +1,11 @@
+. *Create MidoNet Administrative User* [[keystone_midonet_user]]
++
+====
+As Keystone +admin+, execute the following commands:
+
+[literal,subs="quotes"]
+----
+$ openstack user create --domain default --password-prompt midonet
+$ openstack role add --project service --user midonet admin
+----
+====

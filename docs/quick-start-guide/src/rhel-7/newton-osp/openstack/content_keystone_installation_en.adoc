@@ -1,0 +1,5 @@
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en/red-hat-openstack-platform/10/paged/manual-installation-procedures/chapter-3-install-the-identity-service[Chapter 3. Install The Identity Service]
+instructions, but *note the following additions*.
+

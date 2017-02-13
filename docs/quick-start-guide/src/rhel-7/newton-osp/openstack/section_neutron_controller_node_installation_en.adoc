@@ -1,0 +1,280 @@
+= Controller Node
+
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en/red-hat-openstack-platform/10/paged/manual-installation-procedures/chapter-7-install-openstack-networking[Chapter 7. Install OpenStack Networking]
+instructions, but *note the following differences*.
+
+. *7.1. Install the OpenStack Networking Packages*
++
+====
+Do *not* apply as is.
+
+Instead, install the following packages:
+
+[source]
+----
+# yum install openstack-neutron python-networking-midonet-ext python-neutronclient
+# yum erase openstack-neutron-ml2
+----
+====
+
+. *7.2.1. Set the OpenStack Networking Plug-in*
++
+====
+Do *not* apply. Instead, perform the following steps:
+
+.. Edit the `/etc/neutron/neutron.conf` file and configure the following keys
+in the `[DEFAULT]` section:
++
+[source]
+----
+[DEFAULT]
+...
+core_plugin = midonet.neutron.plugin_v2.MidonetPluginV2
+service_plugins = midonet.neutron.services.l3.l3_midonet.MidonetL3ServicePlugin
+...
+dhcp_agent_notification = False
+...
+allow_overlapping_ips = True
+----
+
+.. Create the directory for the MidoNet plugin:
++
+[source]
+----
+mkdir /etc/neutron/plugins/midonet
+----
+
+.. Create the `/etc/neutron/plugins/midonet/midonet.ini` file and edit it to
+contain the following:
++
+[literal,subs="quotes"]
+----
+[DEFAULT]
+...
+core_plugin = *midonet_v2_ext*
+service_plugins = *midonet_l3_ext*
+...
+dhcp_agent_notification = False
+...
+allow_overlapping_ips = True
+...
+rpc_backend = rabbit
+...
+auth_strategy = keystone
+...
+notify_nova_on_port_status_changes = True
+notify_nova_on_port_data_changes = True
+nova_url = http://**_controller_**:8774/v2.1
+...
+# In order to enable 'fip64' extension feature, the API extension path must
+# be specified.  The path depends on the directory location in which
+# python-networking-midonet-ext is installed.  For example, if the installation
+# path is /usr/lib/python2.7/dist-packages/midonet-ext, add the following:
+api_extensions_path = /usr/lib/python2.7/dist-packages/midonet-ext/neutron/extensions
+
+[database]
+...
+connection = mysql+pymysql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
+
+[oslo_messaging_rabbit]
+...
+rabbit_host = *_controller_*
+rabbit_userid = openstack
+rabbit_password = *_RABBIT_PASS_*
+
+[keystone_authtoken]
+...
+auth_uri = http://**_controller_**:5000
+auth_url = http://**_controller_**:35357
+memcached_servers = **_controller_**:11211
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = neutron
+password = *_NEUTRON_PASS_*
+
+[nova]
+...
+auth_url = http://**_controller_**:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+region_name = RegionOne
+project_name = service
+username = nova
+password = *_NOVA_PASS_*
+
+[oslo_concurrency]
+...
+lock_path = /var/lib/neutron/tmp
+----
+
+[NOTE]
+=====
+When using multiple service plugins, separate them with commas:
+
+[source]
+----
+[DEFAULT]
+service_plugins = foo,bar,midonet.neutron.services.l3.l3_midonet.MidonetL3ServicePlugin
+----
+=====
+====
+
+. *Configure the MidoNet plug-in*
++
+====
+.. Create the directory for the MidoNet plugin:
++
+[source]
+----
+mkdir /etc/neutron/plugins/midonet
+----
++
+.. Create the `/etc/neutron/plugins/midonet/midonet.ini` file and edit it to
+contain the following:
++
+[literal,subs="quotes"]
+----
+[MIDONET]
+# MidoNet API URL
+midonet_uri = http://*_controller_*:8181/midonet-api
+# MidoNet administrative user in Keystone
+username = *_midonet_*
+password = *_MIDONET_PASS_*
+# MidoNet administrative user's tenant
+project_id = service
+# MidoNet API client
+client = midonet_ext.neutron.client.api.MidonetApiClient
+----
++
+.. Create a symbolic link to direct Neutron to the MidoNet configuration:
++
+[source]
+----
+# ln -s /etc/neutron/plugins/midonet/midonet.ini /etc/neutron/plugin.ini
+----
+====
+
+. *7.2.2. Create the OpenStack Networking Database*
++
+====
+Do *not* apply.
+
+Instead, create the database as follows:
+
+[literal,subs="quotes"]
+----
+$ mysql -u root -p
+CREATE DATABASE neutron character set utf8;
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY '*_NEUTRON_DBPASS_*';
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '*_NEUTRON_DBPASS_*';
+FLUSH PRIVILEGES;
+quit
+----
+
+Afterwards, run the `neutron-db-manage` command:
+
+[source]
+----
+# su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
+ --config-file /etc/neutron/plugins/midonet/midonet.ini upgrade head" neutron
+# su -s /bin/sh -c "neutron-db-manage --subproject networking-midonet upgrade head" neutron
+----
+
+====
+
+. *7.2.3. Configure the OpenStack Networking Database Connection*
++
+====
+Apply as is.
+====
+
+. *7.2.4. Create the OpenStack Networking Identity Records*
++
+====
+Apply as is.
+====
+
+. *7.2.5. Configure OpenStack Networking Authentication*
++
+====
+Apply as is.
+====
+
+. *7.2.6. Configure the Firewall to Allow OpenStack Networking Traffic*
++
+====
+Apply as is.
+====
+
+. *7.2.7. Configure RabbitMQ Message Broker Settings for OpenStack Networking*
++
+====
+Apply as is.
+====
+
+. *7.2.8. Enable SSL Communication Between OpenStack Networking and the Message Broker*
++
+====
+Apply as is.
+====
+
+. *7.2.9. Configure OpenStack Networking to Communicate with the Compute Service*
++
+====
+Apply as is.
+====
+
+. *Configure Load-Balancer-as-a-Service (LBaaS)*
++
+====
+Additionally to the Red Hat Installation Guide, configure
+Load-Balancer-as-a-Service (LBaaS) as described in xref:configure_lbaas[].
+====
+
+. *Configure FireWall-as-a-Service (FWaaS)*
++
+====
+Additionally to the Red Hat Installation Guide, configure
+FireWall-as-a-Service (FWaaS) as described in xref:configure_fwaas[].
+====
+
+. *7.2.10. Launch OpenStack Networking* [[neutron_controller_node_installation_finalize]]
++
+====
+Apply as is.
+====
+
+. *7.3. Configure the DHCP Agent*
++
+====
+Do *not* apply.
+====
+
+. *7.4. Create an External Network*
++
+====
+Do *not* apply.
+
+Instead, create the Neutron networks after the OpenStack and MidoNet
+installation is completed.
+
+Any networks that are created before the MidoNet plug-in is active will not be
+visible to MidoNet.
+====
+
+. *7.5. Configure the Plug-in Agent*
++
+====
+Do *not* apply.
+====
+
+. *7.6. Configure the L3 Agent*
++
+====
+Do *not* apply.
+====

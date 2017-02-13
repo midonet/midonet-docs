@@ -1,0 +1,62 @@
+[[configure_lbaas]]
+= Configure Load-Balancer-as-a-Service (LBaaS)
+
+. *Install Neutron Load-Balancing-as-a-Service*
++
+====
+[source]
+----
+# yum install python-neutron-lbaas
+----
+====
+
+. *Enable the MidoNet driver*
++
+====
+Enable the MidoNet driver by using the `service_provider` option in the
+`/etc/neutron/neutron.conf` file:
+
+[source]
+----
+[service_providers]
+service_provider = LOADBALANCERV2:Midonet:midonet_ext.neutron.services.loadbalancer.v2_driver.MidonetLoadBalancerDriver:default
+----
+====
+
+. *Enable the LBaaS plug-in*
++
+====
+Enable the LBaaS plug-in by using the `service_plugins` option in the
+`[DEFAULT]` section of the `/etc/neutron/neutron.conf` file:
+
+[source]
+----
+[DEFAULT]
+service_plugins = lbaasv2
+----
+
+[NOTE]
+=====
+When using multiple service plugins, separate them with commas:
+
+[source]
+----
+[DEFAULT]
+service_plugins = foo,bar,lbassv2
+----
+=====
+====
+
+. *Enable load balancing in the dashboard*
++
+====
+Follow the instructions in
+http://docs.openstack.org/newton/networking-guide/config-lbaas.html[LBaaS Newton documentation].
+====
+
+. *To finalize installation*
++
+====
+Finalize the installation as described in
+xref:neutron_controller_node_installation_finalize[Neutron Controller Node Installation].
+====

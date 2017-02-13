@@ -1,0 +1,18 @@
+[[initial_network_configuration]]
+= Initial Network Configuration
+
+[IMPORTANT]
+Follow the Red Hat documentation's
+https://access.redhat.com/documentation/en/red-hat-openstack-platform/10/paged/manual-installation-procedures/74-create-an-external-network[Create an external network]
+instructions, but *note the following differences*.
+
+. *Creating and Configuring an External Network*
++
+====
+Use the following command to create the external network:
+
+[source]
+----
+$ neutron net-create ext-net --router:external
+----
+====

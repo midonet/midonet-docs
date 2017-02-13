@@ -1,0 +1,1724 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<book xml:id="book_quick_install_guide_rhel-7_newton-osp_en" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<?rax status.bar.text.font.size="40px" status.bar.text=""?>
+                                         <?rax title.font.size="40px" subtitle.font.size="25px"?>
+                                            <info>
+<title>MidoNet Quick Start Guide for RHEL 7 / Newton (OSP 8)</title>
+<date>2017-02-10</date>
+<xi:include href="docinfo_productname_en.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<copyright>
+    <year>2017</year>
+    <holder>Midokura SARL</holder>
+</copyright>
+<releaseinfo>5.4</releaseinfo>
+<pubdate>2017-02-13 10:55 UTC</pubdate>
+<legalnotice role="apache2">
+    <annotation>
+        <remark>Copyright details are filled in by the midonet-docs-maven-plugin template.</remark>
+    </annotation>
+</legalnotice>
+<xi:include href="docinfo_abstract_en.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</info>
+<preface xml:id="preface">
+<title>Preface</title>
+<?dbhtml stop-chunking?>
+<section xml:id="_conventions">
+<title>Conventions</title>
+<simpara>The MidoNet documentation uses several typesetting conventions.</simpara>
+<section xml:id="_notices">
+<title>Notices</title>
+<simpara>Notices take these forms:</simpara>
+<note>
+<simpara>A handy tip or reminder.</simpara>
+</note>
+<important>
+<simpara>Something you must be aware of before proceeding.</simpara>
+</important>
+<warning>
+<simpara>Critical information about the risk of data loss or security issues.</simpara>
+</warning>
+</section>
+<section xml:id="_command_prompts">
+<title>Command prompts</title>
+<simpara><emphasis role="strong">$ prompt</emphasis></simpara>
+<simpara>Any user, including the root user, can run commands that are prefixed with the
+$ prompt.</simpara>
+<simpara><emphasis role="strong"># prompt</emphasis></simpara>
+<simpara>The root user must run commands that are prefixed with the # prompt. You can
+also prefix these commands with the <emphasis role="strong">sudo</emphasis> command, if available, to run them.</simpara>
+</section>
+</section>
+</preface>
+<chapter xml:id="_architecture">
+<title>Architecture</title>
+<simpara>This guide assumes the following example system architecture.</simpara>
+<simpara>OpenStack Controller Node:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Controller Node (<emphasis role="strong"><emphasis>controller</emphasis></emphasis>)</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Compute Node:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Compute Node (<emphasis role="strong"><emphasis>compute1</emphasis></emphasis>)</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Since MidoNet is a distributed system, it does not have the concept of a Network
+Node as being used with the default OpenStack networking plugin. Instead it uses
+two or more Gateway Nodes that utilize <link xlink:href="http://www.quagga.net/">Quagga</link> to provide
+connectivity to external networks via the Border Gateway Protocol (BGP).</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Gateway Node 1 (<emphasis role="strong"><emphasis>gateway1</emphasis></emphasis>)</simpara>
+</listitem>
+<listitem>
+<simpara>Gateway Node 2 (<emphasis role="strong"><emphasis>gateway2</emphasis></emphasis>)</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Three or more hosts are being used for the MidoNet Network State Database (NSDB)
+cluster which utilizes <link xlink:href="https://zookeeper.apache.org/">ZooKeeper</link> and
+<link xlink:href="http://docs.datastax.com/en/cassandra/2.2/cassandra/cassandraAbout.html">Cassandra</link>
+to store virtual network topology and connection state information:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>NSDB Node 1 (<emphasis role="strong"><emphasis>nsdb1</emphasis></emphasis>)</simpara>
+</listitem>
+<listitem>
+<simpara>NSDB Node 2 (<emphasis role="strong"><emphasis>nsdb2</emphasis></emphasis>)</simpara>
+</listitem>
+<listitem>
+<simpara>NSDB Node 3 (<emphasis role="strong"><emphasis>nsdb3</emphasis></emphasis>)</simpara>
+</listitem>
+</itemizedlist>
+<important>
+<simpara>Ideally, both the ZooKeeper transaction log and Cassandra data files need
+their own dedicated disks, with additional disks for other services on the
+host. However, for small POCs and small deployments, it is ok to share the
+Cassandra disk with other services and just leave the ZooKeeper transaction
+log on its own.</simpara>
+</important>
+<simpara>The <emphasis>MidoNet Agent (Midolman)</emphasis> has to be installed on all nodes where traffic
+enters or leaves the virtual topology. In this guide this are the <emphasis role="strong"><emphasis>gateway1</emphasis></emphasis>,
+<emphasis role="strong"><emphasis>gateway2</emphasis></emphasis> and <emphasis role="strong"><emphasis>compute1</emphasis></emphasis> hosts.</simpara>
+<simpara>The <emphasis>Midonet Cluster</emphasis> can be installed on a separate host, but this guide
+assumes it to be installed on the <emphasis role="strong"><emphasis>controller</emphasis></emphasis> host.</simpara>
+<simpara>The <emphasis>Midonet Command Line Interface (CLI)</emphasis> can be installed on any host that has
+connectivity to the MidoNet Cluster. This guide assumes it to be installed on
+the <emphasis role="strong"><emphasis>controller</emphasis></emphasis> host.</simpara>
+<simpara>The <emphasis>Midonet Neutron Plugin</emphasis> replaces the ML2 Plugin and has to be installed on
+the <emphasis role="strong"><emphasis>controller</emphasis></emphasis>.</simpara>
+<section xml:id="_hosts_and_services">
+<title>Hosts and Services</title>
+<itemizedlist>
+<title>Controller Node (<emphasis role="strong"><emphasis>controller</emphasis></emphasis>)</title>
+<listitem>
+<simpara>General</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Database (MariaDB)</simpara>
+</listitem>
+<listitem>
+<simpara>Message Broker (RabbitMQ)</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>OpenStack</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Identity Service (Keystone)</simpara>
+</listitem>
+<listitem>
+<simpara>Image Service (Glance)</simpara>
+</listitem>
+<listitem>
+<simpara>Compute (Nova)</simpara>
+</listitem>
+<listitem>
+<simpara>Networking (Neutron)</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Neutron Server</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Dashboard (Horizon)</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>MidoNet</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Cluster</simpara>
+</listitem>
+<listitem>
+<simpara>CLI</simpara>
+</listitem>
+<listitem>
+<simpara>Neutron Plugin</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<itemizedlist>
+<title>Compute Node (<emphasis role="strong"><emphasis>compute1</emphasis></emphasis>)</title>
+<listitem>
+<simpara>OpenStack</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Compute (Nova)</simpara>
+</listitem>
+<listitem>
+<simpara>Networking (Neutron)</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>MidoNet</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Agent (Midolman)</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<itemizedlist>
+<title>NSDB Nodes (<emphasis role="strong"><emphasis>nsdb1</emphasis></emphasis>, <emphasis role="strong"><emphasis>nsdb2</emphasis></emphasis>, <emphasis role="strong"><emphasis>nsdb3</emphasis></emphasis>)</title>
+<listitem>
+<simpara>Network State Database (NSDB)</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Network Topology (ZooKeeper)</simpara>
+</listitem>
+<listitem>
+<simpara>Network State Information (Cassandra)</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<itemizedlist>
+<title>Gateway Nodes (<emphasis role="strong"><emphasis>gateway1</emphasis></emphasis>, <emphasis role="strong"><emphasis>gateway2</emphasis></emphasis>)</title>
+<listitem>
+<simpara>BGP Daemon (Quagga)</simpara>
+</listitem>
+<listitem>
+<simpara>MidoNet</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Agent (Midolman)</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</section>
+</chapter>
+<chapter xml:id="_basic_environment_configuration">
+<title>Basic Environment Configuration</title>
+<section xml:id="_networking_configuration">
+<title>Networking Configuration</title>
+<important>
+<simpara>All hostnames must be resolvable, either via DNS or locally.</simpara>
+</important>
+<simpara>This guide assumes that you follow the instructions in
+<link xlink:href="http://docs.openstack.org/newton/install-guide-rdo/environment-networking.html">Host Networking</link>
+of the OpenStack Documentation.</simpara>
+</section>
+<section xml:id="_selinux_configuration">
+<title>SELinux Configuration</title>
+<important>
+<simpara>This guide assumes that SELinux (if installed) is either in <literal>permissive</literal> state
+or <literal>disabled</literal>.</simpara>
+</important>
+<simpara>To change the mode, execute the following command:</simpara>
+<screen># setenforce Permissive</screen>
+<simpara>To permanently change the SELinux configuration, edit the <literal>/etc/selinux/config</literal>
+file accordingly:</simpara>
+<screen>SELINUX=permissive</screen>
+</section>
+<section xml:id="_repository_configuration">
+<title>Repository Configuration</title>
+<simpara>Configure necessary software repositories and update installed packages.</simpara>
+<orderedlist role="procedure" numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Enable Red Hat base repository</emphasis></simpara>
+<informalexample>
+<screen># subscription-manager repos --enable=rhel-7-server-rpms</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Enable Red Hat OSP repositories</emphasis></simpara>
+<informalexample>
+<screen># subscription-manager repos --enable=rhel-7-server-openstack-8-rpms
+# subscription-manager repos --enable=rhel-7-server-openstack-8-optools-rpms</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Enable DataStax repository</emphasis></simpara>
+<informalexample>
+<simpara>Create the <literal>/etc/yum.repos.d/datastax.repo</literal> file and edit it to contain the
+following:</simpara>
+<screen># DataStax (Apache Cassandra)
+[datastax]
+name = DataStax Repo for Apache Cassandra
+baseurl = http://rpm.datastax.com/community
+enabled = 1
+gpgcheck = 1
+gpgkey = https://rpm.datastax.com/rpm/repo_key</screen>
+</informalexample>
+</listitem>
+</orderedlist>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Enable MidoNet repositories</emphasis></simpara>
+<informalexample>
+<simpara>Create the <literal>/etc/yum.repos.d/midonet.repo</literal> file and edit it to contain the
+following:</simpara>
+<screen>[midonet]
+name=MidoNet
+baseurl=http://builds.midonet.org/midonet-5.4/stable/el7/
+enabled=1
+gpgcheck=1
+gpgkey=https://builds.midonet.org/midorepo.key
+
+[midonet-openstack-integration]
+name=MidoNet OpenStack Integration
+baseurl=http://builds.midonet.org/openstack-newton/stable/el7/
+enabled=1
+gpgcheck=1
+gpgkey=https://builds.midonet.org/midorepo.key
+
+[midonet-misc]
+name=MidoNet 3rd Party Tools and Libraries
+baseurl=http://builds.midonet.org/misc/stable/el7/
+enabled=1
+gpgcheck=1
+gpgkey=https://builds.midonet.org/midorepo.key</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Install available updates</emphasis></simpara>
+<informalexample>
+<screen># yum clean all
+# yum upgrade</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">If necessary, reboot the system</emphasis></simpara>
+<informalexample>
+<screen># reboot</screen>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+</chapter>
+<chapter xml:id="_openstack_installation">
+<title>OpenStack Installation</title>
+<important>
+<simpara>Follow the
+<link xlink:href="https://access.redhat.com/documentation/en/red-hat-openstack-platform/10/paged/manual-installation-procedures/">Installation Reference</link>
+documentation, but <emphasis role="strong">note the following differences</emphasis>.</simpara>
+</important>
+<section xml:id="_identity_service_keystone">
+<title>Identity Service (Keystone)</title>
+<important>
+<simpara>Follow the Red Hat documentation&#8217;s
+<link xlink:href="https://access.redhat.com/documentation/en/red-hat-openstack-platform/10/paged/manual-installation-procedures/chapter-3-install-the-identity-service">Chapter 3. Install The Identity Service</link>
+instructions, but <emphasis role="strong">note the following additions</emphasis>.</simpara>
+</important>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Create MidoNet API Service</emphasis></simpara>
+<informalexample>
+<simpara>As Keystone admin, execute the following command:</simpara>
+<screen>$ openstack service create --name midonet --description "MidoNet API Service" midonet</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Create MidoNet Administrative User</emphasis> <anchor xml:id="keystone_midonet_user" xreflabel="[keystone_midonet_user]"/></simpara>
+<informalexample>
+<simpara>As Keystone admin, execute the following commands:</simpara>
+<literallayout class="monospaced">$ openstack user create --domain default --password-prompt midonet
+$ openstack role add --project service --user midonet admin</literallayout>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_compute_services_nova">
+<title>Compute Services (Nova)</title>
+<important>
+<simpara>Follow the Red Hat documentation&#8217;s
+<link xlink:href="https://access.redhat.com/documentation/en/red-hat-openstack-platform/10/paged/manual-installation-procedures/chapter-8-install-the-compute-service">Chapter 8. Install The Compute Service</link>
+instructions, but <emphasis role="strong">note the following differences</emphasis>.</simpara>
+</important>
+<section xml:id="_controller_node">
+<title>Controller Node</title>
+<important>
+<simpara>Follow the Red Hat documentation&#8217;s
+<link xlink:href="https://access.redhat.com/documentation/en/red-hat-openstack-platform/10/paged/manual-installation-procedures/82-install-a-compute-node">8.2. Install a Compute Node</link>
+instructions, but <emphasis role="strong">note the following differences and additions</emphasis>.</simpara>
+</important>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">8.2.1. Install the Compute Service Packages</emphasis></simpara>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply as is.</simpara>
+<simpara>Instead, install only the following packages:</simpara>
+<screen># yum install openstack-nova-api openstack-nova-conductor openstack-nova-scheduler python-cinderclient</screen>
+<note>
+<simpara>The <literal>openstack-nova-compute</literal> package is going to be installed on the Compute
+Node instead.</simpara>
+</note>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.2. Create the Compute Service Database</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.3. Configure the Compute Service Database Connection</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.4. Create the Compute Service Identity Records</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.5. Configure Compute Service Authentication</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.6. Configure the Firewall to Allow Compute Service Traffic</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.7. Configure the Compute Service to Use SSL</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.8. Configure RabbitMQ Message Broker Settings for the Compute Service</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.9. Enable SSL Communication Between the Compute Service and the Message Broker</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.10. Configure Resource Overcommitment</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.11. Reserve Host Resources</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.12. Configure Compute Networking</emphasis> <anchor xml:id="nova_metadata_proxy" xreflabel="[nova_metadata_proxy]"/></simpara>
+<informalexample>
+<simpara>Apply as is, except the following topics:</simpara>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara><emphasis role="strong">8.2.12.3. Configure the L2 Agent</emphasis></simpara>
+<simpara>Do <emphasis role="strong">not</emphasis> apply.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.12.4. Configure Virtual Interface Plugging</emphasis></simpara>
+<simpara>Configure the generic VIF driver.</simpara>
+</listitem>
+</orderedlist>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.13. Populate the Compute Service Database</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.14. Launch the Compute Services</emphasis></simpara>
+<informalexample>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara><emphasis role="strong">1. Starting the Message Bus Service</emphasis></simpara>
+<simpara>Do <emphasis role="strong">not</emphasis> apply. Only required on the Compute Node.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">2. Starting the Libvirtd Service</emphasis></simpara>
+<simpara>Do <emphasis role="strong">not</emphasis> apply. Only required on the Compute Node.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">3. Starting the API Service</emphasis></simpara>
+<simpara>Apply as is.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">4. Starting the Scheduler</emphasis></simpara>
+<simpara>Apply as is.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">5. Starting the Conductor</emphasis></simpara>
+<simpara>Apply as is.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">6. Starting the Compute Service</emphasis></simpara>
+<simpara>Do <emphasis role="strong">not</emphasis> apply. Only required on the Compute Node.</simpara>
+</listitem>
+</orderedlist>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="nova_compute_node">
+<title>Compute Node</title>
+<important>
+<simpara>Follow the Red Hat documentation&#8217;s
+<link xlink:href="https://access.redhat.com/documentation/en/red-hat-openstack-platform/10/paged/manual-installation-procedures/chapter-8-install-the-compute-service">8.2. Install a Compute Node</link>
+instructions, but <emphasis role="strong">note the following differences and additions</emphasis>.</simpara>
+</important>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">8.2.1. Install the Compute Service Packages</emphasis></simpara>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply as is.</simpara>
+<simpara>Instead, install only the following packages:</simpara>
+<screen># yum install openstack-nova-compute openstack-utils</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.2. Create the Compute Service Database</emphasis></simpara>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply. Has been done on the Controller Node.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.3. Configure the Compute Service Database Connection</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.4. Create the Compute Service Identity Records</emphasis></simpara>
+</listitem>
+</orderedlist>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply. Has been done on the Controller Node.</simpara>
+</informalexample>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">8.2.5. Configure Compute Service Authentication</emphasis></simpara>
+</listitem>
+</orderedlist>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">8.2.6. Configure the Firewall to Allow Compute Service Traffic</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.7. Configure the Compute Service to Use SSL</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.8. Configure RabbitMQ Message Broker Settings for the Compute Service</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.9. Enable SSL Communication Between the Compute Service and the Message Broker</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.10. Configure Resource Overcommitment</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.11. Reserve Host Resources</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.12. Configure Compute Networking</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is, except the following topics:</simpara>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara><emphasis role="strong">8.2.12.3. Configure the L2 Agent</emphasis></simpara>
+<simpara>Do <emphasis role="strong">not</emphasis> apply.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.12.4. Configure Virtual Interface Plugging</emphasis></simpara>
+<simpara>Do <emphasis role="strong">not</emphasis> apply.</simpara>
+</listitem>
+</orderedlist>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.13. Populate the Compute Service Database</emphasis></simpara>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply. Has been done on the Controller Node.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">8.2.14. Launch the Compute Services</emphasis></simpara>
+<informalexample>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara><emphasis role="strong">1. Starting the Message Bus Service</emphasis></simpara>
+<simpara>Apply as is.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">2. Starting the Libvirtd Service</emphasis></simpara>
+<simpara>Apply as is.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">3. Starting the API Service</emphasis></simpara>
+<simpara>Do <emphasis role="strong">not</emphasis> apply. Only required on the Controller Node.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">4. Starting the Scheduler</emphasis></simpara>
+<simpara>Do <emphasis role="strong">not</emphasis> apply. Only required on the Controller Node.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">5. Starting the Conductor</emphasis></simpara>
+<simpara>Do <emphasis role="strong">not</emphasis> apply. Only required on the Controller Node.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">6. Starting the Compute Service</emphasis></simpara>
+<simpara>Apply as is.</simpara>
+</listitem>
+</orderedlist>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Additionally, perform the following steps</emphasis></simpara>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara><emphasis role="strong">Configure libvirt</emphasis></simpara>
+<informalexample>
+<simpara>Edit the <literal>/etc/libvirt/qemu.conf</literal> file to contain the following:</simpara>
+<literallayout class="monospaced">user = "root"
+group = "root"
+
+cgroup_device_acl = [
+    "/dev/null", "/dev/full", "/dev/zero",
+    "/dev/random", "/dev/urandom",
+    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+    <emphasis role="strong"><emphasis>"/dev/net/tun"</emphasis></emphasis>
+]</literallayout>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Restart the libvirt service</emphasis></simpara>
+<informalexample>
+<screen># systemctl restart libvirtd.service</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Install nova-rootwrap network filters</emphasis></simpara>
+<informalexample>
+<screen># yum install openstack-nova-network
+# systemctl disable openstack-nova-network.service</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Restart the Compute service</emphasis></simpara>
+<informalexample>
+<screen># systemctl restart openstack-nova-compute.service</screen>
+</informalexample>
+</listitem>
+</orderedlist>
+</listitem>
+</orderedlist>
+</section>
+</section>
+<section xml:id="_networking_services_neutron">
+<title>Networking Services (Neutron)</title>
+<section xml:id="_controller_node_2">
+<title>Controller Node</title>
+<important>
+<simpara>Follow the Red Hat documentation&#8217;s
+<link xlink:href="https://access.redhat.com/documentation/en/red-hat-openstack-platform/10/paged/manual-installation-procedures/chapter-7-install-openstack-networking">Chapter 7. Install OpenStack Networking</link>
+instructions, but <emphasis role="strong">note the following differences</emphasis>.</simpara>
+</important>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">7.1. Install the OpenStack Networking Packages</emphasis></simpara>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply as is.</simpara>
+<simpara>Instead, install the following packages:</simpara>
+<screen># yum install openstack-neutron python-networking-midonet-ext python-neutronclient
+# yum erase openstack-neutron-ml2</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.2.1. Set the OpenStack Networking Plug-in</emphasis></simpara>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply. Instead, perform the following steps:</simpara>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara>Edit the <literal>/etc/neutron/neutron.conf</literal> file and configure the following keys
+in the <literal>[DEFAULT]</literal> section:</simpara>
+<screen>[DEFAULT]
+...
+core_plugin = midonet.neutron.plugin_v2.MidonetPluginV2
+service_plugins = midonet.neutron.services.l3.l3_midonet.MidonetL3ServicePlugin
+...
+dhcp_agent_notification = False
+...
+allow_overlapping_ips = True</screen>
+</listitem>
+<listitem>
+<simpara>Create the directory for the MidoNet plugin:</simpara>
+<screen>mkdir /etc/neutron/plugins/midonet</screen>
+</listitem>
+<listitem>
+<simpara>Create the <literal>/etc/neutron/plugins/midonet/midonet.ini</literal> file and edit it to
+contain the following:</simpara>
+<literallayout class="monospaced">[DEFAULT]
+...
+core_plugin = <emphasis role="strong">midonet_v2_ext</emphasis>
+service_plugins = <emphasis role="strong">midonet_l3_ext</emphasis>
+...
+dhcp_agent_notification = False
+...
+allow_overlapping_ips = True
+...
+rpc_backend = rabbit
+...
+auth_strategy = keystone
+...
+notify_nova_on_port_status_changes = True
+notify_nova_on_port_data_changes = True
+nova_url = http://<emphasis role="strong"><emphasis>controller</emphasis></emphasis>:8774/v2.1
+...
+# In order to enable 'fip64' extension feature, the API extension path must
+# be specified.  The path depends on the directory location in which
+# python-networking-midonet-ext is installed.  For example, if the installation
+# path is /usr/lib/python2.7/dist-packages/midonet-ext, add the following:
+api_extensions_path = /usr/lib/python2.7/dist-packages/midonet-ext/neutron/extensions
+
+[database]
+...
+connection = mysql+pymysql://neutron:<emphasis role="strong"><emphasis>NEUTRON_DBPASS</emphasis></emphasis>@<emphasis role="strong"><emphasis>controller</emphasis></emphasis>/neutron
+
+[oslo_messaging_rabbit]
+...
+rabbit_host = <emphasis role="strong"><emphasis>controller</emphasis></emphasis>
+rabbit_userid = openstack
+rabbit_password = <emphasis role="strong"><emphasis>RABBIT_PASS</emphasis></emphasis>
+
+[keystone_authtoken]
+...
+auth_uri = http://<emphasis role="strong"><emphasis>controller</emphasis></emphasis>:5000
+auth_url = http://<emphasis role="strong"><emphasis>controller</emphasis></emphasis>:35357
+memcached_servers = <emphasis role="strong"><emphasis>controller</emphasis></emphasis>:11211
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = neutron
+password = <emphasis role="strong"><emphasis>NEUTRON_PASS</emphasis></emphasis>
+
+[nova]
+...
+auth_url = http://<emphasis role="strong"><emphasis>controller</emphasis></emphasis>:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+region_name = RegionOne
+project_name = service
+username = nova
+password = <emphasis role="strong"><emphasis>NOVA_PASS</emphasis></emphasis>
+
+[oslo_concurrency]
+...
+lock_path = /var/lib/neutron/tmp</literallayout>
+</listitem>
+</orderedlist>
+<note>
+<simpara>When using multiple service plugins, separate them with commas:</simpara>
+<screen>[DEFAULT]
+service_plugins = foo,bar,midonet.neutron.services.l3.l3_midonet.MidonetL3ServicePlugin</screen>
+</note>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Configure the MidoNet plug-in</emphasis></simpara>
+<informalexample>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara>Create the directory for the MidoNet plugin:</simpara>
+<screen>mkdir /etc/neutron/plugins/midonet</screen>
+</listitem>
+<listitem>
+<simpara>Create the <literal>/etc/neutron/plugins/midonet/midonet.ini</literal> file and edit it to
+contain the following:</simpara>
+<literallayout class="monospaced">[MIDONET]
+# MidoNet API URL
+midonet_uri = http://<emphasis role="strong"><emphasis>controller</emphasis></emphasis>:8181/midonet-api
+# MidoNet administrative user in Keystone
+username = <emphasis role="strong"><emphasis>midonet</emphasis></emphasis>
+password = <emphasis role="strong"><emphasis>MIDONET_PASS</emphasis></emphasis>
+# MidoNet administrative user's tenant
+project_id = service
+# MidoNet API client
+client = midonet_ext.neutron.client.api.MidonetApiClient</literallayout>
+</listitem>
+<listitem>
+<simpara>Create a symbolic link to direct Neutron to the MidoNet configuration:</simpara>
+<screen># ln -s /etc/neutron/plugins/midonet/midonet.ini /etc/neutron/plugin.ini</screen>
+</listitem>
+</orderedlist>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.2.2. Create the OpenStack Networking Database</emphasis></simpara>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply.</simpara>
+<simpara>Instead, create the database as follows:</simpara>
+<literallayout class="monospaced">$ mysql -u root -p
+CREATE DATABASE neutron character set utf8;
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY '<emphasis role="strong"><emphasis>NEUTRON_DBPASS</emphasis></emphasis>';
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '<emphasis role="strong"><emphasis>NEUTRON_DBPASS</emphasis></emphasis>';
+FLUSH PRIVILEGES;
+quit</literallayout>
+<simpara>Afterwards, run the <literal>neutron-db-manage</literal> command:</simpara>
+<screen># su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
+ --config-file /etc/neutron/plugins/midonet/midonet.ini upgrade head" neutron
+# su -s /bin/sh -c "neutron-db-manage --subproject networking-midonet upgrade head" neutron</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.2.3. Configure the OpenStack Networking Database Connection</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.2.4. Create the OpenStack Networking Identity Records</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.2.5. Configure OpenStack Networking Authentication</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.2.6. Configure the Firewall to Allow OpenStack Networking Traffic</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.2.7. Configure RabbitMQ Message Broker Settings for OpenStack Networking</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.2.8. Enable SSL Communication Between OpenStack Networking and the Message Broker</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.2.9. Configure OpenStack Networking to Communicate with the Compute Service</emphasis></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Configure Load-Balancer-as-a-Service (LBaaS)</emphasis></simpara>
+<informalexample>
+<simpara>Additionally to the Red Hat Installation Guide, configure
+Load-Balancer-as-a-Service (LBaaS) as described in <xref linkend="configure_lbaas"/>.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Configure FireWall-as-a-Service (FWaaS)</emphasis></simpara>
+<informalexample>
+<simpara>Additionally to the Red Hat Installation Guide, configure
+FireWall-as-a-Service (FWaaS) as described in <xref linkend="configure_fwaas"/>.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.2.10. Launch OpenStack Networking</emphasis> <anchor xml:id="neutron_controller_node_installation_finalize" xreflabel="[neutron_controller_node_installation_finalize]"/></simpara>
+<informalexample>
+<simpara>Apply as is.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.3. Configure the DHCP Agent</emphasis></simpara>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.4. Create an External Network</emphasis></simpara>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply.</simpara>
+<simpara>Instead, create the Neutron networks after the OpenStack and MidoNet
+installation is completed.</simpara>
+<simpara>Any networks that are created before the MidoNet plug-in is active will not be
+visible to MidoNet.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.5. Configure the Plug-in Agent</emphasis></simpara>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">7.6. Configure the L3 Agent</emphasis></simpara>
+<informalexample>
+<simpara>Do <emphasis role="strong">not</emphasis> apply.</simpara>
+</informalexample>
+</listitem>
+</orderedlist>
+<section xml:id="configure_lbaas">
+<title>Configure Load-Balancer-as-a-Service (LBaaS)</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Install Neutron Load-Balancing-as-a-Service</emphasis></simpara>
+<informalexample>
+<screen># yum install python-neutron-lbaas</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Enable the MidoNet driver</emphasis></simpara>
+<informalexample>
+<simpara>Enable the MidoNet driver by using the <literal>service_provider</literal> option in the
+<literal>/etc/neutron/neutron.conf</literal> file:</simpara>
+<screen>[service_providers]
+service_provider = LOADBALANCERV2:Midonet:midonet_ext.neutron.services.loadbalancer.v2_driver.MidonetLoadBalancerDriver:default</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Enable the LBaaS plug-in</emphasis></simpara>
+<informalexample>
+<simpara>Enable the LBaaS plug-in by using the <literal>service_plugins</literal> option in the
+<literal>[DEFAULT]</literal> section of the <literal>/etc/neutron/neutron.conf</literal> file:</simpara>
+<screen>[DEFAULT]
+service_plugins = lbaasv2</screen>
+<note>
+<simpara>When using multiple service plugins, separate them with commas:</simpara>
+<screen>[DEFAULT]
+service_plugins = foo,bar,lbassv2</screen>
+</note>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Enable load balancing in the dashboard</emphasis></simpara>
+<informalexample>
+<simpara>Follow the instructions in
+<link xlink:href="http://docs.openstack.org/newton/networking-guide/config-lbaas.html">LBaaS Newton documentation</link>.</simpara>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">To finalize installation</emphasis></simpara>
+<informalexample>
+<simpara>Finalize the installation as described in
+<link linkend="neutron_controller_node_installation_finalize">Neutron Controller Node Installation</link>.</simpara>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="configure_fwaas">
+<title>Configure FireWall-as-a-Service (FWaaS)</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Install Neutron FireWall-as-a-Service</emphasis></simpara>
+<informalexample>
+<screen># yum install python-neutron-fwaas</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Enable the MidoNet FWaaS plug-in</emphasis></simpara>
+<informalexample>
+<simpara>Enable the MidoNet FWaaS plug-in by using the <literal>service_plugins</literal> option in the
+<literal>/etc/neutron/neutron.conf</literal> file:</simpara>
+<screen>service_plugins = midonet.neutron.services.firewall.plugin.MidonetFirewallPlugin</screen>
+<note>
+<simpara>When using multiple service plugins, separate them with commas:</simpara>
+<screen>[DEFAULT]
+service_plugins = foo,bar,midonet.neutron.services.firewall.plugin.MidonetFirewallPlugin</screen>
+</note>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Enable firewall in the dashboard</emphasis></simpara>
+<informalexample>
+<simpara>Change the <literal>enable_firewall</literal> option to <literal>True</literal> in the
+<literal>/etc/openstack-dashboard/local_settings</literal> file:</simpara>
+<screen>OPENSTACK_NEUTRON_NETWORK = {
+   'enable_firewall': True,
+   ...
+}</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">To finalize installation</emphasis></simpara>
+<informalexample>
+<simpara>Finalize the installation as described in
+<link linkend="neutron_controller_node_installation_finalize">Neutron Controller Node Installation</link>.</simpara>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="configure_qos">
+<title>Configure Quality of Service (QoS)</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Enable the QoS plug-in</emphasis></simpara>
+<informalexample>
+<simpara>Enable the QoS plug-in by using the <literal>service_plugins</literal> option in the
+<literal>[DEFAULT]</literal> section of the <literal>/etc/neutron/neutron.conf</literal> file:</simpara>
+<screen>[DEFAULT]
+service_plugins = qos</screen>
+<note>
+<simpara>When using multiple service plugins, separate them with commas:</simpara>
+<screen>[DEFAULT]
+service_plugins = foo,bar,qos</screen>
+</note>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Enable the MidoNet QoS notification driver</emphasis></simpara>
+<informalexample>
+<simpara>Enable the MidoNet QoS notification driver by using the <literal>notification_drivers</literal>
+option in the <literal>qos</literal> section of <literal>/etc/neutron/neutron.conf</literal> file:</simpara>
+<screen>[qos]
+notification_drivers = midonet</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">To finalize installation</emphasis></simpara>
+<informalexample>
+<simpara>Finalize the installation as described in
+<link linkend="neutron_controller_node_installation_finalize">Neutron Controller Node Installation</link>.</simpara>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+</section>
+</section>
+</chapter>
+<chapter xml:id="_midonet_installation">
+<title>MidoNet Installation</title>
+<section xml:id="_nsdb_nodes">
+<title>NSDB Nodes</title>
+<section xml:id="_zookeeper_installation">
+<title>ZooKeeper Installation</title>
+<orderedlist role="procedure" numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Install ZooKeeper packages</emphasis></simpara>
+<informalexample>
+<screen># yum install java-1.8.0-openjdk-headless
+# yum install zookeeper zkdump nmap-ncat</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Configure ZooKeeper</emphasis></simpara>
+<informalexample>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara><emphasis role="strong">Common Configuration</emphasis></simpara>
+<simpara>Edit the <literal>/etc/zookeeper/zoo.cfg</literal> file to contain the following:</simpara>
+<literallayout class="monospaced">server.<emphasis role="strong">1</emphasis>=<emphasis role="strong"><emphasis>nsdb1</emphasis></emphasis>:2888:3888
+server.<emphasis role="strong">2</emphasis>=<emphasis role="strong"><emphasis>nsdb2</emphasis></emphasis>:2888:3888
+server.<emphasis role="strong">3</emphasis>=<emphasis role="strong"><emphasis>nsdb3</emphasis></emphasis>:2888:3888
+autopurge.snapRetainCount=10
+autopurge.purgeInterval =12</literallayout>
+<simpara>Create data directory:</simpara>
+<screen># mkdir /var/lib/zookeeper/data
+# chown zookeeper:zookeeper /var/lib/zookeeper/data</screen>
+<important>
+<simpara>For production deployments it is recommended to configure the storage of
+snapshots in a different disk than the commit log, this is done by setting
+the parameters <literal>dataDir</literal> and <literal>dataLogDir</literal> in <literal>zoo.cfg</literal>. In addition we
+advice to use an SSD drive for the commit log.</simpara>
+</important>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Node-specific Configuration</emphasis></simpara>
+<important>
+<simpara>If using <literal>CentOS 7.3</literal> please use <literal>/var/lib/zookeeper/myid</literal> as the path for the host ID</simpara>
+</important>
+<orderedlist numeration="lowerroman">
+<listitem>
+<simpara><emphasis role="strong">NSDB Node 1</emphasis></simpara>
+<simpara>Create the <literal>/var/lib/zookeeper/data/myid</literal> file and edit it to contain the host&#8217;s ID:</simpara>
+<literallayout class="monospaced"># echo <emphasis role="strong">1</emphasis> > /var/lib/zookeeper/data/myid</literallayout>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">NSDB Node 2</emphasis></simpara>
+<simpara>Create the <literal>/var/lib/zookeeper/data/myid</literal> file and edit it to contain the host&#8217;s ID:</simpara>
+<literallayout class="monospaced"># echo <emphasis role="strong">2</emphasis> > /var/lib/zookeeper/data/myid</literallayout>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">NSDB Node 3</emphasis></simpara>
+<simpara>Create the <literal>/var/lib/zookeeper/data/myid</literal> file and edit it to contain the host&#8217;s ID:</simpara>
+<literallayout class="monospaced"># echo <emphasis role="strong">3</emphasis> > /var/lib/zookeeper/data/myid</literallayout>
+</listitem>
+</orderedlist>
+</listitem>
+</orderedlist>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Create Java Symlink</emphasis></simpara>
+<informalexample>
+<screen># mkdir -p /usr/java/default/bin/
+# ln -s /usr/lib/jvm/jre-1.8.0-openjdk/bin/java /usr/java/default/bin/java</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Enable and start ZooKeeper</emphasis></simpara>
+<informalexample>
+<screen># systemctl enable zookeeper.service
+# systemctl start zookeeper.service</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Verify ZooKeeper Operation</emphasis></simpara>
+<simpara>After installation of all nodes has been completed, verify that ZooKeeper is
+operating properly.</simpara>
+<simpara>A basic check can be done by executing the <literal>ruok</literal> (Are you ok?) command on all
+nodes. This will reply with <literal>imok</literal> (I am ok.) if the server is running in a
+non-error state:</simpara>
+<informalexample>
+<screen>$ echo ruok | nc 127.0.0.1 2181
+imok</screen>
+</informalexample>
+<simpara>More detailed information can be requested with the <literal>stat</literal> command, which lists
+statistics about performance and connected clients:</simpara>
+<informalexample>
+<screen>$ echo stat | nc 127.0.0.1 2181
+Zookeeper version: 3.4.5--1, built on 06/10/2013 17:26 GMT
+Clients:
+ /127.0.0.1:34768[0](queued=0,recved=1,sent=0)
+ /192.0.2.1:49703[1](queued=0,recved=1053,sent=1053)
+
+Latency min/avg/max: 0/4/255
+Received: 1055
+Sent: 1054
+Connections: 2
+Outstanding: 0
+Zxid: 0x260000013d
+Mode: follower
+Node count: 3647</screen>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_cassandra_installation">
+<title>Cassandra Installation</title>
+<orderedlist role="procedure" numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Install Cassandra packages</emphasis></simpara>
+<informalexample>
+<screen># yum install java-1.8.0-openjdk-headless
+# yum install dsc22</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Configure Cassandra</emphasis></simpara>
+<informalexample>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara><emphasis role="strong">Common Configuration</emphasis></simpara>
+<simpara>Edit the <literal>/etc/cassandra/conf/cassandra.yaml</literal> file to contain the following:</simpara>
+<literallayout class="monospaced"># The name of the cluster.
+cluster_name: 'midonet'
+
+...
+
+# Addresses of hosts that are deemed contact points.
+seed_provider:
+    - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+      parameters:
+          - seeds: "<emphasis role="strong"><emphasis>nsdb1</emphasis></emphasis>,<emphasis role="strong"><emphasis>nsdb2</emphasis></emphasis>,<emphasis role="strong"><emphasis>nsdb3</emphasis></emphasis>"</literallayout>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Node-specific Configuration</emphasis></simpara>
+<orderedlist numeration="lowerroman">
+<listitem>
+<simpara><emphasis role="strong">NSDB Node 1</emphasis></simpara>
+<simpara>Edit the <literal>/etc/cassandra/conf/cassandra.yaml</literal> file to contain the following:</simpara>
+<literallayout class="monospaced"># Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: <emphasis role="strong"><emphasis>nsdb1</emphasis></emphasis>
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: <emphasis role="strong"><emphasis>nsdb1</emphasis></emphasis></literallayout>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">NSDB Node 2</emphasis></simpara>
+<simpara>Edit the <literal>/etc/cassandra/conf/cassandra.yaml</literal> file to contain the following:</simpara>
+<literallayout class="monospaced"># Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: <emphasis role="strong"><emphasis>nsdb2</emphasis></emphasis>
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: <emphasis role="strong"><emphasis>nsdb2</emphasis></emphasis></literallayout>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">NSDB Node 3</emphasis></simpara>
+<simpara>Edit the <literal>/etc/cassandra/conf/cassandra.yaml</literal> file to contain the following:</simpara>
+<literallayout class="monospaced"># Address to bind to and tell other Cassandra nodes to connect to.
+listen_address: <emphasis role="strong"><emphasis>nsdb3</emphasis></emphasis>
+
+...
+
+# The address to bind the Thrift RPC service.
+rpc_address: <emphasis role="strong"><emphasis>nsdb3</emphasis></emphasis></literallayout>
+</listitem>
+</orderedlist>
+</listitem>
+</orderedlist>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Edit the service&#8217;s init script</emphasis></simpara>
+<simpara>On installation, the <literal>/var/run/cassandra</literal> directory is created, but because it
+is located on a temporary file system it will be lost after system reboot. As a
+result it is not possible to stop or restart the Cassandra service anymore.</simpara>
+<simpara>To avoid this, edit the <literal>/etc/init.d/cassandra</literal> file to create the directory on
+service start:</simpara>
+<informalexample>
+<literallayout class="monospaced">[...]
+case "$1" in
+    start)
+        # Cassandra startup
+        echo -n "Starting Cassandra: "
+        <emphasis role="strong">mkdir -p /var/run/cassandra</emphasis>
+        <emphasis role="strong">chown cassandra:cassandra /var/run/cassandra</emphasis>
+        su $CASSANDRA_OWNR -c "$CASSANDRA_PROG -p $pid_file" &gt; $log_file 2&gt;&amp;1
+        retval=$?
+[...]</literallayout>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Enable and start Cassandra</emphasis></simpara>
+<informalexample>
+<screen># systemctl enable cassandra.service
+# systemctl start cassandra.service</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Verify Cassandra Operation</emphasis></simpara>
+<simpara>After installation of all nodes has been completed, verify that Cassandra is
+operating properly.</simpara>
+<important>
+<simpara>If Cassandra fails to start and prints a "buffer overflow" error message in its
+log file, you may try associating <literal>127.0.0.1</literal> with the hostname in <literal>etc/hosts</literal>
+(so that <literal>hostname -i</literal> will show <literal>127.0.0.1</literal>). This may solve the Cassandra
+start problem.</simpara>
+</important>
+<simpara>A basic check can be done by executing the <literal>nodetool status</literal> command. This will
+reply with <literal>UN</literal> (Up / Normal) in the first column if the servers are running in
+a non-error state:</simpara>
+<informalexample>
+<screen>$ nodetool --host 127.0.0.1 status
+[...]
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--  Address    Load       Tokens  Owns   Host ID                               Rack
+UN  192.0.2.1  123.45 KB  256     33.3%  11111111-2222-3333-4444-555555555555  rack1
+UN  192.0.2.2  234.56 KB  256     33.3%  22222222-3333-4444-5555-666666666666  rack1
+UN  192.0.2.3  345.67 KB  256     33.4%  33333333-4444-5555-6666-777777777777  rack1</screen>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+</section>
+<section xml:id="_controller_node_3">
+<title>Controller Node</title>
+<section xml:id="_midonet_cluster_installation">
+<title>MidoNet Cluster Installation</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Install MidoNet Cluster package</emphasis></simpara>
+<informalexample>
+<screen># yum install midonet-cluster</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Set up mn-conf</emphasis></simpara>
+<informalexample>
+<simpara>Edit <literal>/etc/midonet/midonet.conf</literal> to point mn-conf to the ZooKeeper cluster:</simpara>
+<screen>[zookeeper]
+zookeeper_hosts = <emphasis role="strong"><emphasis>nsdb1</emphasis></emphasis>:2181,<emphasis role="strong"><emphasis>nsdb2</emphasis></emphasis>:2181,<emphasis role="strong"><emphasis>nsdb3</emphasis></emphasis>:2181</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Configure access to the NSDB</emphasis></simpara>
+<informalexample>
+<simpara>This step needs to happen only once, it will set up access to the NSDB for
+the MidoNet Cluster and Agent nodes.</simpara>
+<simpara>Run the following command to set the cloud-wide values for the ZooKeeper and
+Cassandra server addresses:</simpara>
+<screen>$ cat &lt;&lt; EOF | mn-conf set -t default
+zookeeper {
+    zookeeper_hosts = "<emphasis role="strong"><emphasis>nsdb1</emphasis></emphasis>:2181,<emphasis role="strong"><emphasis>nsdb2</emphasis></emphasis>:2181,<emphasis role="strong"><emphasis>nsdb3</emphasis></emphasis>:2181"
+}
+
+cassandra {
+    servers = "<emphasis role="strong"><emphasis>nsdb1</emphasis></emphasis>,<emphasis role="strong"><emphasis>nsdb2</emphasis></emphasis>,<emphasis role="strong"><emphasis>nsdb3</emphasis></emphasis>"
+}
+EOF</screen>
+<simpara>Run the following command to set the Cassandra replication factor:</simpara>
+<screen>$ echo "cassandra.replication_factor : <emphasis role="strong"><emphasis>3</emphasis></emphasis>" | mn-conf set -t default</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Configure Keystone access</emphasis></simpara>
+<informalexample>
+<simpara>This step needs to happen only once, it will set up access to Keystone for the
+MidoNet Cluster node(s).</simpara>
+<simpara>Determine <literal>domain_name</literal> and <literal>domain_id</literal> to be used for Keystone authentication:</simpara>
+<literallayout class="monospaced"># openstack domain list
++---------+---------+---------+----------------------------------------------------------------------+
+| ID      | Name    | Enabled | Description                                                          |
++---------+---------+---------+----------------------------------------------------------------------+
+| <emphasis role="strong"><emphasis>default</emphasis></emphasis> | <emphasis role="strong"><emphasis>Default</emphasis></emphasis> | True    | Owns users and tenants (i.e. projects) available on Identity API v2. |
++---------+---------+---------+----------------------------------------------------------------------+</literallayout>
+<simpara>For <literal>tenant_name</literal>, use the project/tenant that the <literal>midonet</literal> user belongs to, as
+configured during <link linkend="keystone_midonet_user">user creation</link>.</simpara>
+<simpara>Configure the authentication parameters for MidoNet Cluster via <literal>mn-conf</literal>:</simpara>
+<literallayout class="monospaced">$ cat &lt;&lt; EOF | mn-conf set -t default
+cluster.auth {
+   admin_role = "admin"
+   provider_class = "org.midonet.cluster.auth.keystone.KeystoneService"
+   keystone {
+      admin_token = ""
+      protocol = "http"
+      host = "<emphasis role="strong"><emphasis>controller</emphasis></emphasis>"
+      port = 35357
+      domain_name = "<emphasis role="strong"><emphasis>Default</emphasis></emphasis>"
+      domain_id = "<emphasis role="strong"><emphasis>default</emphasis></emphasis>"
+      tenant_name = "<emphasis role="strong"><emphasis>$MIDONET_TENANT</emphasis></emphasis>"
+      user_name = "midonet"
+      user_password = "<emphasis role="strong"><emphasis>$MIDONET_PASS</emphasis></emphasis>"
+      version = 3
+   }
+}
+EOF</literallayout>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Start the MidoNet Cluster</emphasis></simpara>
+<informalexample>
+<screen># systemctl enable midonet-cluster.service
+# systemctl start midonet-cluster.service</screen>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_midonet_cli_installation">
+<title>MidoNet CLI Installation</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Install MidoNet CLI package</emphasis></simpara>
+<informalexample>
+<screen># yum install python-midonetclient</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Configure MidoNet CLI</emphasis></simpara>
+<informalexample>
+<simpara>Create the <literal>~/.midonetrc</literal> file and edit it to contain the following:</simpara>
+<literallayout class="monospaced">[cli]
+api_url = http://<emphasis role="strong"><emphasis>controller</emphasis></emphasis>:8181/midonet-api
+username = <emphasis role="strong"><emphasis>MIDONET_USER</emphasis></emphasis>
+password = <emphasis role="strong"><emphasis>MIDONET_PASS</emphasis></emphasis>
+project_id = service</literallayout>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+</section>
+<section xml:id="_midolman_installation">
+<title>Midolman Installation</title>
+<simpara>The <emphasis>MidoNet Agent (Midolman)</emphasis> has to be installed on all nodes where traffic
+enters or leaves the virtual topology, in this guide this are the <emphasis role="strong"><emphasis>gateway1</emphasis></emphasis>,
+<emphasis role="strong"><emphasis>gateway2</emphasis></emphasis> and <emphasis role="strong"><emphasis>compute1</emphasis></emphasis> nodes.</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Install Midolman package</emphasis></simpara>
+<informalexample>
+<screen># yum install java-1.8.0-openjdk-headless
+# yum install midolman</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Set up mn-conf</emphasis></simpara>
+<informalexample>
+<simpara>Edit <literal>/etc/midolman/midolman.conf</literal> to point mn-conf to the ZooKeeper cluster:</simpara>
+<screen>[zookeeper]
+zookeeper_hosts = <emphasis role="strong"><emphasis>nsdb1</emphasis></emphasis>:2181,<emphasis role="strong"><emphasis>nsdb2</emphasis></emphasis>:2181,<emphasis role="strong"><emphasis>nsdb3</emphasis></emphasis>:2181</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Configure resource usage</emphasis></simpara>
+<informalexample>
+<simpara>Run these steps on <emphasis role="strong">each agent host</emphasis> in order to configure resource usage.</simpara>
+<important>
+<simpara>For production environments the <emphasis role="strong">large</emphasis> templates are strongly recommended.</simpara>
+</important>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara><emphasis role="strong">Midolman resource template</emphasis></simpara>
+<simpara>Run the following command to configure the Midolman resource template:</simpara>
+<screen>$ mn-conf template-set -h local -t <emphasis role="strong"><emphasis>TEMPLATE_NAME</emphasis></emphasis></screen>
+<simpara>Replace <emphasis role="strong"><emphasis>TEMPLATE_NAME</emphasis></emphasis> with one of the following templates:</simpara>
+<screen>agent-compute-large
+agent-compute-medium
+agent-gateway-large
+agent-gateway-medium
+default</screen>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Java Virtual Machine (JVM) resource template</emphasis></simpara>
+<simpara>Replace the default <literal>/etc/midolman/midolman-env.sh</literal> file with one of the below
+to configure the JVM resource template:</simpara>
+<screen>/etc/midolman/midolman-env.sh.compute.large
+/etc/midolman/midolman-env.sh.compute.medium
+/etc/midolman/midolman-env.sh.gateway.large
+/etc/midolman/midolman-env.sh.gateway.medium</screen>
+</listitem>
+</orderedlist>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Configure MidoNet Metadata Proxy for all agents</emphasis></simpara>
+<informalexample>
+<simpara>This step needs to happen only once, it will set up MidoNet Metadata Proxy
+for all MidoNet Agent nodes.</simpara>
+<simpara>Run the following commands to set the cloud-wide values for the MidoNet
+Metadata Proxy:</simpara>
+<screen>$ echo "agent.openstack.metadata.nova_metadata_url : \"http://<emphasis role="strong"><emphasis>controller</emphasis></emphasis>:<emphasis role="strong"><emphasis>8775</emphasis></emphasis>\"" | mn-conf set -t default
+$ echo "agent.openstack.metadata.shared_secret : <emphasis role="strong"><emphasis>shared_secret</emphasis></emphasis>" | mn-conf set -t default
+$ echo "agent.openstack.metadata.enabled : true" | mn-conf set -t default</screen>
+<simpara><emphasis role="strong"><emphasis>controller</emphasis></emphasis>, <emphasis role="strong"><emphasis>8775</emphasis></emphasis>, and <emphasis role="strong"><emphasis>shared_secret</emphasis></emphasis> should be
+replaced with appropriate values. They need to match with the corresponding Nova
+Metadata API configuration.</simpara>
+<simpara><emphasis role="strong"><emphasis>controller</emphasis></emphasis> and <emphasis role="strong"><emphasis>8775</emphasis></emphasis> specify the address on which
+Nova accepts Metadata API requests. <emphasis role="strong"><emphasis>shared_secret</emphasis></emphasis> has to be the same as
+specified by the "metadata_proxy_shared_secret" field in the "neutron" section
+of nova.conf.</simpara>
+<simpara>The Nova side of the configuration for the metadata service is same as when
+using Neutron Metadata Proxy. See the OpenStack documentation for details:</simpara>
+<simpara><link xlink:href="http://docs.openstack.org/admin-guide-cloud/networking_config-identity.html#configure-metadata">Cloud Administrator Guide: Configure Metadata</link></simpara>
+</informalexample>
+</listitem>
+</orderedlist>
+<important>
+<simpara>The Metadata Proxy creates an interface on the hypervisor hosts, named
+"metadata".</simpara>
+<simpara>When using <literal>iptables</literal> it may be necessary to add a rule to accept traffic on
+that interface:</simpara>
+<screen>iptables -I INPUT 1 -i metadata -j ACCEPT</screen>
+</important>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Start Midolman</emphasis></simpara>
+<informalexample>
+<screen># systemctl enable midolman.service
+# systemctl start midolman.service</screen>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_midonet_host_registration">
+<title>MidoNet Host Registration</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Launch MidoNet CLI</emphasis></simpara>
+<informalexample>
+<screen>$ midonet-cli
+midonet&gt;</screen>
+</informalexample>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Create tunnel zone</emphasis></simpara>
+<simpara>MidoNet supports the Virtual Extensible LAN (VXLAN) and Generic Routing
+Encapsulation (GRE) protocols to communicate to other hosts within a tunnel
+zone.</simpara>
+<simpara>To use the VXLAN protocol, create the tunnel zone with type 'vxlan':</simpara>
+<informalexample>
+<screen>midonet&gt; tunnel-zone create name tz type vxlan
+tzone0</screen>
+</informalexample>
+<simpara>To use the GRE protocol, create the tunnel zone with type 'gre':</simpara>
+<informalexample>
+<screen>midonet&gt; tunnel-zone create name tz type gre
+tzone0</screen>
+</informalexample>
+</listitem>
+</orderedlist>
+<important>
+<simpara>Make sure to allow GRE/VXLAN traffic for all hosts that belong to the tunnel
+zone. For VXLAN MidoNet uses UDP port 6677 as default.</simpara>
+</important>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Add hosts to tunnel zone</emphasis></simpara>
+<informalexample>
+<literallayout class="monospaced">midonet> list tunnel-zone
+tzone tzone0 name tz type vxlan
+
+midonet> list host
+host host0 name <emphasis role="strong"><emphasis>controller</emphasis></emphasis> alive true
+host host1 name <emphasis role="strong"><emphasis>gateway1</emphasis></emphasis> alive true
+host host2 name <emphasis role="strong"><emphasis>gateway2</emphasis></emphasis> alive true
+host host3 name <emphasis role="strong"><emphasis>compute1</emphasis></emphasis> alive true
+
+midonet> tunnel-zone tzone0 add member host host0 address <emphasis role="strong"><emphasis>ip_address_of_host0</emphasis></emphasis>
+zone tzone0 host host0 address <emphasis role="strong"><emphasis>ip_address_of_host0</emphasis></emphasis>
+
+midonet> tunnel-zone tzone0 add member host host1 address <emphasis role="strong"><emphasis>ip_address_of_host1</emphasis></emphasis>
+zone tzone0 host host1 address <emphasis role="strong"><emphasis>ip_address_of_host1</emphasis></emphasis>
+
+midonet> tunnel-zone tzone0 add member host host2 address <emphasis role="strong"><emphasis>ip_address_of_host2</emphasis></emphasis>
+zone tzone0 host host2 address <emphasis role="strong"><emphasis>ip_address_of_host2</emphasis></emphasis>
+
+midonet> tunnel-zone tzone0 add member host host3 address <emphasis role="strong"><emphasis>ip_address_of_host3</emphasis></emphasis>
+zone tzone0 host host3 address <emphasis role="strong"><emphasis>ip_address_of_host3</emphasis></emphasis></literallayout>
+</informalexample>
+</listitem>
+</orderedlist>
+</section>
+</chapter>
+<chapter xml:id="initial_network_configuration">
+<title>Initial Network Configuration</title>
+<important>
+<simpara>Follow the Red Hat documentation&#8217;s
+<link xlink:href="https://access.redhat.com/documentation/en/red-hat-openstack-platform/10/paged/manual-installation-procedures/74-create-an-external-network">Create an external network</link>
+instructions, but <emphasis role="strong">note the following differences</emphasis>.</simpara>
+</important>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><emphasis role="strong">Creating and Configuring an External Network</emphasis></simpara>
+<informalexample>
+<simpara>Use the following command to create the external network:</simpara>
+<screen>$ neutron net-create ext-net --router:external</screen>
+</informalexample>
+</listitem>
+</orderedlist>
+</chapter>
+<chapter xml:id="edge_router_setup">
+<title>Edge Router Setup</title>
+<simpara>Prior to v5.0, with Neutron, you could set up the gateway in only one way, which
+was to have a special singleton gateway router called the Provider Router
+created implicitly when an external network was created in Neutron. The provider
+router sits at the edge of the cloud and interfaces with the uplink router. The
+Provider Router is where BGP was typically configured. The biggest limitation of
+this approach was that it took away the scenario in which you wanted to have an
+L2 network at the edge instead of a router. Another limitation was that only one
+such router could exist for the entire cloud.</simpara>
+<simpara>These limitations are removed in v5.0, where you could design your gateway to be
+either L2 network or router with as many routers as you wish, all using the
+Neutron API.</simpara>
+<simpara>There are two main changes:</simpara>
+<simpara><emphasis role="strong">Edge Router</emphasis></simpara>
+<simpara>The Provider Router is no longer implicitly created upon the external network
+creation. Instead, the edge gateway routers, called the Edge Routers, are
+created explicitly using standard Neutron API. With this approach, multiple Edge
+Routers can be created, and they are optional.</simpara>
+<simpara><emphasis role="strong">Gateway Virtual Topology</emphasis></simpara>
+<simpara>In the previous model, the Provider Router was connected directly to the tenant
+routers, with the external networks hanging off of the Provider Router.</simpara>
+<simpara>In the new model, the external networks exist between the edge and the tenant
+routers.</simpara>
+<simpara>To create the gateway topology issue the following Neutron commands.</simpara>
+<simpara>Create a standard neutron router:</simpara>
+<screen>neutron router-create &lt;EDGE_ROUTER_NAME&gt;</screen>
+<simpara>Attach the edge router to an external network:</simpara>
+<screen>neutron router-interface-add &lt;EDGE_ROUTER_ID&gt; &lt;EXT_SUBNET_ID&gt;</screen>
+<simpara>Create a special network called <literal>uplink</literal> network, representing the physical
+network outside of the cloud:</simpara>
+<screen>neutron net-create &lt;UPLINK_NET_NAME&gt; --tenant_id admin --provider:network_type uplink</screen>
+<simpara>Create a subnet for the uplink network matching the CIDR used in the uplink
+network (could just be /30 if linked directly to another router):</simpara>
+<screen>neutron subnet-create --tenant_id admin --disable-dhcp --name &lt;UPLINK_SUBNET_NAME&gt; &lt;UPLINK_NET_NAME&gt; &lt;CIDR&gt;</screen>
+<simpara>Create a port on the uplink network with a specific IP that you want to use and
+the binding details so that this virtual port gets bound to a specific NIC on
+the gateway host:</simpara>
+<screen>neutron port-create &lt;UPLINK_NET_ID&gt; --binding:host_id &lt;HOST_NAME&gt; --binding:profile type=dict interface_name=&lt;INTERFACE_NAME&gt; --fixed-ip ip_address=&lt;IP_ADDR&gt;</screen>
+<simpara>Attach the uplink port to the Edge Router:</simpara>
+<screen>neutron router-interface-add &lt;EDGE_ROUTER_ID&gt; port=&lt;UPLINK_PORT_ID&gt;</screen>
+</chapter>
+<chapter xml:id="bgp_uplink_configuration">
+<title>BGP Uplink Configuration</title>
+<simpara>MidoNet utilizes the Border Gateway Protocol (BGP) for external connectivity.</simpara>
+<simpara>For production deployments it is strongly recommended to use BGP due to it&#8217;s
+scalability and redundancy.</simpara>
+<simpara>For demo or POC environments, alternatively static routing can be used.</simpara>
+<simpara>The following instructions assume below sample environment:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>One floating IP network</simpara>
+<itemizedlist>
+<listitem>
+<simpara><emphasis>192.0.2.0/24</emphasis></simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Two MidoNet gateway nodes</simpara>
+<itemizedlist>
+<listitem>
+<simpara><emphasis>gateway1</emphasis>, connecting to <emphasis>bgp1</emphasis> via <emphasis>eth1</emphasis></simpara>
+</listitem>
+<listitem>
+<simpara><emphasis>gateway2</emphasis>, connecting to <emphasis>bgp2</emphasis> via <emphasis>eth1</emphasis></simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Two remote BGP peers</simpara>
+<itemizedlist>
+<listitem>
+<simpara><emphasis>bgp1</emphasis>, <emphasis>198.51.100.1</emphasis>, AS <emphasis>64513</emphasis></simpara>
+</listitem>
+<listitem>
+<simpara><emphasis>bgp2</emphasis>, <emphasis>203.0.113.1</emphasis>, AS <emphasis>64514</emphasis></simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Corresponding MidoNet BGP peers</simpara>
+<itemizedlist>
+<listitem>
+<simpara><emphasis>198.51.100.2</emphasis>, AS <emphasis>64512</emphasis></simpara>
+</listitem>
+<listitem>
+<simpara><emphasis>203.0.113.2</emphasis>, AS <emphasis>64512</emphasis></simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<simpara>Follow these steps to configure the BGP uplinks.</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Launch the MidoNet CLI and find the Edge Router</simpara>
+<literallayout class="monospaced">midonet-cli> router list
+router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> name <emphasis role="strong">Edge Router</emphasis> state up
+router router1 name Tenant Router state up infilter chain0 outfilter chain1</literallayout>
+<simpara>In this example the Edge Router is <emphasis role="strong"><emphasis>router0</emphasis></emphasis>.</simpara>
+</listitem>
+<listitem>
+<simpara>Create and bind virtual ports for the BGP sessions</simpara>
+<simpara>Refer to <xref linkend="edge_router_setup"/> for instructions on how to create the
+necessary ports and bind them to the Gateway hosts' physical network interfaces.</simpara>
+<simpara>You can confirm the port configuration within MidoNet CLI by listing the Edge
+Router&#8217;s ports:</simpara>
+<literallayout class="monospaced">midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> port list
+port port0 device router0 state up mac fa:16:3e:11:11:11 addresses <emphasis role="strong"><emphasis>198.51.100.2/30</emphasis></emphasis>
+port port1 device router0 state up mac fa:16:3e:22:22:22 addresses <emphasis role="strong"><emphasis>203.0.113.2/30</emphasis></emphasis>
+[...]</literallayout>
+</listitem>
+<listitem>
+<simpara>Configure basic BGP settings</simpara>
+<literallayout class="monospaced">midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> set asn <emphasis role="strong"><emphasis>64512</emphasis></emphasis>
+
+midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> add bgp-peer asn <emphasis role="strong"><emphasis>64513</emphasis></emphasis> address <emphasis role="strong"><emphasis>198.51.100.1</emphasis></emphasis>
+<emphasis role="strong"><emphasis>router0:peer0</emphasis></emphasis>
+
+midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> add bgp-peer asn <emphasis role="strong"><emphasis>64514</emphasis></emphasis> address <emphasis role="strong"><emphasis>203.0.113.1</emphasis></emphasis>
+<emphasis role="strong"><emphasis>router0:peer1</emphasis></emphasis>
+
+midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> list bgp-peer
+peer peer0 asn 64513 address 198.51.100.1
+peer peer1 asn 64514 address 203.0.113.1</literallayout>
+</listitem>
+<listitem>
+<simpara>If needed, configure MD5 authentication:</simpara>
+<literallayout class="monospaced">midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> bgp-peer <emphasis role="strong"><emphasis>peer0</emphasis></emphasis> set password <emphasis role="strong"><emphasis>BGP_PASSWORD</emphasis></emphasis>
+midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> bgp-peer <emphasis role="strong"><emphasis>peer1</emphasis></emphasis> set password <emphasis role="strong"><emphasis>BGP_PASSWORD</emphasis></emphasis></literallayout>
+</listitem>
+<listitem>
+<simpara>If needed, configure custom timers that will take precedence over the default
+ones defined in the MidoNet configuration:</simpara>
+<literallayout class="monospaced">midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> bgp-peer <emphasis role="strong"><emphasis>peer0</emphasis></emphasis> set connect-retry 10
+midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> bgp-peer <emphasis role="strong"><emphasis>peer0</emphasis></emphasis> set hold-time 5
+midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> bgp-peer <emphasis role="strong"><emphasis>peer0</emphasis></emphasis> set keep-alive 5
+midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> bgp-peer <emphasis role="strong"><emphasis>peer1</emphasis></emphasis> set connect-retry 10
+midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> bgp-peer <emphasis role="strong"><emphasis>peer1</emphasis></emphasis> set hold-time 5
+midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> bgp-peer <emphasis role="strong"><emphasis>peer1</emphasis></emphasis> set keep-alive 5
+midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> list bgp-peer
+peer peer0 asn 64513 address 198.51.100.1 keep-alive 5 hold-time 5 connect-retry 10
+peer peer1 asn 64514 address 203.0.113.1 keep-alive 5 hold-time 5 connect-retry 10</literallayout>
+</listitem>
+<listitem>
+<simpara>Add routes to the remote BGP peers</simpara>
+<simpara>In order to be able to establish connections to the remote BGP peers,
+corresponding routes have to be added.</simpara>
+<literallayout class="monospaced">midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> route add src 0.0.0.0/0 dst <emphasis role="strong"><emphasis>198.51.100.0/30</emphasis></emphasis> port <emphasis role="strong"><emphasis>router0:port0</emphasis></emphasis> type normal
+router0:route0
+
+midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> route add src 0.0.0.0/0 dst <emphasis role="strong"><emphasis>203.0.113.0/30</emphasis></emphasis> port <emphasis role="strong"><emphasis>router0:port1</emphasis></emphasis> type normal
+router0:route1</literallayout>
+</listitem>
+<listitem>
+<simpara>Advertise BGP routes</simpara>
+<simpara>In order to provide external connectivity for hosted virtual machines, the
+floating IP network has to be advertised to the BGP peers.</simpara>
+<literallayout class="monospaced">midonet> router <emphasis role="strong"><emphasis>router0</emphasis></emphasis> add bgp-network net <emphasis role="strong"><emphasis>192.0.2.0/24</emphasis></emphasis>
+router0:net0
+
+midonet> router router0 list bgp-network
+net net0 net 192.0.2.0/24</literallayout>
+</listitem>
+</orderedlist>
+</chapter>
+<chapter xml:id="_further_steps">
+<title>Further Steps</title>
+<simpara>MidoNet installation and integration into OpenStack is completed.</simpara>
+<note>
+<simpara>Consult the <emphasis role="strong">Operations Guide</emphasis> for further instructions on operating MidoNet.</simpara>
+</note>
+</chapter>
+</book>
