@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<products xmlns:xlink="http://www.w3.org/1999/xlink">
+   <latestpdf>MidoNet_Quick_Start_Guide_RHEL-7_Newton-OSP-10_EN_5.4-latest.pdf</latestpdf>
+   <pdfoutname>MidoNet_Quick_Start_Guide_RHEL-7_Newton-OSP-10_EN_5.4.pdf</pdfoutname>
+   <docname>MidoNet Quick Start Guide for RHEL 7 / Newton (OSP 8)</docname>
+   <productname>MidoNet Quick Start Guide</productname>
+   <webappname>quick-start-guide/rhel-7_newton-osp_en</webappname>
+   <pominfo>
+      <groupid>org.midonet</groupid>
+      <artifactid>midonet-docs-quick-start-guide-rhel-7-newton-osp-en</artifactid>
+      <version>5.4</version>
+      <pomname>midonet-docs-quick-start-guide-rhel-7-newton-osp-en v5.4</pomname>
+   </pominfo>
+</products>
