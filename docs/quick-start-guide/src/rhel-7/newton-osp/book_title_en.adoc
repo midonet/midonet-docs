@@ -1,1 +1,1 @@
-= MidoNet Quick Start Guide for RHEL 7 / Newton (OSP 8)
+= MidoNet Quick Start Guide for RHEL 7 / Newton (OSP 10)
