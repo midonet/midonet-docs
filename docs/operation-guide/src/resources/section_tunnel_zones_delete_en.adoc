@@ -7,8 +7,8 @@ Use this procedure to delete a tunnel zone.
 +
 [source]
 midonet> list tunnel-zone
-tzone tzone0 name new-tz type gre
-tzone tzone1 name gre type gre
+tzone tzone0 name new-tz type vxlan
+tzone tzone1 name vxlan type vxlan
 
 . Enter the `delete tunnel-zone tz-alias` command to delete the desired tunnel
 zone. For example:
@@ -23,4 +23,4 @@ delete; in the above example, the assigned number is 0 (tzone0).
 +
 [source]
 midonet> list tunnel-zone
-tzone tzone1 name gre type gre
+tzone tzone1 name vxlan type vxlan

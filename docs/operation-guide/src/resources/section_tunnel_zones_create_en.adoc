@@ -8,7 +8,7 @@ a new tunnel zone, where _tz-type_ is tunnel zone type, gre, vxlan, or vtep. For
 example:
 +
 [source]
-midonet> create tunnel-zone name new-tz type gre
+midonet> create tunnel-zone name new-tz type vxlan
 tzone0
 +
 Where: new-tz = the name you want to assign to the tunnel zone; the output shows
@@ -19,5 +19,5 @@ example:
 +
 [source]
 midonet> list tunnel-zone
-tzone tzone0 name new-tz type gre
-tzone tzone1 name gre type gre
+tzone tzone0 name new-tz type vxlan
+tzone tzone1 name vxlan type vxlan
