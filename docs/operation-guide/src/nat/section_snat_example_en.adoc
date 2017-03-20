@@ -1,42 +1,230 @@
 [[snat_example]]
-= SNAT example
+= SNAT REV_SNAT example
 
-This example shows how to use MidoNet CLI commands to configure SNAT on a router
-port.
+This example shows how to use MidoNet CLI commands to configure source NAT
+(known as SNAT) and reverse source nat (we call that REV_SNAT) on a router
+using static NAT (one private ip maps to one public ip). Please be aware that
+reverse source nat and DNAT are not the same thing (it depends on the connection
+and the associated flow state).
 
-For example, you might want to configure SNAT for a network device (like a VM)
-with a private IP address and a public floating IP address that sends data to a
-destination outside its local network.
+You can configure SNAT for traffic of any network device (like a VM or a container)
+that enters the virtual topology. This means you can also use a MidoNet gateway to
+do static source NAT for physical servers sitting in a physical network connected to
+a MidoNet gateway acting as a L2 gateway or L3 router.
 
-Below are the assumptions regarding the rule chain for this example:
+For demonstration purposes and to keep things simple we will use a veth pair and
+a network namespace in a simple installation with one midonet gateway acting as
+a static L3 router.
 
-* You have two subnets: a public subnet (198.51.100.0/24) and a private subnet
-(10.0.0.0/24).
+Note that the router does not have to have its virtual ports configured with ip
+addresses that we are using for NAT. Also you do not need to modify the routing
+table in the router that is actually responsible for doing the NAT.
 
-* You have a virtual machine connected to the tenant router with a public IP
-address of 198.51.100.4 and a private IP address of 10.100.1.150.
+This also holds true for L4 load balancing (which is also implemented in MidoNet
+using NAT): the ip of the load balancer does not have to be an ip on a port of a router.
 
-* You want to translate traffic with the VM's private IP address to the VM's
-public IP address.
 
-To create the rule chain for the above SNAT configuration:
+For this example to work, your physical network must be configured to route traffic for 200.200.200.0/24 to the ip address of your edge router.
 
-. Create a new rule chain:
-+
+The following assumptions are made for this example code:
+* the host for setting up the veth pair is called 'os004'
+* the edge router is simply called 'edge'
+* for brevity we have only one gw with static routing (you have to configure this yourself) in this example.
+* the underlay is 192.168.7.0/24
+* the overlay is 192.168.11.0/24
+* we want to make 192.168.11.0/24 appear as SNAT traffic coming from 200.200.200.0/24
+* the reverse source NAT path should convert traffic going to 200.200.200.0/24 back to 192.168.11.0/24
+
+On a machine with the MidoNet agent running, we create a small lab environment with a veth-pair and a separate network namespace:
 [source]
-midonet> chain create name "snat-test"
-chain7
+----
+ip link | grep veth0-snat || ip link add veth0-snat type veth peer name veth1-snat
+ip link set dev veth0-snat up
+ip netns show | grep snat-example || ip netns add snat-example
+ip link set veth1-snat netns snat-example
+ip netns exec snat-example ip link set dev veth1-snat up
+ip netns exec snat-example ip addr add 192.168.11.11/24 dev veth1-snat
+ip netns exec snat-example ip route add default via 192.168.11.1
+----
 
-. Create a rule that accepts traffic on a router port with the source
-10.100.1.150 and translates the destination to 198.51.100.4:
-+
+We also create a new bridge, create ports on the bridge and set up the edge router port.
 [source]
-midonet> chain chain7 add rule src 10.100.1.150 out-ports router1:port0 pos 1 type snat action accept target 198.51.100.4
-chain7:rule2
+----
+midonet-cli -e 'bridge list name snat-example-bridge' || midonet-cli -e 'bridge create name snat-example-bridge'
+export BRIDGE="$(midonet-cli -e 'bridge list name snat-example-bridge' | awk '{print $2;}')"
 
-. Create a rule that accepts traffic from the private network and performs SNAT
-to translate the source IP address to the IP address of the router's gateway to
-the public network.
-+
+midonet-cli -e "bridge $BRIDGE port list" | wc -l | grep '2' || midonet-cli -e "bridge $BRIDGE port create"
+midonet-cli -e "bridge $BRIDGE port list" | wc -l | grep '2' || midonet-cli -e "bridge $BRIDGE port create"
+
+export VETH_PORT="$(midonet-cli -e "bridge $BRIDGE port list" | head -n1 | awk '{print $2;}')"
+export ROUTER_PORT="$(midonet-cli -e "bridge $BRIDGE port list" | tail -n1 | awk '{print $2;}')"
+
+export HOST="$(midonet-cli -e "host list name os004" | awk '{print $2;}')"
+midonet-cli -e "host $HOST add binding port $VETH_PORT interface veth0-snat"
+
+export ROUTER="$(midonet-cli -e "router list name edge" | awk '{print $2;}')"
+midonet-cli -e "router $ROUTER port list" | grep 'address 192.168.11.1' | grep 'net 192.168.11.0/24' || \
+midonet-cli -e "router $ROUTER port create address 192.168.11.1 net 192.168.11.0/24"
+
+export RPORT="$(midonet-cli -e "router $ROUTER port list" | grep 'address 192.168.11.1' | grep 'net 192.168.11.0/24' | awk '{print $2;}')"
+midonet-cli -e "router $ROUTER route list" | grep 'dst 192.168.11.0/24' || \
+midonet-cli -e "router $ROUTER route add type normal src 0.0.0.0/0 dst 192.168.11.0/24 port $RPORT"
+
+midonet-cli -e "port $RPORT set peer $ROUTER_PORT"
+----
+
+Now you should be able to ping the router from inside the network namespace.
 [source]
-midonet> chain chain7 add rule out-ports router1:port0 pos 2 type snat action accept target 198.51.100.2
+----
+root@os004:~# ip netns exec snat-example ping -c1 192.168.11.1
+PING 192.168.11.1 (192.168.11.1) 56(84) bytes of data.
+64 bytes from 192.168.11.1: icmp_seq=1 ttl=64 time=0.546 ms
+----
+
+Pinging the outside world from this IP should not be possible at the moment.
+[source]
+----
+root@os002:~# clear; tcpdump -i enp0s8 -l -nnn -vvv -X -e ether host ac:ab:ac:ab:ac:ab and icmp
+tcpdump: listening on enp0s8, link-type EN10MB (Ethernet), capture size 262144 bytes
+13:38:16.303495 ac:ab:ac:ab:ac:ab > 80:ee:73:83:93:56, ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 63, id 63236, offset 0, flags [DF], proto ICMP (1), length 84)
+    192.168.11.11 > 192.168.7.1: ICMP echo request, id 4361, seq 1, length 64
+  0x0000:  4500 0054 f704 4000 3f01 b147 c0a8 0b0b  E..T..@.?..G....
+  0x0010:  c0a8 0701 0800 9f7f 1109 0001 b8a9 be58  ...............X
+  0x0020:  0000 0000 0da1 0400 0000 0000 1011 1213  ................
+  0x0030:  1415 1617 1819 1a1b 1c1d 1e1f 2021 2223  .............!"#
+  0x0040:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&'()*+,-./0123
+  0x0050:  3435 3637                                4567
+----
+By running tcpdump on the outgoing NIC of the gateway we can easily see that SNAT and REV_SNAT is not yet happening.
+We will now change this outgoing ICMP echo request to be SNATified as 200.200.200.11.
+
+The script may seem frightening when you look at it for the first time, but rest assured it is more simple than it looks.
+[source]
+----
+export INFILTER="snat-example-infilter"
+
+export ROUTER="$(midonet-cli -e "router list name edge" | awk '{print $2;}')"
+export IPORT="$(midonet-cli -e "router $ROUTER port list" | grep 'address 192.168.11.1' | grep 'net 192.168.11.0/24' | awk '{print $2;}')"
+export XPORT="$(midonet-cli -e "router $ROUTER port list" | grep 'address 192.168.7.2' | grep 'net 192.168.7.0/24' | awk '{print $2;}')"
+
+midonet-cli -e "router $ROUTER clear infilter"
+
+EXISTING="$(midonet-cli -e "chain list name $INFILTER" | awk '{print $2;}')"
+if [[ ! "x" == "x$EXISTING" ]]; then midonet-cli -e "delete chain $EXISTING"; fi
+
+export CHAIN="$(midonet-cli -e "chain create name $INFILTER")"
+
+midonet-cli -e "chain $CHAIN add rule \
+  src 192.168.11.11/32 \
+  in-ports $IPORT \
+  fragment-policy unfragmented \
+  no-vlan false \
+  pos 1 \
+  type snat \
+  action accept \
+  target 200.200.200.11:10000-60000"
+
+midonet-cli -e "chain $CHAIN add rule \
+  dst 200.200.200.11 \
+  in-ports $XPORT \
+  fragment-policy any \
+  no-vlan false \
+  pos 1 \
+  type rev_snat \
+  action accept"
+
+midonet-cli -e "router $ROUTER set infilter $CHAIN"
+----
+By setting the infilter on the router, this SNAT setup automatically becomes a firewall, this means that only this machine can now use the router and its traffic will always be SNATed when going over the router.
+
+Here you can see the final results, tcpdump from the gateway (arp traffic omitted):
+[source]
+----
+root@os002:~# clear; tcpdump -i enp0s8 -l -nnn -vvv -X -e ether host ac:ab:ac:ab:ac:ab and icmp
+tcpdump: listening on enp0s8, link-type EN10MB (Ethernet), capture size 262144 bytes
+14:36:41.512662 ac:ab:ac:ab:ac:ab > 80:ee:73:83:93:56, ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 63, id 13058, offset 0, flags [DF], proto ICMP (1), length 84)
+    200.200.200.11 > 192.168.7.1: ICMP echo request, id 4927, seq 1, length 64
+  0x0000:  4500 0054 3302 4000 3f01 b029 c8c8 c80b  E..T3.@.?..)....
+  0x0010:  c0a8 0701 0800 138c 133f 0001 69b7 be58  .........?..i..X
+  0x0020:  0000 0000 e350 0700 0000 0000 1011 1213  .....P..........
+  0x0030:  1415 1617 1819 1a1b 1c1d 1e1f 2021 2223  .............!"#
+  0x0040:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&'()*+,-./0123
+  0x0050:  3435 3637                                4567
+14:36:41.513747 80:ee:73:83:93:56 > ac:ab:ac:ab:ac:ab, ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto ICMP (1), length 84)
+    192.168.7.1 > 200.200.200.11: ICMP echo reply, id 4927, seq 1, length 64
+  0x0000:  4500 0054 0000 4000 4001 e22b c0a8 0701  E..T..@.@..+....
+  0x0010:  c8c8 c80b 0000 1b8c 133f 0001 69b7 be58  .........?..i..X
+  0x0020:  0000 0000 e350 0700 0000 0000 1011 1213  .....P..........
+  0x0030:  1415 1617 1819 1a1b 1c1d 1e1f 2021 2223  .............!"#
+  0x0040:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&'()*+,-./0123
+  0x0050:  3435 3637                                4567
+----
+
+This is the traffic in the VXLAN tunnels going between the node with the veth pair and the MidoNet gateway:
+[source]
+----
+root@os002:~# clear; tcpdump -i enp0s3 -l -nnn -vvv -X -e -Tvxlan port 6677
+tcpdump: listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
+14:37:26.709018 08:00:27:97:e4:37 > 08:00:27:c5:6b:60, ethertype IPv4 (0x0800), length 148: (tos 0x0, ttl 255, id 24228, offset 0, flags [none], proto UDP (17), length 134)
+    192.168.7.189.49719 > 192.168.7.190.6677: VXLAN, flags [I] (0x08), vni 8072578
+ac:ab:ac:ab:ac:ab > 80:ee:73:83:93:56, ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 63, id 17418, offset 0, flags [DF], proto ICMP (1), length 84)
+    200.200.200.11 > 192.168.7.1: ICMP echo request, id 4930, seq 1, length 64
+  0x0000:  4500 0086 5ea4 0000 ff11 cbf6 c0a8 07bd  E...^...........
+  0x0010:  c0a8 07be c237 1a15 0072 0000 0800 0000  .....7...r......
+  0x0020:  7b2d 8200 80ee 7383 9356 acab acab acab  {-....s..V......
+  0x0030:  0800 4500 0054 440a 4000 3f01 9f21 c8c8  ..E..TD.@.?..!..
+  0x0040:  c80b c0a8 0701 0800 a70e 1342 0001 96b7  ...........B....
+  0x0050:  be58 0000 0000 1fcb 0a00 0000 0000 1011  .X..............
+  0x0060:  1213 1415 1617 1819 1a1b 1c1d 1e1f 2021  ...............!
+  0x0070:  2223 2425 2627 2829 2a2b 2c2d 2e2f 3031  "#$%&'()*+,-./01
+  0x0080:  3233 3435 3637                           234567
+14:37:26.714107 08:00:27:c5:6b:60 > 08:00:27:97:e4:37, ethertype IPv4 (0x0800), length 148: (tos 0x0, ttl 255, id 45283, offset 0, flags [none], proto UDP (17), length 134)
+    192.168.7.190.56640 > 192.168.7.189.6677: VXLAN, flags [I] (0x08), vni 8204919
+ac:ca:ba:33:65:40 > 2a:b5:3b:78:86:b0, ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 63, id 0, offset 0, flags [DF], proto ICMP (1), length 84)
+    192.168.7.1 > 192.168.11.11: ICMP echo reply, id 4930, seq 1, length 64
+  0x0000:  4500 0086 b0e3 0000 ff11 79b7 c0a8 07be  E.........y.....
+  0x0010:  c0a8 07bd dd40 1a15 0072 0000 0800 0000  .....@...r......
+  0x0020:  7d32 7700 2ab5 3b78 86b0 acca ba33 6540  }2w.*.;x.....3e@
+  0x0030:  0800 4500 0054 0000 4000 3f01 a84c c0a8  ..E..T..@.?..L..
+  0x0040:  0701 c0a8 0b0b 0000 af0e 1342 0001 96b7  ...........B....
+  0x0050:  be58 0000 0000 1fcb 0a00 0000 0000 1011  .X..............
+  0x0060:  1213 1415 1617 1819 1a1b 1c1d 1e1f 2021  ...............!
+  0x0070:  2223 2425 2627 2829 2a2b 2c2d 2e2f 3031  "#$%&'()*+,-./01
+  0x0080:  3233 3435 3637                           234567
+----
+
+For reference, this is a tcpdump on the veth pair before the packet enters the overlay and after the return packet leaves the overlay:
+[source]
+----
+root@os004:~# clear; ip netns exec snat-example tcpdump -i veth1-snat -l -nnn -vvv -X -e
+tcpdump: listening on veth1-snat, link-type EN10MB (Ethernet), capture size 262144 bytes
+14:39:46.635497 2a:b5:3b:78:86:b0 > ac:ca:ba:33:65:40, ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 64, id 24548, offset 0, flags [DF], proto ICMP (1), length 84)
+    192.168.11.11 > 192.168.7.1: ICMP echo request, id 5036, seq 1, length 64
+  0x0000:  4500 0054 5fe4 4000 4001 4768 c0a8 0b0b  E..T_.@.@.Gh....
+  0x0010:  c0a8 0701 0800 d8bc 13ac 0001 22b8 be58  ............"..X
+  0x0020:  0000 0000 62b2 0900 0000 0000 1011 1213  ....b...........
+  0x0030:  1415 1617 1819 1a1b 1c1d 1e1f 2021 2223  .............!"#
+  0x0040:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&'()*+,-./0123
+  0x0050:  3435 3637                                4567
+14:39:46.637896 ac:ca:ba:33:65:40 > 2a:b5:3b:78:86:b0, ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 63, id 0, offset 0, flags [DF], proto ICMP (1), length 84)
+    192.168.7.1 > 192.168.11.11: ICMP echo reply, id 5036, seq 1, length 64
+  0x0000:  4500 0054 0000 4000 3f01 a84c c0a8 0701  E..T..@.?..L....
+  0x0010:  c0a8 0b0b 0000 e0bc 13ac 0001 22b8 be58  ............"..X
+  0x0020:  0000 0000 62b2 0900 0000 0000 1011 1213  ....b...........
+  0x0030:  1415 1617 1819 1a1b 1c1d 1e1f 2021 2223  .............!"#
+  0x0040:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&'()*+,-./0123
+  0x0050:  3435 3637                                4567
+----
+
+As you can see, the MidoNet agent on the originating node already does the necessary
+SNAT transformations, the gateway is just used to send the packet into the physical network.
+This is another reason why using a NIC with vxlan offloading is fast, there is no userland
+trip involved on the egress.
+
+Vice versa (and here we are touching on the subject of the problem of how to scale
+flow state using a distributed system) the REV_SNAT is happening on the gateway ingress
+when receiving the ICMP reply, the transformations are done before the packet enters
+the VXLAN tunnel.
+
+Both the gateway and the compute node running the veth pair lab have kernel flow
+table rules to make unpacking the VXLAN tunnel data fast and without userland intervention.

@@ -9,7 +9,7 @@ node.
 |Category|Service|Prot ocol|Port|Self|Controller|Compute|Mgmt. PC
 |OpenStack|glance-api|TCP|9292|x|x|x|x
 |OpenStack|httpd (Horizon)|TCP|80|x| | |x
-|MidoNet|midonet-api|TCP|8080|x|x| |x
+|MidoNet|midonet-api|TCP|8181|x|x| |x
 |OpenStack|swift-object-server|TCP|6000|x|x|x|
 |OpenStack|swift-container-server|TCP|6001|x|x|x|
 |OpenStack|swift-account-server|TCP|6002|x|x|x|

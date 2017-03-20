@@ -1,4 +1,5 @@
 :sourcedir: .
+:ops_services_folder: ../../operation-guide/src/
 
 // Title
 include::{sourcedir}/book_title_{lang}.adoc[leveloffset=+1]
@@ -32,3 +33,10 @@ include::{sourcedir}/components/section_gateway_nodes_{lang}.adoc[leveloffset=+1
 include::{sourcedir}/components/section_midolman_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/components/section_midonet_api_{lang}.adoc[leveloffset=+1]
 include::{sourcedir}/components/section_midonet_cli_{lang}.adoc[leveloffset=+1]
+
+// Chapter: MidoNet and OpenStack TCP/UDP service ports
+include::{ops_services_folder}/services/chapter_services_{lang}.adoc[leveloffset=+1]
+include::{ops_services_folder}/services/section_services_controller_{lang}.adoc[leveloffset=+2]
+include::{ops_services_folder}/services/section_services_nsdb_{lang}.adoc[leveloffset=+2]
+include::{ops_services_folder}/services/section_services_compute_{lang}.adoc[leveloffset=+2]
+include::{ops_services_folder}/services/section_services_gateway_{lang}.adoc[leveloffset=+2]

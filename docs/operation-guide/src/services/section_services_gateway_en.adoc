@@ -5,7 +5,7 @@ This section lists the TCP/UDP ports used by the services on the Gateway Nodes.
 
 [options="header"]
 |===============
-|Category|Service|Prot ocol|Port|Self|Misc.|Comment
+|Category|Service|Protocol|Port|Self|Misc.|Comment
 |MidoNet|midolman|TCP|random|x| |
     midolman LISTEN"s to a TCP high number port. The port number is randomly
     selected on each MN Agent host.
