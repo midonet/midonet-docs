@@ -1,4 +1,5 @@
 //Auto generated index for searching.
+w["oslo_messaging_rabbit"]="15";
 w["other"]="9,11,19,25,29";
 w["outfilt"]="16";
 w["outsid"]="7";
