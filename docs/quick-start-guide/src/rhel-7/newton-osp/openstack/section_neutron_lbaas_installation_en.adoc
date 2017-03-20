@@ -32,7 +32,7 @@ Enable the LBaaS plug-in by using the `service_plugins` option in the
 [source]
 ----
 [DEFAULT]
-service_plugins = lbaasv2
+service_plugins = neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2
 ----
 
 [NOTE]
