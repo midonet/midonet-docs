@@ -1,0 +1,9 @@
+[[static_chapter_setup]]
+= Static Setup
+
+If you are not connecting through a BGP link, or you just want to use static
+routing follow this section.
+
+If you just want to do a small test , or PoC you can make a fake uplink as
+described on its own section
+

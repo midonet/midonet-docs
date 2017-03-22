@@ -6,65 +6,11 @@ routing follow this section.
 
 This creates a static up-link to connect VMs to the external network.
 
-. Create fake uplink
-+
-We are going to create the following topology to allow the VMs reach external
-networks:
-+
-[source]
-----
-
-             +---------------+
-                             |
-                             | 172.19.0.1/30
-          +------------------+---------------+
-          |                                  |
-          |     Fakeuplink linux bridge      |
-          |                                  |
-          +------------------+---------------+        UNDERLAY
-                             | veth0
-                             |
-                             |
-                             |
-  +------+  +------+  +-------------+  +------+  +------+
-                             |
-                             |
-                             |
-               172.19.0.2/30 | veth1
-          +------------------+----------------+        OVERLAY
-          |                                   |
-          |            Edge Router            |
-          |                                   |
-          +------------------+----------------+
-                             |  200.200.200.0/24
-                             |
-          +------------------+----------------+
-----
-
-. Create a veth pair
-+
-[source]
-# ip link add type veth
-# ip link set dev veth0 up
-# ip link set dev veth1 up
-
-. Create a bridge, set an IP address and attach veth0
-+
-[source]
-# brctl addbr uplinkbridge
-# brctl addif uplinkbridge veth0
-# ip addr add 172.19.0.1/30 dev uplinkbridge
-# ip link set dev uplinkbridge up
 
 . Enable IP forwarding
 +
 [source]
 # sysctl -w net.ipv4.ip_forward=1
-
-. Route packets to 'external' network to the bridge
-+
-[source]
-# ip route add 200.200.200.0/24 via 172.19.0.2
 
 . Create a port on the Edge Router and bind it to the veth:
 +
@@ -73,22 +19,14 @@ networks:
 $ midonet-cli
 midonet> router list
 router router0 name Edge Router state up
-midonet> router router0 add port addresses 172.19.0.2/30
+midonet> router router0 add port addresses <Binding_Interface_CIDR>
 router0:port0
-midonet> router router0 add route src 0.0.0.0/0 dst 0.0.0.0/0 type normal port router router0 port port0 gw 172.19.0.1
+midonet> router router0 add route src 0.0.0.0/0 dst 0.0.0.0/0 type normal port router router0 port port0 gw <Gw_Ip_On_Binding_Interface>
 midonet> host list
 host host0 name controller alive true
-midonet> host host0 add binding port router router0 port port0 interface veth1
-host host0 interface veth1 port router0:port
+midonet> host host0 add binding port router router0 port port0 interface <Binding_Interface>
+host host0 interface <Binding_Interface> port router0:port
 ----
-
-. Add masquerading to your external interface so connections coming from the
-overlay with addresses that belong to the "fake" external network are NATed.
-Also make sure these packets can be forwarded:
-+
-[source]
-# iptables -t nat -I POSTROUTING -o eth0 -s 200.200.200.0/24 -j MASQUERADE
-# iptables -I FORWARD -s 200.200.200.0/24 -j ACCEPT
 
 Now we can reach VMs from the underlay host using their floating IPs, and VMs
 can reach external networks as well (as long as the host has external

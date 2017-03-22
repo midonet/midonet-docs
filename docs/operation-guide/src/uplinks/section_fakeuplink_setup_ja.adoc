@@ -1,4 +1,4 @@
-[[static_setup]]
+[[static_fakeuplink_setup]]
 = スタティックな設定
 
 BGPリンクを通じて接続していない場合、またはスタティックなルーティングにしたい場合は、以下のセクションを従ってください。
@@ -54,7 +54,7 @@ VMが外部ネットワークにリーチする為に、以下のトポロジー
 # ip addr add 172.19.0.1/30 dev uplinkbridge
 # ip link set dev uplinkbridge up
 
-. IPフォワーディングを利用可能にします。 
+. IPフォワーディングを利用可能にします。
 +
 [source]
 # sysctl -w net.ipv4.ip_forward=1
