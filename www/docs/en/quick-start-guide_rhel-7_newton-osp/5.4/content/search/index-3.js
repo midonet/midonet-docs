@@ -1,5 +1,4 @@
 //Auto generated index for searching.
-w["path"]="8,21";
 w["peer"]="14";
 w["peer0"]="14";
 w["peer1"]="14";
