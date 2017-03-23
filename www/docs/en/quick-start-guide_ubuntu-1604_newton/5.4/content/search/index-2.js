@@ -1,4 +1,5 @@
 //Auto generated index for searching.
+w["e"]="1";
 w["each"]="27";
 w["echo"]="1,23,27";
 w["edg"]="7,16";
