@@ -42,7 +42,7 @@ When using multiple service plugins, separate them with commas:
 [source]
 ----
 [DEFAULT]
-service_plugins = foo,bar,lbassv2
+service_plugins = foo,bar,neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2
 ----
 =====
 ====
