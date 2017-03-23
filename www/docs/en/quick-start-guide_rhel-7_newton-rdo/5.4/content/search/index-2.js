@@ -1,4 +1,5 @@
 //Auto generated index for searching.
+w["enable_firewal"]="19";
 w["encapsul"]="26";
 w["end"]="11,20";
 w["enter"]="28,30";
