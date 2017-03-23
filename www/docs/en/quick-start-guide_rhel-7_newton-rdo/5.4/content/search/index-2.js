@@ -1,5 +1,4 @@
 //Auto generated index for searching.
-w["enable_firewal"]="19";
 w["encapsul"]="26";
 w["end"]="11,20";
 w["enter"]="28,30";
@@ -155,6 +154,7 @@ w["last"]="11";
 w["latenc"]="24";
 w["launch"]="4,17,26";
 w["lbaa"]="14,16";
+w["lbassv2"]="14";
 w["leav"]="9,28,30";
 w["legal"]="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32";
 w["lib"]="16,24";
@@ -307,5 +307,4 @@ w["oslo_concurr"]="16";
 w["oslo_messaging_rabbit"]="16";
 w["other"]="9,11,20,26,30";
 w["outfilt"]="17";
-w["outsid"]="7";
 
