@@ -77,6 +77,7 @@ include::{sourcedir}/nat/section_rule_chains_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/nat/section_configuration_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/nat/section_dnat_revdnat_example_{lang}.adoc[leveloffset=+2]
 include::{sourcedir}/nat/section_snat_example_{lang}.adoc[leveloffset=+2]
+include::{sourcedir}/nat/section_dnat_example_{lang}.adoc[leveloffset=+2]
 
 // Chapter: Layer 4 Load Balancing
 include::{sourcedir}/l4lb/chapter_l4lb_{lang}.adoc[leveloffset=+1]

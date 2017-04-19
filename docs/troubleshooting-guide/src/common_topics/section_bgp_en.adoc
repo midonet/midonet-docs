@@ -8,8 +8,7 @@ Find BGP namespaces:
 [literal,subs="verbatim,quotes"]
 ----
 # ip netns list
-*_mbgp1_ns_*
-*_mbgp2_ns_*
+*_bgp-1401c51_*
 [...]
 ----
 
@@ -17,7 +16,7 @@ Verify that the Quagga process is running:
 
 [literal,subs="verbatim,quotes"]
 ----
-# ip netns exec *_mbgp1_ns_* ps aux | grep [q]uagga
+# ip netns exec *_bgp-1401c51_* ps aux | grep [q]uagga
 quagga   10614  0.0  0.0 114544  7664 ?        S    04:06   0:00 /usr/sbin/bgpd *_--vty_port 2606_* --config_file /etc/midolman/quagga/bgpd.conf --pid_file /var/run/quagga/bgpd.2606.pid --socket /var/run/quagga/zserv1.api
 ----
 
@@ -25,12 +24,12 @@ Verify that Quagga is listening on both VTYSH and BGP ports:
 
 [literal,subs="verbatim,quotes"]
 ----
-# ip netns exec *_mbgp1_ns_* netstat -tulpen
+# ip netns exec *_bgp-1401c51_* netstat -tulpen
 Active Internet connections (only servers)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State       User       Inode      PID/Program name    
-tcp        0      0 0.0.0.0:__**2606**__            0.0.0.0:*               LISTEN      92         4052614    24029/bgpd          
-tcp        0      0 0.0.0.0:__**179**__             0.0.0.0:*               LISTEN      92         4052693    24029/bgpd          
-tcp6       0      0 :::__**2606**__                 :::*                    LISTEN      92         4052615    24029/bgpd          
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       User       Inode      PID/Program name
+tcp        0      0 0.0.0.0:__**2606**__            0.0.0.0:*               LISTEN      92         4052614    24029/bgpd
+tcp        0      0 0.0.0.0:__**179**__             0.0.0.0:*               LISTEN      92         4052693    24029/bgpd
+tcp6       0      0 :::__**2606**__                 :::*                    LISTEN      92         4052615    24029/bgpd
 tcp6       0      0 :::__**179**__                  :::*                    LISTEN      92         4052694    24029/bgpd
 ----
 
@@ -38,53 +37,53 @@ Check the BGP-related interfaces and routing information:
 
 [literal,subs="verbatim,quotes"]
 ----
-# ip netns exec *_mbgp1_ns_* ip addr
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
+# ip netns exec *_bgp-1401c51_* ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host 
+    inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
-5: mbgp1_m: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+5: bgp-1401c51_m: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
     link/ether ac:ca:ba:1a:af:24 brd ff:ff:ff:ff:ff:ff
-    inet _**192.0.2.2/30**_ scope global mbgp1_m
+    inet _**192.0.2.2/30**_ scope global bgp-1401c51_m
        valid_lft forever preferred_lft forever
-    inet6 fe80::aeca:baff:fe1a:af24/64 scope link 
+    inet6 fe80::aeca:baff:fe1a:af24/64 scope link
        valid_lft forever preferred_lft forever
-7: mbgp1_vtym: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+7: bgp-1401c51_vm: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
     link/ether c6:89:e2:2b:b0:8e brd ff:ff:ff:ff:ff:ff
-    inet _**172.23.0.6/30**_ scope global mbgp1_vtym
+    inet _**172.23.0.6/30**_ scope global bgp-1401c51_vm
        valid_lft forever preferred_lft forever
-    inet6 fe80::c489:e2ff:fe2b:b08e/64 scope link 
+    inet6 fe80::c489:e2ff:fe2b:b08e/64 scope link
        valid_lft forever preferred_lft forever
 ----
 
 [literal,subs="verbatim,quotes"]
 ----
-# ip netns exec *_mbgp1_ns_* ip route
-192.0.2.0/30   dev mbgp1_m     proto kernel  scope link  src 192.0.2.2
-172.23.0.4/30  dev mbgp1_vtym  proto kernel  scope link  src 172.23.0.6
+# ip netns exec *_bgp-1401c51_* ip route
+192.0.2.0/30   dev bgp-1401c51_m     proto kernel  scope link  src 192.0.2.2
+172.23.0.4/30  dev bgp-1401c51_vm  proto kernel  scope link  src 172.23.0.6
 ----
 
 Ensure that the BGP peers are `REACHABLE`:
 
 [literal,subs="verbatim,quotes"]
 ----
-# ip netns exec *_mbgp1_ns_* ip neigh show
+# ip netns exec *_bgp-1401c51_* ip neigh show
 ----
 
 Dump the VTYSH interface's traffic:
 
 [literal,subs="verbatim,quotes"]
 ----
-# ip netns exec *_mbgp1_ns_* tcpdump -vvv -i *_mbgp1_vtym_*
+# ip netns exec *_bgp-1401c51_* tcpdump -vvv -i *_mbgp1_vtym_*
 ----
 
 Dump ARP, BGP and ICMP traffic on the BGP interface:
 
 [literal,subs="verbatim,quotes"]
 ----
-# ip netns exec *_mbgp1_ns_* tcpdump -vvv -i *_mbgp1_m_* "icmp or arp or port 179"
+# ip netns exec *_bgp-1401c51_* tcpdump -vvv -i *_mbgp1_m_* "icmp or arp or port 179"
 ----
 
 Dump ARP, BGP and ICMP traffic on the corresponding physical interface:
@@ -94,66 +93,71 @@ Dump ARP, BGP and ICMP traffic on the corresponding physical interface:
 # tcpdump -vvv -i *_eth1_* "icmp or arp or port 179"
 ----
 
-Launch Quagga's VTY shell:
+In order to verify connectivity , launch midonet-cli
 
 [literal,subs="verbatim,quotes"]
 ----
-# ip netns exec *_mbgp1_ns_* vtysh
+# midonet-cli
 ----
 
-Inside Quagga's VTY shell, show the running configuration:
+Inside Midonet CLI , find your edge-router(s)
 
 [source]
 ----
-# show run
-Building configuration...
-
-Current configuration:
-!
-hostname bgpd
-log file /var/log/quagga/bgpd.2609.log
-!
-password zebra_password
-!
-router bgp 65535
- bgp router-id 192.0.2.2
- network 203.0.113.0/24
- neighbor 192.0.2.1 remote-as 65534
- neighbor 192.0.2.1 timers 5 15
- neighbor 192.0.2.1 timers connect 10
-!
-line vty
-!
-end
+midonet> router list
+router router0 name edge-router state up infilter chain0 outfilter chain1 asn 12345
 ----
 
-Inside Quagga's VTY shell, show the BGP summary:
+Find the BGP port(s)
+
+[literal,subs="verbatim,quotes"]
+----
+midonet> router router0 port list
+port port0 device router0 state up plugged no mac fa:16:3e:ad:5c:30 address 200.200.200.1 net 200.200.200.1/24 peer bridge0:port0
+*port _*port1*_ device router0 state up plugged yes mac fa:16:3e:a7:9f:82 address 10.88.88.3 net 10.88.88.3/29*
+----
+
+
+Show the BGP status
 
 [source]
 ----
-# show ip bgp summary  
-BGP router identifier 192.0.2.2, local AS number 65535
-RIB entries 19, using 2128 bytes of memory
-Peers 1, using 4560 bytes of memory
+midonet> router router0 port port1 bgp-status show
+BGP neighbor is 10.88.88.2, remote AS 65535, local AS 12345, external link
+  BGP version 4, remote router ID 10.20.0.254
+  BGP state = Established, up for 05w1d16h
+  Last read 00:00:19, hold time is 180, keepalive interval is 60 seconds
+  Configured hold time is 180, keepalive interval is 60 seconds
+  Neighbor capabilities:
+    4 Byte AS: advertised and received
+    Route refresh: advertised and received(old & new)
+    Address family IPv4 Unicast: advertised and received
+  Message statistics:
+    Inq depth is 0
+    Outq depth is 0
+                         Sent       Rcvd
+    Opens:                  3          0
+    Notifications:          0          1
+    Updates:                1          1
+    Keepalives:         52802      52801
+    Route Refresh:          0          0
+    Capability:             0          0
+    Total:              52806      52803
+  Minimum time between advertisement runs is 30 seconds
 
-Neighbor    V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
-192.0.2.1   4 65534    5512    5523        0    0    0 07:40:09       10
-----
+ For address family: IPv4 Unicast
+  Community attribute sent to this neighbor(both)
+  Outbound path policy configured
+  Outgoing update AS path filter list is *1
+  1 accepted prefixes
 
-Inside Quagga's VTY shell, show BGP routing information:
-
-[source]
-----
-# show ip bgp
-BGP table version is 0, local router ID is 192.0.2.2
-Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
-              r RIB-failure, S Stale, R Removed
-Origin codes: i - IGP, e - EGP, ? - incomplete
-
-   Network            Next Hop            Metric LocPrf Weight Path
-*> 0.0.0.0            192.0.2.1           0             0 65534 ?
-*> 203.0.113.0/24     0.0.0.0             0         32768 i
-*> 192.0.2.0/30       192.0.2.1           0             0 65534 ?
-
-Total number of prefixes 11
+  Connections established 1; dropped 0
+  Last reset never
+Local host: 10.88.88.3, Local port: 179
+Foreign host: 10.88.88.2, Foreign port: 54094
+Nexthop: 10.88.88.3
+Nexthop global: ::
+Nexthop local: ::
+BGP connection: non shared network
+Read thread: on  Write thread: off
 ----

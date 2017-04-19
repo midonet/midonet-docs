@@ -1,0 +1,134 @@
+[[dnat_example]]
+= DNAT REV_SNAT example
+
+In this example for how to set up a DNAT we will use two networks, one router and one vm.
+The virtual machine is running in OpenStack and connected to the network 'internal' using the tap device 'tape239f31e-63'.
+We will use a veth pair with a linux bridge to connect to the agent.
+
+Here you can see the result of this lab as two tcpdumps.
+
+This is the ICMP request and reply before the DNAT happens.
+[source]
+----
+root@nikita ~ # tcpdump -i veth0 -l -nnn -vvv -X -e icmp
+tcpdump: listening on veth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+12:30:51.226272 c2:86:ff:ce:17:0a > fa:16:3e:52:65:b1, ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 64, id 53133, offset 0, flags [DF], proto ICMP (1), length 84)
+    192.168.78.9 > 192.168.79.119: ICMP echo request, id 28653, seq 1, length 64
+    0x0000:  4500 0054 cf8d 4000 4001 4c4a c0a8 4e09  E..T..@.@.LJ..N.
+    0x0010:  c0a8 4f77 0800 3bcd 6fed 0001 dba4 f058  ..Ow..;.o......X
+    0x0020:  0000 0000 be73 0300 0000 0000 1011 1213  .....s..........
+    0x0030:  1415 1617 1819 1a1b 1c1d 1e1f 2021 2223  .............!"#
+    0x0040:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&'()*+,-./0123
+    0x0050:  3435 3637                                4567
+12:30:51.264465 fa:16:3e:52:65:b1 > c2:86:ff:ce:17:0a, ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 63, id 21839, offset 0, flags [none], proto ICMP (1), length 84)
+    192.168.77.119 > 192.168.78.9: ICMP echo reply, id 28653, seq 1, length 64
+    0x0000:  4500 0054 554f 0000 3f01 0989 c0a8 4d77  E..TUO..?.....Mw
+    0x0010:  c0a8 4e09 0000 43cd 6fed 0001 dba4 f058  ..N...C.o......X
+    0x0020:  0000 0000 be73 0300 0000 0000 1011 1213  .....s..........
+    0x0030:  1415 1617 1819 1a1b 1c1d 1e1f 2021 2223  .............!"#
+    0x0040:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&'()*+,-./0123
+    0x0050:  3435 3637                                4567
+----
+
+This is the ICMP request after going through the DNAT of the router and entering the virtual machine:
+[source]
+----
+root@nikita ~ # tcpdump -i tape239f31e-63 -l -nnn -vvv -X -e icmp
+tcpdump: listening on tape239f31e-63, link-type EN10MB (Ethernet), capture size 262144 bytes
+12:30:51.227421 fa:16:3e:bb:12:d0 > fa:16:3e:39:9e:e9, ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 63, id 53133, offset 0, flags [DF], proto ICMP (1), length 84)
+    192.168.78.9 > 192.168.77.119: ICMP echo request, id 28653, seq 1, length 64
+    0x0000:  4500 0054 cf8d 4000 3f01 4f4a c0a8 4e09  E..T..@.?.OJ..N.
+    0x0010:  c0a8 4d77 0800 3bcd 6fed 0001 dba4 f058  ..Mw..;.o......X
+    0x0020:  0000 0000 be73 0300 0000 0000 1011 1213  .....s..........
+    0x0030:  1415 1617 1819 1a1b 1c1d 1e1f 2021 2223  .............!"#
+    0x0040:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&'()*+,-./0123
+    0x0050:  3435 3637                                4567
+12:30:51.229573 fa:16:3e:39:9e:e9 > fa:16:3e:bb:12:d0, ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 64, id 21839, offset 0, flags [none], proto ICMP (1), length 84)
+    192.168.77.119 > 192.168.78.9: ICMP echo reply, id 28653, seq 1, length 64
+    0x0000:  4500 0054 554f 0000 4001 0889 c0a8 4d77  E..TUO..@.....Mw
+    0x0010:  c0a8 4e09 0000 43cd 6fed 0001 dba4 f058  ..N...C.o......X
+    0x0020:  0000 0000 be73 0300 0000 0000 1011 1213  .....s..........
+    0x0030:  1415 1617 1819 1a1b 1c1d 1e1f 2021 2223  .............!"#
+    0x0040:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&'()*+,-./0123
+    0x0050:  3435 3637                                4567
+----
+
+Here are the commands to set this up, we will later explain them step by step:
+[source]
+----
+midonet> router list
+router router0 name tr state up infilter chain1 outfilter chain2 asn -1 forward-chain chain3
+midonet> router router0 port list
+port port0 device router0 state up plugged no mac fa:16:3e:bb:12:d0 address 192.168.77.1 net 192.168.77.1/24 peer bridge0:port0
+port port1 device router0 state up plugged no mac fa:16:3e:52:65:b1 address 192.168.78.1 net 192.168.78.1/24 peer bridge1:port0
+
+midonet> chain create name "dnat-test"
+chain0
+midonet> chain chain0 add rule dst 192.168.79.119 in-ports router0:port1 pos 1 type dnat action accept target 192.168.77.119:10000-60000
+chain0:rule0
+midonet> chain chain0 add rule dst 192.168.79.119 in-ports router0:port1 pos 2 type rev_snat action accept
+chain0:rule1
+midonet> router router0 set infilter chain0
+----
+
+Make sure you understand the existing infilter chain of the router before replacing it with your infilter chain.
+The rule number itself is not important for the DNAT (its just an index for the rule object), the position argument in the rule (pos 1 or pos 2) itself however is important for how the chain evaluates these rules.
+
+Our test host has a binding to a virtual port on bridge1. This is the place we are doing our ping command from.
+[source]
+----
+midonet> host host0 binding list
+host host0 interface tape239f31e-63 port bridge0:port10
+host host0 interface veth0 port bridge1:port1
+
+midonet> bridge bridge1 port list
+port port0 device bridge1 state up plugged no vlan 0 peer router0:port1
+port port1 device bridge1 state up plugged yes vlan 0
+
+midonet> bridge bridge0 port list
+port port0 device bridge0 state up plugged no vlan 0 peer router0:port0
+port port1 device bridge0 state up plugged no vlan 0
+ ... some ports removed for brevity ...
+port port10 device bridge0 state up plugged yes infilter chain20 outfilter chain21 vlan 0
+----
+
+This is an overview how the networking looks like on the test host where we created this documentation:
+[source]
+----
+root@nikita ~ # brctl show
+bridge name    bridge id        STP enabled    interfaces
+internal_linuxb        8000.c286ffce170a    no        veth1
+
+root@nikita ~ # ip a s internal_linuxb
+33: internal_linuxb: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether c2:86:ff:ce:17:0a brd ff:ff:ff:ff:ff:ff
+    inet 192.168.78.9/24 brd 192.168.78.255 scope global internal_linuxb
+       valid_lft forever preferred_lft forever
+    inet6 fe80::60a9:44ff:fe73:bb07/64 scope link
+       valid_lft forever preferred_lft forever
+
+root@nikita ~ # ip a s veth0
+35: veth0@veth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 65000 qdisc noqueue master midonet state UP group default qlen 1000
+    link/ether 92:2a:72:ba:49:24 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::902a:72ff:feba:4924/64 scope link
+       valid_lft forever preferred_lft forever
+
+root@nikita ~ # ip a s veth1
+34: veth1@veth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master internal_linuxb state UP group default qlen 1000
+    link/ether c2:86:ff:ce:17:0a brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::c086:ffff:fece:170a/64 scope link
+       valid_lft forever preferred_lft forever
+
+root@nikita ~ # ip r s
+default via 178.63.102.1 dev eth0 onlink
+169.254.0.0/16 dev metadata  proto kernel  scope link  src 169.254.169.254
+169.254.123.0/24 dev midorecirc-host  proto kernel  scope link  src 169.254.123.1
+178.63.102.0/26 via 178.63.102.1 dev eth0
+178.63.102.0/26 dev eth0  proto kernel  scope link  src 178.63.102.6
+192.168.77.0/24 via 192.168.78.1 dev internal_linuxb
+192.168.78.0/24 dev internal_linuxb  proto kernel  scope link  src 192.168.78.9
+192.168.79.0/24 via 192.168.78.1 dev internal_linuxb
+----
+
+The route for 192.168.77.0/24 makes it possible to reach the VM directly.
+Adding a route for 192.168.79.0/24 via 192.168.78.1 will send the packets for the DNAT to the midonet router that is performing the DNAT.
