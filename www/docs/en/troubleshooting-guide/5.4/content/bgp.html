@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#"><head>
 <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
 <title>Border Gateway Protocol (BGP) - MidoNet Troubleshooting Guide
-   - 5.4</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/><meta name="mavenGroupId" content="org.midonet"/><meta name="mavenArtifactId" content="midonet-docs-troubleshooting-guide-en"/><meta name="mavenVersionId" content="5.4"/><link rel="home" href="index.html" title="MidoNet Troubleshooting Guide"/><link rel="up" href="_common_topics.html" title="Chapter 2. Common Topics"/><link rel="prev" href="midonet_cluster.html" title="MidoNet Cluster"/><link rel="next" href="zookeeper.html" title="ZooKeeper"/><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><meta name="git-sha" content="f1b84a00a70ede810c7e4f08011e0aeb34fd923f"/><meta name="buildTime" content="2017-02-08T17:02:04+00:00"/><script type="text/javascript">
+   - 5.4</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/><meta name="mavenGroupId" content="org.midonet"/><meta name="mavenArtifactId" content="midonet-docs-troubleshooting-guide-en"/><meta name="mavenVersionId" content="5.4"/><link rel="home" href="index.html" title="MidoNet Troubleshooting Guide"/><link rel="up" href="_common_topics.html" title="Chapter 2. Common Topics"/><link rel="prev" href="midonet_cluster.html" title="MidoNet Cluster"/><link rel="next" href="zookeeper.html" title="ZooKeeper"/><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><meta name="git-sha" content="5e699b1e33196ff8a9836b6977d06223fbd8bcab"/><meta name="buildTime" content="2017-04-19T11:12:39+00:00"/><script type="text/javascript">
             //The id for tree cookie
             var treeCookieId = "treeview-book_troubleshooting_guide_en";
             var language = "en";
@@ -43,72 +43,75 @@
                                     <a accesskey="n" class="navLinkNext" onclick="_gaq.push(['_trackEvent', 'Header', 'nextLink', 'click', 1]);" tabindex="5" href="zookeeper.html">Next</a></td></tr></table></div></div><div id="toolbar" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all"><div id="toolbar-left"><p class="breadcrumbs"><a href="https://docs.midonet.org/">MidoNet Manuals</a><a href="index.html">MidoNet Troubleshooting Guide
    - 5.4</a></p><a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" class="pdficon" href="../MidoNet_Troubleshooting_Guide_EN_5.4.pdf"><img src="../common/images/pdf.png"/></a><div id="gplusone"><a id="AskOOLink1" href="https://github.com/midonet/midonet/wiki/Communication" target="_blank" title="Questions? Discuss on Mailing Lists or Chat."><i class="icon-question"><!----></i></a>  
         <a id="logABugLink1" href="https://midonet.atlassian.net/browse/MND/" target="_blank" title="Found an error? Report a bug."><i class="icon-bug"><!----></i></a></div></div></div><div id="content"><div class="section"><div xmlns="" class="titlepage"><div><div><h2 xmlns="http://www.w3.org/1999/xhtml" class="title" style="clear: both"><a id="bgp"> </a>Border Gateway Protocol (BGP)</h2></div></div></div><p>This section covers some of the most common BGP related topics.</p><p>Find BGP namespaces:</p><pre class="literallayout"># ip netns list
-<span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span>
-<span class="strong"><strong><span class="emphasis"><em>mbgp2_ns</em></span></strong></span>
-[...]</pre><p>Verify that the Quagga process is running:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> ps aux | grep [q]uagga
-quagga   10614  0.0  0.0 114544  7664 ?        S    04:06   0:00 /usr/sbin/bgpd <span class="strong"><strong><span class="emphasis"><em>--vty_port 2606</em></span></strong></span> --config_file /etc/midolman/quagga/bgpd.conf --pid_file /var/run/quagga/bgpd.2606.pid --socket /var/run/quagga/zserv1.api</pre><p>Verify that Quagga is listening on both VTYSH and BGP ports:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> netstat -tulpen
+<span class="strong"><strong><span class="emphasis"><em>bgp-1401c51</em></span></strong></span>
+[...]</pre><p>Verify that the Quagga process is running:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>bgp-1401c51</em></span></strong></span> ps aux | grep [q]uagga
+quagga   10614  0.0  0.0 114544  7664 ?        S    04:06   0:00 /usr/sbin/bgpd <span class="strong"><strong><span class="emphasis"><em>--vty_port 2606</em></span></strong></span> --config_file /etc/midolman/quagga/bgpd.conf --pid_file /var/run/quagga/bgpd.2606.pid --socket /var/run/quagga/zserv1.api</pre><p>Verify that Quagga is listening on both VTYSH and BGP ports:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>bgp-1401c51</em></span></strong></span> netstat -tulpen
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       User       Inode      PID/Program name
 tcp        0      0 0.0.0.0:<span class="emphasis"><em><span class="strong"><strong>2606</strong></span></em></span>            0.0.0.0:*               LISTEN      92         4052614    24029/bgpd
 tcp        0      0 0.0.0.0:<span class="emphasis"><em><span class="strong"><strong>179</strong></span></em></span>             0.0.0.0:*               LISTEN      92         4052693    24029/bgpd
 tcp6       0      0 :::<span class="emphasis"><em><span class="strong"><strong>2606</strong></span></em></span>                 :::*                    LISTEN      92         4052615    24029/bgpd
-tcp6       0      0 :::<span class="emphasis"><em><span class="strong"><strong>179</strong></span></em></span>                  :::*                    LISTEN      92         4052694    24029/bgpd</pre><p>Check the BGP-related interfaces and routing information:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> ip addr
+tcp6       0      0 :::<span class="emphasis"><em><span class="strong"><strong>179</strong></span></em></span>                  :::*                    LISTEN      92         4052694    24029/bgpd</pre><p>Check the BGP-related interfaces and routing information:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>bgp-1401c51</em></span></strong></span> ip addr
 1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
     inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
-5: mbgp1_m: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
+5: bgp-1401c51_m: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
     link/ether ac:ca:ba:1a:af:24 brd ff:ff:ff:ff:ff:ff
-    inet <span class="emphasis"><em><span class="strong"><strong>192.0.2.2/30</strong></span></em></span> scope global mbgp1_m
+    inet <span class="emphasis"><em><span class="strong"><strong>192.0.2.2/30</strong></span></em></span> scope global bgp-1401c51_m
        valid_lft forever preferred_lft forever
     inet6 fe80::aeca:baff:fe1a:af24/64 scope link
        valid_lft forever preferred_lft forever
-7: mbgp1_vtym: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
+7: bgp-1401c51_vm: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
     link/ether c6:89:e2:2b:b0:8e brd ff:ff:ff:ff:ff:ff
-    inet <span class="emphasis"><em><span class="strong"><strong>172.23.0.6/30</strong></span></em></span> scope global mbgp1_vtym
+    inet <span class="emphasis"><em><span class="strong"><strong>172.23.0.6/30</strong></span></em></span> scope global bgp-1401c51_vm
        valid_lft forever preferred_lft forever
     inet6 fe80::c489:e2ff:fe2b:b08e/64 scope link
-       valid_lft forever preferred_lft forever</pre><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> ip route
-192.0.2.0/30   dev mbgp1_m     proto kernel  scope link  src 192.0.2.2
-172.23.0.4/30  dev mbgp1_vtym  proto kernel  scope link  src 172.23.0.6</pre><p>Ensure that the BGP peers are <code class="literal">REACHABLE</code>:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> ip neigh show</pre><p>Dump the VTYSH interface’s traffic:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> tcpdump -vvv -i <span class="strong"><strong><span class="emphasis"><em>mbgp1_vtym</em></span></strong></span></pre><p>Dump ARP, BGP and ICMP traffic on the BGP interface:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> tcpdump -vvv -i <span class="strong"><strong><span class="emphasis"><em>mbgp1_m</em></span></strong></span> "icmp or arp or port 179"</pre><p>Dump ARP, BGP and ICMP traffic on the corresponding physical interface:</p><pre class="literallayout"># tcpdump -vvv -i <span class="strong"><strong><span class="emphasis"><em>eth1</em></span></strong></span> "icmp or arp or port 179"</pre><p>Launch Quagga’s VTY shell:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>mbgp1_ns</em></span></strong></span> vtysh</pre><p>Inside Quagga’s VTY shell, show the running configuration:</p><pre class="screen"># show run
-Building configuration...
+       valid_lft forever preferred_lft forever</pre><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>bgp-1401c51</em></span></strong></span> ip route
+192.0.2.0/30   dev bgp-1401c51_m     proto kernel  scope link  src 192.0.2.2
+172.23.0.4/30  dev bgp-1401c51_vm  proto kernel  scope link  src 172.23.0.6</pre><p>Ensure that the BGP peers are <code class="literal">REACHABLE</code>:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>bgp-1401c51</em></span></strong></span> ip neigh show</pre><p>Dump the VTYSH interface’s traffic:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>bgp-1401c51</em></span></strong></span> tcpdump -vvv -i <span class="strong"><strong><span class="emphasis"><em>mbgp1_vtym</em></span></strong></span></pre><p>Dump ARP, BGP and ICMP traffic on the BGP interface:</p><pre class="literallayout"># ip netns exec <span class="strong"><strong><span class="emphasis"><em>bgp-1401c51</em></span></strong></span> tcpdump -vvv -i <span class="strong"><strong><span class="emphasis"><em>mbgp1_m</em></span></strong></span> "icmp or arp or port 179"</pre><p>Dump ARP, BGP and ICMP traffic on the corresponding physical interface:</p><pre class="literallayout"># tcpdump -vvv -i <span class="strong"><strong><span class="emphasis"><em>eth1</em></span></strong></span> "icmp or arp or port 179"</pre><p>In order to verify connectivity , launch midonet-cli</p><pre class="literallayout"># midonet-cli</pre><p>Inside Midonet CLI , find your edge-router(s)</p><pre class="screen">midonet&gt; router list
+router router0 name edge-router state up infilter chain0 outfilter chain1 asn 12345</pre><p>Find the BGP port(s)</p><pre class="literallayout">midonet&gt; router router0 port list
+port port0 device router0 state up plugged no mac fa:16:3e:ad:5c:30 address 200.200.200.1 net 200.200.200.1/24 peer bridge0:port0
+<span class="strong"><strong>port <span class="emphasis"><em>*port1*</em></span> device router0 state up plugged yes mac fa:16:3e:a7:9f:82 address 10.88.88.3 net 10.88.88.3/29</strong></span></pre><p>Show the BGP status</p><pre class="screen">midonet&gt; router router0 port port1 bgp-status show
+BGP neighbor is 10.88.88.2, remote AS 65535, local AS 12345, external link
+  BGP version 4, remote router ID 10.20.0.254
+  BGP state = Established, up for 05w1d16h
+  Last read 00:00:19, hold time is 180, keepalive interval is 60 seconds
+  Configured hold time is 180, keepalive interval is 60 seconds
+  Neighbor capabilities:
+    4 Byte AS: advertised and received
+    Route refresh: advertised and received(old &amp; new)
+    Address family IPv4 Unicast: advertised and received
+  Message statistics:
+    Inq depth is 0
+    Outq depth is 0
+                         Sent       Rcvd
+    Opens:                  3          0
+    Notifications:          0          1
+    Updates:                1          1
+    Keepalives:         52802      52801
+    Route Refresh:          0          0
+    Capability:             0          0
+    Total:              52806      52803
+  Minimum time between advertisement runs is 30 seconds
 
-Current configuration:
-!
-hostname bgpd
-log file /var/log/quagga/bgpd.2609.log
-!
-password zebra_password
-!
-router bgp 65535
- bgp router-id 192.0.2.2
- network 203.0.113.0/24
- neighbor 192.0.2.1 remote-as 65534
- neighbor 192.0.2.1 timers 5 15
- neighbor 192.0.2.1 timers connect 10
-!
-line vty
-!
-end</pre><p>Inside Quagga’s VTY shell, show the BGP summary:</p><pre class="screen"># show ip bgp summary
-BGP router identifier 192.0.2.2, local AS number 65535
-RIB entries 19, using 2128 bytes of memory
-Peers 1, using 4560 bytes of memory
+ For address family: IPv4 Unicast
+  Community attribute sent to this neighbor(both)
+  Outbound path policy configured
+  Outgoing update AS path filter list is *1
+  1 accepted prefixes
 
-Neighbor    V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
-192.0.2.1   4 65534    5512    5523        0    0    0 07:40:09       10</pre><p>Inside Quagga’s VTY shell, show BGP routing information:</p><pre class="screen"># show ip bgp
-BGP table version is 0, local router ID is 192.0.2.2
-Status codes: s suppressed, d damped, h history, * valid, &gt; best, i - internal,
-              r RIB-failure, S Stale, R Removed
-Origin codes: i - IGP, e - EGP, ? - incomplete
-
-   Network            Next Hop            Metric LocPrf Weight Path
-*&gt; 0.0.0.0            192.0.2.1           0             0 65534 ?
-*&gt; 203.0.113.0/24     0.0.0.0             0         32768 i
-*&gt; 192.0.2.0/30       192.0.2.1           0             0 65534 ?
-
-Total number of prefixes 11</pre></div><script type="text/javascript" src="../common/main.js"><!----></script><div class="logabug" style="text-align: center"><a id="AskOOLink2" href="https://github.com/midonet/midonet/wiki/Communication" target="_blank"><i class="icon-question"><!----></i>Questions? Discuss on Mailing Lists or Chat.</a><br/><a id="logABugLink2" href="https://midonet.atlassian.net/browse/MND/" target="_blank"><i class="icon-bug"><!----></i>Found an error? Report a bug.</a></div><hr/><div id="disqus_thread"><script type="text/javascript">
+  Connections established 1; dropped 0
+  Last reset never
+Local host: 10.88.88.3, Local port: 179
+Foreign host: 10.88.88.2, Foreign port: 54094
+Nexthop: 10.88.88.3
+Nexthop global: ::
+Nexthop local: ::
+BGP connection: non shared network
+Read thread: on  Write thread: off</pre></div><script type="text/javascript" src="../common/main.js"><!----></script><div class="logabug" style="text-align: center"><a id="AskOOLink2" href="https://github.com/midonet/midonet/wiki/Communication" target="_blank"><i class="icon-question"><!----></i>Questions? Discuss on Mailing Lists or Chat.</a><br/><a id="logABugLink2" href="https://midonet.atlassian.net/browse/MND/" target="_blank"><i class="icon-bug"><!----></i>Found an error? Report a bug.</a></div><hr/><div id="disqus_thread"><script type="text/javascript">
 	      if(window.location.protocol.substring(0,4) == 'http'){
 	        var disqus_shortname = 'midonet';
 	      
