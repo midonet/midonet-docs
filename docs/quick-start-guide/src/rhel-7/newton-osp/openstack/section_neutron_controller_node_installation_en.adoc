@@ -31,85 +31,12 @@ in the `[DEFAULT]` section:
 ----
 [DEFAULT]
 ...
-core_plugin = midonet.neutron.plugin_v2.MidonetPluginV2
-service_plugins = midonet.neutron.services.l3.l3_midonet.MidonetL3ServicePlugin
-...
-dhcp_agent_notification = False
-...
-allow_overlapping_ips = True
-----
-
-.. Create the directory for the MidoNet plugin:
-+
-[source]
-----
-mkdir /etc/neutron/plugins/midonet
-----
-
-.. Create the `/etc/neutron/plugins/midonet/midonet.ini` file and edit it to
-contain the following:
-+
-[literal,subs="quotes"]
-----
-[DEFAULT]
-...
 core_plugin = *midonet_v2_ext*
 service_plugins = *midonet_l3_ext*
 ...
 dhcp_agent_notification = False
 ...
 allow_overlapping_ips = True
-...
-rpc_backend = rabbit
-...
-auth_strategy = keystone
-...
-notify_nova_on_port_status_changes = True
-notify_nova_on_port_data_changes = True
-nova_url = http://**_controller_**:8774/v2.1
-...
-# In order to enable 'fip64' extension feature, the API extension path must
-# be specified.  The path depends on the directory location in which
-# python-networking-midonet-ext is installed.  For example, if the installation
-# path is /usr/lib/python2.7/dist-packages/midonet-ext, add the following:
-api_extensions_path = /usr/lib/python2.7/dist-packages/midonet-ext/neutron/extensions
-
-[database]
-...
-connection = mysql+pymysql://neutron:**_NEUTRON_DBPASS_**@*_controller_*/neutron
-
-[oslo_messaging_rabbit]
-...
-rabbit_host = *_controller_*
-rabbit_userid = openstack
-rabbit_password = *_RABBIT_PASS_*
-
-[keystone_authtoken]
-...
-auth_uri = http://**_controller_**:5000
-auth_url = http://**_controller_**:35357
-memcached_servers = **_controller_**:11211
-auth_plugin = password
-project_domain_id = default
-user_domain_id = default
-project_name = service
-username = neutron
-password = *_NEUTRON_PASS_*
-
-[nova]
-...
-auth_url = http://**_controller_**:35357
-auth_plugin = password
-project_domain_id = default
-user_domain_id = default
-region_name = RegionOne
-project_name = service
-username = nova
-password = *_NOVA_PASS_*
-
-[oslo_concurrency]
-...
-lock_path = /var/lib/neutron/tmp
 ----
 
 [NOTE]
@@ -139,6 +66,14 @@ contain the following:
 +
 [literal,subs="quotes"]
 ----
+[DEFAULT]
+...
+# In order to enable 'fip64' extension feature, the API extension path must
+# be specified.  The path depends on the directory location in which
+# python-networking-midonet-ext is installed.  For example, if the installation
+# path is /usr/lib/python2.7/dist-packages/midonet-ext, add the following:
+api_extensions_path = /usr/lib/python2.7/dist-packages/midonet-ext/neutron/extensions
+
 [MIDONET]
 # MidoNet API URL
 midonet_uri = http://*_controller_*:8181/midonet-api
