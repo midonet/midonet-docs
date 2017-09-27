@@ -165,3 +165,72 @@ agent {
 
 The settings in mn-conf must match those on the remote end BGP peer configuration.
 For more information about how to set them, see xref:bgp_failover[].
+
+== Agent reboot configuration
+
+Starting in MidoNet 5.6 there are a couple of features that are enabled by
+default to improve the reboot times in an agent.
+
+Legacy mechanisms will remain available until they are deprecated.
+
+=== Reclaiming OVS datapath
+
+To provide a better startup time, the agent can reuse the OVS datapath created
+by MidoNet in the host. Previously, the MidoNet agent used to delete all
+pre-existing OVS objects, including the datapath, and recreates them on startup.
+By activating the reclaim_datapath flag, the agent will reuse the existing OVS
+datapath if it exists, otherwise it will create it.
+
+Any pre-existing OVS flows that were installed in the datapath are expired on a
+separate thread as soon as the datapath was reclaimed. This expiration is rate-
+controlled using the flow_expiration_rate_per_second value.
+
+[source]
+----
+agent {
+    midolman {
+        reclaim_datapath=true
+        flow_expiration_rate_per_second=10000
+    }
+}
+----
+
+=== Initial storage cache
+
+To further improve agent startup time, the cluster nodes can be configured so
+that they periodically take full snapshots of all Zookeeper objects. Later, by
+enabling the initial_storage_cache.enabled flag, the agent can make a request
+to a cluster node (selected using a round robin strategy) for this snapshot.
+This means that it immediately gets a full snapshot in startup, instead of
+querying Zookeeper for every different object. This initial snapshot will be
+used for ttl_ms milliseconds, at which point it will be marked as expired, and
+the agent will fallback to querying Zookeeper once again.
+
+The snapshot_retries and snapshot_timeout_ms are used to decide how many times
+the snapshot request from agent to cluster will be tried, and how much to wait
+before this request times out, respectively.
+
+It should be noted that if this feature is being used, then the cluster should
+always be restarted before the agent, so that the snapshot is available for the
+agents once they get restarted. Either way, restarting the cluster first is
+always recommended.
+
+[source]
+----
+agent {
+    midolman {
+        initial_storage_cache {
+            enabled=true
+            ttl_ms=10000
+            snapshot_retries=5
+            snapshot_timeout_ms=1000
+        }
+    }
+}
+
+cluster {
+    topology_cache {
+        enabled=true
+    }
+}
+----
