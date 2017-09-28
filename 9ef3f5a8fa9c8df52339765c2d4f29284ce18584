@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7d4b8cb_e84ab30f",
+        "filename": "docs/operation-guide/src/advanced/section_midolman_configuration_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2017-09-28T09:51:58Z",
+      "side": 1,
+      "message": "are enabled by default",
+      "range": {
+        "startLine": 171,
+        "startChar": 60,
+        "endLine": 171,
+        "endChar": 74
+      },
+      "revId": "9ef3f5a8fa9c8df52339765c2d4f29284ce18584",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa6e47b_a6d5b24f",
+        "filename": "docs/operation-guide/src/advanced/section_midolman_configuration_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2017-09-28T09:51:58Z",
+      "side": 1,
+      "message": "Legacy mechanisms will remain available until they are deprecated.",
+      "revId": "9ef3f5a8fa9c8df52339765c2d4f29284ce18584",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c186f644_b115802a",
+        "filename": "docs/operation-guide/src/advanced/section_midolman_configuration_en.adoc",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003318
+      },
+      "writtenOn": "2017-09-28T09:51:58Z",
+      "side": 1,
+      "message": "Previously,",
+      "range": {
+        "startLine": 177,
+        "startChar": 24,
+        "endLine": 177,
+        "endChar": 34
+      },
+      "revId": "9ef3f5a8fa9c8df52339765c2d4f29284ce18584",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
