@@ -1607,6 +1607,10 @@ _any_ (matches any fragment), _header_ (matches the first fragment,
 _nonheader_ (matches subsequent fragments), _unfragmented_ (matches
 unfragmented datagrams).
 
+|inPortGroup |UUID |POST/PUT |No
+|Matches the traffic incoming from a port (interior or exterior) in the
+specified port group.
+
 |inPorts |Array of UUID |POST/PUT |No
 |Matches the list of (interior or exterior) ingress ports.
 
@@ -1629,6 +1633,9 @@ unless the `dlSrc` field is also set.
 |invDlType |Boolean |POST/PUT |No
 |Inverts the data link ethertype predicate. It has no effect unless the
 `dlType` field is also set.
+
+|invInPortGroup |Boolean |POST/PUT |No
+|Inverts the input port group predicate.
 
 |invInPorts |Boolean |POST/PUT |No
 |Inverts the ingress ports predicate.
@@ -1654,6 +1661,9 @@ the `nwProto` field is also set.
 |invNwTos |Boolean |POST/PUT |No
 |Inverts the network layer type-of-service (ToS) predicate. It has no effect
 unless the `nwTos` field is also set.
+
+|invOutPortGroup |Boolean |POST/PUT |No
+|Inverts the output port group predicate.
 
 |invOutPorts |Boolean |POST/PUT |No
 |Inverts the egress ports predicate.
@@ -1698,6 +1708,10 @@ specified prefix length.
 
 |nwTos |Integer |POST/PUT |No
 |Matches the value of the IP datagram type-of-service (ToS) field.
+
+|outPortGroup |UUID |POST/PUT |No
+|Matches the traffic outgoing to a port (interior or exterior) in the
+specified port group.
 
 |outPorts |Array of UUID |POST/PUT |No
 |Matches the list of (interior or exterior) egress ports.
